@@ -78,68 +78,6 @@
             opacity: 0.3;
         }
         
-        /* Scroll wolf indicator - OPRAVDOVÝ VLK */
-        .scroll-wolf {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            opacity: 1;
-        }
-        
-        .scroll-wolf.hidden {
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-            pointer-events: none;
-        }
-        
-        .wolf-icon {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 10px;
-            color: var(--accent-green);
-            animation: wolf-bounce 2s infinite;
-            filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3));
-        }
-        
-        @keyframes wolf-bounce {
-            0%, 100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(10px);
-                opacity: 0.8;
-            }
-        }
-        
-        .wolf-svg {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .scroll-text {
-            color: var(--accent-green);
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 0.7;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
         
         /* Header & Navigation - MOBILE FIRST */
         .header {
@@ -311,16 +249,20 @@
         }
         
         /* Hero Section - VĚTŠÍ a BEZ scroll indikátoru */
-        .hero {
-            padding: 15rem 5% 8rem;
-            text-align: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
+        .hero-wrapper {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            position: relative;
+        }
+
+        .hero {
+            padding: 2rem 5%;
+            text-align: center;
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
             opacity: 0;
             transform: translateY(30px);
             animation: fadeInUp 1s forwards 0.3s;
@@ -905,7 +847,7 @@
             }
             
             .hero {
-                padding: 18rem 5% 10rem;
+                padding: 12rem 5% 10rem;
             }
             
             .hero-title {
@@ -1037,14 +979,7 @@
                 text-align: center;
             }
             
-            .scroll-wolf {
-                bottom: 20px;
-            }
             
-            .wolf-icon {
-                width: 40px;
-                height: 40px;
-            }
         }
         
         /* Extra malé obrazovky */
@@ -1104,42 +1039,12 @@
                 font-size: 3rem;
             }
             
-            .scroll-text {
-                font-size: 0.7rem;
-            }
+            
         }
     </style>
 </head>
 <body>
-    <!-- Scroll Wolf - OPRAVDOVÝ VLK -->
-    <div class="scroll-wolf" id="scrollWolf">
-        <div class="wolf-icon">
-            <svg class="wolf-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <!-- Hlava vlka -->
-                <path d="M12 3C9 3 6 5 6 8C6 11 9 14 12 14C15 14 18 11 18 8C18 5 15 3 12 3Z" fill="currentColor"/>
-                <!-- Uši -->
-                <path d="M10 2L9 4L11 5L10 2Z" fill="currentColor"/>
-                <path d="M14 2L15 4L13 5L14 2Z" fill="currentColor"/>
-                <!-- Tělo -->
-                <path d="M7 14C5 16 5 19 7 21H17C19 19 19 16 17 14H7Z" fill="currentColor"/>
-                <!-- Nohy -->
-                <path d="M6 21L5 23H7L6 21Z" fill="currentColor"/>
-                <path d="M10 21L9 23H11L10 21Z" fill="currentColor"/>
-                <path d="M14 21L13 23H15L14 21Z" fill="currentColor"/>
-                <path d="M18 21L17 23H19L18 21Z" fill="currentColor"/>
-                <!-- Ocas -->
-                <path d="M17 14L19 12L18 10L16 12L17 14Z" fill="currentColor"/>
-                <!-- Oči -->
-                <circle cx="10" cy="7" r="1" fill="#000000"/>
-                <circle cx="14" cy="7" r="1" fill="#000000"/>
-                <!-- Čumák -->
-                <circle cx="12" cy="10" r="1" fill="#000000"/>
-            </svg>
-        </div>
-        <div class="scroll-text">Scrollujte dolu</div>
-    </div>
-
-    <!-- Header -->
+        <!-- Header -->
     <header class="header" id="header">
         <a href="#" class="logo"><span class="logo-peb">PEB</span><span class="logo-media">Media</span></a>
         <button class="hamburger" id="hamburger">
@@ -1158,6 +1063,7 @@
     </header>
 
     <!-- Hero Section - VĚTŠÍ úvodní stránka -->
+    <div class="hero-wrapper">
     <section class="hero">
         <div class="hero-tagline">Digitální studio pro moderní weby</div>
         <h1 class="hero-title">PEBMedia</h1>
@@ -1188,6 +1094,7 @@
             </div>
         </div>
     </section>
+    </div>
 
     <!-- Jak pracujeme -->
     <section class="section" id="jak-pracujeme">
@@ -1410,7 +1317,7 @@
             <div class="footer-column">
                 <h4 class="footer-heading">Kontakt</h4>
                 <ul class="footer-links">
-                    <li><a href="mailto:info@pebmedia.cz">info.pebmedia@gmail.com</a></li>
+                    <li><a href="/cdn-cgi/l/email-protection#0960676f6649796c6b646c6d6068276a73"><span class="__cf_email__" data-cfemail="d0b9beb6bffea0b5b2bdb5b4b9b190b7bdb1b9bcfeb3bfbd">[email&#160;protected]</span></a></li>
                     <li><a href="tel:+420123456789">+420 778 478 642</a></li>
                     <li><a href="#konzultace">Nezávazná konzultace</a></li>
                 </ul>
@@ -1425,7 +1332,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Mobile menu toggle
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
@@ -1443,32 +1350,14 @@
             });
         });
         
-        // Scroll wolf logic
-        const scrollWolf = document.getElementById('scrollWolf');
-        let scrollStarted = false;
-        
         // Scroll event listener
         window.addEventListener('scroll', () => {
             // Header scroll effect
             const header = document.getElementById('header');
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
-                if (!scrollStarted) {
-                    scrollStarted = true;
-                    // Hide scroll wolf after first scroll
-                    setTimeout(() => {
-                        scrollWolf.classList.add('hidden');
-                    }, 500);
-                }
             } else {
                 header.classList.remove('scrolled');
-            }
-            
-            // Show/hide scroll wolf based on scroll position
-            if (window.scrollY > 300) {
-                scrollWolf.classList.add('hidden');
-            } else if (window.scrollY < 100) {
-                scrollWolf.classList.remove('hidden');
             }
             
             // Section visibility animation
@@ -1664,6 +1553,7 @@
         // Add CSS for ripple animation
         const style = document.createElement('style');
         style.textContent = `
+
             @keyframes ripple-animation {
                 to {
                     transform: scale(4);
