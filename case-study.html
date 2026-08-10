@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Případová studie — PEB Media</title>
+<meta id="page-description" name="description" content="Případová studie od PEB Media, nezávislého digitálního studia z České republiky.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .cs-hero { padding-top: 150px; padding-bottom: 60px; border-bottom: 1px solid var(--line); }
+  .cs-back { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim); display: inline-flex; gap: 8px; margin-bottom: 40px; }
+  .cs-back:hover { color: var(--accent); }
+  .cs-title { font-size: clamp(2.4rem, 7vw, 5.4rem); letter-spacing: -0.02em; }
+  .cs-meta { margin-top: 28px; display: flex; gap: 40px; flex-wrap: wrap; }
+  .cs-meta div dt { font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-faint); margin-bottom: 6px; }
+  .cs-meta div dd { margin: 0; font-size: 1rem; }
+  .cs-block { padding: 72px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 220px 1fr; gap: 40px; }
+  .cs-block h2 { font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+  .cs-block p { font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.55; color: var(--fg-dim); max-width: 68ch; }
+  .cs-gallery { padding: 72px 0; display: grid; gap: 20px; }
+  .cs-frame { aspect-ratio: 16/9; background: var(--bg-raised); border: 1px solid var(--line); position: relative; overflow: hidden; }
+  .cs-frame.tall { aspect-ratio: 9/16; max-width: 340px; }
+  .cs-frame::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent 0 18px, rgba(244,241,232,0.03) 18px 19px); }
+  .cs-frame .ph-label { position: absolute; bottom: 16px; left: 20px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--fg-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+  .cs-gallery-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .cs-next { padding: 90px 0; text-align: center; border-bottom: 1px solid var(--line); }
+  .cs-next .mono { color: var(--fg-faint); margin-bottom: 14px; display: block; }
+  .cs-next a { font-size: clamp(2rem, 6vw, 3.6rem); font-family: var(--font-display); }
+  .cs-next a:hover { color: var(--accent); }
+  @media (max-width: 800px) {
+    .cs-block { grid-template-columns: 1fr; gap: 16px; }
+    .cs-gallery-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html#work" class="skip-link" data-i18n="skipBack">Zpět na práci</a>
+
+<nav class="nav">
+  <a href="index.html" class="nav-mark">PEB MEDIA</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work" data-i18n="nav.work">Práce</a></li>
+    <li><a href="index.html#capabilities" data-i18n="nav.capabilities">Schopnosti</a></li>
+    <li><a href="index.html#about" data-i18n="nav.about">O nás</a></li>
+    <li><a href="index.html#contact" data-i18n="nav.contact">Kontakt</a></li>
+  </ul>
+  <div class="nav-meta">
+    <span>2026</span>
+    <span data-i18n="nav.country">Česká republika</span>
+    <span class="lang-switch">
+      <button type="button" data-lang="cs" class="lang-btn" aria-label="Čeština">CS</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-lang="de" class="lang-btn" aria-label="Deutsch">DE</button>
+    </span>
+  </div>
+  <button class="nav-burger" aria-label="Otevřít menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-panel">
+  <a href="index.html#work" data-i18n="nav.work">Práce</a>
+  <a href="index.html#capabilities" data-i18n="nav.capabilities">Schopnosti</a>
+  <a href="index.html#about" data-i18n="nav.about">O nás</a>
+  <a href="index.html#contact" data-i18n="nav.contact">Kontakt</a>
+  <span class="lang-switch mobile">
+    <button type="button" data-lang="cs" class="lang-btn" aria-label="Čeština">CS</button>
+    <span aria-hidden="true">/</span>
+    <button type="button" data-lang="de" class="lang-btn" aria-label="Deutsch">DE</button>
+  </span>
+</div>
+
+<main>
+  <section class="cs-hero wrap">
+    <a href="index.html#work" class="cs-back" data-i18n="cs.allWork">← Veškerá práce</a>
+    <h1 class="cs-title" id="cs-title">—</h1>
+    <dl class="cs-meta">
+      <div><dt data-i18n="cs.category">Kategorie</dt><dd id="cs-category">—</dd></div>
+      <div><dt data-i18n="cs.year">Rok</dt><dd id="cs-year">—</dd></div>
+      <div><dt data-i18n="cs.industry">Odvětví</dt><dd id="cs-industry">—</dd></div>
+    </dl>
+  </section>
+
+  <section class="cs-block wrap">
+    <h2 data-i18n="cs.challenge">Zadání</h2>
+    <p id="cs-challenge">—</p>
+  </section>
+
+  <section class="cs-block wrap">
+    <h2 data-i18n="cs.approach">Přístup</h2>
+    <p id="cs-approach">—</p>
+  </section>
+
+  <section class="cs-block wrap">
+    <h2 data-i18n="cs.result">Výsledek</h2>
+    <p id="cs-result">—</p>
+  </section>
+
+  <section class="cs-gallery wrap">
+    <div class="cs-frame"><span class="ph-label" data-i18n="ph.desktopShot">Screenshot desktopu — zástupný obsah</span></div>
+    <div class="cs-gallery-row">
+      <div class="cs-frame tall"><span class="ph-label" data-i18n="ph.mobileShot">Screenshot mobilu — zástupný obsah</span></div>
+      <div class="cs-frame"><span class="ph-label" data-i18n="ph.closeup">Detail rozhraní — zástupný obsah</span></div>
+    </div>
+  </section>
+
+  <section class="cs-next wrap">
+    <span class="mono" data-i18n="cs.next">Další projekt</span>
+    <a id="cs-next-link" href="index.html#work">—</a>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="footer-bottom" style="border-top:none; padding-top:0;">
+    <span>2026 © PEB Media</span>
+    <span data-i18n="footer.built">Vytvořil Petr Brož</span>
+  </div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="script.js"></script>
+<script>
+  const PROJECTS = {
+    elrevmont: {
+      title: "Elrevmont",
+      year: "2025",
+      cs: {
+        category: "Web / Design / Vývoj",
+        industry: "Revize a kontroly elektrických zařízení",
+        challenge: "Elrevmont potřeboval online prezentaci, které regionální firmě zabývající se revizemi elektro skutečně uvěří klienti — jasný přehled nabídky služeb, bez pocitu obyčejného šablonového webu.",
+        approach: "PEB Media navrhla a postavila vlastní statický web s přehlednou strukturou: služby, oblast působení a přímý kontakt, doplněný o odlehčený admin panel, díky kterému si majitel může obsah upravovat sám bez zásahu do kódu.",
+        result: "Rychlý a snadno spravovatelný web, který firmu jasně reprezentuje a dává Elrevmontu místo, kam s důvěrou posílat potenciální klienty."
+      },
+      de: {
+        category: "Web / Design / Entwicklung",
+        industry: "Elektro-Revisionen und Prüfungen",
+        challenge: "Elrevmont brauchte einen Webauftritt, dem Kunden eines regionalen Elektro-Prüfunternehmens wirklich vertrauen — eine klare Übersicht der Leistungen, ohne den Eindruck einer gewöhnlichen Template-Seite.",
+        approach: "PEB Media entwarf und baute eine eigene statische Website mit klarer Struktur: Leistungen, Einsatzgebiet und direkter Kontakt, ergänzt durch ein schlankes Admin-Panel, mit dem der Inhaber Inhalte selbst pflegen kann — ohne Programmierkenntnisse.",
+        result: "Eine schnelle, leicht zu pflegende Website, die das Unternehmen klar repräsentiert und Elrevmont einen Ort gibt, an den potenzielle Kunden mit Vertrauen verwiesen werden können."
+      },
+      next: "zatrapa"
+    },
+    zatrapa: {
+      title: "Platnéřství Zátrapa",
+      year: "2025–2026",
+      cs: {
+        category: "Web / CMS / Administrace",
+        industry: "Historické platnéřské řemeslo",
+        challenge: "Jednočlenná platnéřská dílna potřebovala web, který dokáže prezentovat velmi detailní, obrazově náročnou řemeslnou práci, a přitom zůstat natolik jednoduchý, aby ho zvládl spravovat sám řemeslník.",
+        approach: "PEB Media postavila statický frontend spolu s kompletním vlastním admin panelem — tmavý motiv, boční navigace, nahrávání obrázků a editace obsahu napojené přímo na GitHub pro verzované a automaticky nasazované změny přes Vercel.",
+        result: "Web, který si klient spravuje samostatně den co den, s architekturou připravenou růst spolu s rozšiřujícím se portfoliem prací."
+      },
+      de: {
+        category: "Web / CMS / Admin-System",
+        industry: "Historisches Plattnerhandwerk",
+        challenge: "Eine Ein-Mann-Plattnerwerkstatt brauchte eine Website, die sehr detaillierte, bildintensive Handwerksarbeit zeigen kann und zugleich so einfach bleibt, dass der Handwerker sie selbst pflegen kann.",
+        approach: "PEB Media baute ein statisches Frontend zusammen mit einem vollständigen eigenen Admin-Panel — dunkles Design, Seitenleisten-Navigation, Bild-Uploads und Inhaltsbearbeitung, direkt an GitHub angebunden für versionierte, automatisch über Vercel ausgerollte Updates.",
+        result: "Eine Website, die der Kunde im Alltag selbstständig verwaltet, mit einer Architektur, die mit dem wachsenden Portfolio mitwachsen kann."
+      },
+      next: "restaurantos"
+    },
+    restaurantos: {
+      title: "RestaurantOS",
+      year: "2026",
+      cs: {
+        category: "Produkt / UI / Vývoj",
+        industry: "SaaS — správa restaurací",
+        challenge: "Nezávislé restaurace často žonglují s roztříštěnými nástroji pro menu, objednávky a informace pro hosty. RestaurantOS zkoumá jeden moderní systém postavený kolem digitálního menu.",
+        approach: "PEB Media staví RestaurantOS jako multi-tenant SaaS produkt: správa menu, generování QR kódů pro hosty, veřejná stránka menu pro zákazníky a integrovaný AI asistent, na moderním stacku Next.js a Supabase.",
+        result: "Rozpracovaný produkt — aktuální verze pokrývá základní infrastrukturu menu a QR kódů, další funkce jsou v aktivním vývoji."
+      },
+      de: {
+        category: "Produkt / UI / Entwicklung",
+        industry: "SaaS — Restaurantverwaltung",
+        challenge: "Unabhängige Restaurants jonglieren oft mit getrennten Tools für Speisekarten, Bestellungen und Gästeinformationen. RestaurantOS erforscht ein einziges modernes System rund um eine digitale Speisekarte.",
+        approach: "PEB Media entwickelt RestaurantOS als Multi-Tenant-SaaS-Produkt: Menüverwaltung, QR-Code-Speisekarten für Gäste, eine öffentliche Kundenseite und einen integrierten KI-Assistenten, auf einem modernen Next.js- und Supabase-Stack.",
+        result: "Ein Produkt in Entwicklung — der aktuelle Stand deckt die Kerninfrastruktur für Menü und QR-Codes ab, weitere Funktionen sind aktiv in Arbeit."
+      },
+      next: "suta"
+    },
+    suta: {
+      title: "Šuta — Tesařství a pokrývačství",
+      year: "2025–2026",
+      cs: {
+        category: "Web / Design / Vývoj",
+        industry: "Tesařství a pokrývačství",
+        challenge: "Tesařská a pokrývačská firma potřebovala web, který působí stejně solidně a spolehlivě jako jejich fyzická práce, dobře dohledatelný lokálně a snadno spravovatelný vlastními silami.",
+        approach: "PEB Media dodala statický web na stejné architektuře vanilla HTML/CSS/JS a admin panelu, jaká se používá napříč projekty studia — rychlé načítání, jednoduchá údržba, obsah editovatelný přes vlastní panel.",
+        result: "Hotový, produkční web dávající firmě pořádnou digitální vizitku pro lokální klienty."
+      },
+      de: {
+        category: "Web / Design / Entwicklung",
+        industry: "Zimmerei und Dachdeckerei",
+        challenge: "Ein Zimmerei- und Dachdeckerbetrieb brauchte eine Website, die genauso solide und verlässlich wirkt wie die eigentliche handwerkliche Arbeit — lokal gut auffindbar und selbst leicht zu pflegen.",
+        approach: "PEB Media lieferte eine statische Website auf derselben Vanilla-HTML/CSS/JS- und Admin-Panel-Architektur, die studioweit zum Einsatz kommt — schnelle Ladezeiten, einfache Wartung, Inhalte über ein eigenes Panel editierbar.",
+        result: "Eine fertige Produktions-Website, die dem Unternehmen eine solide digitale Visitenkarte für lokale Kunden gibt."
+      },
+      next: "elrevmont"
+    }
+  };
+
+  function renderCaseStudy(lang) {
+    const params = new URLSearchParams(window.location.search);
+    const key = params.get('p') || 'elrevmont';
+    const data = PROJECTS[key] || PROJECTS.elrevmont;
+    const t = data[lang] || data.cs;
+
+    document.getElementById('page-title').textContent = data.title + ' — PEB Media';
+    document.getElementById('cs-title').textContent = data.title;
+    document.getElementById('cs-category').textContent = t.category;
+    document.getElementById('cs-year').textContent = data.year;
+    document.getElementById('cs-industry').textContent = t.industry;
+    document.getElementById('cs-challenge').textContent = t.challenge;
+    document.getElementById('cs-approach').textContent = t.approach;
+    document.getElementById('cs-result').textContent = t.result;
+
+    const nextData = PROJECTS[data.next];
+    const nextLink = document.getElementById('cs-next-link');
+    if (nextData) {
+      nextLink.textContent = nextData.title;
+      nextLink.href = 'case-study.html?p=' + data.next;
+    }
+  }
+
+  document.addEventListener('peb:langchange', (e) => renderCaseStudy(e.detail.lang));
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCaseStudy(window.PEB_LANG || 'cs');
+  });
+</script>
+</body>
+</html>

@@ -1,1567 +1,336 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEB Media - Profesionální weby</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-black: #000000;
-            --dark-bg: #0a0a0a;
-            --card-bg: #111111;
-            --accent-green: #10b981;
-            --light-green: #34d399;
-            --text-white: #ffffff;
-            --text-gray: #d1d5db;
-            --text-light-gray: #9ca3af;
-            --border-radius: 12px;
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            --shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.8);
-            --section-gap: 8rem;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--primary-black);
-            color: var(--text-white);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
-        
-        /* Tečkované pozadí s tmavě modrými/zelenkavými skvrnami */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 15% 25%, rgba(16, 185, 129, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 85% 65%, rgba(16, 185, 129, 0.02) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.01) 0%, transparent 60%),
-                radial-gradient(circle at 25% 75%, rgba(0, 100, 200, 0.02) 0%, transparent 50%),
-                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255, 255, 255, 0.01) 1px, rgba(255, 255, 255, 0.01) 2px);
-            background-size: cover;
-            z-index: -1;
-        }
-        
-        /* Tečky v pozadí pro moderní vzhled */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-                radial-gradient(circle at 60% 70%, rgba(0, 100, 200, 0.02) 1px, transparent 1px),
-                radial-gradient(circle at 40% 10%, rgba(16, 185, 129, 0.02) 1px, transparent 1px),
-                radial-gradient(circle at 80% 40%, rgba(0, 100, 200, 0.03) 1px, transparent 1px);
-            background-size: 300px 300px, 400px 400px, 500px 500px, 350px 350px;
-            z-index: -1;
-            opacity: 0.3;
-        }
-        
-        
-        /* Header & Navigation - MOBILE FIRST */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .header.scrolled {
-            padding: 0.7rem 5%;
-            background-color: rgba(0, 0, 0, 0.98);
-        }
-        
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-white);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0;
-            letter-spacing: -0.5px;
-            transition: all 0.3s ease;
-        }
-        
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        
-        .logo-peb {
-            color: var(--text-white);
-        }
-        
-        .logo-media {
-            color: var(--accent-green);
-        }
-        
-        /* Hamburger menu pro mobil */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 21px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .hamburger:hover {
-            transform: scale(1.1);
-        }
-        
-        .hamburger span {
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: var(--text-white);
-            transition: var(--transition);
-            border-radius: 3px;
-        }
-        
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
-        }
-        
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        
-        .nav-link {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-            font-size: 0.95rem;
-            white-space: nowrap;
-        }
-        
-        .nav-link:hover {
-            color: var(--accent-green);
-            transform: translateY(-2px);
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent-green);
-            transition: var(--transition);
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        .cta-button {
-            background: linear-gradient(135deg, var(--accent-green), var(--light-green));
-            color: var(--primary-black);
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-            text-decoration: none;
-            display: inline-block;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: all 0.6s ease;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.5);
-        }
-        
-        .cta-button:hover::before {
-            left: 100%;
-        }
-        
-        .cta-button-outline {
-            background: transparent;
-            color: var(--text-white);
-            border: 2px solid var(--accent-green);
-            box-shadow: none;
-        }
-        
-        .cta-button-outline:hover {
-            background: rgba(16, 185, 129, 0.1);
-        }
-        
-        /* Hero Section - VĚTŠÍ a BEZ scroll indikátoru */
-        .hero-wrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">PEB Media — Nezávislé digitální studio, Česká republika</title>
+<meta id="page-description" name="description" content="PEB Media je nezávislé digitální studio založené Petrem Brožem v České republice — vývoj webů, bezpečnostní testování, 3D vizualizace a digitální design.">
 
-        .hero {
-            padding: 2rem 5%;
-            text-align: center;
-            max-width: 1400px;
-            width: 100%;
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s forwards 0.3s;
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-            filter: blur(80px);
-            z-index: -1;
-            animation: pulse-glow 4s infinite alternate;
-        }
-        
-        @keyframes pulse-glow {
-            0% {
-                opacity: 0.3;
-                transform: translateX(-50%) scale(1);
-            }
-            100% {
-                opacity: 0.6;
-                transform: translateX(-50%) scale(1.3);
-            }
-        }
-        
-        .hero-tagline {
-            font-size: 1.1rem;
-            color: var(--accent-green);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s forwards 0.5s;
-        }
-        
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-            background: linear-gradient(to right, var(--text-white), var(--accent-green));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-            letter-spacing: -1px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s forwards 0.7s;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-gray);
-            max-width: 800px;
-            margin: 0 auto 4rem;
-            font-weight: 300;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s forwards 0.9s;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s forwards 1.1s;
-        }
-        
-        .hero .cta-button {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            margin-top: 5rem;
-            padding-top: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s forwards 1.3s;
-        }
-        
-        .stat-item {
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .stat-item:nth-child(1) { animation: fadeInUp 0.8s forwards 1.5s; }
-        .stat-item:nth-child(2) { animation: fadeInUp 0.8s forwards 1.6s; }
-        .stat-item:nth-child(3) { animation: fadeInUp 0.8s forwards 1.7s; }
-        .stat-item:nth-child(4) { animation: fadeInUp 0.8s forwards 1.8s; }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent-green);
-            display: block;
-            margin-bottom: 0.8rem;
-        }
-        
-        .stat-label {
-            color: var(--text-light-gray);
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        
-        /* Section Styling */
-        .section {
-            padding: var(--section-gap) 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-        
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--text-white);
-            width: 100%;
-            padding: 0 1rem;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-gray);
-            max-width: 800px;
-            margin: 0 auto 5rem;
-            font-size: 1.3rem;
-            font-weight: 300;
-            padding: 0 1rem;
-        }
-        
-        /* 4D Cards - MOBILE FIRST */
-        .cards-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2.5rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: var(--shadow);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            transform: translateY(30px) rotateX(10deg);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .card.visible {
-            opacity: 1;
-            transform: translateY(0) rotateX(0);
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent);
-            z-index: -1;
-            transition: var(--transition);
-        }
-        
-        .card:hover {
-            transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.03);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-        
-        .card:hover::before {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent);
-        }
-        
-        .card-icon {
-            font-size: 3rem;
-            color: var(--accent-green);
-            margin-bottom: 1.5rem;
-            transition: var(--transition);
-        }
-        
-        .card:hover .card-icon {
-            transform: scale(1.2) rotate(5deg);
-        }
-        
-        .card-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-            color: var(--text-white);
-        }
-        
-        .card-content {
-            color: var(--text-gray);
-            flex-grow: 1;
-            font-weight: 300;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-        
-        /* Services Section */
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .service-card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2.5rem;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: all 0.6s ease;
-        }
-        
-        .service-card:nth-child(even) {
-            transform: translateX(30px);
-        }
-        
-        .service-card.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
-            transition: var(--transition);
-        }
-        
-        .service-card:hover::before {
-            left: 100%;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .service-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-            color: var(--text-white);
-        }
-        
-        .service-description {
-            color: var(--text-gray);
-            font-weight: 300;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-        
-        /* Reference Section */
-        .reference-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-        
-        .reference-card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-        
-        .reference-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .reference-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .reference-image {
-            height: 250px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(0, 0, 0, 0.3));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--accent-green);
-        }
-        
-        .reference-content {
-            padding: 2.5rem;
-        }
-        
-        .reference-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-white);
-        }
-        
-        .reference-description {
-            color: var(--text-gray);
-            margin-bottom: 1.5rem;
-            font-weight: 300;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-        
-        .reference-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-green);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-        
-        .reference-link:hover {
-            gap: 0.8rem;
-            color: var(--light-green);
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: 6rem 5%;
-            background: radial-gradient(circle at center, rgba(17, 17, 17, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
-            border-radius: 24px;
-            max-width: 1200px;
-            margin: 5rem auto;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.8s ease;
-        }
-        
-        .cta-section.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
-            z-index: -1;
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
-        .cta-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            color: var(--text-white);
-        }
-        
-        .cta-text {
-            color: var(--text-gray);
-            max-width: 800px;
-            margin: 0 auto 3rem;
-            font-size: 1.3rem;
-            font-weight: 300;
-            padding: 0 1rem;
-            line-height: 1.7;
-        }
-        
-        .cta-section .cta-button {
-            padding: 1rem 3rem;
-            font-size: 1.2rem;
-        }
-        
-        .cta-note {
-            margin-top: 2rem;
-            color: var(--text-light-gray);
-            font-size: 1rem;
-            font-style: italic;
-        }
-        
-        /* Footer */
-        .footer {
-            background-color: rgba(10, 10, 10, 0.95);
-            padding: 5rem 5% 3rem;
-            border-top: 1px solid rgba(16, 185, 129, 0.2);
-            margin-top: 5rem;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-        
-        .footer.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .footer-logo {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--text-white);
-        }
-        
-        .footer-tagline {
-            color: var(--text-gray);
-            margin-bottom: 2rem;
-            font-weight: 300;
-            font-size: 1.1rem;
-        }
-        
-        .footer-heading {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--text-white);
-        }
-        
-        .footer-links {
-            list-style-type: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.8rem;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
-        }
-        
-        .footer.visible .footer-links li {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .footer.visible .footer-links li:nth-child(1) { transition-delay: 0.1s; }
-        .footer.visible .footer-links li:nth-child(2) { transition-delay: 0.2s; }
-        .footer.visible .footer-links li:nth-child(3) { transition-delay: 0.3s; }
-        .footer.visible .footer-links li:nth-child(4) { transition-delay: 0.4s; }
-        .footer.visible .footer-links li:nth-child(5) { transition-delay: 0.5s; }
-        
-        .footer-links a {
-            color: var(--text-gray);
-            text-decoration: none;
-            transition: var(--transition);
-            font-weight: 300;
-            display: inline-block;
-            font-size: 1.1rem;
-        }
-        
-        .footer-links a:hover {
-            color: var(--accent-green);
-            padding-left: 5px;
-            transform: translateX(5px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 3rem;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light-gray);
-            font-size: 1rem;
-            font-weight: 300;
-        }
-        
-        .green-divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
-            margin: 3rem auto;
-            max-width: 300px;
-        }
-        
-        /* Tablet breakpoint */
-        @media (min-width: 768px) {
-            .header {
-                padding: 1.2rem 5%;
-            }
-            
-            .logo {
-                font-size: 1.8rem;
-            }
-            
-            .hero {
-                padding: 12rem 5% 10rem;
-            }
-            
-            .hero-title {
-                font-size: 4.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.6rem;
-            }
-            
-            .stats {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 4rem;
-            }
-            
-            .stat-number {
-                font-size: 3.5rem;
-            }
-            
-            .section {
-                padding: 8rem 5%;
-            }
-            
-            .section-title {
-                font-size: 3.5rem;
-            }
-            
-            .cards-container, .services-grid, .reference-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 3rem;
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 3rem;
-            }
-        }
-        
-        /* Desktop breakpoint */
-        @media (min-width: 992px) {
-            .hamburger {
-                display: none;
-            }
-            
-            .nav-links {
-                display: flex;
-            }
-            
-            .hero-title {
-                font-size: 5.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 4rem;
-            }
-            
-            .cards-container, .reference-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .cta-title {
-                font-size: 3.5rem;
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 4rem;
-            }
-        }
-        
-        /* Mobile menu styles */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background-color: rgba(0, 0, 0, 0.95);
-                backdrop-filter: blur(10px);
-                flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
-                transform: translateY(-100%);
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease-in-out;
-                border-bottom: 1px solid rgba(16, 185, 129, 0.2);
-                z-index: 999;
-            }
-            
-            .nav-links.active {
-                transform: translateY(0);
-                opacity: 1;
-                visibility: visible;
-            }
-            
-            .hero-tagline::before, .hero-tagline::after {
-                width: 20px;
-            }
-            
-            .hero-tagline::before {
-                left: -30px;
-            }
-            
-            .hero-tagline::after {
-                right: -30px;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .cta-button {
-                width: 100%;
-                max-width: 300px;
-                text-align: center;
-            }
-            
-            
-        }
-        
-        /* Extra malé obrazovky */
-        @media (max-width: 480px) {
-            .hero-title {
-                font-size: 2.8rem;
-            }
-            
-            .hero-tagline {
-                font-size: 0.9rem;
-                letter-spacing: 3px;
-            }
-            
-            .hero-tagline::before, .hero-tagline::after {
-                width: 15px;
-            }
-            
-            .hero-tagline::before {
-                left: -25px;
-            }
-            
-            .hero-tagline::after {
-                right: -25px;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-            }
-            
-            .cta-title {
-                font-size: 2.2rem;
-            }
-            
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-            
-            .stat-number {
-                font-size: 2.5rem;
-            }
-            
-            .card, .service-card, .reference-card {
-                padding: 2rem;
-            }
-            
-            .card-title, .service-title, .reference-title {
-                font-size: 1.5rem;
-            }
-            
-            .reference-image {
-                height: 200px;
-                font-size: 3rem;
-            }
-            
-            
-        }
-    </style>
+<meta id="og-title" property="og:title" content="PEB Media — Nezávislé digitální studio">
+<meta id="og-description" property="og:description" content="Vývoj webů, bezpečnostní testování, 3D vizualizace a digitální design. Založil Petr Brož, Česká republika.">
+<meta property="og:type" content="website">
+<meta id="og-locale" property="og:locale" content="cs_CZ">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23141310%22/><text x=%2250%22 y=%2266%22 font-family=%22monospace%22 font-size=%2255%22 fill=%22%23ff4425%22 text-anchor=%22middle%22>P</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <!-- Header -->
-    <header class="header" id="header">
-        <a href="#" class="logo"><span class="logo-peb">PEB</span><span class="logo-media">Media</span></a>
-        <button class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav class="nav-links" id="navLinks">
-            <a href="#sluzby" class="nav-link">Služby</a>
-            <a href="#jak-pracujeme" class="nav-link">Jak pracujeme</a>
-            <a href="#reference" class="nav-link">Reference</a>
-            <a href="#proc-my" class="nav-link">Proč my</a>
-            <a href="#kontakt" class="nav-link">Kontakt</a>
-            <a href="#konzultace" class="cta-button">Nezávazná konzultace</a>
-        </nav>
-    </header>
 
-    <!-- Hero Section - VĚTŠÍ úvodní stránka -->
-    <div class="hero-wrapper">
-    <section class="hero">
-        <div class="hero-tagline">Digitální studio pro moderní weby</div>
-        <h1 class="hero-title">PEBMedia</h1>
-        <p class="hero-subtitle">
-            Neděláme tisíc věcí najednou. Soustředíme se na to, co zvládáme na nejvyšší úrovni – kvalitní weby, které budují důvěru a pomáhají vydělávat.
-        </p>
-        <div class="hero-buttons">
-            <a href="#konzultace" class="cta-button">Chci nový web</a>
-            <a href="#reference" class="cta-button cta-button-outline">Naše reference</a>
-        </div>
-        
-        <div class="stats">
-            <div class="stat-item">
-                <span class="stat-number">20+</span>
-                <span class="stat-label">Spokojených klientů</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Mobilní optimalizace</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">&lt; 1s</span>
-                <span class="stat-label">Doba načítání</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">24h</span>
-                <span class="stat-label">Dostupná komunikace</span>
-            </div>
-        </div>
-    </section>
+<a href="#main" class="skip-link" data-i18n="skip">Přeskočit na obsah</a>
+
+<nav class="nav">
+  <a href="#top" class="nav-mark">PEB MEDIA</a>
+  <ul class="nav-links">
+    <li><a href="#work" data-i18n="nav.work">Práce</a></li>
+    <li><a href="#capabilities" data-i18n="nav.capabilities">Schopnosti</a></li>
+    <li><a href="#about" data-i18n="nav.about">O nás</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+  </ul>
+  <div class="nav-meta">
+    <span>2026</span>
+    <span data-i18n="nav.country">Česká republika</span>
+    <span class="lang-switch">
+      <button type="button" data-lang="cs" class="lang-btn" aria-label="Čeština">CS</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-lang="de" class="lang-btn" aria-label="Deutsch">DE</button>
+    </span>
+  </div>
+  <button class="nav-burger" aria-label="Otevřít menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-panel">
+  <a href="#work" data-i18n="nav.work">Práce</a>
+  <a href="#capabilities" data-i18n="nav.capabilities">Schopnosti</a>
+  <a href="#about" data-i18n="nav.about">O nás</a>
+  <a href="#contact" data-i18n="nav.contact">Kontakt</a>
+  <span class="lang-switch mobile">
+    <button type="button" data-lang="cs" class="lang-btn" aria-label="Čeština">CS</button>
+    <span aria-hidden="true">/</span>
+    <button type="button" data-lang="de" class="lang-btn" aria-label="Deutsch">DE</button>
+  </span>
+</div>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section id="top" class="hero wrap">
+    <h1 class="hero-mark">
+      <span>PEB</span>
+      <span class="mark-media">MEDIA</span>
+    </h1>
+    <p class="hero-tags" data-i18n="hero.tags">WEB <span>/</span> BEZPEČNOST <span>/</span> 3D <span>/</span> DIGITÁL</p>
+
+    <div class="hero-bottom">
+      <p class="hero-statement" data-i18n="hero.statement">Nezávislé digitální studio, které staví weby, digitální produkty a nekonvenční řešení.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="cta-link primary" data-i18n="hero.viewWork">Zobrazit práci →</a>
+        <a href="#contact" class="cta-link" data-i18n="hero.startProject">Začít projekt →</a>
+      </div>
     </div>
 
-    <!-- Jak pracujeme -->
-    <section class="section" id="jak-pracujeme">
-        <h2 class="section-title">Jak pracujeme</h2>
-        <p class="section-subtitle">Zaměřujeme se na psychiku a na to co skutečně funguje.</p>
-        
-        <div class="cards-container">
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-bullseye"></i>
-                </div>
-                <h3 class="card-title">Jednoduchost a funkčnost</h3>
-                <p class="card-content">Web nesmí být přeplácaný. Zákazník musí okamžitě pochopit, kdo jste a co děláte.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3 class="card-title">Rychlost</h3>
-                <p class="card-content">Rychlý web = spokojený uživatel. Optimalizujeme načítání, obrázky i strukturu.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3 class="card-title">Mobilní priorita</h3>
-                <p class="card-content">80 % návštěv běží přes telefon. Weby děláme tak, aby na mobilu vypadaly ještě líp.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-paint-brush"></i>
-                </div>
-                <h3 class="card-title">Čistý moderní design</h3>
-                <p class="card-content">Minimalismus. Žádné zbytečné efekty, žádné zastaralé prvky.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-flag"></i>
-                </div>
-                <h3 class="card-title">Jasné CTA</h3>
-                <p class="card-content">Každý web musí vědět, co po uživateli chce: kontakt, objednávka, poptávka, rezervace.</p>
-            </div>
+    <div class="hero-scroll"><span class="line"></span> <span data-i18n="hero.scroll">Scroll</span></div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section id="work" class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title" data-i18n-html="work.title">Vybraná<br>práce</h2>
+      <span class="section-count">01 — 04</span>
+    </div>
+
+    <!-- Featured project, full width -->
+    <div class="work-featured reveal">
+      <a href="case-study.html?p=elrevmont">
+        <div class="work-featured-frame">
+          <span class="ph-label" data-i18n="ph.desktop">Náhled na desktopu — zástupný obsah</span>
         </div>
-    </section>
-
-    <!-- Služby -->
-    <section class="section" id="sluzby">
-        <h2 class="section-title">Naše služby</h2>
-        <p class="section-subtitle">Služby na míru vašim potřebám. Vytváříme weby, které skutečně fungují.</p>
-        
-        <div class="services-grid">
-            <div class="service-card">
-                <h3 class="service-title">Profesionální firemní weby</h3>
-                <p class="service-description">Stránky, které působí jako moderní vizitka firmy. Jasná struktura, přehledné sekce a čistý design.</p>
-            </div>
-            
-            <div class="service-card">
-                <h3 class="service-title">One-page a prezentační weby</h3>
-                <p class="service-description">Pro menší podniky a služby je jeden kvalitní web ideální. Zákazník hned pochopí, co nabízíte.</p>
-            </div>
-            
-            <div class="service-card">
-                <h3 class="service-title">Redesign starých webů</h3>
-                <p class="service-description">Máte web z pravěku? Nevadí, postaráme se o to, aby byl přehlednější, čistší a hlavně funkčnější.</p>
-            </div>
-            
-            <div class="service-card">
-                <h3 class="service-title">Landing pages</h3>
-                <p class="service-description">Prodejní stránky s konkrétním účelem – přivést leady, rezervace nebo prodat službu.</p>
-            </div>
-            
-            <div class="service-card">
-                <h3 class="service-title">Údržba a správa</h3>
-                <p class="service-description">Po dodání webu se také můžeme postarat o úpravy, texty, fotky a technické ladění. Pro Váš klid v hlavě.</p>
-            </div>
+        <div class="work-featured-head">
+          <h3>Elrevmont</h3>
+          <span class="mono" data-i18n="work.cat.elrevmont">Web / Design / Vývoj →</span>
         </div>
-    </section>
+      </a>
+    </div>
 
-    <!-- Reference -->
-    <section class="section" id="reference">
-        <h2 class="section-title">Naše reference</h2>
-        <p class="section-subtitle">Projekty, na které jsme pyšní. Každý web je jedinečný a řeší konkrétní potřeby klienta.</p>
-        
-        <div class="reference-grid">
-            <div class="reference-card">
-                <div class="reference-image">
-                    <i class="fas fa-building"></i>
-                </div>
-                <div class="reference-content">
-                    <h3 class="reference-title">Květinářství Kamila</h3>
-                    <p class="reference-description">Moderní one-page web pro květinářství s online objednávkovým formulářem.</p>
-                    <a href="https://www.kvetinarstvikamila.cz" class="reference-link">Prohlédnout projekt </a>
-                </div>
-            </div>
-            
-            <div class="reference-card">
-                <div class="reference-image">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <div class="reference-content">
-                    <h3 class="reference-title">Osobní web Petra Brože</h3>
-                    <p class="reference-description">Elegantní osobní one-page web pro Petra Brože.</p>
-                    <a href="https://www.broz-petr.cz"  class="reference-link">Prohlédnout projekt </a>
-                </div>
-            </div>
-            
-            <div class="reference-card">
-                <div class="reference-image">
-                    <i class="fas fa-dumbbell"></i>
-                </div>
-                <div class="reference-content">
-                    <h3 class="reference-title">Návrh webu pro pizzerii OLIO</h3>
-                    <p class="reference-description">Návrh webu pro pizerii Olio s funkční galerii a objednávkovým systémem</p>
-                    <a href="https://petrbroz-ofc.github.io/olio-website-test-v1.0/" class="reference-link">Prohlédnout projekt</a>
-                </div>
-            </div>
+    <div class="work-list">
+      <div class="work-item reveal" data-project="zatrapa" style="--frame-h: 340px;">
+        <span class="work-index">02</span>
+        <div class="work-body">
+          <h3 class="work-name">Platnéřství Zátrapa</h3>
+          <span class="work-meta">
+            <span data-i18n="work.cat.zatrapa">Web / CMS / Administrace</span>
+          </span>
+          <div class="work-frame">
+            <div class="work-frame-inner"><span class="ph-label" data-i18n="ph.project">Náhled projektu — zástupný obsah</span></div>
+            <a class="work-open" href="case-study.html?p=zatrapa" data-i18n="work.open">Otevřít případovou studii →</a>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Proč my -->
-    <section class="section" id="proc-my">
-        <h2 class="section-title">Proč PEB Media</h2>
-        <p class="section-subtitle">Naším cílem jsou weby, které vypadají profesionálně a fungují rychle.</p>
-        
-        <div class="cards-container">
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-times-circle"></i>
-                </div>
-                <h3 class="card-title">Jdeme s dobou</h3>
-                <p class="card-content">Používáme nejnovější a nejmodernější nástroje.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-layer-group"></i>
-                </div>
-                <h3 class="card-title">Nepoužíváme šablony</h3>
-                <p class="card-content">Nepoužíváme šablony, které má každý druhý web. Vše děláme na míru.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-comments"></i>
-                </div>
-                <h3 class="card-title">Rychlá komunikace</h3>
-                <p class="card-content">Záleží nám na Vás, proto odpovídáme co nejrychleji.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <h3 class="card-title">Dnešní online svět</h3>
-                <p class="card-content">Máme přístup, který chápe dnešní online svět a jeho potřeby.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-award"></i>
-                </div>
-                <h3 class="card-title">Kvalita a čistota</h3>
-                <p class="card-content">Každá stránka je dělána s důrazem na kvalitu a čistotu kódu i designu.</p>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-laptop-code"></i>
-                </div>
-                <h3 class="card-title">Specializace</h3>
-                <p class="card-content">Děláme jen to, co umíme řešit dobře.</p>
-            </div>
+      <div class="work-item reveal" data-project="restaurantos" style="--frame-h: 340px;">
+        <span class="work-index">03</span>
+        <div class="work-body">
+          <h3 class="work-name">RestaurantOS</h3>
+          <span class="work-meta">
+            <span data-i18n="work.cat.restaurantos">Produkt / UI / Vývoj</span>
+          </span>
+          <div class="work-frame">
+            <div class="work-frame-inner"><span class="ph-label" data-i18n="ph.product">Náhled produktu — zástupný obsah</span></div>
+            <a class="work-open" href="case-study.html?p=restaurantos" data-i18n="work.open">Otevřít případovou studii →</a>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- CTA Section -->
-    <section class="cta-section" id="konzultace">
-        <h2 class="cta-title">Připraveni na web, který funguje?</h2>
-        <p class="cta-text">
-            Napište nám a domluvíme si nezávaznou konzultaci. Probereme, co potřebujete, a navrhneme řešení na míru.
-        </p>
-        <a href="#kontakt" class="cta-button">Napište nám</a>
-        <p class="cta-note">Odpovídáme do 24 hodin. Většinou mnohem rychleji.</p>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer" id="kontakt">
-        <div class="footer-content">
-            <div class="footer-column">
-                <div class="footer-logo"><span style="color: var(--text-white);">PEB</span><span style="color: var(--accent-green);">Media</span></div>
-                <p class="footer-tagline">Weby, které dělají rozdíl.</p>
-                <p style="color: var(--text-gray); font-weight: 300; font-size: 1.1rem;">Digitální studio specializované na vytváření moderních, funkčních a efektivních webových stránek.</p>
-            </div>
-            
-            <div class="footer-column">
-                <h4 class="footer-heading">Služby</h4>
-                <ul class="footer-links">
-                    <li><a href="#sluzby">Firemní weby</a></li>
-                    <li><a href="#sluzby">One-page weby</a></li>
-                    <li><a href="#sluzby">Redesign webů</a></li>
-                    <li><a href="#sluzby">Landing pages</a></li>
-                    <li><a href="#sluzby">Údržba a správa</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h4 class="footer-heading">Projekty</h4>
-                <ul class="footer-links">
-                    <li><a href="#reference">Květinářství Kamila</a></li>
-                    <li><a href="#reference">Osobní web Petra Brože</a></li>
-                    <li><a href="#reference">Návrh pro Olio</a></li>
-                    <li><a href="#reference">Další reference</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h4 class="footer-heading">Kontakt</h4>
-                <ul class="footer-links">
-                    <li><a href="/cdn-cgi/l/email-protection#0960676f6649796c6b646c6d6068276a73"><span class="__cf_email__" data-cfemail="d0b9beb6bffea0b5b2bdb5b4b9b190b7bdb1b9bcfeb3bfbd">[email&#160;protected]</span></a></li>
-                    <li><a href="tel:+420123456789">+420 778 478 642</a></li>
-                    <li><a href="#konzultace">Nezávazná konzultace</a></li>
-                </ul>
-            </div>
+      <div class="work-item reveal" data-project="suta" style="--frame-h: 340px;">
+        <span class="work-index">04</span>
+        <div class="work-body">
+          <h3 class="work-name">Šuta — Tesařství a pokrývačství</h3>
+          <span class="work-meta">
+            <span data-i18n="work.cat.suta">Web / Design / Vývoj</span>
+          </span>
+          <div class="work-frame">
+            <div class="work-frame-inner"><span class="ph-label" data-i18n="ph.project">Náhled projektu — zástupný obsah</span></div>
+            <a class="work-open" href="case-study.html?p=suta" data-i18n="work.open">Otevřít případovou studii →</a>
+          </div>
         </div>
-        
-        <div class="green-divider"></div>
-        
-        <div class="copyright">
-            <p>&copy; 2025 PEBMedia. Všechna práva vyhrazena.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">PEBMedia</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE DON'T DO -->
+  <section class="dont wrap">
+    <div class="dont-grid reveal">
+      <h2 class="dont-title" data-i18n-html="dont.title">Co<br>neděláme</h2>
+      <ul class="dont-list">
+        <li data-i18n-html="dont.item1">Nestavíme weby jen proto, abychom <strong>zaplnili portfolio.</strong></li>
+        <li data-i18n-html="dont.item2">Nepoužíváme šablony, když projekt potřebuje něco <strong>na míru.</strong></li>
+        <li data-i18n-html="dont.item3">Nepředstíráme, že každý problém potřebuje <strong>AI.</strong></li>
+        <li data-i18n-html="dont.item4">A neschováváme se za <strong>velký agenturní tým.</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section id="capabilities" class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title" data-i18n="cap.title">Schopnosti</h2>
+      <span class="section-count" data-i18n="cap.count">5 oblastí</span>
+    </div>
+    <div class="cap-list">
+      <div class="cap-item reveal">
+        <span class="cap-num">01</span>
+        <h3 class="cap-name" data-i18n="cap.web.name">Web</h3>
+        <div class="cap-details" data-i18n-html="cap.web.details">Weby<br>Redesigny<br>Landing pages<br>Webové aplikace</div>
+      </div>
+      <div class="cap-item reveal">
+        <span class="cap-num">02</span>
+        <h3 class="cap-name" data-i18n="cap.security.name">Bezpečnost</h3>
+        <div class="cap-details" data-i18n-html="cap.security.details">Autorizované bezpečnostní testy<br>Bezpečnostní audity webů<br>Analýza zranitelností<br>Bezpečnostní reporty</div>
+      </div>
+      <div class="cap-item reveal">
+        <span class="cap-num">03</span>
+        <h3 class="cap-name" data-i18n="cap.3d.name">3D</h3>
+        <div class="cap-details" data-i18n-html="cap.3d.details">3D modelování<br>Vizualizace<br>Modelování produktů<br>Technické vizualizace</div>
+      </div>
+      <div class="cap-item reveal">
+        <span class="cap-num">04</span>
+        <h3 class="cap-name" data-i18n="cap.digital.name">Digitál</h3>
+        <div class="cap-details" data-i18n-html="cap.digital.details">AI integrace<br>Automatizace<br>Vlastní nástroje<br>Digitální koncepty</div>
+      </div>
+      <div class="cap-item reveal">
+        <span class="cap-num">05</span>
+        <h3 class="cap-name" data-i18n="cap.design.name">Design</h3>
+        <div class="cap-details" data-i18n-html="cap.design.details">UI / UX<br>Vizuální identita<br>Digitální design<br>Kreativní směřování</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about wrap">
+    <div class="reveal">
+      <div class="about-portrait">
+        <span class="ph-label" data-i18n="ph.portrait">Portrét — zástupný obsah</span>
+      </div>
+    </div>
+    <div class="reveal">
+      <h2 class="about-title">PEB = Petr Brož</h2>
+      <p class="about-body" data-i18n="about.p1">PEB Media je nezávislé digitální studio založené Petrem Brožem v České republice.</p>
+      <p class="about-body" data-i18n="about.p2">Studio spojuje vývoj webu, design, technologie, bezpečnost a 3D a vytváří praktická digitální řešení pro firmy i produkty.</p>
+      <p class="about-body" data-i18n="about.p3">U větších nebo specializovaných projektů PEB Media spolupracuje s externími specialisty.</p>
+
+      <dl class="about-facts">
+        <div class="about-fact"><dt data-i18n="about.based.label">Sídlo</dt><dd data-i18n="about.based.value">Liberecký kraj, ČR</dd></div>
+        <div class="about-fact"><dt data-i18n="about.founded.label">Založil</dt><dd>Petr Brož</dd></div>
+        <div class="about-fact"><dt data-i18n="about.since.label">Působí od</dt><dd>2022</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section class="approach wrap">
+    <div class="section-head reveal" style="padding-top:0;">
+      <h2 class="section-title" data-i18n-html="approach.title">Jak<br>přemýšlíme</h2>
+    </div>
+    <div class="approach-list reveal">
+      <div class="approach-item">
+        <span class="num">01</span>
+        <p data-i18n="approach.item1">Pochopit skutečný problém.</p>
+      </div>
+      <div class="approach-item">
+        <span class="num">02</span>
+        <p data-i18n="approach.item2">Odstranit zbytečnou složitost.</p>
+      </div>
+      <div class="approach-item">
+        <span class="num">03</span>
+        <p data-i18n="approach.item3">Navrhnout nejjednodušší silné řešení.</p>
+      </div>
+      <div class="approach-item">
+        <span class="num">04</span>
+        <p data-i18n="approach.item4">Postavit ho pořádně.</p>
+      </div>
+      <div class="approach-item">
+        <span class="num">05</span>
+        <p data-i18n="approach.item5">Neustále ho zlepšovat.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact wrap">
+    <div class="contact-head reveal">
+      <h2 class="contact-title" data-i18n-html="contact.title">Máte něco<br>na mysli?</h2>
+      <p class="contact-sub" data-i18n="contact.sub">Řekněte nám, co stavíte, opravujete nebo se snažíte zlepšit.</p>
+    </div>
+
+    <form id="contact-form" class="reveal">
+      <div class="form-grid">
+        <div class="field">
+          <label for="f-name" data-i18n="form.name">Jméno</label>
+          <input id="f-name" name="name" type="text" required autocomplete="name">
         </div>
-    </footer>
+        <div class="field">
+          <label for="f-company" data-i18n="form.company">Firma</label>
+          <input id="f-company" name="company" type="text" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="f-email" data-i18n="form.email">E-mail</label>
+          <input id="f-email" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-budget" data-i18n="form.budget">Rozpočet</label>
+          <input id="f-budget" name="budget" type="text" data-i18n-placeholder="form.budgetPlaceholder" placeholder="Nepovinné">
+        </div>
+        <div class="field">
+          <label for="f-type" data-i18n="form.type">Typ projektu</label>
+          <select id="f-type" name="project_type" data-i18n-options="form.typeOptions">
+            <option>Web</option>
+            <option>Redesign</option>
+            <option>Kybernetická bezpečnost</option>
+            <option>3D</option>
+            <option>AI / Automatizace</option>
+            <option>Design</option>
+            <option>Jiné</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="f-message" data-i18n="form.message">Zpráva</label>
+          <textarea id="f-message" name="message" required></textarea>
+        </div>
+      </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Mobile menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-link, .cta-button').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
-        });
-        
-        // Scroll event listener
-        window.addEventListener('scroll', () => {
-            // Header scroll effect
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            
-            // Section visibility animation
-            const sections = document.querySelectorAll('.section, .cta-section, .footer');
-            sections.forEach(section => {
-                const sectionTop = section.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (sectionTop < windowHeight * 0.85) {
-                    section.classList.add('visible');
-                    
-                    // Animate cards in each section
-                    const cards = section.querySelectorAll('.card, .service-card, .reference-card');
-                    cards.forEach((card, index) => {
-                        setTimeout(() => {
-                            card.classList.add('visible');
-                        }, index * 100);
-                    });
-                }
-            });
-        });
-        
-        // Trigger initial check for sections in view
-        window.dispatchEvent(new Event('scroll'));
-        
-        // 4D Card hover effect enhancement
-        const cards = document.querySelectorAll('.card');
-        
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                // Only apply on desktop (touch devices don't need this)
-                if (window.innerWidth > 768) {
-                    const cardRect = card.getBoundingClientRect();
-                    const x = e.clientX - cardRect.left;
-                    const y = e.clientY - cardRect.top;
-                    
-                    const centerX = cardRect.width / 2;
-                    const centerY = cardRect.height / 2;
-                    
-                    const rotateY = (x - centerX) / 25;
-                    const rotateX = (centerY - y) / 25;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px) scale(1.03)`;
-                }
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                if (window.innerWidth > 768) {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
-                }
-            });
-            
-            // Touch-friendly card interaction for mobile
-            card.addEventListener('touchstart', () => {
-                if (window.innerWidth <= 768) {
-                    card.style.transform = 'translateY(-8px) scale(1.02)';
-                }
-            });
-            
-            card.addEventListener('touchend', () => {
-                if (window.innerWidth <= 768) {
-                    setTimeout(() => {
-                        card.style.transform = 'translateY(0) scale(1)';
-                    }, 150);
-                }
-            });
-        });
-        
-        // Add hover effect to reference cards
-        const referenceCards = document.querySelectorAll('.reference-card');
-        referenceCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                if (window.innerWidth > 768) {
-                    const icon = card.querySelector('.reference-image i');
-                    if (icon) {
-                        icon.style.transform = 'scale(1.1)';
-                        icon.style.transition = 'transform 0.3s ease';
-                    }
-                }
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                if (window.innerWidth > 768) {
-                    const icon = card.querySelector('.reference-image i');
-                    if (icon) {
-                        icon.style.transform = 'scale(1)';
-                    }
-                }
-            });
-        });
-        
-        // Add some interactivity to stats
-        const statNumbers = document.querySelectorAll('.stat-number');
-        
-        const animateStats = () => {
-            statNumbers.forEach(stat => {
-                const originalText = stat.textContent;
-                let target;
-                
-                // Check if stat is a number
-                if (originalText.includes('+')) {
-                    target = parseInt(originalText);
-                } else if (originalText.includes('<')) {
-                    // For "< 2s" just keep as is
-                    return;
-                } else if (originalText.includes('%')) {
-                    target = 100;
-                } else {
-                    target = parseInt(originalText);
-                }
-                
-                let current = 0;
-                const increment = target / 20;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        stat.textContent = originalText;
-                        clearInterval(timer);
-                    } else if (originalText.includes('%')) {
-                        stat.textContent = Math.floor(current) + '%';
-                    } else if (originalText.includes('+')) {
-                        stat.textContent = Math.floor(current) + '+';
-                    }
-                }, 50);
-            });
-        };
-        
-        // Trigger stats animation when in viewport
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        animateStats();
-                    }, 500);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.3 });
-        
-        observer.observe(document.querySelector('.hero'));
-        
-        // Fix for mobile viewport height
-        function setVh() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        }
-        
-        setVh();
-        window.addEventListener('resize', setVh);
-        
-        // Add hover effect to logo
-        const logo = document.querySelector('.logo');
-        logo.addEventListener('mouseenter', () => {
-            logo.style.transform = 'scale(1.05)';
-        });
-        
-        logo.addEventListener('mouseleave', () => {
-            logo.style.transform = 'scale(1)';
-        });
-        
-        // Add click effect to CTA buttons
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                // Create ripple effect
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.cssText = `
-                    position: absolute;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.3);
-                    transform: scale(0);
-                    animation: ripple-animation 0.6s linear;
-                    width: ${size}px;
-                    height: ${size}px;
-                    top: ${y}px;
-                    left: ${x}px;
-                    pointer-events: none;
-                `;
-                
-                this.appendChild(ripple);
-                
-                // Remove ripple after animation
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-        });
-        
-        // Add CSS for ripple animation
-        const style = document.createElement('style');
-        style.textContent = `
+      <div class="form-submit-row">
+        <button type="submit" class="submit-btn" data-i18n="form.submit">Zahájit konverzaci →</button>
+        <span class="form-note" data-i18n="form.note">Odpovíme do 1–2 pracovních dnů</span>
+      </div>
+      <p id="form-status" class="form-status" role="status"></p>
+    </form>
+  </section>
 
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+</main>
+
+<footer class="wrap">
+  <div class="footer-top">
+    <div>
+      <div class="footer-mark">PEB MEDIA</div>
+      <p class="footer-sub" data-i18n-html="footer.tagline">Nezávislé digitální studio<br>Česká republika</p>
+    </div>
+    <div>
+      <div class="footer-col-title" data-i18n="footer.navigate">Navigace</div>
+      <ul class="footer-links">
+        <li><a href="#work" data-i18n="nav.work">Práce</a></li>
+        <li><a href="#capabilities" data-i18n="nav.capabilities">Schopnosti</a></li>
+        <li><a href="#about" data-i18n="nav.about">O nás</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" data-i18n="footer.connect">Spojte se</div>
+      <ul class="footer-links">
+        <li><a href="mailto:hello@broz-petr.cz">Email</a></li>
+        <li><a href="#" aria-label="Instagram">Instagram</a></li>
+        <li><a href="#" aria-label="LinkedIn">LinkedIn</a></li>
+        <li><a href="#" aria-label="GitHub">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>2026 © PEB Media</span>
+    <span data-i18n="footer.built">Vytvořil Petr Brož</span>
+  </div>
+</footer>
+
+<div class="status-console">
+  <span class="dot"></span>
+  <span id="status-clock">—</span>
+  <span data-i18n="status.available">· K dispozici pro projekty</span>
+</div>
+
+<script src="i18n.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
