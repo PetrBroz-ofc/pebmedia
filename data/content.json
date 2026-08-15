@@ -1,0 +1,207 @@
+{
+  "general": {
+    "brand": "PEBMedia",
+    "claim": "Digitální řešení, která dávají smysl.",
+    "email": "info@pebmedia.cz",
+    "phone": "+420 123 456 789",
+    "ico": "29592844",
+    "address": "Liberecký kraj, Česká republika",
+    "social": {
+      "instagram": "https://instagram.com/pebmedia",
+      "linkedin": "https://linkedin.com/company/pebmedia",
+      "facebook": "https://facebook.com/pebmedia"
+    }
+  },
+  "seo": {
+    "title": "PEBMedia — Digitální řešení pro moderní firmy",
+    "description": "PEBMedia je digitální studio zaměřené na tvorbu webů, kyberbezpečnost, automatizaci, 3D vizualizace a AI řešení pro firmy, které to myslí vážně.",
+    "ogImage": "assets/og-image.jpg"
+  },
+  "hero": {
+    "eyebrow": "PEBMedia — digitální studio",
+    "headline": "Digitální řešení\npro moderní firmy.",
+    "text": "Tvoříme weby, digitální systémy, 3D vizualizace a řešení, která firmám pomáhají růst.",
+    "ctaPrimary": "Nezávazně poptat projekt",
+    "ctaSecondary": "Prohlédnout portfolio"
+  },
+  "intro": {
+    "text": "Od prvního návrhu až po finální řešení.",
+    "benefits": [
+      "Moderní technologie",
+      "Individuální přístup",
+      "Rychlá komunikace",
+      "Řešení na míru"
+    ]
+  },
+  "services": {
+    "heading": "Co pro vás můžeme udělat",
+    "subheading": "Pět oblastí, ve kterých firmám pomáháme posunout se dál.",
+    "items": [
+      {
+        "id": "svc-1",
+        "number": "01",
+        "title": "Weby & redesign",
+        "text": "Moderní webové stránky, redesign stávajících webů a webová řešení vytvořená podle konkrétního podnikání.",
+        "visible": true,
+        "order": 1
+      },
+      {
+        "id": "svc-2",
+        "number": "02",
+        "title": "Kyberbezpečnost",
+        "text": "Bezpečnostní testování, kontrola webu a hledání potenciálních zranitelností.",
+        "visible": true,
+        "order": 2
+      },
+      {
+        "id": "svc-3",
+        "number": "03",
+        "title": "Automatizace",
+        "text": "Automatizujeme opakující se procesy a vytváříme jednoduché digitální systémy.",
+        "visible": true,
+        "order": 3
+      },
+      {
+        "id": "svc-4",
+        "number": "04",
+        "title": "3D & vizualizace",
+        "text": "3D modelování, produktové vizualizace a technické návrhy.",
+        "visible": true,
+        "order": 4
+      },
+      {
+        "id": "svc-5",
+        "number": "05",
+        "title": "AI & digitální řešení",
+        "text": "AI integrace, prototypy a další digitální řešení podle konkrétního projektu.",
+        "visible": true,
+        "order": 5
+      }
+    ]
+  },
+  "portfolio": {
+    "heading": "Naše práce",
+    "subheading": "Nejlépe za nás mluví to, co jsme vytvořili.",
+    "items": [
+      {
+        "id": "pf-1",
+        "title": "Tesařství a pokrývačství Šuta",
+        "category": "Web development",
+        "text": "Firemní web s administrací na míru, správou galerie a certifikátů.",
+        "year": "2025",
+        "image": "assets/portfolio-placeholder-1.svg",
+        "link": "",
+        "featured": true,
+        "order": 1
+      },
+      {
+        "id": "pf-2",
+        "title": "Crystal Valley",
+        "category": "Web development",
+        "text": "Prezentační web chovatelské stanice se správou fotogalerie a obsahu.",
+        "year": "2025",
+        "image": "assets/portfolio-placeholder-2.svg",
+        "link": "",
+        "featured": true,
+        "order": 2
+      },
+      {
+        "id": "pf-3",
+        "title": "Květinářství Kamila",
+        "category": "Web development",
+        "text": "Přehledná prezentace floristického studia s jednoduchou správou nabídky.",
+        "year": "2024",
+        "image": "assets/portfolio-placeholder-3.svg",
+        "link": "",
+        "featured": false,
+        "order": 3
+      },
+      {
+        "id": "pf-4",
+        "title": "Produktová vizualizace",
+        "category": "3D",
+        "text": "3D vizualizace produktu pro marketingové a prezentační účely.",
+        "year": "2024",
+        "image": "assets/portfolio-placeholder-4.svg",
+        "link": "",
+        "featured": false,
+        "order": 4
+      }
+    ]
+  },
+  "references": {
+    "heading": "Co říkají naši klienti",
+    "items": [
+      {
+        "id": "ref-1",
+        "name": "Petr Šuta",
+        "company": "Tesařství a pokrývačství Šuta",
+        "text": "Spolupráce byla rychlá a profesionální. Web přesně odpovídá tomu, co jsme potřebovali.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 1
+      },
+      {
+        "id": "ref-2",
+        "name": "Kamila Nováková",
+        "company": "Květinářství Kamila",
+        "text": "Oceňuji hlavně to, že jsme se domluvili na všem rychle a bez zbytečných komplikací.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 2
+      },
+      {
+        "id": "ref-3",
+        "name": "Jan Zátrapa",
+        "company": "Platnéřství Zátrapa",
+        "text": "Výsledek předčil očekávání a administrace webu je opravdu jednoduchá na používání.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 3
+      }
+    ]
+  },
+  "about": {
+    "heading": "Kdo stojí za PEBMedia",
+    "text": "PEBMedia je moderní digitální studio zaměřené na tvorbu webů, digitálních řešení, bezpečnost a 3D. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
+    "photo": ""
+  },
+  "process": {
+    "heading": "Jak spolupráce probíhá",
+    "steps": [
+      { "id": "step-1", "number": "01", "title": "Povíme si, co potřebujete", "text": "Probereme cíle, obsah a rozsah projektu." },
+      { "id": "step-2", "number": "02", "title": "Navrhneme řešení", "text": "Připravíme návrh a technické řešení na míru." },
+      { "id": "step-3", "number": "03", "title": "Vytvoříme ho", "text": "Projekt naprogramujeme a otestujeme." },
+      { "id": "step-4", "number": "04", "title": "Spustíme a předáme", "text": "Web nasadíme a předáme včetně administrace." }
+    ]
+  },
+  "faq": {
+    "heading": "Časté dotazy",
+    "items": [
+      { "id": "faq-1", "question": "Kolik stojí web?", "answer": "Cena se odvíjí od rozsahu a funkcí projektu. Po nezávazné konzultaci připravíme konkrétní nabídku na míru.", "visible": true, "order": 1 },
+      { "id": "faq-2", "question": "Jak dlouho tvorba trvá?", "answer": "Menší weby obvykle 2–4 týdny, rozsáhlejší projekty se systémem na míru déle podle rozsahu.", "visible": true, "order": 2 },
+      { "id": "faq-3", "question": "Dokážete upravit můj současný web?", "answer": "Ano, umíme navázat na existující řešení, provést redesign nebo doplnit nové funkce.", "visible": true, "order": 3 },
+      { "id": "faq-4", "question": "Děláte i dlouhodobou správu?", "answer": "Ano, nabízíme i následnou správu, aktualizace a technickou podporu.", "visible": true, "order": 4 },
+      { "id": "faq-5", "question": "Umíte vytvořit řešení na míru?", "answer": "Ano, specializujeme se právě na řešení šitá na míru konkrétnímu podnikání.", "visible": true, "order": 5 },
+      { "id": "faq-6", "question": "Jak probíhá první konzultace?", "answer": "Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor.", "visible": true, "order": 6 }
+    ]
+  },
+  "ctaSection": {
+    "heading": "Máte projekt?\nPojďme ho vytvořit.",
+    "text": "Popište nám, co potřebujete. Ozveme se a společně najdeme nejlepší řešení.",
+    "cta": "Nezávazně poptat projekt"
+  },
+  "contact": {
+    "heading": "Kontakt",
+    "text": "Napište nám o svém projektu — ozveme se co nejdříve.",
+    "projectTypes": ["Web", "Redesign", "Kyberbezpečnost", "Automatizace", "3D", "AI / jiné"]
+  },
+  "footer": {
+    "text": "Digitální řešení pro moderní firmy.",
+    "privacyLink": "privacy.html",
+    "copyright": "© 2026 PEBMedia. Všechna práva vyhrazena."
+  }
+}

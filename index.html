@@ -1,336 +1,268 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="page-title">PEB Media — Nezávislé digitální studio, Česká republika</title>
-<meta id="page-description" name="description" content="PEB Media je nezávislé digitální studio založené Petrem Brožem v České republice — vývoj webů, bezpečnostní testování, 3D vizualizace a digitální design.">
-
-<meta id="og-title" property="og:title" content="PEB Media — Nezávislé digitální studio">
-<meta id="og-description" property="og:description" content="Vývoj webů, bezpečnostní testování, 3D vizualizace a digitální design. Založil Petr Brož, Česká republika.">
+<title>PEBMedia — Digitální řešení pro moderní firmy</title>
+<meta name="description" content="PEBMedia je digitální studio zaměřené na tvorbu webů, kyberbezpečnost, automatizaci, 3D vizualizace a AI řešení pro firmy, které to myslí vážně.">
+<meta property="og:title" content="PEBMedia — Digitální řešení pro moderní firmy">
+<meta property="og:description" content="Tvoříme weby, digitální systémy, 3D vizualizace a řešení, která firmám pomáhají růst.">
+<meta property="og:image" content="assets/og-image.jpg">
 <meta property="og:type" content="website">
-<meta id="og-locale" property="og:locale" content="cs_CZ">
-
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23141310%22/><text x=%2250%22 y=%2266%22 font-family=%22monospace%22 font-size=%2255%22 fill=%22%23ff4425%22 text-anchor=%22middle%22>P</text></svg>">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 10%22><rect width=%2210%22 height=%2210%22 rx=%222%22 fill=%22%230B6E63%22/></svg>">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<a href="#main" class="skip-link" data-i18n="skip">Přeskočit na obsah</a>
-
-<nav class="nav">
-  <a href="#top" class="nav-mark">PEB MEDIA</a>
-  <ul class="nav-links">
-    <li><a href="#work" data-i18n="nav.work">Práce</a></li>
-    <li><a href="#capabilities" data-i18n="nav.capabilities">Schopnosti</a></li>
-    <li><a href="#about" data-i18n="nav.about">O nás</a></li>
-    <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
-  </ul>
-  <div class="nav-meta">
-    <span>2026</span>
-    <span data-i18n="nav.country">Česká republika</span>
-    <span class="lang-switch">
-      <button type="button" data-lang="cs" class="lang-btn" aria-label="Čeština">CS</button>
-      <span aria-hidden="true">/</span>
-      <button type="button" data-lang="de" class="lang-btn" aria-label="Deutsch">DE</button>
-    </span>
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#top" class="logo"><span class="logo-mark"></span><span id="logoText">PEBMedia</span></a>
+    <nav class="main-nav">
+      <a href="#top">Domů</a>
+      <a href="#sluzby">Služby</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#reference">Reference</a>
+      <a href="#o-nas">O nás</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#kontakt" class="btn btn-secondary">Kontakt</a>
+      <a href="#kontakt" class="btn btn-primary" id="headerCta">Nezávazně poptat projekt</a>
+      <button class="hamburger" id="hamburger" aria-label="Otevřít menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
-  <button class="nav-burger" aria-label="Otevřít menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+</header>
+<nav class="mobile-nav" id="mobileNav">
+  <a href="#top">Domů</a>
+  <a href="#sluzby">Služby</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#reference">Reference</a>
+  <a href="#o-nas">O nás</a>
+  <a href="#kontakt">Kontakt</a>
+  <a href="#kontakt" class="btn btn-primary">Nezávazně poptat projekt</a>
 </nav>
 
-<div class="mobile-panel">
-  <a href="#work" data-i18n="nav.work">Práce</a>
-  <a href="#capabilities" data-i18n="nav.capabilities">Schopnosti</a>
-  <a href="#about" data-i18n="nav.about">O nás</a>
-  <a href="#contact" data-i18n="nav.contact">Kontakt</a>
-  <span class="lang-switch mobile">
-    <button type="button" data-lang="cs" class="lang-btn" aria-label="Čeština">CS</button>
-    <span aria-hidden="true">/</span>
-    <button type="button" data-lang="de" class="lang-btn" aria-label="Deutsch">DE</button>
-  </span>
-</div>
-
-<main id="main">
+<main id="top">
 
   <!-- HERO -->
-  <section id="top" class="hero wrap">
-    <h1 class="hero-mark">
-      <span>PEB</span>
-      <span class="mark-media">MEDIA</span>
-    </h1>
-    <p class="hero-tags" data-i18n="hero.tags">WEB <span>/</span> BEZPEČNOST <span>/</span> 3D <span>/</span> DIGITÁL</p>
-
-    <div class="hero-bottom">
-      <p class="hero-statement" data-i18n="hero.statement">Nezávislé digitální studio, které staví weby, digitální produkty a nekonvenční řešení.</p>
-      <div class="hero-ctas">
-        <a href="#work" class="cta-link primary" data-i18n="hero.viewWork">Zobrazit práci →</a>
-        <a href="#contact" class="cta-link" data-i18n="hero.startProject">Začít projekt →</a>
+  <section class="hero container">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow" id="heroEyebrow">PEBMedia — digitální studio</span>
+        <h1 class="hero-headline" id="heroHeadline"></h1>
+        <p class="hero-text" id="heroText"></p>
+        <div class="hero-actions">
+          <a href="#kontakt" class="btn btn-accent" id="heroCtaPrimary"></a>
+          <a href="#portfolio" class="btn btn-secondary" id="heroCtaSecondary"></a>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="hero-frames">
+          <div class="hero-frame" data-tag="Web"></div>
+          <div class="hero-frame" data-tag="3D"></div>
+          <div class="hero-frame" data-tag="Security"></div>
+          <div class="hero-frame" data-tag="AI"></div>
+        </div>
       </div>
     </div>
-
-    <div class="hero-scroll"><span class="line"></span> <span data-i18n="hero.scroll">Scroll</span></div>
   </section>
 
-  <!-- SELECTED WORK -->
-  <section id="work" class="wrap">
-    <div class="section-head reveal">
-      <h2 class="section-title" data-i18n-html="work.title">Vybraná<br>práce</h2>
-      <span class="section-count">01 — 04</span>
+  <!-- INTRO / TRUST -->
+  <section class="intro container">
+    <div class="intro-inner">
+      <p class="intro-lead" id="introLead"></p>
+      <ul class="intro-benefits" id="introBenefits"></ul>
     </div>
+  </section>
 
-    <!-- Featured project, full width -->
-    <div class="work-featured reveal">
-      <a href="case-study.html?p=elrevmont">
-        <div class="work-featured-frame">
-          <span class="ph-label" data-i18n="ph.desktop">Náhled na desktopu — zástupný obsah</span>
-        </div>
-        <div class="work-featured-head">
-          <h3>Elrevmont</h3>
-          <span class="mono" data-i18n="work.cat.elrevmont">Web / Design / Vývoj →</span>
-        </div>
-      </a>
+  <!-- SLUŽBY -->
+  <section class="section" id="sluzby">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Služby</span>
+        <h2 id="servicesHeading"></h2>
+        <p id="servicesSubheading"></p>
+      </div>
+      <div class="services-list" id="servicesList"></div>
     </div>
+  </section>
 
-    <div class="work-list">
-      <div class="work-item reveal" data-project="zatrapa" style="--frame-h: 340px;">
-        <span class="work-index">02</span>
-        <div class="work-body">
-          <h3 class="work-name">Platnéřství Zátrapa</h3>
-          <span class="work-meta">
-            <span data-i18n="work.cat.zatrapa">Web / CMS / Administrace</span>
-          </span>
-          <div class="work-frame">
-            <div class="work-frame-inner"><span class="ph-label" data-i18n="ph.project">Náhled projektu — zástupný obsah</span></div>
-            <a class="work-open" href="case-study.html?p=zatrapa" data-i18n="work.open">Otevřít případovou studii →</a>
+  <!-- PORTFOLIO -->
+  <section class="section" id="portfolio">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Portfolio</span>
+        <h2 id="portfolioHeading"></h2>
+        <p id="portfolioSubheading"></p>
+      </div>
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+    </div>
+  </section>
+
+  <!-- REFERENCE -->
+  <section class="section" id="reference">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Reference</span>
+        <h2 id="referencesHeading"></h2>
+      </div>
+      <div class="references-grid" id="referencesGrid"></div>
+    </div>
+  </section>
+
+  <!-- O NÁS -->
+  <section class="section" id="o-nas">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-photo reveal" id="aboutPhoto"></div>
+        <div class="about-text reveal">
+          <h2 id="aboutHeading"></h2>
+          <p id="aboutText"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Proces</span>
+        <h2 id="processHeading"></h2>
+      </div>
+      <div class="process-grid" id="processGrid"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2 id="faqHeading"></h2>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="border-bottom:none;">
+    <div class="cta-section reveal">
+      <h2 id="ctaHeading"></h2>
+      <p id="ctaText"></p>
+      <a href="#kontakt" class="btn btn-accent" id="ctaButton"></a>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section class="section" id="kontakt">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <span class="eyebrow">Kontakt</span>
+          <h2 id="contactHeading" style="margin-top:16px;"></h2>
+          <p id="contactText"></p>
+          <div class="contact-details">
+            <div>
+              <div class="contact-detail-label">E-mail</div>
+              <div class="contact-detail-value" id="contactEmail"></div>
+            </div>
+            <div>
+              <div class="contact-detail-label">Telefon</div>
+              <div class="contact-detail-value" id="contactPhone"></div>
+            </div>
+            <div>
+              <div class="contact-detail-label">IČO</div>
+              <div class="contact-detail-value" id="contactIco"></div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="work-item reveal" data-project="restaurantos" style="--frame-h: 340px;">
-        <span class="work-index">03</span>
-        <div class="work-body">
-          <h3 class="work-name">RestaurantOS</h3>
-          <span class="work-meta">
-            <span data-i18n="work.cat.restaurantos">Produkt / UI / Vývoj</span>
-          </span>
-          <div class="work-frame">
-            <div class="work-frame-inner"><span class="ph-label" data-i18n="ph.product">Náhled produktu — zástupný obsah</span></div>
-            <a class="work-open" href="case-study.html?p=restaurantos" data-i18n="work.open">Otevřít případovou studii →</a>
-          </div>
+        <div class="reveal">
+          <form class="contact-form" id="contactForm">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="f-name">Jméno *</label>
+                <input type="text" id="f-name" name="name" required>
+              </div>
+              <div class="form-field">
+                <label for="f-company">Firma</label>
+                <input type="text" id="f-company" name="company">
+              </div>
+              <div class="form-field">
+                <label for="f-email">E-mail *</label>
+                <input type="email" id="f-email" name="email" required>
+              </div>
+              <div class="form-field">
+                <label for="f-phone">Telefon</label>
+                <input type="tel" id="f-phone" name="phone">
+              </div>
+              <div class="form-field">
+                <label for="f-type">Typ projektu</label>
+                <select id="f-type" name="projectType"></select>
+              </div>
+              <div class="form-field">
+                <label for="f-budget">Rozpočet</label>
+                <select id="f-budget" name="budget">
+                  <option value="">Nevím / probereme</option>
+                  <option value="do-50k">do 50 000 Kč</option>
+                  <option value="50-100k">50 000 – 100 000 Kč</option>
+                  <option value="100-200k">100 000 – 200 000 Kč</option>
+                  <option value="200k+">200 000 Kč a více</option>
+                </select>
+              </div>
+              <div class="form-field full">
+                <label for="f-message">Zpráva *</label>
+                <textarea id="f-message" name="message" required placeholder="Popište nám krátce váš projekt..."></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Odeslat poptávku</button>
+            <p class="form-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
+            <div class="form-success" id="formSuccess">Děkujeme za zprávu — ozveme se vám co nejdříve.</div>
+          </form>
         </div>
       </div>
-
-      <div class="work-item reveal" data-project="suta" style="--frame-h: 340px;">
-        <span class="work-index">04</span>
-        <div class="work-body">
-          <h3 class="work-name">Šuta — Tesařství a pokrývačství</h3>
-          <span class="work-meta">
-            <span data-i18n="work.cat.suta">Web / Design / Vývoj</span>
-          </span>
-          <div class="work-frame">
-            <div class="work-frame-inner"><span class="ph-label" data-i18n="ph.project">Náhled projektu — zástupný obsah</span></div>
-            <a class="work-open" href="case-study.html?p=suta" data-i18n="work.open">Otevřít případovou studii →</a>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
-
-  <!-- WHAT WE DON'T DO -->
-  <section class="dont wrap">
-    <div class="dont-grid reveal">
-      <h2 class="dont-title" data-i18n-html="dont.title">Co<br>neděláme</h2>
-      <ul class="dont-list">
-        <li data-i18n-html="dont.item1">Nestavíme weby jen proto, abychom <strong>zaplnili portfolio.</strong></li>
-        <li data-i18n-html="dont.item2">Nepoužíváme šablony, když projekt potřebuje něco <strong>na míru.</strong></li>
-        <li data-i18n-html="dont.item3">Nepředstíráme, že každý problém potřebuje <strong>AI.</strong></li>
-        <li data-i18n-html="dont.item4">A neschováváme se za <strong>velký agenturní tým.</strong></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- CAPABILITIES -->
-  <section id="capabilities" class="wrap">
-    <div class="section-head reveal">
-      <h2 class="section-title" data-i18n="cap.title">Schopnosti</h2>
-      <span class="section-count" data-i18n="cap.count">5 oblastí</span>
-    </div>
-    <div class="cap-list">
-      <div class="cap-item reveal">
-        <span class="cap-num">01</span>
-        <h3 class="cap-name" data-i18n="cap.web.name">Web</h3>
-        <div class="cap-details" data-i18n-html="cap.web.details">Weby<br>Redesigny<br>Landing pages<br>Webové aplikace</div>
-      </div>
-      <div class="cap-item reveal">
-        <span class="cap-num">02</span>
-        <h3 class="cap-name" data-i18n="cap.security.name">Bezpečnost</h3>
-        <div class="cap-details" data-i18n-html="cap.security.details">Autorizované bezpečnostní testy<br>Bezpečnostní audity webů<br>Analýza zranitelností<br>Bezpečnostní reporty</div>
-      </div>
-      <div class="cap-item reveal">
-        <span class="cap-num">03</span>
-        <h3 class="cap-name" data-i18n="cap.3d.name">3D</h3>
-        <div class="cap-details" data-i18n-html="cap.3d.details">3D modelování<br>Vizualizace<br>Modelování produktů<br>Technické vizualizace</div>
-      </div>
-      <div class="cap-item reveal">
-        <span class="cap-num">04</span>
-        <h3 class="cap-name" data-i18n="cap.digital.name">Digitál</h3>
-        <div class="cap-details" data-i18n-html="cap.digital.details">AI integrace<br>Automatizace<br>Vlastní nástroje<br>Digitální koncepty</div>
-      </div>
-      <div class="cap-item reveal">
-        <span class="cap-num">05</span>
-        <h3 class="cap-name" data-i18n="cap.design.name">Design</h3>
-        <div class="cap-details" data-i18n-html="cap.design.details">UI / UX<br>Vizuální identita<br>Digitální design<br>Kreativní směřování</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="about wrap">
-    <div class="reveal">
-      <div class="about-portrait">
-        <span class="ph-label" data-i18n="ph.portrait">Portrét — zástupný obsah</span>
-      </div>
-    </div>
-    <div class="reveal">
-      <h2 class="about-title">PEB = Petr Brož</h2>
-      <p class="about-body" data-i18n="about.p1">PEB Media je nezávislé digitální studio založené Petrem Brožem v České republice.</p>
-      <p class="about-body" data-i18n="about.p2">Studio spojuje vývoj webu, design, technologie, bezpečnost a 3D a vytváří praktická digitální řešení pro firmy i produkty.</p>
-      <p class="about-body" data-i18n="about.p3">U větších nebo specializovaných projektů PEB Media spolupracuje s externími specialisty.</p>
-
-      <dl class="about-facts">
-        <div class="about-fact"><dt data-i18n="about.based.label">Sídlo</dt><dd data-i18n="about.based.value">Liberecký kraj, ČR</dd></div>
-        <div class="about-fact"><dt data-i18n="about.founded.label">Založil</dt><dd>Petr Brož</dd></div>
-        <div class="about-fact"><dt data-i18n="about.since.label">Působí od</dt><dd>2022</dd></div>
-      </dl>
-    </div>
-  </section>
-
-  <!-- APPROACH -->
-  <section class="approach wrap">
-    <div class="section-head reveal" style="padding-top:0;">
-      <h2 class="section-title" data-i18n-html="approach.title">Jak<br>přemýšlíme</h2>
-    </div>
-    <div class="approach-list reveal">
-      <div class="approach-item">
-        <span class="num">01</span>
-        <p data-i18n="approach.item1">Pochopit skutečný problém.</p>
-      </div>
-      <div class="approach-item">
-        <span class="num">02</span>
-        <p data-i18n="approach.item2">Odstranit zbytečnou složitost.</p>
-      </div>
-      <div class="approach-item">
-        <span class="num">03</span>
-        <p data-i18n="approach.item3">Navrhnout nejjednodušší silné řešení.</p>
-      </div>
-      <div class="approach-item">
-        <span class="num">04</span>
-        <p data-i18n="approach.item4">Postavit ho pořádně.</p>
-      </div>
-      <div class="approach-item">
-        <span class="num">05</span>
-        <p data-i18n="approach.item5">Neustále ho zlepšovat.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="contact wrap">
-    <div class="contact-head reveal">
-      <h2 class="contact-title" data-i18n-html="contact.title">Máte něco<br>na mysli?</h2>
-      <p class="contact-sub" data-i18n="contact.sub">Řekněte nám, co stavíte, opravujete nebo se snažíte zlepšit.</p>
-    </div>
-
-    <form id="contact-form" class="reveal">
-      <div class="form-grid">
-        <div class="field">
-          <label for="f-name" data-i18n="form.name">Jméno</label>
-          <input id="f-name" name="name" type="text" required autocomplete="name">
-        </div>
-        <div class="field">
-          <label for="f-company" data-i18n="form.company">Firma</label>
-          <input id="f-company" name="company" type="text" autocomplete="organization">
-        </div>
-        <div class="field">
-          <label for="f-email" data-i18n="form.email">E-mail</label>
-          <input id="f-email" name="email" type="email" required autocomplete="email">
-        </div>
-        <div class="field">
-          <label for="f-budget" data-i18n="form.budget">Rozpočet</label>
-          <input id="f-budget" name="budget" type="text" data-i18n-placeholder="form.budgetPlaceholder" placeholder="Nepovinné">
-        </div>
-        <div class="field">
-          <label for="f-type" data-i18n="form.type">Typ projektu</label>
-          <select id="f-type" name="project_type" data-i18n-options="form.typeOptions">
-            <option>Web</option>
-            <option>Redesign</option>
-            <option>Kybernetická bezpečnost</option>
-            <option>3D</option>
-            <option>AI / Automatizace</option>
-            <option>Design</option>
-            <option>Jiné</option>
-          </select>
-        </div>
-        <div class="field full">
-          <label for="f-message" data-i18n="form.message">Zpráva</label>
-          <textarea id="f-message" name="message" required></textarea>
-        </div>
-      </div>
-
-      <div class="form-submit-row">
-        <button type="submit" class="submit-btn" data-i18n="form.submit">Zahájit konverzaci →</button>
-        <span class="form-note" data-i18n="form.note">Odpovíme do 1–2 pracovních dnů</span>
-      </div>
-      <p id="form-status" class="form-status" role="status"></p>
-    </form>
   </section>
 
 </main>
 
-<footer class="wrap">
-  <div class="footer-top">
-    <div>
-      <div class="footer-mark">PEB MEDIA</div>
-      <p class="footer-sub" data-i18n-html="footer.tagline">Nezávislé digitální studio<br>Česká republika</p>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo"><span class="logo-mark"></span><span id="footerLogoText">PEBMedia</span></div>
+        <p id="footerText"></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-title">Navigace</div>
+          <a href="#sluzby">Služby</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#o-nas">O nás</a>
+          <a href="#kontakt">Kontakt</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Kontakt</div>
+          <span id="footerEmail"></span>
+          <span id="footerPhone"></span>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Sociální sítě</div>
+          <a id="footerInstagram" href="#" target="_blank" rel="noopener">Instagram</a>
+          <a id="footerLinkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+          <a id="footerFacebook" href="#" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
     </div>
-    <div>
-      <div class="footer-col-title" data-i18n="footer.navigate">Navigace</div>
-      <ul class="footer-links">
-        <li><a href="#work" data-i18n="nav.work">Práce</a></li>
-        <li><a href="#capabilities" data-i18n="nav.capabilities">Schopnosti</a></li>
-        <li><a href="#about" data-i18n="nav.about">O nás</a></li>
-        <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
-      </ul>
+    <div class="footer-bottom">
+      <span id="footerCopyright"></span>
+      <a id="footerPrivacy" href="privacy.html">Zásady ochrany osobních údajů</a>
     </div>
-    <div>
-      <div class="footer-col-title" data-i18n="footer.connect">Spojte se</div>
-      <ul class="footer-links">
-        <li><a href="mailto:hello@broz-petr.cz">Email</a></li>
-        <li><a href="#" aria-label="Instagram">Instagram</a></li>
-        <li><a href="#" aria-label="LinkedIn">LinkedIn</a></li>
-        <li><a href="#" aria-label="GitHub">GitHub</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>2026 © PEB Media</span>
-    <span data-i18n="footer.built">Vytvořil Petr Brož</span>
   </div>
 </footer>
 
-<div class="status-console">
-  <span class="dot"></span>
-  <span id="status-clock">—</span>
-  <span data-i18n="status.available">· K dispozici pro projekty</span>
-</div>
-
-<script src="i18n.js"></script>
-<script src="script.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
