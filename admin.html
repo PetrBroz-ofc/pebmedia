@@ -34,6 +34,7 @@
     <button class="nav-item" data-panel="general">Obecné</button>
     <button class="nav-item" data-panel="hero">Hero</button>
     <button class="nav-item" data-panel="services">Služby</button>
+    <button class="nav-item" data-panel="packages">Balíčky</button>
     <button class="nav-item" data-panel="portfolio">Portfolio</button>
     <button class="nav-item" data-panel="references">Reference</button>
     <button class="nav-item" data-panel="about">O nás</button>
@@ -100,20 +101,76 @@
 
     <!-- SERVICES -->
     <section class="panel" id="panel-services">
-      <div class="topbar"><div><h1>Služby</h1><div class="hint">Sekce „Co pro vás můžeme udělat“.</div></div></div>
+      <div class="topbar"><div><h1>Služby</h1><div class="hint">Čtyři pevné kategorie služeb, každá s vlastními položkami a cenami.</div></div></div>
       <div class="card">
         <div class="field-grid">
           <div class="field"><label>Nadpis sekce</label><input data-bind="services.heading"></div>
           <div class="field"><label>Podnadpis sekce</label><input data-bind="services.subheading"></div>
+          <div class="field full"><label>Poznámka pod cenami</label><input data-bind="services.priceNote"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>01 · Web</h3>
+        <div class="field-grid">
+          <div class="field"><label>Nadpis kategorie</label><input data-bind="services.categories.0.title"></div>
+          <div class="field full"><label>Popis kategorie</label><textarea data-bind="services.categories.0.text"></textarea></div>
+        </div>
+        <div class="item-list" id="svcCatWebList"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:14px;" id="addSvcCatWeb">+ Přidat položku</button>
+      </div>
+
+      <div class="card">
+        <h3>02 · Branding</h3>
+        <div class="field-grid">
+          <div class="field"><label>Nadpis kategorie</label><input data-bind="services.categories.1.title"></div>
+          <div class="field full"><label>Popis kategorie</label><textarea data-bind="services.categories.1.text"></textarea></div>
+        </div>
+        <div class="item-list" id="svcCatBrandingList"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:14px;" id="addSvcCatBranding">+ Přidat položku</button>
+      </div>
+
+      <div class="card">
+        <h3>03 · Kyberbezpečnost</h3>
+        <div class="field-grid">
+          <div class="field"><label>Nadpis kategorie</label><input data-bind="services.categories.2.title"></div>
+          <div class="field full"><label>Popis kategorie</label><textarea data-bind="services.categories.2.text"></textarea></div>
+          <div class="field full"><label>Upozornění (zobrazí se pod cenami)</label><input data-bind="services.categories.2.note"></div>
+        </div>
+        <div class="item-list" id="svcCatSecurityList"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:14px;" id="addSvcCatSecurity">+ Přidat položku</button>
+      </div>
+
+      <div class="card">
+        <h3>04 · Technologie</h3>
+        <div class="field-grid">
+          <div class="field"><label>Nadpis kategorie</label><input data-bind="services.categories.3.title"></div>
+          <div class="field full"><label>Popis kategorie</label><textarea data-bind="services.categories.3.text"></textarea></div>
+        </div>
+        <div class="item-list" id="svcCatTechList"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:14px;" id="addSvcCatTech">+ Přidat položku</button>
+      </div>
+
+      <div class="save-bar"><span class="save-status" data-status="services"></span><button class="btn" data-save="services">Uložit</button></div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="panel" id="panel-packages">
+      <div class="topbar"><div><h1>Balíčky</h1><div class="hint">Sekce „Balíčky“ s pevnými cenami a funkcemi.</div></div></div>
+      <div class="card">
+        <div class="field-grid">
+          <div class="field"><label>Nadpis sekce</label><input data-bind="packages.heading"></div>
+          <div class="field"><label>Podnadpis sekce</label><input data-bind="packages.subheading"></div>
+          <div class="field full"><label>Poznámka pod cenami</label><input data-bind="packages.priceNote"></div>
         </div>
       </div>
       <div class="card">
-        <h3>Položky služeb</h3>
-        <p class="card-desc">Přetáhněte pomocí šipek pro změnu pořadí, vypněte viditelnost nebo položku smažte.</p>
-        <div class="item-list" id="servicesItemList"></div>
-        <button class="btn btn-ghost btn-sm" style="margin-top:14px;" id="addService">+ Přidat službu</button>
+        <h3>Balíčky</h3>
+        <p class="card-desc">Funkce balíčku pište každou na nový řádek. Zvýraznění (např. „NEJOBLÍBENĚJŠÍ“) nechte prázdné, pokud nemá být vidět.</p>
+        <div class="item-list" id="packagesItemList"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:14px;" id="addPackage">+ Přidat balíček</button>
       </div>
-      <div class="save-bar"><span class="save-status" data-status="services"></span><button class="btn" data-save="services">Uložit</button></div>
+      <div class="save-bar"><span class="save-status" data-status="packages"></span><button class="btn" data-save="packages">Uložit</button></div>
     </section>
 
     <!-- PORTFOLIO -->

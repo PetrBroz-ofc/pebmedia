@@ -73,22 +73,61 @@
     benefitsEl.innerHTML = '';
     intro.benefits.forEach(b => benefitsEl.appendChild(el('li', null, b)));
 
-    // --- Services ---
+    // --- Services (categories with priced sub-items) ---
     document.getElementById('servicesHeading').textContent = data.services.heading;
     document.getElementById('servicesSubheading').textContent = data.services.subheading;
-    const servicesList = document.getElementById('servicesList');
-    servicesList.innerHTML = '';
-    data.services.items
-      .filter(s => s.visible !== false)
+    const catsWrap = document.getElementById('serviceCategories');
+    catsWrap.innerHTML = '';
+    data.services.categories
+      .slice()
       .sort((a, b) => a.order - b.order)
-      .forEach(s => {
-        const row = el('div', 'service-row reveal', `
-          <div class="service-number">${s.number}</div>
-          <div class="service-title">${s.title}</div>
-          <div class="service-text">${s.text}</div>
-          <div class="service-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+      .forEach(cat => {
+        const itemsHtml = cat.items
+          .slice()
+          .sort((a, b) => a.order - b.order)
+          .map(it => `
+            <div class="service-item-row">
+              <span class="service-item-name">${it.name}</span>
+              <span class="service-item-price">${it.price}</span>
+            </div>
+          `).join('');
+        const card = el('div', 'service-category reveal', `
+          <div class="service-category-head">
+            <span class="service-category-number">${cat.number}</span>
+            <h3 class="service-category-title">${cat.title}</h3>
+            <p class="service-category-text">${cat.text}</p>
+          </div>
+          <div class="service-category-items">${itemsHtml}</div>
+          ${cat.note ? `<p class="service-category-note">${cat.note}</p>` : ''}
         `);
-        servicesList.appendChild(row);
+        catsWrap.appendChild(card);
+      });
+    const svcPriceNote = data.services.priceNote;
+    if (svcPriceNote) {
+      catsWrap.insertAdjacentHTML('afterend', `<p class="price-note reveal">${svcPriceNote}</p>`);
+    }
+
+    // --- Packages (balíčky) ---
+    document.getElementById('packagesHeading').textContent = data.packages.heading;
+    document.getElementById('packagesSubheading').textContent = data.packages.subheading;
+    document.getElementById('packagesPriceNote').textContent = data.packages.priceNote;
+    const pkgGrid = document.getElementById('packagesGrid');
+    pkgGrid.innerHTML = '';
+    data.packages.items
+      .filter(p => p.visible !== false)
+      .sort((a, b) => a.order - b.order)
+      .forEach(p => {
+        const card = el('div', 'package-card reveal' + (p.highlight ? ' is-highlight' : ''), `
+          ${p.highlight ? `<span class="package-badge">${p.highlight}</span>` : ''}
+          <div class="package-name">${p.name}</div>
+          <div class="package-price">${p.price}</div>
+          <p class="package-description">${p.description}</p>
+          <ul class="package-features">
+            ${p.features.map(f => `<li>${f}</li>`).join('')}
+          </ul>
+          <a href="#kontakt" class="btn ${p.highlight ? 'btn-accent' : 'btn-secondary'} package-cta">${p.cta}</a>
+        `);
+        pkgGrid.appendChild(card);
       });
 
     // --- Portfolio ---

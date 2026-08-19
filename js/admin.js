@@ -199,6 +199,15 @@
       $$('[data-field]', bodyEl).forEach(input => {
         const key = input.getAttribute('data-field');
         const type = input.getAttribute('type');
+        if (key === 'featuresText') {
+          // Special case: textarea (one line per item) <-> item.features array
+          input.value = (item.features || []).join('\n');
+          input.addEventListener('input', () => {
+            item.features = input.value.split('\n').map(s => s.trim()).filter(Boolean);
+            markDirty();
+          });
+          return;
+        }
         if (type === 'checkbox') {
           input.checked = !!item[key];
           input.addEventListener('change', () => { item[key] = input.checked; refreshHead(); markDirty(); });
@@ -270,23 +279,52 @@
     renderAll();
   }
 
-  function initItemLists() {
+  function initServiceCategoryList(containerId, addBtnId, category) {
     makeItemListController({
-      container: 'servicesItemList',
-      addBtn: 'addService',
-      items: CONTENT.services.items,
+      container: containerId,
+      addBtn: addBtnId,
+      items: category.items,
       panel: 'services',
-      titleFn: it => `${it.number} · ${it.title || 'Nová služba'}`,
-      badgeFn: it => it.visible === false ? { text: 'skryto', off: true } : { text: 'viditelné' },
+      titleFn: it => it.name || 'Nová položka',
+      badgeFn: it => ({ text: it.price || '—' }),
       renderBody: it => `
         <div class="field-grid">
-          <div class="field"><label>Číslo</label><input data-field="number" value=""></div>
-          <div class="field"><label>Název</label><input data-field="title"></div>
+          <div class="field"><label>Název položky</label><input data-field="name"></div>
+          <div class="field"><label>Cena (např. „Od 9 800 Kč“)</label><input data-field="price"></div>
         </div>
-        <div class="field full"><label>Popis</label><textarea data-field="text"></textarea></div>
+      `,
+      newItem: () => ({ id: uid('svc'), name: 'Nová položka', price: 'Od 0 Kč', order: category.items.length + 1 })
+    });
+  }
+
+  function initItemLists() {
+    initServiceCategoryList('svcCatWebList', 'addSvcCatWeb', CONTENT.services.categories[0]);
+    initServiceCategoryList('svcCatBrandingList', 'addSvcCatBranding', CONTENT.services.categories[1]);
+    initServiceCategoryList('svcCatSecurityList', 'addSvcCatSecurity', CONTENT.services.categories[2]);
+    initServiceCategoryList('svcCatTechList', 'addSvcCatTech', CONTENT.services.categories[3]);
+
+    makeItemListController({
+      container: 'packagesItemList',
+      addBtn: 'addPackage',
+      items: CONTENT.packages.items,
+      panel: 'packages',
+      titleFn: it => it.name || 'Nový balíček',
+      badgeFn: it => {
+        if (it.visible === false) return { text: 'skryto', off: true };
+        return it.highlight ? { text: it.highlight } : { text: it.price || '—' };
+      },
+      renderBody: it => `
+        <div class="field-grid">
+          <div class="field"><label>Název balíčku</label><input data-field="name"></div>
+          <div class="field"><label>Cena</label><input data-field="price"></div>
+          <div class="field"><label>Zvýraznění (štítek)</label><input data-field="highlight" placeholder="např. NEJOBLÍBENĚJŠÍ"></div>
+          <div class="field"><label>Text tlačítka</label><input data-field="cta"></div>
+        </div>
+        <div class="field full"><label>Krátký popis</label><input data-field="description"></div>
+        <div class="field full"><label>Funkce balíčku (jedna na řádek)</label><textarea data-field="featuresText" style="min-height:140px;"></textarea></div>
         <label class="item-toggle"><input type="checkbox" data-field="visible"> Zobrazit na webu</label>
       `,
-      newItem: () => ({ id: uid('svc'), number: String(CONTENT.services.items.length + 1).padStart(2, '0'), title: 'Nová služba', text: '', visible: true, order: CONTENT.services.items.length + 1 })
+      newItem: () => ({ id: uid('pkg'), name: 'NOVÝ BALÍČEK', price: '0 Kč', highlight: '', description: '', features: [], cta: 'Chci tento balíček', visible: true, order: CONTENT.packages.items.length + 1 })
     });
 
     makeItemListController({
@@ -401,8 +439,10 @@
   }
 
   function renderDashboard() {
+    const serviceItemCount = CONTENT.services.categories.reduce((sum, c) => sum + c.items.length, 0);
     const stats = [
-      ['Služby', CONTENT.services.items.length],
+      ['Položky služeb', serviceItemCount],
+      ['Balíčky', CONTENT.packages.items.length],
       ['Portfolio projektů', CONTENT.portfolio.items.length],
       ['Reference', CONTENT.references.items.length],
       ['FAQ položek', CONTENT.faq.items.length]
