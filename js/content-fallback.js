@@ -173,7 +173,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "text": "Firemní web s administrací na míru, správou galerie a certifikátů.",
         "year": "2025",
         "image": "assets/portfolio-placeholder-1.svg",
-        "link": "",
+        "link": "https://tesarstvisuta.cz/",
         "featured": true,
         "order": 1
       },
