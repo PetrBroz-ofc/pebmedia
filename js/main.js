@@ -52,6 +52,27 @@
     return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
   }
 
+  function rotate(arr, n) {
+    const k = ((n % arr.length) + arr.length) % arr.length;
+    return arr.slice(k).concat(arr.slice(0, k));
+  }
+
+  function referenceTile(r, isDuplicate) {
+    return `
+      <div class="reference-card${isDuplicate ? ' testimonial-tile--duplicate' : ''}">
+        <div class="stars">${starsSvg(r.rating)}</div>
+        <p class="reference-text">„${r.text}“</p>
+        <div class="reference-author">
+          <div class="reference-avatar">${r.photo ? `<img src="${r.photo}" alt="${r.name}">` : initials(r.name)}</div>
+          <div>
+            <div class="reference-name">${r.name}</div>
+            <div class="reference-company">${r.company}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function render(data) {
     const g = data.general, seo = data.seo, hero = data.hero, intro = data.intro;
 
@@ -162,27 +183,29 @@
         grid.appendChild(card);
       });
 
-    // --- References ---
+    // --- References (animated scrolling columns) ---
     document.getElementById('referencesHeading').textContent = data.references.heading;
     const refGrid = document.getElementById('referencesGrid');
     refGrid.innerHTML = '';
-    data.references.items
+    const refItems = data.references.items
       .filter(r => r.visible !== false)
-      .sort((a, b) => a.order - b.order)
-      .forEach(r => {
-        const card = el('div', 'reference-card reveal', `
-          <div class="stars">${starsSvg(r.rating)}</div>
-          <p class="reference-text">„${r.text}“</p>
-          <div class="reference-author">
-            <div class="reference-avatar">${r.photo ? `<img src="${r.photo}" alt="${r.name}">` : initials(r.name)}</div>
-            <div>
-              <div class="reference-name">${r.name}</div>
-              <div class="reference-company">${r.company}</div>
-            </div>
-          </div>
+      .sort((a, b) => a.order - b.order);
+    const columnDefs = [
+      { extraClass: '', duration: 26 },
+      { extraClass: ' testimonials-column--md', duration: 32 },
+      { extraClass: ' testimonials-column--lg', duration: 29 },
+    ];
+    if (refItems.length) {
+      columnDefs.forEach((col, idx) => {
+        const rotated = rotate(refItems, idx);
+        const tilesHtml = rotated.map(r => referenceTile(r, false)).join('')
+          + rotated.map(r => referenceTile(r, true)).join('');
+        const columnEl = el('div', `testimonials-column${col.extraClass}`, `
+          <div class="testimonials-track" style="animation-duration:${col.duration}s">${tilesHtml}</div>
         `);
-        refGrid.appendChild(card);
+        refGrid.appendChild(columnEl);
       });
+    }
 
     // --- About ---
     document.getElementById('aboutHeading').textContent = data.about.heading;
