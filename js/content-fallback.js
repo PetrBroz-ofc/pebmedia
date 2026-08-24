@@ -1,0 +1,290 @@
+/* Automaticky generovaný fallback obsahu pro lokální náhled bez serveru (file://).
+   Skutečný nasazený web vždy používá živá data z data/content.json / api/content.
+   Při ruční úpravě data/content.json tento soubor NENÍ potřeba přegenerovávat pro nasazený web —
+   slouží jen jako offline záloha pro rychlý náhled. Pokud chcete fallback aktualizovat, zkopírujte
+   aktuální obsah data/content.json do proměnné níže. */
+window.__PEBMEDIA_FALLBACK_CONTENT__ = {
+  "general": {
+    "brand": "PEBMedia",
+    "claim": "Digitální řešení, která dávají smysl.",
+    "email": "info@pebmedia.cz",
+    "phone": "+420 123 456 789",
+    "ico": "29592844",
+    "address": "Liberecký kraj, Česká republika",
+    "social": {
+      "instagram": "https://instagram.com/pebmedia",
+      "linkedin": "https://linkedin.com/company/pebmedia",
+      "facebook": "https://facebook.com/pebmedia"
+    }
+  },
+  "seo": {
+    "title": "PEBMedia — Digitální řešení pro moderní firmy",
+    "description": "PEBMedia je digitální studio zaměřené na tvorbu webů, kyberbezpečnost, automatizaci, 3D vizualizace a AI řešení pro firmy, které to myslí vážně.",
+    "ogImage": "assets/og-image.jpg"
+  },
+  "hero": {
+    "eyebrow": "PEBMedia — digitální studio",
+    "headline": "Digitální řešení\npro moderní firmy.",
+    "text": "Tvoříme weby, digitální systémy, 3D vizualizace a řešení, která firmám pomáhají růst.",
+    "ctaPrimary": "Nezávazně poptat projekt",
+    "ctaSecondary": "Prohlédnout portfolio"
+  },
+  "intro": {
+    "text": "Od prvního návrhu až po finální řešení.",
+    "benefits": [
+      "Moderní technologie",
+      "Individuální přístup",
+      "Rychlá komunikace",
+      "Řešení na míru"
+    ]
+  },
+  "services": {
+    "heading": "Co pro vás můžeme udělat",
+    "subheading": "Čtyři oblasti, ve kterých firmám pomáháme posunout se dál. Konečná cena vždy závisí na rozsahu projektu.",
+    "priceNote": "Konečná cena závisí na rozsahu projektu.",
+    "categories": [
+      {
+        "id": "cat-web",
+        "number": "01",
+        "title": "Web, který pracuje za vás.",
+        "text": "Navrhujeme a stavíme moderní weby, které vypadají dobře, rychle fungují a hlavně přivádějí zákazníky.",
+        "note": "",
+        "order": 1,
+        "items": [
+          { "id": "svc-web-1", "name": "Jednostránkový web", "price": "Od 9 800 Kč", "order": 1 },
+          { "id": "svc-web-2", "name": "Firemní web", "price": "Od 14 900 Kč", "order": 2 },
+          { "id": "svc-web-3", "name": "Rozšířený web", "price": "Od 22 900 Kč", "order": 3 },
+          { "id": "svc-web-4", "name": "E-shop", "price": "Od 29 900 Kč", "order": 4 },
+          { "id": "svc-web-5", "name": "E-shop na míru", "price": "Od 44 900 Kč", "order": 5 },
+          { "id": "svc-web-6", "name": "Webová aplikace", "price": "Od 19 900 Kč", "order": 6 }
+        ]
+      },
+      {
+        "id": "cat-branding",
+        "number": "02",
+        "title": "Značka, kterou si lidé zapamatují.",
+        "text": "Vytváříme loga a vizuální identity, díky kterým firma vypadá důvěryhodně a profesionálně na první pohled.",
+        "note": "",
+        "order": 2,
+        "items": [
+          { "id": "svc-brand-1", "name": "Logo", "price": "Od 2 900 Kč", "order": 1 },
+          { "id": "svc-brand-2", "name": "Logo + vizuální identita", "price": "Od 6 900 Kč", "order": 2 },
+          { "id": "svc-brand-3", "name": "Brand Pack", "price": "Od 9 900 Kč", "order": 3 }
+        ]
+      },
+      {
+        "id": "cat-security",
+        "number": "03",
+        "title": "Zjistěte, kde má váš web slabiny.",
+        "text": "Prověříme technický stav a zabezpečení vašeho webu a upozorníme na rizika dřív, než je najde někdo jiný.",
+        "note": "Bezpečnostní testování provádíme pouze s výslovným souhlasem vlastníka systému.",
+        "order": 3,
+        "items": [
+          { "id": "svc-sec-1", "name": "Bezpečnostní audit webu", "price": "Od 2 900 Kč", "order": 1 },
+          { "id": "svc-sec-2", "name": "Pokročilý bezpečnostní test", "price": "Od 6 900 Kč", "order": 2 },
+          { "id": "svc-sec-3", "name": "Security monitoring", "price": "Od 490 Kč / měsíc", "order": 3 }
+        ]
+      },
+      {
+        "id": "cat-tech",
+        "number": "04",
+        "title": "Technologie bez zbytečné komplikace.",
+        "text": "AI integrace, automatizace a řešení na míru, která firmám reálně šetří čas.",
+        "note": "",
+        "order": 4,
+        "items": [
+          { "id": "svc-tech-1", "name": "AI integrace", "price": "Od 4 900 Kč", "order": 1 },
+          { "id": "svc-tech-2", "name": "Automatizace", "price": "Od 4 900 Kč", "order": 2 },
+          { "id": "svc-tech-3", "name": "Řešení na míru", "price": "Od 9 900 Kč", "order": 3 }
+        ]
+      }
+    ]
+  },
+  "packages": {
+    "heading": "Balíčky",
+    "subheading": "Pět připravených balíčků pro nejčastější zadání. Přesný rozsah vždy doladíme podle vašeho projektu.",
+    "priceNote": "Konečná cena závisí na rozsahu projektu.",
+    "items": [
+      {
+        "id": "pkg-start",
+        "name": "PEB START",
+        "price": "17 900 Kč",
+        "highlight": "",
+        "description": "Pro živnostníky a malé firmy.",
+        "features": ["Jednostránkový web", "Responzivní design", "Základní SEO", "Kontaktní formulář", "Analytika", "Základní bezpečnostní kontrola"],
+        "cta": "Chci PEB START",
+        "visible": true,
+        "order": 1
+      },
+      {
+        "id": "pkg-business",
+        "name": "PEB BUSINESS",
+        "price": "29 900 Kč",
+        "highlight": "NEJOBLÍBENĚJŠÍ",
+        "description": "Nejčastější volba firem, které chtějí web na míru.",
+        "features": ["Firemní web", "Individuální design", "Základní SEO", "Animace", "Kontaktní formuláře", "Analytika", "Optimalizace rychlosti", "Bezpečnostní kontrola"],
+        "cta": "Chci PEB BUSINESS",
+        "visible": true,
+        "order": 2
+      },
+      {
+        "id": "pkg-pro",
+        "name": "PEB PRO",
+        "price": "44 900 Kč",
+        "highlight": "",
+        "description": "Pro firmy s rozsáhlejším obsahem a požadavky.",
+        "features": ["Rozšířený web", "Až 10 stránek", "Pokročilé animace", "SEO základ", "CMS", "Integrace", "Bezpečnostní audit", "30 dní podpory"],
+        "cta": "Chci PEB PRO",
+        "visible": true,
+        "order": 3
+      },
+      {
+        "id": "pkg-launch",
+        "name": "PEB LAUNCH",
+        "price": "59 900 Kč",
+        "highlight": "",
+        "description": "Kompletní digitální start firmy.",
+        "features": ["Profesionální web", "Logo", "Základní vizuální identita", "SEO setup", "Google Business setup", "Bezpečnostní audit", "Analytika", "Sociální vizuály", "30 dní podpory"],
+        "cta": "Chci PEB LAUNCH",
+        "visible": true,
+        "order": 4
+      },
+      {
+        "id": "pkg-eshop",
+        "name": "PEB E-SHOP",
+        "price": "Od 34 900 Kč",
+        "highlight": "",
+        "description": "Kompletní řešení pro online prodej.",
+        "features": ["Moderní e-shop", "Produktový katalog", "Košík a objednávky", "Platební řešení", "Responzivní design", "Základní SEO", "Analytika", "Základní bezpečnost"],
+        "cta": "Chci e-shop",
+        "visible": true,
+        "order": 5
+      }
+    ]
+  },
+  "portfolio": {
+    "heading": "Naše práce",
+    "subheading": "Nejlépe za nás mluví to, co jsme vytvořili.",
+    "items": [
+      {
+        "id": "pf-1",
+        "title": "Tesařství a pokrývačství Šuta",
+        "category": "Web development",
+        "text": "Firemní web s administrací na míru, správou galerie a certifikátů.",
+        "year": "2025",
+        "image": "assets/portfolio-placeholder-1.svg",
+        "link": "",
+        "featured": true,
+        "order": 1
+      },
+      {
+        "id": "pf-2",
+        "title": "Crystal Valley",
+        "category": "Web development",
+        "text": "Prezentační web chovatelské stanice se správou fotogalerie a obsahu.",
+        "year": "2025",
+        "image": "assets/portfolio-placeholder-2.svg",
+        "link": "",
+        "featured": true,
+        "order": 2
+      },
+      {
+        "id": "pf-3",
+        "title": "Květinářství Kamila",
+        "category": "Web development",
+        "text": "Přehledná prezentace floristického studia s jednoduchou správou nabídky.",
+        "year": "2024",
+        "image": "assets/portfolio-placeholder-3.svg",
+        "link": "",
+        "featured": false,
+        "order": 3
+      },
+      {
+        "id": "pf-4",
+        "title": "Produktová vizualizace",
+        "category": "3D",
+        "text": "3D vizualizace produktu pro marketingové a prezentační účely.",
+        "year": "2024",
+        "image": "assets/portfolio-placeholder-4.svg",
+        "link": "",
+        "featured": false,
+        "order": 4
+      }
+    ]
+  },
+  "references": {
+    "heading": "Co říkají naši klienti",
+    "items": [
+      {
+        "id": "ref-1",
+        "name": "Petr Šuta",
+        "company": "Tesařství a pokrývačství Šuta",
+        "text": "Spolupráce byla rychlá a profesionální. Web přesně odpovídá tomu, co jsme potřebovali.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 1
+      },
+      {
+        "id": "ref-2",
+        "name": "Kamila Nováková",
+        "company": "Květinářství Kamila",
+        "text": "Oceňuji hlavně to, že jsme se domluvili na všem rychle a bez zbytečných komplikací.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 2
+      },
+      {
+        "id": "ref-3",
+        "name": "Jan Zátrapa",
+        "company": "Platnéřství Zátrapa",
+        "text": "Výsledek předčil očekávání a administrace webu je opravdu jednoduchá na používání.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 3
+      }
+    ]
+  },
+  "about": {
+    "heading": "Kdo stojí za PEBMedia",
+    "text": "PEBMedia je moderní digitální studio zaměřené na tvorbu webů, digitálních řešení, bezpečnost a 3D. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
+    "photo": ""
+  },
+  "process": {
+    "heading": "Jak spolupráce probíhá",
+    "steps": [
+      { "id": "step-1", "number": "01", "title": "Povíme si, co potřebujete", "text": "Probereme cíle, obsah a rozsah projektu." },
+      { "id": "step-2", "number": "02", "title": "Navrhneme řešení", "text": "Připravíme návrh a technické řešení na míru." },
+      { "id": "step-3", "number": "03", "title": "Vytvoříme ho", "text": "Projekt naprogramujeme a otestujeme." },
+      { "id": "step-4", "number": "04", "title": "Spustíme a předáme", "text": "Web nasadíme a předáme včetně administrace." }
+    ]
+  },
+  "faq": {
+    "heading": "Časté dotazy",
+    "items": [
+      { "id": "faq-1", "question": "Kolik stojí web?", "answer": "Cena se odvíjí od rozsahu a funkcí projektu. Po nezávazné konzultaci připravíme konkrétní nabídku na míru.", "visible": true, "order": 1 },
+      { "id": "faq-2", "question": "Jak dlouho tvorba trvá?", "answer": "Menší weby obvykle 2–4 týdny, rozsáhlejší projekty se systémem na míru déle podle rozsahu.", "visible": true, "order": 2 },
+      { "id": "faq-3", "question": "Dokážete upravit můj současný web?", "answer": "Ano, umíme navázat na existující řešení, provést redesign nebo doplnit nové funkce.", "visible": true, "order": 3 },
+      { "id": "faq-4", "question": "Děláte i dlouhodobou správu?", "answer": "Ano, nabízíme i následnou správu, aktualizace a technickou podporu.", "visible": true, "order": 4 },
+      { "id": "faq-5", "question": "Umíte vytvořit řešení na míru?", "answer": "Ano, specializujeme se právě na řešení šitá na míru konkrétnímu podnikání.", "visible": true, "order": 5 },
+      { "id": "faq-6", "question": "Jak probíhá první konzultace?", "answer": "Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor.", "visible": true, "order": 6 }
+    ]
+  },
+  "ctaSection": {
+    "heading": "Máte projekt?\nPojďme ho vytvořit.",
+    "text": "Popište nám, co potřebujete. Ozveme se a společně najdeme nejlepší řešení.",
+    "cta": "Nezávazně poptat projekt"
+  },
+  "contact": {
+    "heading": "Kontakt",
+    "text": "Napište nám o svém projektu — ozveme se co nejdříve.",
+    "projectTypes": ["Web", "Redesign", "Kyberbezpečnost", "Automatizace", "3D", "AI / jiné"]
+  },
+  "footer": {
+    "text": "Digitální řešení pro moderní firmy.",
+    "privacyLink": "privacy.html",
+    "copyright": "© 2026 PEBMedia. Všechna práva vyhrazena."
+  }
+};

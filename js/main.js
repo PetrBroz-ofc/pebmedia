@@ -1,8 +1,11 @@
 /* ==========================================================================
    PEBMedia — public site renderer
    Čte data/content.json (editovatelné přes admin.html) a vykresluje obsah.
-   Poznámka: pro lokální testování s fetch() spusťte web přes lokální server
-   (např. `npx serve .`), nikoli přímo dvojklikem na index.html.
+   Pokud fetch selže (typicky při otevření souboru přímo dvojklikem, kdy
+   prohlížeč blokuje čtení JSON z disku), použije se offline záloha ze
+   souboru js/content-fallback.js, aby stránka nezůstala prázdná.
+   Pro plně živý obsah (a fungující admin) web spouštějte přes lokální
+   server (např. `npx serve .`) nebo nasazený na Vercelu.
    ========================================================================== */
 
 (function () {
@@ -16,7 +19,11 @@
       if (!res.ok) throw new Error('Content fetch failed');
       return await res.json();
     } catch (err) {
-      console.error('Nepodařilo se načíst data/content.json', err);
+      if (window.__PEBMEDIA_FALLBACK_CONTENT__) {
+        console.warn('data/content.json se nepodařilo načíst (pravděpodobně náhled přes file://). Používám offline zálohu obsahu z js/content-fallback.js — pro živá data spusťte web přes lokální server nebo jej nasaďte na Vercel.');
+        return window.__PEBMEDIA_FALLBACK_CONTENT__;
+      }
+      console.error('Nepodařilo se načíst data/content.json a offline záloha není dostupná', err);
       document.body.innerHTML =
         '<div style="padding:80px 32px;font-family:sans-serif;max-width:560px;margin:0 auto;text-align:center;">' +
         '<h1 style="font-size:22px;">Obsah se nepodařilo načíst</h1>' +
