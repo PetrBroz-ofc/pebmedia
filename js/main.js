@@ -154,14 +154,11 @@
               <div class="portfolio-title">${p.title}</div>
               <div class="portfolio-meta">${p.category}</div>
               <p class="portfolio-text">${p.text}</p>
+              ${p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-small portfolio-link">Prohlédnout web</a>` : ''}
             </div>
             ${p.year ? `<div class="portfolio-year">${p.year}</div>` : ''}
           </div>
         `);
-        if (p.link) {
-          card.style.cursor = 'pointer';
-          card.addEventListener('click', () => window.open(p.link, '_blank'));
-        }
         grid.appendChild(card);
       });
 

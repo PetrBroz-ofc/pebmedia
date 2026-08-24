@@ -40,7 +40,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   },
   "services": {
     "heading": "Co pro vás můžeme udělat",
-    "subheading": "Čtyři oblasti, ve kterých firmám pomáháme posunout se dál. Konečná cena vždy závisí na rozsahu projektu.",
+    "subheading": "Čtyři oblasti, ve kterých firmám pomáháme posunout se dál — za každou z nich stojí tým odborníků, kteří se jí věnují naplno. Konečná cena vždy závisí na rozsahu projektu.",
     "priceNote": "Konečná cena závisí na rozsahu projektu.",
     "categories": [
       {
@@ -184,7 +184,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "text": "Prezentační web chovatelské stanice se správou fotogalerie a obsahu.",
         "year": "2025",
         "image": "assets/portfolio-placeholder-2.svg",
-        "link": "",
+        "link": "https://www.crystalvalley.cat/",
         "featured": true,
         "order": 2
       },
@@ -195,7 +195,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "text": "Přehledná prezentace floristického studia s jednoduchou správou nabídky.",
         "year": "2024",
         "image": "assets/portfolio-placeholder-3.svg",
-        "link": "",
+        "link": "https://kvetinarstvikamila.cz/",
         "featured": false,
         "order": 3
       },
@@ -206,7 +206,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "text": "Firemní web pro revizního technika elektrických zařízení s rozsáhlou administrací na míru.",
         "year": "2025",
         "image": "assets/portfolio-placeholder-4.svg",
-        "link": "",
+        "link": "https://elrevmont.cz/",
         "featured": false,
         "order": 4
       }
@@ -249,7 +249,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   },
   "about": {
     "heading": "Kdo stojí za PEBMedia",
-    "text": "PEBMedia je moderní digitální studio zaměřené na tvorbu webů, digitálních řešení a bezpečnost. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
+    "text": "PEBMedia je moderní digitální studio zaměřené na tvorbu webů, digitálních řešení a bezpečnost. Za každou oblastí — web, branding, bezpečnost i technologie — stojí u nás tým odborníků, který se jí věnuje naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
     "photo": ""
   },
   "process": {
