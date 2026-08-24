@@ -19,13 +19,13 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   },
   "seo": {
     "title": "PEBMedia — Digitální řešení pro moderní firmy",
-    "description": "PEBMedia je digitální studio zaměřené na tvorbu webů, kyberbezpečnost, automatizaci, 3D vizualizace a AI řešení pro firmy, které to myslí vážně.",
+    "description": "PEBMedia je digitální studio zaměřené na tvorbu webů, kyberbezpečnost, automatizaci a AI řešení pro firmy, které to myslí vážně.",
     "ogImage": "assets/og-image.jpg"
   },
   "hero": {
     "eyebrow": "PEBMedia — digitální studio",
     "headline": "Digitální řešení\npro moderní firmy.",
-    "text": "Tvoříme weby, digitální systémy, 3D vizualizace a řešení, která firmám pomáhají růst.",
+    "text": "Tvoříme weby, digitální systémy a řešení, která firmám pomáhají růst.",
     "ctaPrimary": "Nezávazně poptat projekt",
     "ctaSecondary": "Prohlédnout portfolio"
   },
@@ -201,10 +201,10 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       },
       {
         "id": "pf-4",
-        "title": "Produktová vizualizace",
-        "category": "3D",
-        "text": "3D vizualizace produktu pro marketingové a prezentační účely.",
-        "year": "2024",
+        "title": "Elrevmont",
+        "category": "Web development",
+        "text": "Firemní web pro revizního technika elektrických zařízení s rozsáhlou administrací na míru.",
+        "year": "2025",
         "image": "assets/portfolio-placeholder-4.svg",
         "link": "",
         "featured": false,
@@ -249,7 +249,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   },
   "about": {
     "heading": "Kdo stojí za PEBMedia",
-    "text": "PEBMedia je moderní digitální studio zaměřené na tvorbu webů, digitálních řešení, bezpečnost a 3D. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
+    "text": "PEBMedia je moderní digitální studio zaměřené na tvorbu webů, digitálních řešení a bezpečnost. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
     "photo": ""
   },
   "process": {
@@ -280,7 +280,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   "contact": {
     "heading": "Kontakt",
     "text": "Napište nám o svém projektu — ozveme se co nejdříve.",
-    "projectTypes": ["Web", "Redesign", "Kyberbezpečnost", "Automatizace", "3D", "AI / jiné"]
+    "projectTypes": ["Web", "Redesign", "Kyberbezpečnost", "Automatizace", "AI / jiné"]
   },
   "footer": {
     "text": "Digitální řešení pro moderní firmy.",
