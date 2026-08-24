@@ -172,7 +172,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "category": "Web development",
         "text": "Firemní web s administrací na míru, správou galerie a certifikátů.",
         "year": "2025",
-        "image": "assets/portfolio-placeholder-1.svg",
+        "image": "assets/portfolio-1.jpg",
         "link": "https://tesarstvisuta.cz/",
         "featured": true,
         "order": 1
@@ -183,7 +183,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "category": "Web development",
         "text": "Prezentační web chovatelské stanice se správou fotogalerie a obsahu.",
         "year": "2025",
-        "image": "assets/portfolio-placeholder-2.svg",
+        "image": "assets/portfolio-2.jpg",
         "link": "https://www.crystalvalley.cat/",
         "featured": true,
         "order": 2
@@ -194,7 +194,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "category": "Web development",
         "text": "Přehledná prezentace floristického studia s jednoduchou správou nabídky.",
         "year": "2024",
-        "image": "assets/portfolio-placeholder-3.svg",
+        "image": "assets/portfolio-3.jpg",
         "link": "https://kvetinarstvikamila.cz/",
         "featured": false,
         "order": 3
@@ -205,7 +205,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "category": "Web development",
         "text": "Firemní web pro revizního technika elektrických zařízení s rozsáhlou administrací na míru.",
         "year": "2025",
-        "image": "assets/portfolio-placeholder-4.svg",
+        "image": "assets/portfolio-4.jpg",
         "link": "https://elrevmont.cz/",
         "featured": false,
         "order": 4
