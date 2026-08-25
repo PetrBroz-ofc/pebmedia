@@ -51,12 +51,42 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "note": "",
         "order": 1,
         "items": [
-          { "id": "svc-web-1", "name": "Jednostránkový web", "price": "Od 9 800 Kč", "order": 1 },
-          { "id": "svc-web-2", "name": "Firemní web", "price": "Od 14 900 Kč", "order": 2 },
-          { "id": "svc-web-3", "name": "Rozšířený web", "price": "Od 22 900 Kč", "order": 3 },
-          { "id": "svc-web-4", "name": "E-shop", "price": "Od 29 900 Kč", "order": 4 },
-          { "id": "svc-web-5", "name": "E-shop na míru", "price": "Od 44 900 Kč", "order": 5 },
-          { "id": "svc-web-6", "name": "Webová aplikace", "price": "Od 19 900 Kč", "order": 6 }
+          {
+            "id": "svc-web-1",
+            "name": "Jednostránkový web",
+            "price": "Od 9 800 Kč",
+            "order": 1
+          },
+          {
+            "id": "svc-web-2",
+            "name": "Firemní web",
+            "price": "Od 14 900 Kč",
+            "order": 2
+          },
+          {
+            "id": "svc-web-3",
+            "name": "Rozšířený web",
+            "price": "Od 22 900 Kč",
+            "order": 3
+          },
+          {
+            "id": "svc-web-4",
+            "name": "E-shop",
+            "price": "Od 29 900 Kč",
+            "order": 4
+          },
+          {
+            "id": "svc-web-5",
+            "name": "E-shop na míru",
+            "price": "Od 44 900 Kč",
+            "order": 5
+          },
+          {
+            "id": "svc-web-6",
+            "name": "Webová aplikace",
+            "price": "Od 19 900 Kč",
+            "order": 6
+          }
         ]
       },
       {
@@ -67,9 +97,24 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "note": "",
         "order": 2,
         "items": [
-          { "id": "svc-brand-1", "name": "Logo", "price": "Od 2 900 Kč", "order": 1 },
-          { "id": "svc-brand-2", "name": "Logo + vizuální identita", "price": "Od 6 900 Kč", "order": 2 },
-          { "id": "svc-brand-3", "name": "Brand Pack", "price": "Od 9 900 Kč", "order": 3 }
+          {
+            "id": "svc-brand-1",
+            "name": "Logo",
+            "price": "Od 2 900 Kč",
+            "order": 1
+          },
+          {
+            "id": "svc-brand-2",
+            "name": "Logo + vizuální identita",
+            "price": "Od 6 900 Kč",
+            "order": 2
+          },
+          {
+            "id": "svc-brand-3",
+            "name": "Brand Pack",
+            "price": "Od 9 900 Kč",
+            "order": 3
+          }
         ]
       },
       {
@@ -80,9 +125,24 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "note": "Bezpečnostní testování provádíme pouze s výslovným souhlasem vlastníka systému.",
         "order": 3,
         "items": [
-          { "id": "svc-sec-1", "name": "Bezpečnostní audit webu", "price": "Od 2 900 Kč", "order": 1 },
-          { "id": "svc-sec-2", "name": "Pokročilý bezpečnostní test", "price": "Od 6 900 Kč", "order": 2 },
-          { "id": "svc-sec-3", "name": "Security monitoring", "price": "Od 490 Kč / měsíc", "order": 3 }
+          {
+            "id": "svc-sec-1",
+            "name": "Bezpečnostní audit webu",
+            "price": "Od 2 900 Kč",
+            "order": 1
+          },
+          {
+            "id": "svc-sec-2",
+            "name": "Pokročilý bezpečnostní test",
+            "price": "Od 6 900 Kč",
+            "order": 2
+          },
+          {
+            "id": "svc-sec-3",
+            "name": "Security monitoring",
+            "price": "Od 490 Kč / měsíc",
+            "order": 3
+          }
         ]
       },
       {
@@ -93,9 +153,24 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "note": "",
         "order": 4,
         "items": [
-          { "id": "svc-tech-1", "name": "AI integrace", "price": "Od 4 900 Kč", "order": 1 },
-          { "id": "svc-tech-2", "name": "Automatizace", "price": "Od 4 900 Kč", "order": 2 },
-          { "id": "svc-tech-3", "name": "Řešení na míru", "price": "Od 9 900 Kč", "order": 3 }
+          {
+            "id": "svc-tech-1",
+            "name": "AI integrace",
+            "price": "Od 4 900 Kč",
+            "order": 1
+          },
+          {
+            "id": "svc-tech-2",
+            "name": "Automatizace",
+            "price": "Od 4 900 Kč",
+            "order": 2
+          },
+          {
+            "id": "svc-tech-3",
+            "name": "Řešení na míru",
+            "price": "Od 9 900 Kč",
+            "order": 3
+          }
         ]
       }
     ]
@@ -111,7 +186,14 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "price": "17 900 Kč",
         "highlight": "",
         "description": "Pro živnostníky a malé firmy.",
-        "features": ["Jednostránkový web", "Responzivní design", "Základní SEO", "Kontaktní formulář", "Analytika", "Základní bezpečnostní kontrola"],
+        "features": [
+          "Jednostránkový web",
+          "Responzivní design",
+          "Základní SEO",
+          "Kontaktní formulář",
+          "Analytika",
+          "Základní bezpečnostní kontrola"
+        ],
         "cta": "Chci PEB START",
         "visible": true,
         "order": 1
@@ -122,7 +204,16 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "price": "29 900 Kč",
         "highlight": "NEJOBLÍBENĚJŠÍ",
         "description": "Nejčastější volba firem, které chtějí web na míru.",
-        "features": ["Firemní web", "Individuální design", "Základní SEO", "Animace", "Kontaktní formuláře", "Analytika", "Optimalizace rychlosti", "Bezpečnostní kontrola"],
+        "features": [
+          "Firemní web",
+          "Individuální design",
+          "Základní SEO",
+          "Animace",
+          "Kontaktní formuláře",
+          "Analytika",
+          "Optimalizace rychlosti",
+          "Bezpečnostní kontrola"
+        ],
         "cta": "Chci PEB BUSINESS",
         "visible": true,
         "order": 2
@@ -133,7 +224,16 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "price": "44 900 Kč",
         "highlight": "",
         "description": "Pro firmy s rozsáhlejším obsahem a požadavky.",
-        "features": ["Rozšířený web", "Až 10 stránek", "Pokročilé animace", "SEO základ", "CMS", "Integrace", "Bezpečnostní audit", "30 dní podpory"],
+        "features": [
+          "Rozšířený web",
+          "Až 10 stránek",
+          "Pokročilé animace",
+          "SEO základ",
+          "CMS",
+          "Integrace",
+          "Bezpečnostní audit",
+          "30 dní podpory"
+        ],
         "cta": "Chci PEB PRO",
         "visible": true,
         "order": 3
@@ -144,7 +244,17 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "price": "59 900 Kč",
         "highlight": "",
         "description": "Kompletní digitální start firmy.",
-        "features": ["Profesionální web", "Logo", "Základní vizuální identita", "SEO setup", "Google Business setup", "Bezpečnostní audit", "Analytika", "Sociální vizuály", "30 dní podpory"],
+        "features": [
+          "Profesionální web",
+          "Logo",
+          "Základní vizuální identita",
+          "SEO setup",
+          "Google Business setup",
+          "Bezpečnostní audit",
+          "Analytika",
+          "Sociální vizuály",
+          "30 dní podpory"
+        ],
         "cta": "Chci PEB LAUNCH",
         "visible": true,
         "order": 4
@@ -155,7 +265,16 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "price": "Od 34 900 Kč",
         "highlight": "",
         "description": "Kompletní řešení pro online prodej.",
-        "features": ["Moderní e-shop", "Produktový katalog", "Košík a objednávky", "Platební řešení", "Responzivní design", "Základní SEO", "Analytika", "Základní bezpečnost"],
+        "features": [
+          "Moderní e-shop",
+          "Produktový katalog",
+          "Košík a objednávky",
+          "Platební řešení",
+          "Responzivní design",
+          "Základní SEO",
+          "Analytika",
+          "Základní bezpečnost"
+        ],
         "cta": "Chci e-shop",
         "visible": true,
         "order": 5
@@ -244,6 +363,36 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "photo": "",
         "visible": true,
         "order": 3
+      },
+      {
+        "id": "ref-4",
+        "name": "Tým Studio Chilli",
+        "company": "Studio Chilli",
+        "text": "Od prvního nápadu po spuštění webu uběhlo jen pár dní a komunikace byla po celou dobu jasná a příjemná.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 4
+      },
+      {
+        "id": "ref-5",
+        "name": "Tým Elrevmont",
+        "company": "Elrevmont",
+        "text": "Oceňujeme hlavně precizní přístup a to, že jsme nemuseli nic řešit dvakrát — vše sedělo napoprvé.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 5
+      },
+      {
+        "id": "ref-6",
+        "name": "Tým Crystal Valley",
+        "company": "Crystal Valley",
+        "text": "Nový web vypadá přesně tak, jak jsme si přáli, a klienti nám na něj chodí často sami od sebe.",
+        "rating": 5,
+        "photo": "",
+        "visible": true,
+        "order": 6
       }
     ]
   },
@@ -255,21 +404,77 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   "process": {
     "heading": "Jak spolupráce probíhá",
     "steps": [
-      { "id": "step-1", "number": "01", "title": "Povíme si, co potřebujete", "text": "Probereme cíle, obsah a rozsah projektu." },
-      { "id": "step-2", "number": "02", "title": "Navrhneme řešení", "text": "Připravíme návrh a technické řešení na míru." },
-      { "id": "step-3", "number": "03", "title": "Vytvoříme ho", "text": "Projekt naprogramujeme a otestujeme." },
-      { "id": "step-4", "number": "04", "title": "Spustíme a předáme", "text": "Web nasadíme a předáme včetně administrace." }
+      {
+        "id": "step-1",
+        "number": "01",
+        "title": "Povíme si, co potřebujete",
+        "text": "Probereme cíle, obsah a rozsah projektu."
+      },
+      {
+        "id": "step-2",
+        "number": "02",
+        "title": "Navrhneme řešení",
+        "text": "Připravíme návrh a technické řešení na míru."
+      },
+      {
+        "id": "step-3",
+        "number": "03",
+        "title": "Vytvoříme ho",
+        "text": "Projekt naprogramujeme a otestujeme."
+      },
+      {
+        "id": "step-4",
+        "number": "04",
+        "title": "Spustíme a předáme",
+        "text": "Web nasadíme a předáme včetně administrace."
+      }
     ]
   },
   "faq": {
     "heading": "Časté dotazy",
     "items": [
-      { "id": "faq-1", "question": "Kolik stojí web?", "answer": "Cena se odvíjí od rozsahu a funkcí projektu. Po nezávazné konzultaci připravíme konkrétní nabídku na míru.", "visible": true, "order": 1 },
-      { "id": "faq-2", "question": "Jak dlouho tvorba trvá?", "answer": "Menší weby obvykle 2–4 týdny, rozsáhlejší projekty se systémem na míru déle podle rozsahu.", "visible": true, "order": 2 },
-      { "id": "faq-3", "question": "Dokážete upravit můj současný web?", "answer": "Ano, umíme navázat na existující řešení, provést redesign nebo doplnit nové funkce.", "visible": true, "order": 3 },
-      { "id": "faq-4", "question": "Děláte i dlouhodobou správu?", "answer": "Ano, nabízíme i následnou správu, aktualizace a technickou podporu.", "visible": true, "order": 4 },
-      { "id": "faq-5", "question": "Umíte vytvořit řešení na míru?", "answer": "Ano, specializujeme se právě na řešení šitá na míru konkrétnímu podnikání.", "visible": true, "order": 5 },
-      { "id": "faq-6", "question": "Jak probíhá první konzultace?", "answer": "Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor.", "visible": true, "order": 6 }
+      {
+        "id": "faq-1",
+        "question": "Kolik stojí web?",
+        "answer": "Cena se odvíjí od rozsahu a funkcí projektu. Po nezávazné konzultaci připravíme konkrétní nabídku na míru.",
+        "visible": true,
+        "order": 1
+      },
+      {
+        "id": "faq-2",
+        "question": "Jak dlouho tvorba trvá?",
+        "answer": "Menší weby obvykle 2–4 týdny, rozsáhlejší projekty se systémem na míru déle podle rozsahu.",
+        "visible": true,
+        "order": 2
+      },
+      {
+        "id": "faq-3",
+        "question": "Dokážete upravit můj současný web?",
+        "answer": "Ano, umíme navázat na existující řešení, provést redesign nebo doplnit nové funkce.",
+        "visible": true,
+        "order": 3
+      },
+      {
+        "id": "faq-4",
+        "question": "Děláte i dlouhodobou správu?",
+        "answer": "Ano, nabízíme i následnou správu, aktualizace a technickou podporu.",
+        "visible": true,
+        "order": 4
+      },
+      {
+        "id": "faq-5",
+        "question": "Umíte vytvořit řešení na míru?",
+        "answer": "Ano, specializujeme se právě na řešení šitá na míru konkrétnímu podnikání.",
+        "visible": true,
+        "order": 5
+      },
+      {
+        "id": "faq-6",
+        "question": "Jak probíhá první konzultace?",
+        "answer": "Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor.",
+        "visible": true,
+        "order": 6
+      }
     ]
   },
   "ctaSection": {
@@ -280,7 +485,13 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   "contact": {
     "heading": "Kontakt",
     "text": "Napište nám o svém projektu — ozveme se co nejdříve.",
-    "projectTypes": ["Web", "Redesign", "Kyberbezpečnost", "Automatizace", "AI / jiné"]
+    "projectTypes": [
+      "Web",
+      "Redesign",
+      "Kyberbezpečnost",
+      "Automatizace",
+      "AI / jiné"
+    ]
   },
   "footer": {
     "text": "Digitální řešení pro moderní firmy.",
