@@ -396,6 +396,13 @@
     "text": "PEBMedia je moderní digitální studio zaměřené na tvorbu webů, digitálních řešení a bezpečnost. Za každou oblastí — web, branding, bezpečnost i technologie — stojí u nás tým odborníků, který se jí věnuje naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
     "photo": ""
   },
+  "schools": {
+    "eyebrow": "Společenská odpovědnost",
+    "heading": "Podporujeme studenty a školy",
+    "text": "Studentům rádi pomáháme s weby a digitálními projekty pro maturitní práce a středním i odborným školám pravidelně věnujeme vouchery na naše služby, aby si mohly nechat vytvořit vlastní web nebo digitální řešení.",
+    "voucherLinkText": "Podmínky využití voucheru",
+    "voucherLinkUrl": "voucher.html"
+  },
   "process": {
     "heading": "Jak spolupráce probíhá",
     "steps": [

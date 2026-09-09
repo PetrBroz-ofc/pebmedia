@@ -215,6 +215,14 @@
       aboutPhoto.innerHTML = `<img src="${data.about.photo}" alt="${g.brand}">`;
     }
 
+    // --- Schools ---
+    document.getElementById('schoolsEyebrow').textContent = data.schools.eyebrow;
+    document.getElementById('schoolsHeading').textContent = data.schools.heading;
+    document.getElementById('schoolsText').textContent = data.schools.text;
+    const schoolsLink = document.getElementById('schoolsVoucherLink');
+    schoolsLink.textContent = data.schools.voucherLinkText;
+    schoolsLink.href = data.schools.voucherLinkUrl;
+
     // --- Process ---
     document.getElementById('processHeading').textContent = data.process.heading;
     const processGrid = document.getElementById('processGrid');
