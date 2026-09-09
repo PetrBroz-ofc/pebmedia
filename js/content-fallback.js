@@ -406,7 +406,8 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
     "heading": "Podporujeme studenty a školy",
     "text": "Studentům rádi pomáháme s weby a digitálními projekty pro maturitní práce a středním i odborným školám pravidelně věnujeme vouchery na naše služby, aby si mohly nechat vytvořit vlastní web nebo digitální řešení.",
     "voucherLinkText": "Podmínky využití voucheru",
-    "voucherLinkUrl": "voucher.html"
+    "voucherLinkUrl": "voucher.html",
+    "logos": []
   },
   "process": {
     "heading": "Jak spolupráce probíhá",

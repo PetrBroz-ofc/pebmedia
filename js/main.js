@@ -217,9 +217,22 @@
     // --- Schools ---
     document.getElementById('schoolsHeading').textContent = data.schools.heading;
     document.getElementById('schoolsText').textContent = data.schools.text;
-    const schoolsLink = document.getElementById('schoolsVoucherLink');
-    schoolsLink.textContent = data.schools.voucherLinkText;
-    schoolsLink.href = data.schools.voucherLinkUrl;
+    const schoolsLogos = document.getElementById('schoolsLogos');
+    schoolsLogos.innerHTML = '';
+    (data.schools.logos || []).forEach(s => {
+      const item = el('div', 'school-logo', `<img src="${s.logo}" alt="${s.name}" loading="lazy">`);
+      if (s.link) {
+        const a = document.createElement('a');
+        a.href = s.link;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'school-logo';
+        a.innerHTML = `<img src="${s.logo}" alt="${s.name}" loading="lazy">`;
+        schoolsLogos.appendChild(a);
+      } else {
+        schoolsLogos.appendChild(item);
+      }
+    });
 
     // --- Process ---
     document.getElementById('processHeading').textContent = data.process.heading;
