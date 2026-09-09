@@ -162,11 +162,12 @@ p { margin: 0; }
   gap: 8px;
 }
 .logo-mark {
-  width: 9px;
-  height: 9px;
-  background: var(--accent);
-  border-radius: 2px;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: inline-flex;
 }
+.logo-mark svg { width: 100%; height: 100%; display: block; }
 .main-nav {
   display: flex;
   align-items: center;
