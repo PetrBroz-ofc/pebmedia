@@ -54,7 +54,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
           {
             "id": "svc-web-1",
             "name": "Jednostránkový web",
-            "price": "Od 9 800 Kč",
+            "price": "Od 12 800 Kč",
             "order": 1
           },
           {
