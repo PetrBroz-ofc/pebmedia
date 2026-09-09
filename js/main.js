@@ -88,7 +88,6 @@
     });
 
     // --- Hero ---
-    document.getElementById('heroEyebrow').textContent = hero.eyebrow;
     document.getElementById('heroHeadline').textContent = hero.headline;
     document.getElementById('heroText').textContent = hero.text;
     document.getElementById('heroCtaPrimary').textContent = hero.ctaPrimary;
@@ -216,7 +215,6 @@
     }
 
     // --- Schools ---
-    document.getElementById('schoolsEyebrow').textContent = data.schools.eyebrow;
     document.getElementById('schoolsHeading').textContent = data.schools.heading;
     document.getElementById('schoolsText').textContent = data.schools.text;
     const schoolsLink = document.getElementById('schoolsVoucherLink');
