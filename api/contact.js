@@ -1,7 +1,7 @@
 // api/contact.js
 // POZNÁMKA: Web běží na GitHub Pages, kde serverless funkce nefungují —
 // tenhle soubor se aktuálně vůbec nepoužívá. Kontaktní formulář teď odesílá
-// poptávky přímo přes FormSubmit.co (viz js/main.js). Tento soubor je tu
+// poptávky přímo přes Web3Forms (viz js/main.js). Tento soubor je tu
 // jen pro případ budoucího nasazení na Vercel.
 //
 // Přijme data z kontaktního formuláře a odešle je e-mailem přes Resend

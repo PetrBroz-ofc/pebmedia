@@ -373,9 +373,9 @@
       revealEls.forEach(e => e.classList.add('is-visible'));
     }
 
-    // Contact form (odesíláno nativním POST na FormSubmit.co — bez fetch/AJAX,
-    // aby formulář fungoval spolehlivě i bez CORS. FormSubmit po odeslání
-    // přesměruje zpět na náš web pomocí _next, kde zobrazíme poděkování.)
+    // Contact form (odesíláno nativním POST na Web3Forms — bez fetch/AJAX,
+    // aby formulář fungoval spolehlivě i bez CORS. Web3Forms po odeslání
+    // přesměruje zpět na náš web pomocí "redirect", kde zobrazíme poděkování.)
     const form = document.getElementById('contactForm');
     if (form) {
       const successEl = document.getElementById('formSuccess');
@@ -383,9 +383,8 @@
       const formErrorEmail = document.getElementById('formErrorEmail');
       if (formErrorEmail) formErrorEmail.textContent = g.email;
 
-      // Adresa a návratová URL se skládají dynamicky, aby fungovaly
-      // i po přepnutí na vlastní doménu pebmedia.cz.
-      form.action = `https://formsubmit.co/${g.email}`;
+      // Návratová URL se skládá dynamicky, aby fungovala i po přepnutí
+      // na vlastní doménu pebmedia.cz.
       const nextField = document.getElementById('formNext');
       if (nextField) {
         const base = window.location.origin + window.location.pathname;
@@ -400,7 +399,7 @@
         // žádný preventDefault, žádný fetch.
       });
 
-      // Po návratu z FormSubmit (?sent=1) zobrazíme poděkování a vyčistíme URL.
+      // Po návratu z Web3Forms (?sent=1) zobrazíme poděkování a vyčistíme URL.
       const params = new URLSearchParams(window.location.search);
       if (params.get('sent') === '1') {
         successEl.classList.add('is-visible');
