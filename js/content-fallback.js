@@ -297,24 +297,24 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "order": 1
       },
       {
-        "id": "pf-2",
-        "title": "Crystal Valley",
-        "category": "Web development",
-        "text": "Prezentační web chovatelské stanice se správou fotogalerie a obsahu.",
-        "year": "2025",
-        "image": "assets/portfolio-2.jpg",
-        "link": "https://www.crystalvalley.cat/",
-        "featured": true,
-        "order": 2
-      },
-      {
         "id": "pf-3",
         "title": "Květinářství Kamila",
         "category": "Web development",
         "text": "Přehledná prezentace floristického studia s jednoduchou správou nabídky.",
         "year": "2024",
-        "image": "assets/portfolio-3.jpg",
+        "image": "assets/portfolio-2.jpg",
         "link": "https://kvetinarstvikamila.cz/",
+        "featured": true,
+        "order": 2
+      },
+      {
+        "id": "pf-2",
+        "title": "Crystal Valley",
+        "category": "Web development",
+        "text": "Prezentační web chovatelské stanice se správou fotogalerie a obsahu.",
+        "year": "2025",
+        "image": "assets/portfolio-3.jpg",
+        "link": "https://www.crystalvalley.cat/",
         "featured": false,
         "order": 3
       },
@@ -328,6 +328,28 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "link": "https://elrevmont.cz/",
         "featured": false,
         "order": 4
+      },
+      {
+        "id": "pf-5",
+        "title": "Studio Chilli",
+        "category": "Web development",
+        "text": "Prezentační web kosmetického studia s přehledným ceníkem a rezervací.",
+        "year": "2025",
+        "image": "assets/portfolio-5.jpg",
+        "link": "",
+        "featured": false,
+        "order": 5
+      },
+      {
+        "id": "pf-6",
+        "title": "Platnéřství Pavel Zátrapa",
+        "category": "Web development",
+        "text": "Portfoliový web ručně vyráběných historických zbrojí s galerií a katalogem.",
+        "year": "2025",
+        "image": "assets/portfolio-6.jpg",
+        "link": "",
+        "featured": false,
+        "order": 6
       }
     ]
   },
