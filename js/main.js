@@ -333,10 +333,12 @@
     document.getElementById('footerLinkedin').href = g.social.linkedin || '#';
     document.getElementById('footerFacebook').href = g.social.facebook || '#';
 
-    initInteractions();
+    initInteractions(data);
   }
 
-  function initInteractions() {
+  function initInteractions(data) {
+    const g = data.general;
+
     // Sticky header shadow
     const header = document.getElementById('siteHeader');
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
@@ -374,30 +376,46 @@
       revealEls.forEach(e => e.classList.add('is-visible'));
     }
 
-    // Contact form
+    // Contact form (odesíláno přes FormSubmit.co — funguje i bez vlastního backendu)
     const form = document.getElementById('contactForm');
     if (form) {
+      const successEl = document.getElementById('formSuccess');
+      const errorEl = document.getElementById('formError');
+      const formErrorEmail = document.getElementById('formErrorEmail');
+      if (formErrorEmail) formErrorEmail.textContent = g.email;
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalLabel = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Odesílám…';
+        successEl.classList.remove('is-visible');
+        errorEl.classList.remove('is-visible');
+
         const payload = Object.fromEntries(new FormData(form).entries());
+        payload._subject = 'Nová poptávka z webu PEBMedia';
+        payload._template = 'table';
+        payload._captcha = 'false';
+
         try {
-          const res = await fetch('api/contact', {
+          const res = await fetch(`https://formsubmit.co/ajax/${g.email}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify(payload)
           });
-          if (!res.ok) throw new Error('send failed');
-        } catch (err) {
-          console.warn('Odeslání přes API selhalo, formulář je připraven na napojení backendu.', err);
-        } finally {
+          const data = await res.json().catch(() => null);
+          if (!res.ok || !data || data.success === false || data.success === 'false') {
+            throw new Error('send failed');
+          }
           form.reset();
+          successEl.classList.add('is-visible');
+        } catch (err) {
+          console.warn('Odeslání poptávky selhalo.', err);
+          errorEl.classList.add('is-visible');
+        } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = originalLabel;
-          document.getElementById('formSuccess').classList.add('is-visible');
         }
       });
     }

@@ -897,6 +897,17 @@ p { margin: 0; }
   font-weight: 500;
 }
 .form-success.is-visible { display: block; }
+.form-error {
+  display: none;
+  padding: 18px 20px;
+  background: #FBEAEA;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-s);
+  color: var(--danger);
+  font-size: 14.5px;
+  font-weight: 500;
+}
+.form-error.is-visible { display: block; }
 
 /* ---------------------------------- Footer --------------------------------- */
 .site-footer {

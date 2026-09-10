@@ -1,4 +1,9 @@
 // api/contact.js
+// POZNÁMKA: Web běží na GitHub Pages, kde serverless funkce nefungují —
+// tenhle soubor se aktuálně vůbec nepoužívá. Kontaktní formulář teď odesílá
+// poptávky přímo přes FormSubmit.co (viz js/main.js). Tento soubor je tu
+// jen pro případ budoucího nasazení na Vercel.
+//
 // Přijme data z kontaktního formuláře a odešle je e-mailem přes Resend
 // (https://resend.com — zdarma do 3000 e-mailů/měsíc, jednoduché nastavení).
 // Pokud RESEND_API_KEY není nastaven, poptávka se pouze zaloguje do
@@ -6,7 +11,7 @@
 //
 // Potřebné proměnné prostředí:
 //   RESEND_API_KEY   - API klíč z resend.com
-//   CONTACT_TO_EMAIL - e-mail, na který mají poptávky chodit (např. info@pebmedia.cz)
+//   CONTACT_TO_EMAIL - e-mail, na který mají poptávky chodit (např. info.pebmedia@gmail.com)
 //   CONTACT_FROM_EMAIL - odesílací adresa ověřená v Resend (např. web@pebmedia.cz)
 
 module.exports = async function handler(req, res) {
