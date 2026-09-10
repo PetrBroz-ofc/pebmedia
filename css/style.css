@@ -260,6 +260,7 @@ p { margin: 0; }
 
 .hero-visual {
   position: relative;
+  width: 100%;
   aspect-ratio: 1 / 1;
   border: 1px solid var(--border);
   border-radius: var(--radius-m);
@@ -754,6 +755,7 @@ p { margin: 0; }
   align-items: center;
 }
 .about-photo {
+  width: 100%;
   aspect-ratio: 4/5;
   border-radius: var(--radius-m);
   background: var(--accent-tint);
