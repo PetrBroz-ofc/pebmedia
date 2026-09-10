@@ -217,6 +217,10 @@
     // --- Schools ---
     document.getElementById('schoolsHeading').textContent = data.schools.heading;
     document.getElementById('schoolsText').textContent = data.schools.text;
+    if (data.schools.stat) {
+      document.getElementById('schoolsStatValue').textContent = data.schools.stat.value;
+      document.getElementById('schoolsStatLabel').textContent = data.schools.stat.label;
+    }
     const schoolsLogos = document.getElementById('schoolsLogos');
     schoolsLogos.innerHTML = '';
     (data.schools.logos || []).forEach(s => {

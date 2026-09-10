@@ -700,6 +700,24 @@ p { margin: 0; }
 }
 
 /* ---------------------------------- Schools --------------------------------- */
+.schools-stat {
+  margin-top: 40px;
+}
+.schools-stat-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 4vw, 48px);
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+.schools-stat-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  margin-top: 6px;
+}
 .schools-logos {
   display: flex;
   flex-wrap: wrap;
