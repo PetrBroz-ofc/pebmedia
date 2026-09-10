@@ -40,6 +40,53 @@
     return e;
   }
 
+  function initHelpWidget(faqItems) {
+    const widget = document.getElementById('helpWidget');
+    if (!widget) return;
+    const toggle = document.getElementById('helpWidgetToggle');
+    const messages = document.getElementById('helpWidgetMessages');
+    const questionsWrap = document.getElementById('helpWidgetQuestions');
+    const contactLink = document.getElementById('helpWidgetContactLink');
+
+    function addMessage(text, from) {
+      messages.appendChild(el('div', 'help-msg help-msg-' + from, text));
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    addMessage('Ahoj, jsem tu na časté dotazy k našim službám. Vyberte si otázku níže, nebo nám rovnou napište.', 'bot');
+
+    questionsWrap.innerHTML = '';
+    faqItems.forEach(f => {
+      const btn = el('button', 'help-widget-question-btn', f.question);
+      btn.type = 'button';
+      btn.addEventListener('click', () => {
+        addMessage(f.question, 'user');
+        setTimeout(() => addMessage(f.answer, 'bot'), 250);
+      });
+      questionsWrap.appendChild(btn);
+    });
+
+    if (contactLink) {
+      contactLink.addEventListener('click', () => {
+        widget.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    toggle.addEventListener('click', () => {
+      const isOpen = widget.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) messages.scrollTop = messages.scrollHeight;
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!widget.contains(e.target) && widget.classList.contains('is-open')) {
+        widget.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   function starsSvg(count) {
     let out = '';
     for (let i = 0; i < 5; i++) {
@@ -282,6 +329,10 @@
         });
         faqList.appendChild(item);
       });
+
+    initHelpWidget(
+      data.faq.items.filter(f => f.visible !== false).sort((a, b) => a.order - b.order)
+    );
 
     // --- CTA ---
     document.getElementById('ctaHeading').textContent = data.ctaSection.heading;
