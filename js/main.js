@@ -226,10 +226,7 @@
     // --- About ---
     document.getElementById('aboutHeading').textContent = data.about.heading;
     document.getElementById('aboutText').textContent = data.about.text;
-    const aboutPhoto = document.getElementById('aboutPhoto');
-    if (data.about.photo) {
-      aboutPhoto.innerHTML = `<img src="${data.about.photo}" alt="${g.brand}">`;
-    }
+    // Poznámka: v sekci "O nás" je místo fotky/baneru záměrně jen logo (viz index.html #aboutPhoto).
 
     // --- Schools ---
     document.getElementById('schoolsHeading').textContent = data.schools.heading;
@@ -376,7 +373,9 @@
       revealEls.forEach(e => e.classList.add('is-visible'));
     }
 
-    // Contact form (odesíláno přes FormSubmit.co — funguje i bez vlastního backendu)
+    // Contact form (odesíláno nativním POST na FormSubmit.co — bez fetch/AJAX,
+    // aby formulář fungoval spolehlivě i bez CORS. FormSubmit po odeslání
+    // přesměruje zpět na náš web pomocí _next, kde zobrazíme poděkování.)
     const form = document.getElementById('contactForm');
     if (form) {
       const successEl = document.getElementById('formSuccess');
@@ -384,40 +383,33 @@
       const formErrorEmail = document.getElementById('formErrorEmail');
       if (formErrorEmail) formErrorEmail.textContent = g.email;
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+      // Adresa a návratová URL se skládají dynamicky, aby fungovaly
+      // i po přepnutí na vlastní doménu pebmedia.cz.
+      form.action = `https://formsubmit.co/${g.email}`;
+      const nextField = document.getElementById('formNext');
+      if (nextField) {
+        const base = window.location.origin + window.location.pathname;
+        nextField.value = `${base}?sent=1#kontakt`;
+      }
+
+      form.addEventListener('submit', () => {
         const submitBtn = form.querySelector('button[type="submit"]');
-        const originalLabel = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Odesílám…';
-        successEl.classList.remove('is-visible');
-        errorEl.classList.remove('is-visible');
-
-        const payload = Object.fromEntries(new FormData(form).entries());
-        payload._subject = 'Nová poptávka z webu PEBMedia';
-        payload._template = 'table';
-        payload._captcha = 'false';
-
-        try {
-          const res = await fetch(`https://formsubmit.co/ajax/${g.email}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          const data = await res.json().catch(() => null);
-          if (!res.ok || !data || data.success === false || data.success === 'false') {
-            throw new Error('send failed');
-          }
-          form.reset();
-          successEl.classList.add('is-visible');
-        } catch (err) {
-          console.warn('Odeslání poptávky selhalo.', err);
-          errorEl.classList.add('is-visible');
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalLabel;
-        }
+        // Formulář se odešle běžným (nativním) POST požadavkem prohlížeče —
+        // žádný preventDefault, žádný fetch.
       });
+
+      // Po návratu z FormSubmit (?sent=1) zobrazíme poděkování a vyčistíme URL.
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('sent') === '1') {
+        successEl.classList.add('is-visible');
+        errorEl.classList.remove('is-visible');
+        params.delete('sent');
+        const cleanUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + '#kontakt';
+        window.history.replaceState({}, '', cleanUrl);
+        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
   }
 
