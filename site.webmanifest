@@ -1,0 +1,26 @@
+{
+  "name": "PEBMedia — Digitální řešení pro moderní firmy",
+  "short_name": "PEBMedia",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6F6F3",
+  "theme_color": "#0B6E63",
+  "lang": "cs",
+  "icons": [
+    {
+      "src": "/assets/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
