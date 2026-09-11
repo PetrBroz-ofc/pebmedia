@@ -327,8 +327,7 @@
     document.getElementById('footerCopyright').textContent = data.footer.copyright;
     document.getElementById('footerPrivacy').href = data.footer.privacyLink;
     document.getElementById('footerInstagram').href = g.social.instagram || '#';
-    document.getElementById('footerLinkedin').href = g.social.linkedin || '#';
-    document.getElementById('footerFacebook').href = g.social.facebook || '#';
+    // LinkedIn a Facebook zatím nejsou založené — odkazy v patičce dočasně skryté (viz index.html).
 
     initInteractions(data);
   }
