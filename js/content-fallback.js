@@ -426,10 +426,10 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   "schools": {
     "eyebrow": "Společenská odpovědnost",
     "heading": "Podporujeme studenty a školy",
-    "text": "Rádi školám a jejich studentům dáváme vouchery na naše služby a přejeme jim, ať se jim maturáky vydaří.",
+    "text": "Rádi školám a jejich studentům dáváme vouchery na naše služby a přejeme jim, ať se jim maturitní plesy vydaří.",
     "stat": {
       "value": "20 000 Kč",
-      "label": "Rozdáno na poukázkách k maturitám 2027"
+      "label": "Rozdáno na poukázkách na maturitní plesy 2027"
     },
     "voucherLinkText": "Podmínky využití voucheru",
     "voucherLinkUrl": "voucher.html",

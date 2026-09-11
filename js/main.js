@@ -40,6 +40,50 @@
     return e;
   }
 
+  // Jednoduchá vanilla JS obdoba komponenty CountUp (React Bits) — bez
+  // závislosti na Reactu/motion, protože web je čisté HTML/CSS/JS.
+  // Rozparsuje text typu "20 000 Kč" na předponu/číslo/příponu a animuje
+  // počítání od 0 nahoru, jakmile je prvek vidět na obrazovce.
+  function countUpOnView(elNode, { duration = 1500 } = {}) {
+    if (!elNode) return;
+    const targetText = elNode.textContent.trim();
+    const match = targetText.match(/^(\D*)([\d\s.,]*\d)(\D*)$/);
+    if (!match) return; // text neobsahuje číslo, necháme beze změny
+
+    const [, prefix, numStr, suffix] = match;
+    const targetNum = parseInt(numStr.replace(/[^\d]/g, ''), 10);
+    if (!Number.isFinite(targetNum)) return;
+
+    const formatNum = n => Math.round(n).toLocaleString('cs-CZ').replace(/ /g, ' ');
+    elNode.textContent = `${prefix}0${suffix}`;
+
+    const animate = () => {
+      const start = performance.now();
+      const step = now => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        elNode.textContent = `${prefix}${formatNum(targetNum * eased)}${suffix}`;
+        if (progress < 1) requestAnimationFrame(step);
+        else elNode.textContent = targetText;
+      };
+      requestAnimationFrame(step);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animate();
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      io.observe(elNode);
+    } else {
+      elNode.textContent = targetText;
+    }
+  }
+
   function initHelpWidget(faqItems) {
     const widget = document.getElementById('helpWidget');
     if (!widget) return;
@@ -371,6 +415,9 @@
     } else {
       revealEls.forEach(e => e.classList.add('is-visible'));
     }
+
+    // Animované počítání čísla ve statistice sekce "Školy" (viz countUpOnView výše)
+    countUpOnView(document.getElementById('schoolsStatValue'));
 
     // Contact form (odesíláno nativním POST na Web3Forms — bez fetch/AJAX,
     // aby formulář fungoval spolehlivě i bez CORS. Web3Forms po odeslání

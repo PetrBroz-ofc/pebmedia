@@ -674,6 +674,7 @@ p { margin: 0; }
 /* ---------------------------------- Schools --------------------------------- */
 .schools-stat {
   margin-top: 40px;
+  text-align: center;
 }
 .schools-stat-value {
   font-family: var(--font-display);
