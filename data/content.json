@@ -428,7 +428,19 @@
     },
     "voucherLinkText": "Podmínky využití voucheru",
     "voucherLinkUrl": "voucher.html",
-    "logos": []
+    "logos": [
+      { "name": "OA, SOŠ a SOU Třeboň", "logo": "assets/schools/oa-sos-sou-trebon.png" },
+      { "name": "Vyšší odborná škola, Střední průmyslová škola, Střední odborná škola řemesel a služeb Strakonice", "logo": "assets/schools/vos-sps-sos-strakonice.png" },
+      { "name": "Střední zemědělská škola a Střední odborné učiliště chladicí a klimatizační techniky, Kostelec nad Orlicí", "logo": "assets/schools/szes-kostelec-nad-orlici.jpg" },
+      { "name": "Obchodní akademie Česká Lípa", "logo": "assets/schools/oa-ceska-lipa.png" },
+      { "name": "Gymnázium Jana Blahoslava a Střední pedagogická škola, Přerov, Denisova 3", "logo": "assets/schools/gymnazium-blahoslava-prerov.png" },
+      { "name": "Střední průmyslová škola strojírenská a jazyková škola Kolín", "logo": "assets/schools/sps-strojirenska-kolin.png" },
+      { "name": "Střední škola logistická Dalovice, příspěvková organizace", "logo": "assets/schools/ss-logisticka-dalovice.png" },
+      { "name": "SOŠ mediální grafiky a polygrafie Rumburk", "logo": "assets/schools/sos-medialni-grafiky-rumburk.png" },
+      { "name": "Střední průmyslová škola technická", "logo": "assets/schools/sps-technicka.png" },
+      { "name": "Zdravotka Kolín", "logo": "assets/schools/zdravotka-kolin.webp" },
+      { "name": "Gymnázium Josefa Jungmanna Litoměřice", "logo": "assets/schools/gymnazium-jungmanna-litomerice.png" }
+    ]
   },
   "process": {
     "heading": "Jak spolupráce probíhá",
