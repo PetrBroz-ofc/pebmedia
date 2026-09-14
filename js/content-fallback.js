@@ -428,7 +428,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
     "heading": "Podporujeme studenty a školy",
     "text": "Rádi školám a jejich studentům dáváme vouchery na naše služby a přejeme jim, ať se jim maturitní plesy vydaří.",
     "stat": {
-      "value": "559 000 Kč",
+      "value": "610 000 Kč",
       "label": "Rozdáno na poukázkách na maturitní plesy 2027"
     },
     "voucherLinkText": "Podmínky využití voucheru",
