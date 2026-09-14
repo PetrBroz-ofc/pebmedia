@@ -703,20 +703,19 @@ p { margin: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 56px;
+  height: 84px;
 }
 .school-logo img {
   max-height: 100%;
-  max-width: 160px;
+  max-width: 220px;
   width: auto;
   object-fit: contain;
-  filter: grayscale(100%);
-  opacity: 0.6;
-  transition: filter 0.25s var(--ease), opacity 0.25s var(--ease);
+  opacity: 0.92;
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
 }
 .school-logo:hover img {
-  filter: grayscale(0%);
   opacity: 1;
+  transform: scale(1.04);
 }
 
 /* ---------------------------------- About --------------------------------- */
