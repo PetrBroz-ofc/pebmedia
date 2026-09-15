@@ -437,6 +437,10 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       {
         "name": "SŠ pedagogická, hotelnictví a služeb Litoměřice",
         "logo": "assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png"
+      },
+      {
+        "name": "Obchodní akademie Česká Lípa",
+        "logo": "assets/schools/obchodni-akademie-ceska-lipa.png"
       }
     ]
   },

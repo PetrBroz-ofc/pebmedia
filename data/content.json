@@ -429,7 +429,8 @@
     "voucherLinkText": "Podmínky využití voucheru",
     "voucherLinkUrl": "voucher.html",
     "logos": [
-      { "name": "SŠ pedagogická, hotelnictví a služeb Litoměřice", "logo": "assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png" }
+      { "name": "SŠ pedagogická, hotelnictví a služeb Litoměřice", "logo": "assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png" },
+      { "name": "Obchodní akademie Česká Lípa", "logo": "assets/schools/obchodni-akademie-ceska-lipa.png" }
     ]
   },
   "process": {
