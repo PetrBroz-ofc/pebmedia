@@ -430,7 +430,9 @@
     "voucherLinkUrl": "voucher.html",
     "logos": [
       { "name": "SŠ pedagogická, hotelnictví a služeb Litoměřice", "logo": "assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png" },
-      { "name": "Obchodní akademie Česká Lípa", "logo": "assets/schools/obchodni-akademie-ceska-lipa.png" }
+      { "name": "Obchodní akademie Česká Lípa", "logo": "assets/schools/obchodni-akademie-ceska-lipa.png" },
+      { "name": "Střední zemědělská škola", "logo": "assets/schools/stredni-zemedelska-skola.png" },
+      { "name": "Masarykovo gymnázium Plzeň", "logo": "assets/schools/masarykovo-gymnazium-plzen.png" }
     ]
   },
   "process": {

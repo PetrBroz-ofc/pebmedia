@@ -441,6 +441,14 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       {
         "name": "Obchodní akademie Česká Lípa",
         "logo": "assets/schools/obchodni-akademie-ceska-lipa.png"
+      },
+      {
+        "name": "Střední zemědělská škola",
+        "logo": "assets/schools/stredni-zemedelska-skola.png"
+      },
+      {
+        "name": "Masarykovo gymnázium Plzeň",
+        "logo": "assets/schools/masarykovo-gymnazium-plzen.png"
       }
     ]
   },
