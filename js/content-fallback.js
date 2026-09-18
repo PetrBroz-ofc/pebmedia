@@ -453,6 +453,14 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       {
         "name": "Střední průmyslová škola strojírenská a Jazyková škola, Kolín",
         "logo": "assets/schools/stredni-prumyslova-skola-strojirenska-kolin.png"
+      },
+      {
+        "name": "VOŠZ a SŠZ Ústí nad Labem",
+        "logo": "assets/schools/vosz-ssz-usti-nad-labem.png"
+      },
+      {
+        "name": "SOŠ mediální grafiky a polygrafie Rumburk",
+        "logo": "assets/schools/sos-medialni-grafiky-rumburk.png"
       }
     ]
   },
