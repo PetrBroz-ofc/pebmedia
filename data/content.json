@@ -432,7 +432,8 @@
       { "name": "SŠ pedagogická, hotelnictví a služeb Litoměřice", "logo": "assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png" },
       { "name": "Obchodní akademie Česká Lípa", "logo": "assets/schools/obchodni-akademie-ceska-lipa.png" },
       { "name": "Střední zemědělská škola", "logo": "assets/schools/stredni-zemedelska-skola.png" },
-      { "name": "Masarykovo gymnázium Plzeň", "logo": "assets/schools/masarykovo-gymnazium-plzen.png" }
+      { "name": "Masarykovo gymnázium Plzeň", "logo": "assets/schools/masarykovo-gymnazium-plzen.png" },
+      { "name": "Střední průmyslová škola strojírenská a Jazyková škola, Kolín", "logo": "assets/schools/stredni-prumyslova-skola-strojirenska-kolin.png" }
     ]
   },
   "process": {

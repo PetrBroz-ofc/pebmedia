@@ -449,6 +449,10 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       {
         "name": "Masarykovo gymnázium Plzeň",
         "logo": "assets/schools/masarykovo-gymnazium-plzen.png"
+      },
+      {
+        "name": "Střední průmyslová škola strojírenská a Jazyková škola, Kolín",
+        "logo": "assets/schools/stredni-prumyslova-skola-strojirenska-kolin.png"
       }
     ]
   },
