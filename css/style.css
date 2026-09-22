@@ -5,15 +5,17 @@
    Signaturní prvek: rohové "technické" závorky kolem obrázků (odkaz na CAD/technické výkresy)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+/* Fonty se načítají přes <link rel="preconnect"> + <link rel="stylesheet"> přímo v <head>
+   každé stránky — @import zde by vytvořil sériový řetěz requestů a zdržel první vykreslení. */
 
 :root {
   --bg: #F6F6F3;
   --surface: #FFFFFF;
   --ink: #14181B;
   --ink-soft: #565F66;
-  --ink-faint: #8A9096;
+  --ink-faint: #656C72;
   --border: #E3E3DE;
+  --border-strong: #8E8E87;
   --accent: #0B6E63;
   --accent-ink: #063E38;
   --accent-tint: #E6EFEC;
@@ -29,6 +31,8 @@
   --shadow-s: 0 1px 2px rgba(20, 24, 27, 0.04), 0 1px 1px rgba(20, 24, 27, 0.03);
   --shadow-m: 0 12px 32px rgba(20, 24, 27, 0.08);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur-base: 200ms;
 }
 
 * { box-sizing: border-box; }
@@ -60,6 +64,23 @@ p { margin: 0; }
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* Skip link — první cíl tabulátoru, viditelný až při zaměření (WCAG 2.4.1) */
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 200;
+  transform: translateY(-160%);
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: var(--radius-s);
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: transform var(--dur-base) var(--ease);
+}
+.skip-link:focus-visible { transform: translateY(0); }
 
 .container {
   width: 100%;
@@ -99,9 +120,10 @@ p { margin: 0; }
   font-size: 14.5px;
   letter-spacing: 0.01em;
   border: 1px solid transparent;
-  transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
+  transition: transform var(--dur-fast) var(--ease), background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), color var(--dur-base) var(--ease);
   white-space: nowrap;
 }
+.btn:hover { transform: translateY(-1px); }
 .btn-primary {
   background: var(--ink);
   color: #fff;
@@ -118,7 +140,7 @@ p { margin: 0; }
   color: #fff;
 }
 .btn-accent:hover { background: var(--accent-ink); }
-.btn:active { transform: scale(0.98); }
+.btn:active { transform: translateY(0) scale(0.98); }
 .btn-small { padding: 8px 16px; font-size: 12.5px; }
 
 /* Reveal on scroll */
@@ -186,8 +208,8 @@ p { margin: 0; }
 
 .hamburger {
   display: none;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--border);
   border-radius: var(--radius-s);
   background: var(--surface);
@@ -655,6 +677,28 @@ p { margin: 0; }
   opacity: 1;
   transform: scale(1.04);
 }
+/* Postupné naběhnutí log — kontejner .schools-logos je jeden .reveal,
+   děti tak dostanou odstupňované zpoždění místo naskočení naráz. */
+.schools-logos .school-logo {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.schools-logos.is-visible .school-logo {
+  opacity: 1;
+  transform: translateY(0);
+}
+.schools-logos.is-visible .school-logo:nth-child(1) { transition-delay: 0ms; }
+.schools-logos.is-visible .school-logo:nth-child(2) { transition-delay: 70ms; }
+.schools-logos.is-visible .school-logo:nth-child(3) { transition-delay: 140ms; }
+.schools-logos.is-visible .school-logo:nth-child(4) { transition-delay: 210ms; }
+.schools-logos.is-visible .school-logo:nth-child(5) { transition-delay: 280ms; }
+.schools-logos.is-visible .school-logo:nth-child(6) { transition-delay: 350ms; }
+.schools-logos.is-visible .school-logo:nth-child(n+7) { transition-delay: 420ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .schools-logos .school-logo { opacity: 1; transform: none; transition-delay: 0ms !important; }
+}
 
 /* ---------------------------------- About --------------------------------- */
 .about-grid {
@@ -812,18 +856,19 @@ p { margin: 0; }
 .form-field.full { grid-column: 1 / -1; }
 .form-field label { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
 .form-field input, .form-field select, .form-field textarea {
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background: var(--surface);
   border-radius: var(--radius-s);
   padding: 13px 14px;
   font-family: var(--font-body);
   font-size: 15px;
   color: var(--ink);
-  transition: border-color 0.2s var(--ease);
+  transition: border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
 }
-.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+.form-field input:focus-visible, .form-field select:focus-visible, .form-field textarea:focus-visible {
   border-color: var(--accent);
-  outline: none;
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 .form-field textarea { resize: vertical; min-height: 110px; }
 .contact-form .btn { margin-top: 6px; }

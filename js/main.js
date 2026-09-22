@@ -129,6 +129,15 @@
         toggle.setAttribute('aria-expanded', 'false');
       }
     });
+
+    // Escape zavře widget a vrátí fokus na přepínač (WCAG 2.1.2)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && widget.classList.contains('is-open')) {
+        widget.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+      }
+    });
   }
 
   function starsSvg(count) {
@@ -394,11 +403,21 @@
       hamburger.setAttribute('aria-expanded', String(isOpen));
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    const closeMobileNav = () => {
       mobileNav.classList.remove('is-open');
       hamburger.classList.remove('is-open');
+      hamburger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
-    }));
+    };
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+
+    // Escape zavře mobilní menu a vrátí fokus na hamburger (WCAG 2.1.2)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+        closeMobileNav();
+        hamburger.focus();
+      }
+    });
 
     // Reveal on scroll
     const revealEls = document.querySelectorAll('.reveal');

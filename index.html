@@ -34,7 +34,11 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="css/style.css?v=22">
+<!-- Fonty — preconnect + přímý odkaz (dříve než @import v CSS) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=23">
 
 <!-- Strukturovaná data (Schema.org) -->
 <script type="application/ld+json">
@@ -174,6 +178,8 @@
 </head>
 <body>
 
+<a href="#top" class="skip-link">Přeskočit na obsah</a>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="logoMarkP" viewBox="0 0 400 400">
@@ -189,7 +195,7 @@
 <header class="site-header" id="siteHeader">
   <div class="container header-inner">
     <a href="#top" class="logo"><span class="logo-mark"><svg viewBox="0 0 400 400"><use href="#logoMarkP"></use></svg></span><span id="logoText">PEBMedia</span></a>
-    <nav class="main-nav">
+    <nav class="main-nav" aria-label="Hlavní navigace">
       <a href="#top">Domů</a>
       <a href="#sluzby">Služby</a>
       <a href="#balicky">Balíčky</a>
@@ -201,13 +207,13 @@
     <div class="header-actions">
       <a href="#kontakt" class="btn btn-secondary">Kontakt</a>
       <a href="#kontakt" class="btn btn-primary" id="headerCta">Nezávazně poptat projekt</a>
-      <button class="hamburger" id="hamburger" aria-label="Otevřít menu" aria-expanded="false">
+      <button class="hamburger" id="hamburger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mobileNav">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 </header>
-<nav class="mobile-nav" id="mobileNav">
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobilní navigace">
   <a href="#top">Domů</a>
   <a href="#sluzby">Služby</a>
   <a href="#balicky">Balíčky</a>
@@ -374,19 +380,19 @@
             <div class="form-grid">
               <div class="form-field">
                 <label for="f-name">Jméno *</label>
-                <input type="text" id="f-name" name="name" required>
+                <input type="text" id="f-name" name="name" autocomplete="name" required>
               </div>
               <div class="form-field">
                 <label for="f-company">Firma</label>
-                <input type="text" id="f-company" name="company">
+                <input type="text" id="f-company" name="company" autocomplete="organization">
               </div>
               <div class="form-field">
                 <label for="f-email">E-mail *</label>
-                <input type="email" id="f-email" name="email" required>
+                <input type="email" id="f-email" name="email" autocomplete="email" required>
               </div>
               <div class="form-field">
                 <label for="f-phone">Telefon</label>
-                <input type="tel" id="f-phone" name="phone">
+                <input type="tel" id="f-phone" name="phone" autocomplete="tel">
               </div>
               <div class="form-field">
                 <label for="f-type">Typ projektu</label>
@@ -409,8 +415,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Odeslat poptávku</button>
             <p class="form-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
-            <div class="form-success" id="formSuccess">Děkujeme za zprávu — ozveme se vám co nejdříve.</div>
-            <div class="form-error" id="formError">Odeslání se bohužel nepodařilo. Zkuste to prosím znovu, nebo nám napište na <span id="formErrorEmail"></span>.</div>
+            <div class="form-success" id="formSuccess" role="status" aria-live="polite">Děkujeme za zprávu — ozveme se vám co nejdříve.</div>
+            <div class="form-error" id="formError" role="alert">Odeslání se bohužel nepodařilo. Zkuste to prosím znovu, nebo nám napište na <span id="formErrorEmail"></span>.</div>
           </form>
         </div>
       </div>
@@ -477,7 +483,7 @@
   </button>
 </div>
 
-<script src="js/content-fallback.js?v=22"></script>
-<script src="js/main.js?v=22"></script>
+<script src="js/content-fallback.js?v=23"></script>
+<script src="js/main.js?v=23"></script>
 </body>
 </html>
