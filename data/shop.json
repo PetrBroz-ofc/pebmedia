@@ -1,0 +1,133 @@
+{
+  "_pozn": "Datový model obchodu PEBMedia. Cena (cena_kc) a zdarma se při platbě VŽDY ověřují na serveru podle tohoto souboru, nikdy podle dat z prohlížeče. Pole 'soubor' je jen název souboru v privátním úložišti (Vercel Blob) — tam je potřeba reálné soubory ručně nahrát, viz README.md v produkty/doplnky/ a sekce 'Co musí Petr udělat' v popisu PR.",
+  "categories": {
+    "vouchery": {
+      "nazev": "Vouchery",
+      "popis": "Dárkové poukazy na služby PEBMedia — tvorbu webů, branding i digitální řešení."
+    },
+    "doplnky": {
+      "nazev": "Doplňky pro váš web",
+      "popis": "Hotové komponenty do vlastního webu — HTML, CSS a JS ke stažení, s návodem na vložení."
+    },
+    "ebooky": {
+      "nazev": "E-booky",
+      "popis": "Praktické návody a tipy pro firmy a podnikatele."
+    }
+  },
+  "products": [
+    {
+      "id": "voucher-500",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 500 Kč",
+      "popis": "Dárkový poukaz v hodnotě 500 Kč na libovolnou službu PEBMedia.",
+      "cena_kc": 500,
+      "hodnota_kc": 500,
+      "zdarma": false,
+      "soubor": null,
+      "nahled_url": null
+    },
+    {
+      "id": "voucher-1000",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 1 000 Kč",
+      "popis": "Dárkový poukaz v hodnotě 1 000 Kč na libovolnou službu PEBMedia.",
+      "cena_kc": 1000,
+      "hodnota_kc": 1000,
+      "zdarma": false,
+      "soubor": null,
+      "nahled_url": null
+    },
+    {
+      "id": "voucher-3000",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 3 000 Kč",
+      "popis": "Dárkový poukaz v hodnotě 3 000 Kč na libovolnou službu PEBMedia.",
+      "cena_kc": 3000,
+      "hodnota_kc": 3000,
+      "zdarma": false,
+      "soubor": null,
+      "nahled_url": null
+    },
+    {
+      "id": "voucher-5000",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 5 000 Kč",
+      "popis": "Dárkový poukaz v hodnotě 5 000 Kč na libovolnou službu PEBMedia.",
+      "cena_kc": 5000,
+      "hodnota_kc": 5000,
+      "zdarma": false,
+      "soubor": null,
+      "nahled_url": null
+    },
+    {
+      "id": "doplnek-glass-menu",
+      "kategorie": "doplnky",
+      "typ": "soubor",
+      "nazev": "Glass menu",
+      "popis": "Sticky navigace se skleněným (glassmorphism) efektem, mobilním hamburger menu a plnou přístupností klávesnice.",
+      "cena_kc": 490,
+      "zdarma": false,
+      "soubor": "glass-menu.zip",
+      "nahled_url": "../../../produkty/doplnky/glass-menu/index.html"
+    },
+    {
+      "id": "doplnek-hero-sklenena-karta",
+      "kategorie": "doplnky",
+      "typ": "soubor",
+      "nazev": "Hero sekce se skleněnou kartou",
+      "popis": "Úvodní sekce webu s nadpisem, textem a tlačítky na skleněné (glass) kartě nad dekorativním pozadím.",
+      "cena_kc": 490,
+      "zdarma": false,
+      "soubor": "hero-sklenena-karta.zip",
+      "nahled_url": "../../../produkty/doplnky/hero-sklenena-karta/index.html"
+    },
+    {
+      "id": "doplnek-tlacitka-odznaky",
+      "kategorie": "doplnky",
+      "typ": "soubor",
+      "nazev": "Tlačítka a odznaky",
+      "popis": "Sada tlačítek (primární, sekundární, obrysové, ghost) a odznaků/badge ve více barevných variantách.",
+      "cena_kc": 290,
+      "zdarma": false,
+      "soubor": "tlacitka-a-odznaky.zip",
+      "nahled_url": "../../../produkty/doplnky/tlacitka-a-odznaky/index.html"
+    },
+    {
+      "id": "doplnek-kontaktni-formular",
+      "kategorie": "doplnky",
+      "typ": "soubor",
+      "nazev": "Kontaktní formulář",
+      "popis": "Responzivní kontaktní formulář s validací na straně klienta a návodem na napojení na Formspree nebo vlastní endpoint.",
+      "cena_kc": 390,
+      "zdarma": false,
+      "soubor": "kontaktni-formular.zip",
+      "nahled_url": "../../../produkty/doplnky/kontaktni-formular/index.html"
+    },
+    {
+      "id": "doplnek-cookies-lista",
+      "kategorie": "doplnky",
+      "typ": "soubor",
+      "nazev": "Cookies lišta",
+      "popis": "Lišta se souhlasem s cookies s rovnocenným tlačítkem „Odmítnout“ — nenačítá nepotřebné cookies před souhlasem.",
+      "cena_kc": 290,
+      "zdarma": false,
+      "soubor": "cookies-lista.zip",
+      "nahled_url": "../../../produkty/doplnky/cookies-lista/index.html"
+    },
+    {
+      "id": "ebook-neplatte-zbytecne",
+      "kategorie": "ebooky",
+      "typ": "ebook",
+      "nazev": "Neplaťte zbytečně",
+      "popis": "Popis knihy doplní Petr — obsah zatím nebyl dodán.",
+      "cena_kc": 0,
+      "zdarma": true,
+      "soubor": "neplatte-zbytecne.pdf",
+      "nahled_url": null
+    }
+  ]
+}
