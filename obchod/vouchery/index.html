@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vouchery — Obchod PEBMedia</title>
+<meta name="description" content="Dárkové poukazy na služby PEBMedia — tvorbu webů, branding i digitální řešení.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0B6E63">
+<link rel="canonical" href="https://pebmedia.cz/obchod/vouchery/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%223%22 y=%223%22 width=%2294%22 height=%2294%22 rx=%2222%22 fill=%22%230B6E63%22/><rect x=%2232.5%22 y=%2222%22 width=%2212.25%22 height=%2256%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2222%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2257%22 y=%2222%22 width=%2210.5%22 height=%2231.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2243%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/></svg>">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+<link rel="stylesheet" href="../../css/style.css?v=23">
+<link rel="stylesheet" href="../../css/shop.css?v=1">
+<style>
+  .voucher-card .consent-row { margin-top: 14px; }
+  .voucher-card .btn { margin-top: 12px; width: 100%; }
+</style>
+</head>
+<body data-root="../../">
+
+<header class="site-header shop-header">
+  <div class="container header-inner">
+    <a href="../../index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 400 400"><rect x="12" y="12" width="376" height="376" rx="88" fill="#0B6E63"></rect><rect x="130" y="88" width="49" height="224" rx="10" fill="#F6F6F3"></rect><rect x="130" y="88" width="140" height="42" rx="10" fill="#F6F6F3"></rect><rect x="228" y="88" width="42" height="126" rx="10" fill="#F6F6F3"></rect><rect x="130" y="172" width="140" height="42" rx="10" fill="#F6F6F3"></rect></svg></span><span>PEBMedia</span></a>
+    <nav class="main-nav" aria-label="Navigace obchodu">
+      <a href="../../index.html">Domů</a>
+      <a href="../">Obchod</a>
+      <a href="../doplnky/">Doplňky</a>
+      <a href="../ebooky/">E-booky</a>
+      <a href="./" aria-current="page">Vouchery</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="shop-hero container">
+    <div class="shop-breadcrumb"><a href="../">Obchod</a> / Vouchery</div>
+    <div class="eyebrow">Vouchery</div>
+    <h1>Dárkové poukazy na služby PEBMedia</h1>
+    <p>Po zaplacení vám kód voucheru pošleme e-mailem. Kód uplatníte při objednávce služby — stačí ho zmínit v poptávce. Podmínky uplatnění viz <a href="../../voucher.html">podmínky využití voucheru</a>.</p>
+  </section>
+
+  <section class="container">
+    <div class="product-grid" id="voucherGrid"></div>
+  </section>
+</main>
+
+<footer class="site-footer shop-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>&copy; <span id="shopYear"></span> PEBMedia</span>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <a href="../../privacy.html">Zásady ochrany osobních údajů</a>
+        <a href="../podminky/">Obchodní podmínky a licence</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/shop.js?v=1"></script>
+<script>
+  document.getElementById('shopYear').textContent = new Date().getFullYear();
+
+  async function render() {
+    const el = document.getElementById('voucherGrid');
+    try {
+      const shop = await PEBShop.loadShop();
+      const vouchery = shop.products.filter((p) => p.kategorie === 'vouchery');
+      el.innerHTML = vouchery.map((p, i) => `
+        <article class="product-card voucher-card" id="${p.id}">
+          <h3>${p.nazev}</h3>
+          <p>${p.popis}</p>
+          <div class="price">${PEBShop.formatCena(p)}</div>
+          <div class="consent-row">
+            <input type="checkbox" id="consent-${i}">
+            <label for="consent-${i}">Souhlasím se zahájením plnění (okamžité vygenerování a zaslání kódu) před uplynutím lhůty pro odstoupení od smlouvy a beru na vědomí, že tím ztrácím právo na odstoupení od smlouvy. Viz <a href="../podminky/">obchodní podmínky</a>.</label>
+          </div>
+          <button class="btn btn-accent" id="buy-${i}">Koupit</button>
+          <div class="form-error" id="buyErr-${i}"></div>
+        </article>
+      `).join('');
+
+      vouchery.forEach((p, i) => {
+        PEBShop.initBuyBox({ buttonId: `buy-${i}`, errorId: `buyErr-${i}`, checkboxId: `consent-${i}`, productId: p.id });
+      });
+    } catch (err) {
+      el.innerHTML = '<p>Katalog se nepodařilo načíst.</p>';
+      console.error(err);
+    }
+  }
+  render();
+</script>
+</body>
+</html>
