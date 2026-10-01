@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ukázka — Kontaktní formulář</title>
+<link rel="stylesheet" href="styl.css">
+</head>
+<body>
+<main class="kf-demo">
+  <h1>Kontaktujte nás</h1>
+
+  <!-- ===== KONTAKTNÍ FORMULÁŘ — začátek komponenty ===== -->
+  <form class="kf-form" id="kfForm" novalidate>
+    <div class="kf-field">
+      <label for="kfName">Jméno a příjmení</label>
+      <input type="text" id="kfName" name="jmeno" autocomplete="name" required>
+      <p class="kf-error" id="kfNameError"></p>
+    </div>
+
+    <div class="kf-field">
+      <label for="kfEmail">E-mail</label>
+      <input type="email" id="kfEmail" name="email" autocomplete="email" required>
+      <p class="kf-error" id="kfEmailError"></p>
+    </div>
+
+    <div class="kf-field">
+      <label for="kfMessage">Zpráva</label>
+      <textarea id="kfMessage" name="zprava" rows="5" required></textarea>
+      <p class="kf-error" id="kfMessageError"></p>
+    </div>
+
+    <button type="submit" class="kf-submit" id="kfSubmit">Odeslat zprávu</button>
+
+    <p class="kf-status" id="kfStatus" role="status" aria-live="polite"></p>
+  </form>
+  <!-- ===== KONTAKTNÍ FORMULÁŘ — konec komponenty ===== -->
+
+</main>
+<script src="skript.js"></script>
+</body>
+</html>

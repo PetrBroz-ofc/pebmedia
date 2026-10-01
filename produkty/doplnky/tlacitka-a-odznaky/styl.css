@@ -1,0 +1,122 @@
+/* ==========================================================================
+   Tlačítka a odznaky — PEBMedia
+   Sada tlačítek a odznaků (badges) v několika variantách.
+   Čisté CSS, žádné závislosti ani JavaScript.
+   ========================================================================== */
+
+:root {
+  --ta-accent: #0B6E63;
+  --ta-accent-dark: #063E38;
+  --ta-accent-tint: #E6EFEC;
+  --ta-ink: #14181B;
+  --ta-ink-soft: #565F66;
+  --ta-border: #E3E3DE;
+  --ta-danger: #B23B3B;
+  --ta-success: #1E7A4C;
+  --ta-warning: #946B1E;
+  --ta-font: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+/* --- Tlačítka --- */
+.ta-btn {
+  font-family: var(--ta-font);
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.ta-btn:hover { transform: translateY(-1px); }
+.ta-btn:active { transform: translateY(0); }
+
+.ta-btn:focus-visible {
+  outline: 2px solid var(--ta-accent);
+  outline-offset: 2px;
+}
+
+.ta-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ta-btn-primary {
+  background: var(--ta-accent);
+  color: #fff;
+}
+.ta-btn-primary:hover:not(:disabled) { background: var(--ta-accent-dark); }
+
+.ta-btn-secondary {
+  background: var(--ta-accent-tint);
+  color: var(--ta-accent-dark);
+}
+.ta-btn-secondary:hover:not(:disabled) { background: #d7e6e1; }
+
+.ta-btn-outline {
+  background: transparent;
+  color: var(--ta-ink);
+  border-color: var(--ta-border);
+}
+.ta-btn-outline:hover:not(:disabled) { border-color: var(--ta-accent); color: var(--ta-accent-dark); }
+
+.ta-btn-ghost {
+  background: transparent;
+  color: var(--ta-ink-soft);
+}
+.ta-btn-ghost:hover:not(:disabled) { background: rgba(20, 24, 27, 0.06); color: var(--ta-ink); }
+
+.ta-btn-danger {
+  background: var(--ta-danger);
+  color: #fff;
+}
+.ta-btn-danger:hover:not(:disabled) { background: #8f2e2e; }
+
+.ta-btn-sm { padding: 7px 14px; font-size: 13px; border-radius: 8px; }
+.ta-btn-lg { padding: 15px 30px; font-size: 16px; border-radius: 12px; }
+
+/* --- Odznaky (badges) --- */
+.ta-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-family: var(--ta-font);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.ta-badge-neutral { background: #ECECE8; color: var(--ta-ink-soft); }
+.ta-badge-success { background: #E2F3E8; color: var(--ta-success); }
+.ta-badge-warning { background: #FBF0DD; color: var(--ta-warning); }
+.ta-badge-danger  { background: #F8E6E6; color: var(--ta-danger); }
+.ta-badge-accent  { background: var(--ta-accent-tint); color: var(--ta-accent-dark); }
+.ta-badge-outline {
+  background: transparent;
+  color: var(--ta-ink);
+  border: 1px solid var(--ta-border);
+}
+
+/* --- Pouze ukázková stránka --- */
+.ta-demo {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+  font-family: var(--ta-font);
+  color: var(--ta-ink);
+  background: #F6F6F3;
+}
+.ta-group { margin-bottom: 40px; }
+.ta-group h2 { font-size: 16px; margin-bottom: 16px; }
+.ta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}

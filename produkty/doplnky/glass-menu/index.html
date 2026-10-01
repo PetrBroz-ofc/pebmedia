@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ukázka — Glass menu</title>
+<link rel="stylesheet" href="styl.css">
+</head>
+<body>
+
+  <!-- ===== GLASS MENU — začátek komponenty ===== -->
+  <header class="gm-header" id="gmHeader">
+    <nav class="gm-nav" aria-label="Hlavní navigace">
+      <a href="#" class="gm-logo">Logo</a>
+
+      <button class="gm-toggle" id="gmToggle" aria-expanded="false" aria-controls="gmMenu" aria-label="Otevřít menu">
+        <span class="gm-toggle-bar"></span>
+        <span class="gm-toggle-bar"></span>
+        <span class="gm-toggle-bar"></span>
+      </button>
+
+      <ul class="gm-menu" id="gmMenu">
+        <li><a href="#">Domů</a></li>
+        <li><a href="#">O nás</a></li>
+        <li><a href="#">Služby</a></li>
+        <li><a href="#">Reference</a></li>
+        <li><a href="#" class="gm-cta">Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- ===== GLASS MENU — konec komponenty ===== -->
+
+  <main class="gm-demo-content">
+    <h1>Ukázková stránka</h1>
+    <p>Posuňte stránku dolů — všimněte si, jak lišta menu při scrollu získá sklené pozadí a jemný stín. Na úzké obrazovce (pod 760&nbsp;px) se menu změní na hamburger.</p>
+    <p>Tento obsah slouží jen pro ukázku funkčnosti komponenty výše.</p>
+    <div class="gm-filler"></div>
+    <p>Konec ukázkové stránky.</p>
+  </main>
+
+  <script src="skript.js"></script>
+</body>
+</html>
