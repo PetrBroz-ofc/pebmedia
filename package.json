@@ -2,8 +2,11 @@
   "name": "pebmedia-web",
   "version": "1.0.0",
   "private": true,
-  "description": "Firemní web PEBMedia — statický web + admin panel + Vercel serverless funkce.",
+  "description": "Firemní web PEBMedia — statický web + obchod + Vercel serverless funkce.",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.27.0"
   }
 }
