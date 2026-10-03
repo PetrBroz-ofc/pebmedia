@@ -462,6 +462,19 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "name": "SOŠ mediální grafiky a polygrafie Rumburk",
         "logo": "assets/schools/sos-medialni-grafiky-rumburk.png"
       }
+    ],
+    "gallery": [
+      {
+        "alt": "Čtyři studentky před vchodem gymnázia drží dárkové vouchery PEBMedia",
+        "caption": "Dárkové vouchery PEBMedia putují na maturitní ples",
+        "type": "image",
+        "src": "assets/skoly/galerie/galerie-2026-10-03-1-1600.webp",
+        "srcSmall": "assets/skoly/galerie/galerie-2026-10-03-1-800.webp",
+        "width": 1500,
+        "height": 2000,
+        "order": 1,
+        "focus": "center 72%"
+      }
     ]
   },
   "process": {

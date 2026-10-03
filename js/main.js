@@ -158,6 +158,118 @@
     `;
   }
 
+  function escAttr(value) {
+    return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  /**
+   * Galerie fotek a videí od studentů (content.json → schools.gallery).
+   * Fotky mají dvě velikosti (srcset), videa se v mřížce jen naznačí náhledem
+   * a přehrají se až v prohlížeči (lightbox) — stránka tak zůstane rychlá.
+   */
+  function renderSchoolsGallery(data) {
+    const wrap = document.getElementById('schoolsGalleryWrap');
+    const grid = document.getElementById('schoolsGallery');
+    if (!wrap || !grid) return;
+    const items = (data.schools.gallery || [])
+      .filter(m => m.visible !== false)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+    wrap.hidden = items.length === 0;
+    grid.dataset.count = String(Math.min(items.length, 4)); // rozložení se přizpůsobí počtu (viz CSS)
+    grid.innerHTML = '';
+
+    items.forEach((m, i) => {
+      const isVideo = m.type === 'video';
+      const dims = m.width && m.height ? ` width="${m.width}" height="${m.height}"` : '';
+      // focus = bod zaostření výřezu, např. "center 70%" (kde jsou na fotce lidé)
+      const focus = /^[a-z0-9 %.]+$/i.test(m.focus || '') ? ` style="object-position: ${m.focus}"` : '';
+      let thumb;
+      if (!isVideo) {
+        thumb = `<img src="${escAttr(m.srcSmall || m.src)}" srcset="${escAttr(m.srcSmall || m.src)} 800w, ${escAttr(m.src)} ${m.width || 1600}w" sizes="(max-width: 640px) 50vw, 25vw"${dims}${focus} alt="${escAttr(m.alt)}" loading="lazy" decoding="async">`;
+      } else if (m.poster) {
+        thumb = `<img src="${escAttr(m.poster)}"${dims} alt="${escAttr(m.alt)}" loading="lazy" decoding="async">`;
+      } else {
+        thumb = `<video src="${escAttr(m.src)}#t=0.1" muted playsinline preload="metadata" aria-hidden="true"></video>`;
+      }
+      grid.appendChild(el('figure', 'gallery-item reveal' + (isVideo ? ' is-video' : ''), `
+        <button type="button" class="gallery-open" data-index="${i}" aria-label="${isVideo ? 'Přehrát video' : 'Zobrazit fotku'}: ${escAttr(m.alt)}">
+          ${thumb}
+          ${isVideo ? '<span class="gallery-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>' : ''}
+        </button>
+        ${m.caption ? `<figcaption>${m.caption}</figcaption>` : ''}
+      `));
+    });
+
+    // Výzva k zaslání dalších fotek — vždy jako poslední dlaždice.
+    const email = data.general.email;
+    grid.appendChild(el('a', 'gallery-invite reveal', `
+      <span class="gallery-invite-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <span class="gallery-invite-title">Máte fotky nebo video z plesu?</span>
+      <span class="gallery-invite-text">Pošlete nám je — rádi je sem přidáme.</span>
+    `));
+    const invite = grid.lastElementChild;
+    invite.href = `mailto:${email}?subject=${encodeURIComponent('Fotky a videa z maturitního plesu')}`;
+
+    initLightbox(items, grid);
+  }
+
+  // Prohlížeč galerie (nativní <dialog>: fokus, Esc a přístupnost řeší prohlížeč).
+  const lightbox = { items: [], current: 0, opener: null, ready: false };
+
+  function lightboxShow(i) {
+    const { items } = lightbox;
+    if (!items.length) return;
+    lightbox.current = (i + items.length) % items.length;
+    const m = items[lightbox.current];
+    const stage = document.getElementById('lightboxStage');
+    stage.innerHTML = m.type === 'video'
+      ? `<video src="${escAttr(m.src)}" controls autoplay playsinline ${m.poster ? `poster="${escAttr(m.poster)}"` : ''} aria-label="${escAttr(m.alt)}"></video>`
+      : `<img src="${escAttr(m.src)}" alt="${escAttr(m.alt)}">`;
+    document.getElementById('lightboxCaption').textContent = m.caption || m.alt || '';
+    document.getElementById('lightboxCounter').textContent = items.length > 1 ? `${lightbox.current + 1} / ${items.length}` : '';
+    document.getElementById('lightboxPrev').hidden = document.getElementById('lightboxNext').hidden = items.length < 2;
+  }
+
+  function initLightbox(items, grid) {
+    const dialog = document.getElementById('lightbox');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    lightbox.items = items;
+    if (grid.dataset.lightboxBound) return;
+    grid.dataset.lightboxBound = '1';
+
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.gallery-open');
+      if (!btn) return;
+      lightbox.opener = btn;
+      lightboxShow(Number(btn.dataset.index));
+      dialog.showModal();
+    });
+
+    if (lightbox.ready) return; // ovládání dialogu stačí navázat jednou
+    lightbox.ready = true;
+    document.getElementById('lightboxPrev').addEventListener('click', () => lightboxShow(lightbox.current - 1));
+    document.getElementById('lightboxNext').addEventListener('click', () => lightboxShow(lightbox.current + 1));
+    document.getElementById('lightboxClose').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') lightboxShow(lightbox.current - 1);
+      if (e.key === 'ArrowRight') lightboxShow(lightbox.current + 1);
+    });
+    dialog.addEventListener('close', () => {
+      document.getElementById('lightboxStage').innerHTML = ''; // zastaví přehrávané video
+      if (lightbox.opener) lightbox.opener.focus();
+    });
+    // Swipe na mobilu
+    let startX = null;
+    dialog.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+    dialog.addEventListener('pointerup', (e) => {
+      if (startX === null || lightbox.items.length < 2) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 50) lightboxShow(lightbox.current + (dx < 0 ? 1 : -1));
+      startX = null;
+    });
+  }
+
   function render(data) {
     const g = data.general, seo = data.seo, hero = data.hero, intro = data.intro;
 
@@ -308,6 +420,8 @@
         schoolsLogos.appendChild(item);
       }
     });
+
+    renderSchoolsGallery(data);
 
     // --- Process ---
     document.getElementById('processHeading').textContent = data.process.heading;

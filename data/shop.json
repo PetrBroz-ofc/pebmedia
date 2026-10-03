@@ -1,5 +1,5 @@
 {
-  "_pozn": "Datový model obchodu PEBMedia. Cena (cena_kc) a zdarma se při platbě VŽDY ověřují na serveru podle tohoto souboru, nikdy podle dat z prohlížeče. Pole soubor je název souboru v privátním úložišti Vercel Blob (nahrává se skriptem scripts/nahraj-produkty.js). Samotné produkty nikdy nepatří do repozitáře ani do veřejné složky webu. nahled_url je jen statický obrázek náhledu.",
+  "_pozn": "Datový model obchodu PEBMedia. Cena (cena_kc) a zdarma se při platbě VŽDY ověřují na serveru podle tohoto souboru, nikdy podle dat z prohlížeče. Pole soubor je název souboru v privátním úložišti Vercel Blob (nahrává se skriptem scripts/nahraj-produkty.js). Samotné produkty nikdy nepatří do repozitáře ani do veřejné složky webu. media = fotky/videa produktu ([{type:\"image\"|\"video\", src, alt, poster?}]); každý zobrazený produkt musí mít aspoň jedno (hlídá scripts/predgeneruj.js).",
   "categories": {
     "vouchery": {
       "nazev": "Vouchery",
@@ -25,7 +25,15 @@
       "hodnota_kc": 500,
       "zdarma": false,
       "soubor": null,
-      "nahled_url": null
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-500.webp",
+          "alt": "Dárkový voucher PEBMedia v hodnotě 500 Kč",
+          "width": 1200,
+          "height": 750
+        }
+      ]
     },
     {
       "id": "voucher-1000",
@@ -37,7 +45,15 @@
       "hodnota_kc": 1000,
       "zdarma": false,
       "soubor": null,
-      "nahled_url": null
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-1000.webp",
+          "alt": "Dárkový voucher PEBMedia v hodnotě 1 000 Kč",
+          "width": 1200,
+          "height": 750
+        }
+      ]
     },
     {
       "id": "voucher-3000",
@@ -49,7 +65,15 @@
       "hodnota_kc": 3000,
       "zdarma": false,
       "soubor": null,
-      "nahled_url": null
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-3000.webp",
+          "alt": "Dárkový voucher PEBMedia v hodnotě 3 000 Kč",
+          "width": 1200,
+          "height": 750
+        }
+      ]
     },
     {
       "id": "voucher-5000",
@@ -61,7 +85,15 @@
       "hodnota_kc": 5000,
       "zdarma": false,
       "soubor": null,
-      "nahled_url": null
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-5000.webp",
+          "alt": "Dárkový voucher PEBMedia v hodnotě 5 000 Kč",
+          "width": 1200,
+          "height": 750
+        }
+      ]
     },
     {
       "id": "doplnek-glass-menu",
@@ -72,7 +104,15 @@
       "cena_kc": 490,
       "zdarma": false,
       "soubor": "glass-menu.zip",
-      "nahled_url": "assets/obchod/glass-menu.png"
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/glass-menu.webp",
+          "alt": "Náhled doplňku Glass menu",
+          "width": 1200,
+          "height": 420
+        }
+      ]
     },
     {
       "id": "doplnek-hero-sklenena-karta",
@@ -83,7 +123,15 @@
       "cena_kc": 490,
       "zdarma": false,
       "soubor": "hero-sklenena-karta.zip",
-      "nahled_url": "assets/obchod/hero-sklenena-karta.png"
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/hero-sklenena-karta.webp",
+          "alt": "Náhled doplňku Hero sekce se skleněnou kartou",
+          "width": 1200,
+          "height": 680
+        }
+      ]
     },
     {
       "id": "doplnek-tlacitka-odznaky",
@@ -95,7 +143,15 @@
       "cena_kc": 290,
       "zdarma": false,
       "soubor": "tlacitka-a-odznaky.zip",
-      "nahled_url": "assets/obchod/tlacitka-a-odznaky.png"
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/tlacitka-a-odznaky.webp",
+          "alt": "Náhled doplňku Tlačítka a odznaky",
+          "width": 1200,
+          "height": 560
+        }
+      ]
     },
     {
       "id": "doplnek-kontaktni-formular",
@@ -106,7 +162,15 @@
       "cena_kc": 390,
       "zdarma": false,
       "soubor": "kontaktni-formular.zip",
-      "nahled_url": "assets/obchod/kontaktni-formular.png"
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/kontaktni-formular.webp",
+          "alt": "Náhled doplňku Kontaktní formulář",
+          "width": 1200,
+          "height": 640
+        }
+      ]
     },
     {
       "id": "doplnek-cookies-lista",
@@ -117,7 +181,15 @@
       "cena_kc": 290,
       "zdarma": false,
       "soubor": "cookies-lista.zip",
-      "nahled_url": "assets/obchod/cookies-lista.png"
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/cookies-lista.webp",
+          "alt": "Náhled doplňku Cookies lišta",
+          "width": 1200,
+          "height": 750
+        }
+      ]
     },
     {
       "id": "ebook-neplatte-zbytecne",
@@ -130,7 +202,7 @@
       "cena_kc": 0,
       "zdarma": true,
       "soubor": "neplatte-zbytecne.pdf",
-      "nahled_url": null
+      "media": []
     }
   ]
 }

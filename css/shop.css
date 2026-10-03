@@ -67,6 +67,45 @@
   gap: 10px;
   box-shadow: var(--shadow-s);
 }
+/* Fotka/video produktu nahoře v kartě — přes celou šířku karty. */
+.product-media {
+  position: relative;
+  margin: -24px -24px 6px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-m) var(--radius-m) 0 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--accent-tint);
+}
+.product-media img,
+.product-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.voucher-card .product-media img { object-position: center; }
+.product-card:hover .product-media img,
+.product-card:hover .product-media video { transform: scale(1.035); }
+.media-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6v12l10-6z' fill='%230B6E63'/%3E%3C/svg%3E") center / 24px no-repeat;
+  box-shadow: 0 8px 24px rgba(6, 62, 56, 0.2);
+}
+.ebook-card .product-media { margin: 0 0 20px; border: 1px solid var(--border); border-radius: var(--radius-m); }
+.product-preview video { width: 100%; height: auto; display: block; background: #000; }
+.product-preview > * + * { border-top: 1px solid var(--border); }
+@media (prefers-reduced-motion: reduce) {
+  .product-card:hover .product-media img, .product-card:hover .product-media video { transform: none; }
+}
+
 .product-card h3 { font-size: 18px; }
 .product-card p { color: var(--ink-soft); font-size: 14px; flex: 1; line-height: 1.6; }
 .product-card .price {

@@ -75,6 +75,25 @@ Po pushi změny obsahu na `main` ho spustí i GitHub Action `.github/workflows/p
 a výsledek sama commitne. Prázdná kategorie obchodu (např. e-booky) dostane automaticky `noindex`.
 `robots.txt` výslovně povoluje AI crawlery.
 
+## Galerie fotek a videí od studentů
+
+Sekce „Podporujeme studenty a školy“ má galerii (data v `content.json` → `schools.gallery`).
+Novou fotku nebo video přidáte jedním příkazem — fotka se zmenší, převede do WebP a odstraní
+se z ní metadata (GPS poloha apod.), pak se web sám předgeneruje:
+
+```
+npm run galerie -- "C:cestaotka.jpg" "Popis, co je na fotce" --titulek "Text pod fotkou" --zaostreni "center 70%"
+npm run galerie -- "C:cestaideo.mp4" "Popis videa" --nahled "C:cestasnimek.jpg"
+```
+
+Před zveřejněním fotek s lidmi mějte od nich (u nezletilých od zákonných zástupců) souhlas.
+
+## Fotky a videa u produktů obchodu
+
+Každý produkt v `data/shop.json` má pole `media` — seznam fotek/videí
+(`{ "type": "image" | "video", "src", "alt", "poster"? }`). První médium se ukáže v kartě,
+všechna na detailu produktu. **Produkt bez média se nezobrazí** — `npm run predgeneruj` skončí chybou.
+
 ## Bezpečnostní poznámka
 
 Administrace (`admin.html`) byla ze stránek dočasně odebrána a tento repozitář s ní v tuto chvíli

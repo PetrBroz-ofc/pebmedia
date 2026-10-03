@@ -33,7 +33,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
-<link rel="stylesheet" href="css/style.css?v=26">
+<link rel="stylesheet" href="css/style.css?v=27">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
 <script type="application/ld+json">
@@ -900,6 +900,20 @@ pro moderní firmy.</h1>
         <div class="schools-stat-label" id="schoolsStatLabel">Rozdáno na poukázkách na maturitní plesy 2027</div>
       </div>
       <div class="schools-logos reveal" id="schoolsLogos"><div class="school-logo"><img src="assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png" alt="SŠ pedagogická, hotelnictví a služeb Litoměřice" loading="lazy"></div><div class="school-logo"><img src="assets/schools/obchodni-akademie-ceska-lipa.png" alt="Obchodní akademie Česká Lípa" loading="lazy"></div><div class="school-logo"><img src="assets/schools/stredni-zemedelska-skola.png" alt="Střední zemědělská škola" loading="lazy"></div><div class="school-logo"><img src="assets/schools/masarykovo-gymnazium-plzen.png" alt="Masarykovo gymnázium Plzeň" loading="lazy"></div><div class="school-logo"><img src="assets/schools/stredni-prumyslova-skola-strojirenska-kolin.png" alt="Střední průmyslová škola strojírenská a Jazyková škola, Kolín" loading="lazy"></div><div class="school-logo"><img src="assets/schools/vosz-ssz-usti-nad-labem.png" alt="VOŠZ a SŠZ Ústí nad Labem" loading="lazy"></div><div class="school-logo"><img src="assets/schools/sos-medialni-grafiky-rumburk.png" alt="SOŠ mediální grafiky a polygrafie Rumburk" loading="lazy"></div></div>
+      <div class="schools-gallery-wrap" id="schoolsGalleryWrap">
+        <h3 class="schools-gallery-heading reveal">Fotky a videa od studentů</h3>
+        <div class="schools-gallery" id="schoolsGallery" data-count="1"><figure class="gallery-item reveal">
+        <button type="button" class="gallery-open" data-index="0" aria-label="Zobrazit fotku: Čtyři studentky před vchodem gymnázia drží dárkové vouchery PEBMedia">
+          <img src="assets/skoly/galerie/galerie-2026-10-03-1-800.webp" srcset="assets/skoly/galerie/galerie-2026-10-03-1-800.webp 800w, assets/skoly/galerie/galerie-2026-10-03-1-1600.webp 1500w" sizes="(max-width: 640px) 50vw, 25vw" width="1500" height="2000" style="object-position: center 72%" alt="Čtyři studentky před vchodem gymnázia drží dárkové vouchery PEBMedia" loading="lazy" decoding="async">
+          
+        </button>
+        <figcaption>Dárkové vouchery PEBMedia putují na maturitní ples</figcaption>
+      </figure><a class="gallery-invite reveal" href="mailto:info.pebmedia@gmail.com?subject=Fotky%20a%20videa%20z%20maturitn%C3%ADho%20plesu">
+      <span class="gallery-invite-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span>
+      <span class="gallery-invite-title">Máte fotky nebo video z plesu?</span>
+      <span class="gallery-invite-text">Pošlete nám je — rádi je sem přidáme.</span>
+    </a></div>
+      </div>
     </div>
   </section>
 
@@ -1121,6 +1135,15 @@ Pojďme ho vytvořit.</h2>
   </button>
 </div>
 
-<script src="js/content-fallback.js?v=26"></script>
-<script src="js/main.js?v=26"></script>
+<dialog class="lightbox" id="lightbox" aria-label="Galerie fotek a videí">
+  <div class="lightbox-stage" id="lightboxStage"></div>
+  <p class="lightbox-caption" id="lightboxCaption"></p>
+  <span class="lightbox-counter" id="lightboxCounter" aria-live="polite"></span>
+  <button type="button" class="lightbox-btn lightbox-close" id="lightboxClose" aria-label="Zavřít galerii"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+  <button type="button" class="lightbox-btn lightbox-prev" id="lightboxPrev" aria-label="Předchozí"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+  <button type="button" class="lightbox-btn lightbox-next" id="lightboxNext" aria-label="Další"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
+</dialog>
+
+<script src="js/content-fallback.js?v=27"></script>
+<script src="js/main.js?v=27"></script>
 </body></html>

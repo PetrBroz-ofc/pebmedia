@@ -45,6 +45,28 @@
     return shop;
   }
 
+  /**
+   * Fotka nebo video produktu (data/shop.json → media). thumb = náhled v kartě:
+   * video se jen naznačí prvním snímkem, přehrává se až na detailu.
+   */
+  function mediaHtml(m, root, opts) {
+    if (!m) return '';
+    const thumb = opts && opts.thumb;
+    const dims = m.width && m.height ? ` width="${m.width}" height="${m.height}"` : '';
+    const poster = m.poster ? ` poster="${esc(root + m.poster)}"` : '';
+    if (m.type === 'video') {
+      return thumb
+        ? `<video src="${esc(root + m.src)}#t=0.1"${poster} muted playsinline preload="metadata"${dims} aria-label="${esc(m.alt)}"></video><span class="media-play" aria-hidden="true"></span>`
+        : `<video src="${esc(root + m.src)}"${poster} controls playsinline preload="metadata"${dims} aria-label="${esc(m.alt)}"></video>`;
+    }
+    return `<img src="${esc(root + m.src)}" alt="${esc(m.alt)}"${dims} loading="lazy" decoding="async">`;
+  }
+
+  function cardMedia(product, root) {
+    const m = (product.media || [])[0];
+    return m ? `<div class="product-media${m.type === 'video' ? ' is-video' : ''}">${mediaHtml(m, root, { thumb: true })}</div>` : '';
+  }
+
   function productCardHtml(product, root) {
     const priceClass = product.zdarma ? 'price free' : 'price';
     const href = product.kategorie === 'doplnky'
@@ -52,6 +74,7 @@
       : `${root}obchod/${product.kategorie}/#${product.id}`;
     return `
       <article class="product-card" id="${esc(product.id)}">
+        ${cardMedia(product, root)}
         <h3>${esc(product.nazev)}</h3>
         <p>${esc(product.popis)}</p>
         <div class="${priceClass}">${esc(formatCena(product))}</div>
@@ -123,6 +146,7 @@
       const vouchery = shop.products.filter((p) => p.kategorie === 'vouchery');
       el.innerHTML = vouchery.map((p, i) => `
         <article class="product-card voucher-card" id="${esc(p.id)}">
+          ${cardMedia(p, pathToRoot())}
           <h3>${esc(p.nazev)}</h3>
           <p>${esc(p.popis)}</p>
           <div class="price">${esc(formatCena(p))}</div>
@@ -152,6 +176,7 @@
           return `
             <div class="ebook-card" id="${esc(p.id)}">
               <div>
+                ${cardMedia(p, pathToRoot())}
                 <h2>${esc(p.nazev)}</h2>
                 <p>${esc(p.popis)}</p>
                 <div class="price free">Zdarma</div>
@@ -176,6 +201,7 @@
         return `
           <div class="ebook-card" id="${esc(p.id)}">
             <div>
+              ${cardMedia(p, pathToRoot())}
               <h2>${esc(p.nazev)}</h2>
               <p>${esc(p.popis)}</p>
             </div>
@@ -337,7 +363,7 @@
     }
   }
 
-  window.PEBShop = { loadShop, initCategoryListing, initOverview, initVouchers, initEbooks, initBuyBox, initFreeForm, formatCena };
+  window.PEBShop = { mediaHtml, loadShop, initCategoryListing, initOverview, initVouchers, initEbooks, initBuyBox, initFreeForm, formatCena };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', autoInit);

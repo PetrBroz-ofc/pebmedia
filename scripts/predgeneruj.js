@@ -45,6 +45,13 @@ function write(f, text) {
 const content = readJson('data/content.json');
 const shop = readJson('data/shop.json');
 const visibleProducts = shop.products.filter((p) => !p.skryto);
+
+// Každý zobrazený produkt musí mít aspoň jednu fotku nebo video, které opravdu existuje.
+const bezMedii = visibleProducts.filter((p) => !(p.media || []).some((m) => m && m.src && fs.existsSync(path.join(ROOT, m.src))));
+if (bezMedii.length) {
+  console.error(`Produkty bez fotky/videa (doplňte "media" v data/shop.json): ${bezMedii.map((p) => p.id).join(', ')}`);
+  process.exit(1);
+}
 const byOrder = (a, b) => (a.order || 0) - (b.order || 0);
 const visible = (x) => x.visible !== false;
 
@@ -193,7 +200,11 @@ function productLd(p) {
     name: p.nazev,
     description: p.popis,
     url: `${BASE}${productUrl(p)}`,
-    ...(p.nahled_url ? { image: `${BASE}/${p.nahled_url}` } : {}),
+    image: (p.media || []).map((m) => `${BASE}/${m.poster || m.src}`).filter((u) => !/\.(mp4|webm)$/.test(u)),
+    ...((p.media || []).some((m) => m.type === 'video') ? { subjectOf: (p.media || []).filter((m) => m.type === 'video').map((m) => ({
+      '@type': 'VideoObject', name: m.alt, description: m.alt, contentUrl: `${BASE}/${m.src}`,
+      ...(m.poster ? { thumbnailUrl: `${BASE}/${m.poster}` } : {}), ...(m.uploadDate ? { uploadDate: m.uploadDate } : {})
+    })) } : {}),
     brand: { '@type': 'Brand', name: 'PEBMedia' },
     offers: {
       '@type': 'Offer',
@@ -267,6 +278,7 @@ async function renderPage(file, scriptFile, { onDocument } = {}) {
   // Úklid stavu, který patří jen do živého prohlížeče.
   d.querySelectorAll('.is-visible').forEach((e) => e.classList.remove('is-visible'));
   d.querySelectorAll('.is-active').forEach((e) => e.classList.remove('is-active'));
+  d.querySelectorAll('[data-lightbox-bound]').forEach((e) => e.removeAttribute('data-lightbox-bound'));
   d.querySelectorAll('[aria-current="location"]').forEach((e) => e.removeAttribute('aria-current'));
   ['scrollProgress'].forEach((id) => { const n = d.getElementById(id); if (n) n.removeAttribute('style'); });
   d.querySelectorAll('.nav-indicator').forEach((n) => { n.removeAttribute('style'); n.classList.remove('is-visible'); });
@@ -402,11 +414,16 @@ async function main() {
   for (const p of visibleProducts.filter((x) => x.kategorie === 'doplnky')) {
     const f = `${productUrl(p).slice(1)}index.html`;
     if (!fs.existsSync(path.join(ROOT, f))) continue;
-    zaznam(f, await renderPage(f, null, {
-      onDocument: (d) => setJsonLd(d, [
+    zaznam(f, await renderPage(f, 'js/shop.js', {
+      onDocument: (d) => {
+        // Náhled na detailu = všechna média produktu ze shop.json (fotky i videa).
+        const preview = d.querySelector('.product-preview');
+        if (preview) preview.innerHTML = `\n      ${p.media.map((m) => d.defaultView.PEBShop.mediaHtml(m, '../../../')).join('\n      ')}\n    `;
+        setJsonLd(d, [
         { '@context': 'https://schema.org', ...productLd(p) },
         breadcrumbLd([['PEBMedia', '/'], ...obchod, ['Doplňky', '/obchod/doplnky/'], [p.nazev, productUrl(p)]])
-      ])
+        ]);
+      }
     }));
   }
   zaznam('obchod/podminky/index.html', await renderPage('obchod/podminky/index.html', null, {
