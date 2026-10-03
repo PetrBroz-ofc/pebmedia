@@ -85,7 +85,9 @@
   object-position: top center;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.voucher-card .product-media img { object-position: center; }
+/* Voucher je široký tiskový formát — zobrazit celý, nic neořezávat. */
+.voucher-card .product-media { aspect-ratio: 826 / 392; background: #EEF0ED; }
+.voucher-card .product-media img { object-fit: contain; object-position: center; }
 .product-card:hover .product-media img,
 .product-card:hover .product-media video { transform: scale(1.035); }
 .media-play {

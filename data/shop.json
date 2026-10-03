@@ -30,8 +30,8 @@
           "type": "image",
           "src": "assets/obchod/voucher-500.webp",
           "alt": "Dárkový voucher PEBMedia v hodnotě 500 Kč",
-          "width": 1200,
-          "height": 750
+          "width": 1652,
+          "height": 784
         }
       ]
     },
@@ -49,9 +49,69 @@
         {
           "type": "image",
           "src": "assets/obchod/voucher-1000.webp",
-          "alt": "Dárkový voucher PEBMedia v hodnotě 1 000 Kč",
-          "width": 1200,
-          "height": 750
+          "alt": "Dárkový voucher PEBMedia v hodnotě 1 000 Kč",
+          "width": 1652,
+          "height": 784
+        }
+      ]
+    },
+    {
+      "id": "voucher-1500",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 1 500 Kč",
+      "popis": "Dárkový poukaz v hodnotě 1 500 Kč na libovolnou službu PEBMedia.",
+      "cena_kc": 1500,
+      "hodnota_kc": 1500,
+      "zdarma": false,
+      "soubor": null,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-1500.webp",
+          "alt": "Dárkový voucher PEBMedia v hodnotě 1 500 Kč",
+          "width": 1652,
+          "height": 784
+        }
+      ]
+    },
+    {
+      "id": "voucher-2000",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 2 000 Kč",
+      "popis": "Dárkový poukaz v hodnotě 2 000 Kč na libovolnou službu PEBMedia.",
+      "cena_kc": 2000,
+      "hodnota_kc": 2000,
+      "zdarma": false,
+      "soubor": null,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-2000.webp",
+          "alt": "Dárkový voucher PEBMedia v hodnotě 2 000 Kč",
+          "width": 1652,
+          "height": 784
+        }
+      ]
+    },
+    {
+      "id": "voucher-2500",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 2 500 Kč",
+      "popis": "Dárkový poukaz v hodnotě 2 500 Kč na libovolnou službu PEBMedia.",
+      "cena_kc": 2500,
+      "hodnota_kc": 2500,
+      "zdarma": false,
+      "soubor": null,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-2500.webp",
+          "alt": "Dárkový voucher PEBMedia v hodnotě 2 500 Kč",
+          "width": 1652,
+          "height": 784
         }
       ]
     },
@@ -69,9 +129,9 @@
         {
           "type": "image",
           "src": "assets/obchod/voucher-3000.webp",
-          "alt": "Dárkový voucher PEBMedia v hodnotě 3 000 Kč",
-          "width": 1200,
-          "height": 750
+          "alt": "Dárkový voucher PEBMedia v hodnotě 3 000 Kč",
+          "width": 1652,
+          "height": 784
         }
       ]
     },
@@ -89,9 +149,9 @@
         {
           "type": "image",
           "src": "assets/obchod/voucher-5000.webp",
-          "alt": "Dárkový voucher PEBMedia v hodnotě 5 000 Kč",
-          "width": 1200,
-          "height": 750
+          "alt": "Dárkový voucher PEBMedia v hodnotě 5 000 Kč",
+          "width": 1652,
+          "height": 784
         }
       ]
     },

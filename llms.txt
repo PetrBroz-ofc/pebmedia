@@ -112,6 +112,9 @@ Dárkové vouchery na služby a hotové doplňky pro weby: https://pebmedia.cz/o
 
 - [Voucher 500 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-500): 500 Kč — Dárkový poukaz v hodnotě 500 Kč na libovolnou službu PEBMedia.
 - [Voucher 1 000 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-1000): 1000 Kč — Dárkový poukaz v hodnotě 1 000 Kč na libovolnou službu PEBMedia.
+- [Voucher 1 500 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-1500): 1500 Kč — Dárkový poukaz v hodnotě 1 500 Kč na libovolnou službu PEBMedia.
+- [Voucher 2 000 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-2000): 2000 Kč — Dárkový poukaz v hodnotě 2 000 Kč na libovolnou službu PEBMedia.
+- [Voucher 2 500 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-2500): 2500 Kč — Dárkový poukaz v hodnotě 2 500 Kč na libovolnou službu PEBMedia.
 - [Voucher 3 000 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-3000): 3000 Kč — Dárkový poukaz v hodnotě 3 000 Kč na libovolnou službu PEBMedia.
 - [Voucher 5 000 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-5000): 5000 Kč — Dárkový poukaz v hodnotě 5 000 Kč na libovolnou službu PEBMedia.
 - [Glass menu](https://pebmedia.cz/obchod/doplnky/glass-menu/): 490 Kč — Sticky navigace se skleněným (glassmorphism) efektem, mobilním hamburger menu a plnou přístupností klávesnice.
