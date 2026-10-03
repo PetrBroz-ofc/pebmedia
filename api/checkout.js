@@ -46,14 +46,6 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  // Zaškrtnutí souhlasu se zahájením plnění před uplynutím lhůty pro odstoupení
-  // je u digitálního obsahu povinné (§ 1837 občanského zákoníku) — bez něj
-  // zákazník nemůže nákup dokončit.
-  if (!souhlasOdstoupeni) {
-    res.status(400).json({ error: 'Pro dokončení nákupu digitálního obsahu je potřeba zaškrtnout souhlas se zahájením plnění.' });
-    return;
-  }
-
   const product = findProduct(productId);
   if (!product) {
     res.status(404).json({ error: 'Produkt nenalezen.' });
@@ -64,6 +56,16 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  // U digitálního obsahu (doplňky, e-booky) je souhlas se zahájením plnění před
+  // uplynutím lhůty pro odstoupení povinný (§ 1837 písm. l) OZ) — bez něj nákup
+  // nejde dokončit. Voucher digitálním obsahem není: spotřebitel má 14 dní na
+  // odstoupení (obchodní podmínky čl. 7.2), souhlas se proto nevyžaduje.
+  const jeDigitalniObsah = product.typ !== 'voucher';
+  if (jeDigitalniObsah && !souhlasOdstoupeni) {
+    res.status(400).json({ error: 'Pro dokončení nákupu digitálního obsahu je potřeba zaškrtnout souhlas se zahájením plnění.' });
+    return;
+  }
+
   try {
     const session = await createCheckoutSession({
       productName: product.nazev,
@@ -71,9 +73,7 @@ module.exports = async function handler(req, res) {
       productId: product.id,
       successUrl: `${baseUrl}/obchod/dekuji/?session_id={CHECKOUT_SESSION_ID}`,
       cancelUrl: `${baseUrl}/obchod/zruseno/`,
-      metadata: {
-        souhlasOdstoupeniAt: String(Date.now())
-      }
+      metadata: jeDigitalniObsah ? { souhlasOdstoupeniAt: String(Date.now()) } : {}
     }, STRIPE_SECRET_KEY);
 
     res.status(200).json({ url: session.url });

@@ -8,11 +8,10 @@
 <link rel="canonical" href="https://pebmedia.cz/obchod/ebooky/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%223%22 y=%223%22 width=%2294%22 height=%2294%22 rx=%2222%22 fill=%22%230B6E63%22/><rect x=%2232.5%22 y=%2222%22 width=%2212.25%22 height=%2256%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2222%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2257%22 y=%2222%22 width=%2210.5%22 height=%2231.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2243%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/></svg>">
 <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+<link rel="stylesheet" href="../../css/fonts.css?v=1">
 <link rel="stylesheet" href="../../css/style.css?v=27">
-<link rel="stylesheet" href="../../css/shop.css?v=5">
+<link rel="stylesheet" href="../../css/shop.css?v=6">
+<link rel="stylesheet" href="../../css/legal.css?v=1">
 <style>
   .ebook-card {
     display: grid;
@@ -88,15 +87,20 @@
 
 <footer class="site-footer shop-footer">
   <div class="container">
-    <div class="footer-bottom">
-      <span>© <span id="shopYear">2026</span> PEBMedia</span>
-      <div style="display:flex; gap:16px; flex-wrap:wrap;">
-        <a href="../../privacy.html">Zásady ochrany osobních údajů</a>
-        <a href="../podminky/">Obchodní podmínky a licence</a>
-      </div>
+    <div id="footerLegal" class="footer-bottom footer-legal">
+      <p class="footer-operator">Provozovatel: <strong>Petr Brož</strong> · IČO 29592844 · sídlo Aloisina výšina 644/132, Liberec XV-Starý Harcov, 460 15 Liberec · fyzická osoba zapsaná v živnostenském rejstříku · neplátce DPH</p>
+      <nav class="footer-legal-links" aria-label="Právní informace">
+        <a href="../../obchod/podminky/">Obchodní podmínky</a>
+        <a href="../../obchod/reklamacni-rad/">Reklamační řád</a>
+        <a href="../../obchod/odstoupeni/">Odstoupení od smlouvy</a>
+        <a id="footerPrivacy" href="../../privacy.html">Ochrana osobních údajů</a>
+        <a href="../../privacy.html#cookies">Cookies</a>
+        <a href="../../voucher.html">Podmínky voucheru</a>
+      </nav>
+      <span class="footer-copy" id="footerCopyright">© 2026 PEBMedia. Všechna práva vyhrazena.</span>
     </div>
   </div>
 </footer>
 
-<script src="../../js/shop.js?v=5"></script>
+<script src="../../js/shop.js?v=6"></script>
 </body></html>

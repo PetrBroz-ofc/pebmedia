@@ -151,7 +151,9 @@
           <h3>${esc(p.nazev)}</h3>
           <p>${esc(p.popis)}</p>
           <div class="price">${esc(formatCena(p))}</div>
-          ${consentHtml(i, 'okamžité vygenerování a zaslání kódu')}
+          <p class="voucher-note">Od koupě můžete odstoupit do 14 dnů, pokud voucher neuplatníte. <a href="${pathToRoot()}obchod/podminky/#odstoupeni">Podmínky</a></p>
+          <button class="btn btn-accent" id="buy-${i}">Koupit</button>
+          <div class="form-error" id="buyErr-${i}" role="alert"></div>
         </article>
       `).join('');
       vouchery.forEach((p, i) => {
@@ -190,7 +192,7 @@
                   </div>
                   <label class="newsletter-row">
                     <input type="checkbox" name="souhlasNovinky">
-                    <span>Chci dostávat novinky a tipy od PEBMedia e-mailem (nepovinné).</span>
+                    <span>Chci dostávat novinky a tipy od PEBMedia e-mailem (nepovinné, souhlas můžete kdykoli odvolat — viz <a href="${pathToRoot()}privacy.html">ochrana osobních údajů</a>).</span>
                   </label>
                   <button type="submit" class="btn btn-accent">Stáhnout zdarma</button>
                   <div id="freeMsg-${i}" role="status"></div>

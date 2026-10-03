@@ -9,7 +9,7 @@ Za PEBMedia stojí Petr Brož spolu s týmem odborníků, kterým na výsledku z
 - Web: https://pebmedia.cz/
 - E-mail: info.pebmedia@gmail.com
 - Telefon: +420 778 478 642
-- IČO: 29592844
+- Provozovatel: Petr Brož, IČO 29592844, sídlo Aloisina výšina 644/132, Liberec XV-Starý Harcov, 460 15 Liberec (fyzická osoba zapsaná v živnostenském rejstříku, neplátce DPH)
 - Sídlo / působnost: Liberecký kraj, Česká republika; zakázky po celé České republice
 - Instagram: https://instagram.com/pebmedia
 
@@ -129,3 +129,6 @@ Dárkové vouchery na služby a hotové doplňky pro weby: https://pebmedia.cz/o
 - [Obchod](https://pebmedia.cz/obchod/)
 - [Podmínky využití voucheru](https://pebmedia.cz/voucher.html)
 - [Obchodní podmínky obchodu](https://pebmedia.cz/obchod/podminky/)
+- [Reklamační řád](https://pebmedia.cz/obchod/reklamacni-rad/)
+- [Odstoupení od smlouvy](https://pebmedia.cz/obchod/odstoupeni/)
+- [Ochrana osobních údajů a cookies](https://pebmedia.cz/privacy.html)

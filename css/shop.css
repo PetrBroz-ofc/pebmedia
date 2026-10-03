@@ -246,3 +246,8 @@
 }
 .btn[aria-disabled="true"] { opacity: .55; cursor: default; pointer-events: none; }
 .form-error a { font-weight: 600; text-decoration: underline; }
+
+/* Poznámka o 14denní lhůtě u voucherů (místo souhlasu se ztrátou práva na odstoupení). */
+.product-card .voucher-note { flex: 0 0 auto; margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); }
+.voucher-note a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
+.form-note a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }

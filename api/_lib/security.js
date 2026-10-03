@@ -48,9 +48,13 @@ function clientIp(req) {
   return fwd || req.headers['x-real-ip'] || (req.socket && req.socket.remoteAddress) || 'neznama';
 }
 
-/** Neuchovává IP ani e-maily v čitelné podobě — jen jejich HMAC otisk. */
+/**
+ * Neuchovává IP ani e-maily v čitelné podobě — jen jejich HMAC otisk. Sůl obsahuje
+ * dnešní datum, takže otisk se každý den změní a starý záznam už nejde s nikým spojit
+ * (slib v zásadách ochrany osobních údajů, sekce „Zabezpečení webu“).
+ */
 function fingerprint(value) {
-  const salt = process.env.DOWNLOAD_SIGNING_SECRET || 'pebmedia';
+  const salt = `${process.env.DOWNLOAD_SIGNING_SECRET || 'pebmedia'}:${new Date().toISOString().slice(0, 10)}`;
   return crypto.createHmac('sha256', salt).update(String(value).toLowerCase()).digest('hex').slice(0, 32);
 }
 

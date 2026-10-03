@@ -29,11 +29,9 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<!-- Fonty — preconnect + přímý odkaz (dříve než @import v CSS) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+<link rel="stylesheet" href="css/fonts.css?v=1">
 <link rel="stylesheet" href="css/style.css?v=27">
+<link rel="stylesheet" href="css/legal.css?v=1">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
 <script type="application/ld+json">
@@ -60,8 +58,12 @@
   },
   "priceRange": "Kč",
   "currenciesAccepted": "CZK",
+  "legalName": "Petr Brož",
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": "Aloisina výšina 644/132",
+    "addressLocality": "Liberec",
+    "postalCode": "460 15",
     "addressRegion": "Liberecký kraj",
     "addressCountry": "CZ"
   },
@@ -1064,7 +1066,7 @@ Pojďme ho vytvořit.</h2>
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Odeslat poptávku</button>
-            <p class="form-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
+            <p class="form-note">Údaje použijeme jen k vyřízení vaší poptávky. Podrobnosti najdete v <a href="privacy.html">zásadách ochrany osobních údajů</a>.</p>
             <div class="form-success" id="formSuccess" role="status" aria-live="polite">Děkujeme za zprávu — ozveme se vám co nejdříve.</div>
             <div class="form-error" id="formError" role="alert">Odeslání se bohužel nepodařilo. Zkuste to prosím znovu, nebo nám napište na <span id="formErrorEmail">info.pebmedia@gmail.com</span>.</div>
           </form>
@@ -1103,13 +1105,17 @@ Pojďme ho vytvořit.</h2>
         </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span id="footerCopyright">© 2026 PEBMedia. Všechna práva vyhrazena.</span>
-      <div style="display:flex; gap:16px; flex-wrap:wrap;">
-        <a id="footerPrivacy" href="privacy.html">Zásady ochrany osobních údajů</a>
-        <a href="voucher.html">Podmínky využití voucheru</a>
-        <a href="obchod/podminky/">Obchodní podmínky obchodu</a>
-      </div>
+    <div id="footerLegal" class="footer-bottom footer-legal">
+      <p class="footer-operator">Provozovatel: <strong>Petr Brož</strong> · IČO 29592844 · sídlo Aloisina výšina 644/132, Liberec XV-Starý Harcov, 460 15 Liberec · fyzická osoba zapsaná v živnostenském rejstříku · neplátce DPH</p>
+      <nav class="footer-legal-links" aria-label="Právní informace">
+        <a href="obchod/podminky/">Obchodní podmínky</a>
+        <a href="obchod/reklamacni-rad/">Reklamační řád</a>
+        <a href="obchod/odstoupeni/">Odstoupení od smlouvy</a>
+        <a id="footerPrivacy" href="privacy.html">Ochrana osobních údajů</a>
+        <a href="privacy.html#cookies">Cookies</a>
+        <a href="voucher.html">Podmínky voucheru</a>
+      </nav>
+      <span class="footer-copy" id="footerCopyright">© 2026 PEBMedia. Všechna práva vyhrazena.</span>
     </div>
   </div>
 </footer>

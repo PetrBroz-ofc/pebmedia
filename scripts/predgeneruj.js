@@ -123,7 +123,15 @@ function organizationLd() {
     founder: { '@type': 'Person', name: 'Petr Brož' },
     priceRange: 'Kč',
     currenciesAccepted: 'CZK',
-    address: { '@type': 'PostalAddress', addressRegion: 'Liberecký kraj', addressCountry: 'CZ' },
+    legalName: g.provozovatel.jmeno,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: g.provozovatel.ulice,
+      addressLocality: g.provozovatel.obec,
+      postalCode: g.provozovatel.psc,
+      addressRegion: 'Liberecký kraj',
+      addressCountry: 'CZ'
+    },
     areaServed: { '@type': 'Country', name: 'Česká republika' },
     contactPoint: {
       '@type': 'ContactPoint',
@@ -248,6 +256,111 @@ function setRobots(document, index) {
 }
 
 // ---------------------------------------------------------------------------
+// Společné rozložení všech stránek: povinné údaje o provozovateli, patička
+// s právními odkazy, lokální písma (žádné Google Fonts kvůli GDPR).
+// ---------------------------------------------------------------------------
+const P = content.general.provozovatel;
+const SIDLO = `${P.ulice}, ${P.castObce}, ${P.psc} ${P.obec}`;
+const UDAJE = {
+  jmeno: P.jmeno,
+  ico: P.ico,
+  sidlo: SIDLO,
+  rejstrik: P.rejstrik,
+  dph: P.dph,
+  zivnostenskyUrad: P.zivnostenskyUrad,
+  email: content.general.email,
+  telefon: content.general.phone
+};
+
+function legalFooterHtml(root) {
+  const odkazy = [
+    ['obchod/podminky/', 'Obchodní podmínky'],
+    ['obchod/reklamacni-rad/', 'Reklamační řád'],
+    ['obchod/odstoupeni/', 'Odstoupení od smlouvy'],
+    ['privacy.html', 'Ochrana osobních údajů', 'footerPrivacy'],
+    ['privacy.html#cookies', 'Cookies'],
+    ['voucher.html', 'Podmínky voucheru']
+  ];
+  return `
+      <p class="footer-operator">Provozovatel: <strong>${P.jmeno}</strong> · IČO ${P.ico} · sídlo ${SIDLO} · ${P.rejstrik} · ${P.dph}</p>
+      <nav class="footer-legal-links" aria-label="Právní informace">
+        ${odkazy.map(([href, text, id]) => `<a${id ? ` id="${id}"` : ''} href="${root}${href}">${text}</a>`).join('\n        ')}
+      </nav>
+      <span class="footer-copy" id="footerCopyright">${content.footer.copyright}</span>
+    `;
+}
+
+function applyLayout(d, file) {
+  const root = '../'.repeat(file.split('/').length - 1);
+
+  // Písma: místo Google Fonts lokální css/fonts.css.
+  d.querySelectorAll('link[href*="fonts.googleapis.com"], link[href*="fonts.gstatic.com"]').forEach((l) => {
+    const prev = l.previousSibling;
+    if (prev && prev.nodeType === 3 && !prev.textContent.trim()) prev.remove();
+    l.remove();
+  });
+  d.querySelectorAll('head').forEach((head) => {
+    for (const node of [...head.childNodes]) {
+      if (node.nodeType === 8 && /Fonty/.test(node.textContent)) node.remove();
+    }
+  });
+  const styleCss = d.querySelector('link[href*="css/style.css"]');
+  const ensureLink = (href, after) => {
+    const name = href.split('?')[0];
+    if (d.querySelector(`link[href*="${name}"]`)) return d.querySelector(`link[href*="${name}"]`);
+    const link = d.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = root + href;
+    if (after) after.after(d.createTextNode('\n'), link); else d.head.appendChild(link);
+    return link;
+  };
+  if (styleCss) {
+    if (!d.querySelector('link[href*="css/fonts.css"]')) {
+      const f = d.createElement('link');
+      f.rel = 'stylesheet';
+      f.href = `${root}css/fonts.css?v=1`;
+      styleCss.before(f, d.createTextNode('\n'));
+    }
+    const last = d.querySelector('link[href*="css/shop.css"]') || styleCss;
+    ensureLink('css/legal.css?v=1', last);
+  }
+
+  // Údaje o provozovateli v textech (data-udaj="…").
+  d.querySelectorAll('[data-udaj]').forEach((n) => {
+    const k = n.getAttribute('data-udaj');
+    if (k === 'email-odkaz') { n.setAttribute('href', `mailto:${UDAJE.email}`); n.textContent = UDAJE.email; return; }
+    if (k === 'email-odstoupeni') {
+      n.setAttribute('href', `mailto:${UDAJE.email}?subject=${encodeURIComponent('Odstoupení od smlouvy')}&body=${encodeURIComponent('Oznamuji, že tímto odstupuji od smlouvy o nákupu tohoto produktu:\n\nDatum objednání / zaplacení:\nKód voucheru nebo číslo objednávky:\nJméno a příjmení:\nE-mail použitý při nákupu:\n')}`);
+      return;
+    }
+    if (UDAJE[k] !== undefined) n.textContent = UDAJE[k];
+  });
+
+  // Patička s identifikací provozovatele a právními odkazy — na každé stránce.
+  let block = d.getElementById('footerLegal');
+  if (!block) {
+    block = d.createElement('div');
+    block.id = 'footerLegal';
+    const bottom = d.querySelector('footer .footer-bottom');
+    if (bottom) {
+      bottom.replaceWith(block);
+    } else {
+      const footer = d.createElement('footer');
+      footer.className = 'site-footer shop-footer';
+      const container = d.createElement('div');
+      container.className = 'container';
+      container.appendChild(block);
+      footer.appendChild(container);
+      const firstScript = [...d.body.children].find((c) => c.tagName === 'SCRIPT' || c.tagName === 'DIALOG');
+      d.body.insertBefore(footer, firstScript || null);
+      d.body.insertBefore(d.createTextNode('\n'), footer);
+    }
+  }
+  block.className = 'footer-bottom footer-legal';
+  block.innerHTML = legalFooterHtml(root);
+}
+
+// ---------------------------------------------------------------------------
 // Vykreslení stránky v jsdom (spustí skutečný js/main.js nebo js/shop.js)
 // ---------------------------------------------------------------------------
 async function renderPage(file, scriptFile, { onDocument } = {}) {
@@ -287,6 +400,7 @@ async function renderPage(file, scriptFile, { onDocument } = {}) {
   d.body.removeAttribute('style');
   if (d.body.getAttribute('class') === '') d.body.removeAttribute('class');
 
+  applyLayout(d, file);
   if (onDocument) onDocument(d);
 
   // Prázdné řádky se nesmí při opakovaném běhu hromadit (idempotence).
@@ -311,7 +425,7 @@ function llmsTxt() {
   L.push(`- Web: ${BASE}/`);
   L.push(`- E-mail: ${g.email}`);
   L.push(`- Telefon: ${g.phone}`);
-  L.push(`- IČO: ${g.ico}`);
+  L.push(`- Provozovatel: ${g.provozovatel.jmeno}, IČO ${g.ico}, sídlo ${g.provozovatel.ulice}, ${g.provozovatel.castObce}, ${g.provozovatel.psc} ${g.provozovatel.obec} (${g.provozovatel.rejstrik}, ${g.provozovatel.dph})`);
   L.push(`- Sídlo / působnost: ${g.address}; zakázky po celé České republice`);
   if (g.social && g.social.instagram) L.push(`- Instagram: ${g.social.instagram}`);
   L.push('');
@@ -351,6 +465,9 @@ function llmsTxt() {
   L.push(`- [Obchod](${BASE}/obchod/)`);
   L.push(`- [Podmínky využití voucheru](${BASE}/voucher.html)`);
   L.push(`- [Obchodní podmínky obchodu](${BASE}/obchod/podminky/)`);
+  L.push(`- [Reklamační řád](${BASE}/obchod/reklamacni-rad/)`);
+  L.push(`- [Odstoupení od smlouvy](${BASE}/obchod/odstoupeni/)`);
+  L.push(`- [Ochrana osobních údajů a cookies](${BASE}/privacy.html)`);
   L.push('');
   return L.join('\n');
 }
@@ -358,9 +475,23 @@ function llmsTxt() {
 // ---------------------------------------------------------------------------
 // Sitemap — všechny stránky s robots "index"
 // ---------------------------------------------------------------------------
+/** Všechny HTML stránky webu (i nové, které ještě nejsou v gitu). */
+function htmlFiles(dir = '') {
+  const out = [];
+  for (const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
+    const rel = dir ? `${dir}/${e.name}` : e.name;
+    if (e.isDirectory()) {
+      if (['node_modules', 'produkty', '.git', '.github', 'api', 'scripts', 'assets', '.claude'].includes(e.name)) continue;
+      out.push(...htmlFiles(rel));
+    } else if (e.name.endsWith('.html') && e.name !== 'admin.html') {
+      out.push(rel);
+    }
+  }
+  return out.sort();
+}
+
 function sitemapXml() {
-  const files = execSync('git ls-files "*.html"', { cwd: ROOT }).toString().trim().split('\n')
-    .filter((f) => !f.startsWith('produkty/'));
+  const files = htmlFiles();
   const today = new Date().toISOString().slice(0, 10);
   const entries = [];
   for (const f of files) {
@@ -429,6 +560,14 @@ async function main() {
   zaznam('obchod/podminky/index.html', await renderPage('obchod/podminky/index.html', null, {
     onDocument: (d) => setJsonLd(d, [breadcrumbLd([['PEBMedia', '/'], ...obchod, ['Obchodní podmínky', '/obchod/podminky/']])])
   }));
+
+  // Ostatní stránky (právní texty, děkujeme/zrušeno…) — jen společné rozložení.
+  const hotovo = new Set(['index.html', 'obchod/index.html', 'obchod/doplnky/index.html', 'obchod/vouchery/index.html',
+    'obchod/ebooky/index.html', 'obchod/podminky/index.html',
+    ...visibleProducts.filter((x) => x.kategorie === 'doplnky').map((p) => `${productUrl(p).slice(1)}index.html`)]);
+  for (const f of htmlFiles().filter((x) => !hotovo.has(x))) {
+    zaznam(f, await renderPage(f, null));
+  }
 
   zaznam('llms.txt', write('llms.txt', llmsTxt()));
 

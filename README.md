@@ -94,6 +94,22 @@ Každý produkt v `data/shop.json` má pole `media` — seznam fotek/videí
 (`{ "type": "image" | "video", "src", "alt", "poster"? }`). První médium se ukáže v kartě,
 všechna na detailu produktu. **Produkt bez média se nezobrazí** — `npm run predgeneruj` skončí chybou.
 
+## Právní informace (povinné náležitosti)
+
+- **Patičku s identifikací provozovatele** (jméno, IČO, sídlo, zápis v živnostenském rejstříku, DPH)
+  a odkazy na právní stránky generuje `scripts/predgeneruj.js` na **všech** stránkách z
+  `content.json` → `general.provozovatel` (údaje podle ARES). Při změně sídla stačí upravit tam.
+- V textech právních stránek jsou údaje provozovatele jako `<span data-udaj="sidlo"></span>` atd.
+  — doplní je stejný skript.
+- Stránky: `obchod/podminky/` (obchodní podmínky), `obchod/reklamacni-rad/`,
+  `obchod/odstoupeni/` (poučení + vzorový formulář), `privacy.html` (GDPR + cookies), `voucher.html`.
+- Web nepoužívá žádné cookies ani analytiku, písma jsou hostovaná lokálně (`css/fonts.css`),
+  proto není potřeba cookie lišta. Pokud by se přidala analytika/marketing, je nutné doplnit
+  souhlas s cookies a aktualizovat `privacy.html`.
+- Záznamy odběratelů e-booku (`odberatele/` ve Vercel Blob) je potřeba mazat po 24 měsících,
+  jak slibují zásady ochrany osobních údajů.
+- Texty nejsou právní rada — před spuštěním ostrých plateb je vhodné nechat je zkontrolovat.
+
 ## Bezpečnostní poznámka
 
 Administrace (`admin.html`) byla ze stránek dočasně odebrána a tento repozitář s ní v tuto chvíli

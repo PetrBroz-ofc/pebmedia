@@ -15,6 +15,18 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       "instagram": "https://instagram.com/pebmedia",
       "linkedin": "https://linkedin.com/company/pebmedia",
       "facebook": "https://facebook.com/pebmedia"
+    },
+    "provozovatel": {
+      "_pozn": "Údaje podle ARES (ares.gov.cz) — povinně se zobrazují v patičce všech stránek (§ 435 občanského zákoníku).",
+      "jmeno": "Petr Brož",
+      "ico": "29592844",
+      "ulice": "Aloisina výšina 644/132",
+      "castObce": "Liberec XV-Starý Harcov",
+      "psc": "460 15",
+      "obec": "Liberec",
+      "rejstrik": "fyzická osoba zapsaná v živnostenském rejstříku",
+      "dph": "neplátce DPH",
+      "zivnostenskyUrad": "Magistrát města Liberec, živnostenský úřad"
     }
   },
   "seo": {
