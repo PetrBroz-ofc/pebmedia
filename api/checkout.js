@@ -8,27 +8,40 @@
 
 const { findProduct } = require('./_lib/shop');
 const { createCheckoutSession } = require('./_lib/stripe');
+const { setApiHeaders, getBaseUrl, isAllowedOrigin, clientIp, rateLimit, parseJsonBody } = require('./_lib/security');
 
 module.exports = async function handler(req, res) {
+  setApiHeaders(res);
+
   if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
-  const { STRIPE_SECRET_KEY, PUBLIC_BASE_URL } = process.env;
-  if (!STRIPE_SECRET_KEY) {
-    res.status(500).json({ error: 'Platby nejsou nakonfigurované (chybí STRIPE_SECRET_KEY na serveru).' });
+  if (!isAllowedOrigin(req)) {
+    res.status(403).json({ error: 'Požadavek není povolený.' });
     return;
   }
 
-  let body = req.body;
-  if (typeof body === 'string') {
-    try { body = JSON.parse(body); } catch (e) { body = {}; }
+  const { STRIPE_SECRET_KEY } = process.env;
+  const baseUrl = getBaseUrl();
+  if (!STRIPE_SECRET_KEY || !baseUrl) {
+    console.error('Checkout: chybí STRIPE_SECRET_KEY nebo platná PUBLIC_BASE_URL.');
+    res.status(503).json({ error: 'Online platby jsou dočasně nedostupné. Napište nám prosím na info.pebmedia@gmail.com.' });
+    return;
   }
 
-  const { productId, souhlasOdstoupeni } = body || {};
+  if (!(await rateLimit(`checkout:${clientIp(req)}`, 20, 10 * 60 * 1000))) {
+    res.status(429).json({ error: 'Příliš mnoho pokusů. Zkuste to prosím za pár minut.' });
+    return;
+  }
 
-  if (!productId) {
+  const body = parseJsonBody(req);
+  const productId = body && body.productId;
+  const souhlasOdstoupeni = body && body.souhlasOdstoupeni === true;
+
+  if (typeof productId !== 'string' || productId.length > 100) {
     res.status(400).json({ error: 'Chybí productId.' });
     return;
   }
@@ -46,12 +59,10 @@ module.exports = async function handler(req, res) {
     res.status(404).json({ error: 'Produkt nenalezen.' });
     return;
   }
-  if (product.zdarma || !product.cena_kc) {
-    res.status(400).json({ error: 'Tento produkt je zdarma — použijte /api/free-download.' });
+  if (product.zdarma || !Number.isFinite(product.cena_kc) || product.cena_kc <= 0) {
+    res.status(400).json({ error: 'Tento produkt nelze koupit.' });
     return;
   }
-
-  const baseUrl = PUBLIC_BASE_URL || `https://${req.headers.host}`;
 
   try {
     const session = await createCheckoutSession({

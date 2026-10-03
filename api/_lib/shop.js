@@ -18,7 +18,8 @@ function loadShop() {
 
 function findProduct(productId) {
   const shop = loadShop();
-  return (shop.products || []).find((p) => p.id === productId) || null;
+  // Skrytý produkt (bez dodaného obsahu) nejde koupit ani stáhnout.
+  return (shop.products || []).find((p) => p.id === productId && !p.skryto) || null;
 }
 
 module.exports = { loadShop, findProduct };

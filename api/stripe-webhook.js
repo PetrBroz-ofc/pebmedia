@@ -1,70 +1,146 @@
 // api/stripe-webhook.js
-// Zpracuje potvrzení platby ze Stripe (checkout.session.completed):
+// Zpracuje potvrzení platby ze Stripe (checkout.session.completed a
+// checkout.session.async_payment_succeeded):
 //  - u voucheru vygeneruje unikátní kód a pošle ho e-mailem,
 //  - u souboru (doplněk/e-book) vygeneruje podepsaný odkaz ke stažení a pošle ho e-mailem,
-//  - objednávku uloží do úložiště (pro případnou kontrolu).
+//  - objednávku uloží do privátního úložiště.
 //
-// DŮLEŽITÉ: tahle funkce potřebuje SYROVÉ (neparsované) tělo požadavku kvůli
-// ověření podpisu, proto je níže vypnutý výchozí bodyParser.
+// BEZPEČNOST:
+//  - ověřuje podpis Stripe (STRIPE_WEBHOOK_SECRET) nad syrovým tělem,
+//  - stav platby si znovu načte přímo ze Stripe API a zkontroluje, že je
+//    zaplaceno, v CZK a přesně za cenu z katalogu,
+//  - je idempotentní: Stripe stejnou událost může poslat víckrát, ale zákazník
+//    dostane vždy jen jeden voucher (opakované doručení pošle stejný kód znovu,
+//    nikdy nevygeneruje nový).
 //
 // Potřebné proměnné prostředí:
 //   STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, DOWNLOAD_SIGNING_SECRET, PUBLIC_BASE_URL
 //
 // Nastavení ve Stripe Dashboard → Developers → Webhooks:
 //   Endpoint URL: https://pebmedia.cz/api/stripe-webhook
-//   Událost: checkout.session.completed
+//   Události: checkout.session.completed, checkout.session.async_payment_succeeded
 
 const { findProduct } = require('./_lib/shop');
-const { verifyStripeWebhookSignature } = require('./_lib/stripe');
-const { createDownloadToken, generateVoucherCode } = require('./_lib/tokens');
+const { verifyStripeWebhookSignature, retrieveCheckoutSession } = require('./_lib/stripe');
+const { getSecret, createDownloadToken, generateVoucherCode } = require('./_lib/tokens');
 const { sendEmail } = require('./_lib/email');
-const { put } = require('@vercel/blob');
+const { readJson, writeJson } = require('./_lib/storage');
+const { setApiHeaders, getBaseUrl, readRawBody } = require('./_lib/security');
 
-module.exports.config = {
-  api: { bodyParser: false }
-};
+const ZPRACOVAT = new Set(['checkout.session.completed', 'checkout.session.async_payment_succeeded']);
 
-function readRawBody(req) {
-  return new Promise((resolve, reject) => {
-    let data = '';
-    req.on('data', (chunk) => { data += chunk; });
-    req.on('end', () => resolve(data));
-    req.on('error', reject);
-  });
+/**
+ * Najde existující objednávku, nebo ji atomicky založí. Při souběhu dvou
+ * doručení téže události vyhraje první zápis a druhé si přečte jeho data.
+ */
+async function nacistNeboZalozit(orderPath, novaObjednavka) {
+  const existujici = await readJson(orderPath);
+  if (existujici) return existujici.data;
+  if (await writeJson(orderPath, novaObjednavka, { onlyIfNew: true })) return novaObjednavka;
+  const poSoubehu = await readJson(orderPath);
+  if (!poSoubehu) throw new Error(`Objednávku ${orderPath} se nepodařilo založit.`);
+  return poSoubehu.data;
 }
 
-async function saveOrder(order) {
-  try {
-    await put(`objednavky/${order.orderId}.json`, JSON.stringify(order, null, 2), {
-      access: 'public',
-      addRandomSuffix: false,
-      contentType: 'application/json'
-    });
-  } catch (err) {
-    // Uložení objednávky je jen pro evidenci — pokud selže (např. Blob store
-    // zatím není připojený), e-mail zákazníkovi přesto pošleme.
-    console.error('Nepodařilo se uložit objednávku do úložiště', err);
+async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) {
+  const orderId = session.id;
+  const productId = session.metadata && session.metadata.productId;
+  const email = session.customer_details && session.customer_details.email;
+
+  if (session.payment_status !== 'paid') {
+    console.log(`Webhook: session ${orderId} zatím není zaplacená (${session.payment_status}) — čekám na další událost.`);
+    return;
   }
+
+  const product = productId && findProduct(productId);
+  if (!product || !email) {
+    console.error('Webhook: chybí produkt nebo e-mail', orderId, productId);
+    return;
+  }
+
+  // Zaplacená částka musí přesně odpovídat ceně v katalogu.
+  if (session.currency !== 'czk' || session.amount_total !== Math.round(product.cena_kc * 100)) {
+    console.error('Webhook: nesouhlasí částka nebo měna — objednávku NEVYŘIZUJI', orderId, session.amount_total, session.currency);
+    return;
+  }
+
+  const orderPath = `objednavky/${orderId}.json`;
+  const order = await nacistNeboZalozit(orderPath, {
+    orderId,
+    productId,
+    typ: product.typ,
+    email,
+    zaplacenoKc: session.amount_total / 100,
+    kodVoucheru: product.typ === 'voucher' ? generateVoucherCode() : undefined,
+    hodnotaKc: product.typ === 'voucher' ? product.hodnota_kc : undefined,
+    soubor: product.typ === 'voucher' ? undefined : product.soubor,
+    souhlasOdstoupeniAt: (session.metadata && session.metadata.souhlasOdstoupeniAt) || null,
+    vytvorenoAt: new Date().toISOString(),
+    stav: 'zaplaceno'
+  });
+
+  if (order.stav === 'odeslano') {
+    console.log(`Webhook: objednávka ${orderId} už byla vyřízena — přeskakuji duplicitní událost.`);
+    return;
+  }
+
+  if (product.typ === 'voucher') {
+    await sendEmail({
+      to: email,
+      subject: `Váš voucher PEBMedia — ${order.kodVoucheru}`,
+      text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${order.hodnotaKc} Kč:\n\nKód: ${order.kodVoucheru}\n\nKód uplatníte při objednávce služby — stačí ho zmínit v poptávce na info.pebmedia@gmail.com.\n\nPEBMedia`
+    });
+    console.log(`[Voucher] Kód odeslán zákazníkovi (objednávka ${orderId}).`);
+  } else {
+    const token = createDownloadToken({
+      orderId,
+      productId,
+      soubor: product.soubor,
+      maxStazeni: 5,
+      platnostHodin: 24
+    }, downloadSecret);
+    const downloadUrl = `${baseUrl}/api/download?token=${encodeURIComponent(token)}`;
+
+    await sendEmail({
+      to: email,
+      subject: `Ke stažení: ${product.nazev} — PEBMedia`,
+      text: `Děkujeme za nákup!\n\nOdkaz ke stažení „${product.nazev}“ (platný 24 hodin, max. 5 stažení):\n${downloadUrl}\n\nOdkaz je osobní — prosím nepřeposílejte ho.\n\nPEBMedia`
+    });
+    console.log(`[Stažení] Odkaz odeslán zákazníkovi (objednávka ${orderId}).`);
+  }
+
+  await writeJson(orderPath, { ...order, stav: 'odeslano', odeslanoAt: new Date().toISOString() });
 }
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
+  setApiHeaders(res);
+
   if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
-  const { STRIPE_WEBHOOK_SECRET, DOWNLOAD_SIGNING_SECRET, PUBLIC_BASE_URL } = process.env;
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const downloadSecret = getSecret('DOWNLOAD_SIGNING_SECRET');
+  const baseUrl = getBaseUrl();
 
-  if (!STRIPE_WEBHOOK_SECRET || !DOWNLOAD_SIGNING_SECRET) {
-    console.error('Webhook není plně nakonfigurovaný (chybí STRIPE_WEBHOOK_SECRET nebo DOWNLOAD_SIGNING_SECRET).');
+  if (!stripeKey || !webhookSecret || !downloadSecret || !baseUrl) {
+    console.error('Webhook není plně nakonfigurovaný (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, DOWNLOAD_SIGNING_SECRET, PUBLIC_BASE_URL).');
     res.status(500).json({ error: 'Server není nakonfigurovaný.' });
     return;
   }
 
-  const rawBody = await readRawBody(req);
-  const signatureOk = verifyStripeWebhookSignature(rawBody, req.headers['stripe-signature'], STRIPE_WEBHOOK_SECRET);
+  let rawBody;
+  try {
+    rawBody = await readRawBody(req);
+  } catch (err) {
+    res.status(413).json({ error: 'Požadavek je příliš velký.' });
+    return;
+  }
 
-  if (!signatureOk) {
+  if (!verifyStripeWebhookSignature(rawBody, req.headers['stripe-signature'], webhookSecret)) {
     res.status(400).json({ error: 'Neplatný podpis webhooku.' });
     return;
   }
@@ -77,86 +153,24 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  // Odpovíme Stripe hned 200, zbytek zpracujeme — Stripe očekává rychlou odpověď
-  // a při chybě/timeoutu by událost posílal znovu.
-  res.status(200).json({ received: true });
-
-  if (event.type !== 'checkout.session.completed') return;
-
-  const session = event.data.object;
-  const productId = session.metadata && session.metadata.productId;
-  const email = session.customer_details && session.customer_details.email;
-  const orderId = session.id;
-
-  if (!productId || !email) {
-    console.error('Webhook: chybí productId nebo e-mail v session', session.id);
+  if (!ZPRACOVAT.has(event.type)) {
+    res.status(200).json({ received: true, ignored: event.type });
     return;
   }
 
-  const product = findProduct(productId);
-  if (!product) {
-    console.error('Webhook: produkt nenalezen', productId);
-    return;
-  }
-
-  const baseUrl = PUBLIC_BASE_URL || `https://${req.headers.host}`;
-
+  // Zpracujeme celou objednávku PŘED odpovědí: na Vercelu se funkce po odeslání
+  // odpovědi může zastavit a e-mail by se nikdy neodeslal. Při chybě vrátíme 500
+  // a Stripe událost zopakuje (díky idempotenci bez duplicit).
   try {
-    if (product.typ === 'voucher') {
-      const code = generateVoucherCode();
-
-      await saveOrder({
-        orderId,
-        productId,
-        typ: 'voucher',
-        email,
-        hodnotaKc: product.hodnota_kc,
-        kodVoucheru: code,
-        souhlasOdstoupeniAt: session.metadata.souhlasOdstoupeniAt || null,
-        vytvorenoAt: new Date().toISOString(),
-        stav: 'zaplaceno'
-      });
-
-      await sendEmail({
-        to: email,
-        subject: `Váš voucher PEBMedia — ${code}`,
-        text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${product.hodnota_kc} Kč:\n\nKód: ${code}\n\nKód uplatníte při objednávce služby — stačí ho zmínit v poptávce na info.pebmedia@gmail.com.\n\nPEBMedia`
-      });
-
-      console.log(`[Voucher] Vygenerován a odeslán kód ${code} pro ${email} (objednávka ${orderId}).`);
-      console.log('[Voucher] Pozn.: tento kód zatím není propojený s interním nástrojem pebmedia-vocuhery — pokud ho tam chcete mít evidovaný automaticky, je to samostatný krok k domluvě.');
-    } else {
-      // 'soubor' nebo placený 'ebook'
-      const token = createDownloadToken({
-        orderId,
-        productId,
-        soubor: product.soubor,
-        maxStazeni: 5,
-        platnostHodin: 24
-      }, DOWNLOAD_SIGNING_SECRET);
-
-      const downloadUrl = `${baseUrl}/api/download?token=${encodeURIComponent(token)}`;
-
-      await saveOrder({
-        orderId,
-        productId,
-        typ: product.typ,
-        email,
-        soubor: product.soubor,
-        souhlasOdstoupeniAt: session.metadata.souhlasOdstoupeniAt || null,
-        vytvorenoAt: new Date().toISOString(),
-        stav: 'zaplaceno'
-      });
-
-      await sendEmail({
-        to: email,
-        subject: `Ke stažení: ${product.nazev} — PEBMedia`,
-        text: `Děkujeme za nákup!\n\nOdkaz ke stažení „${product.nazev}“ (platný 24 hodin, max. 5 stažení):\n${downloadUrl}\n\nPEBMedia`
-      });
-
-      console.log(`[Stažení] Odkaz odeslán na ${email} pro produkt ${productId} (objednávka ${orderId}).`);
-    }
+    const session = await retrieveCheckoutSession(event.data && event.data.object && event.data.object.id, stripeKey);
+    await zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl });
+    res.status(200).json({ received: true });
   } catch (err) {
-    console.error('Chyba při zpracování zaplacené objednávky', err);
+    console.error('Chyba při zpracování zaplacené objednávky — Stripe to zkusí znovu', err);
+    res.status(500).json({ error: 'Zpracování selhalo.' });
   }
-};
+}
+
+module.exports = handler;
+// Syrové tělo je potřeba kvůli ověření podpisu — výchozí parsování těla vypínáme.
+module.exports.config = { api: { bodyParser: false } };

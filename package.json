@@ -4,9 +4,9 @@
   "private": true,
   "description": "Firemní web PEBMedia — statický web + obchod + Vercel serverless funkce.",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "dependencies": {
-    "@vercel/blob": "^0.27.0"
+    "@vercel/blob": "^2.8.0"
   }
 }

@@ -28,14 +28,14 @@ function toFormBody(obj, prefix) {
   return params;
 }
 
-async function stripeRequest(path, body, secretKey) {
+async function stripeRequest(path, body, secretKey, method = 'POST') {
   const res = await fetch(`${STRIPE_API}${path}`, {
-    method: 'POST',
+    method,
     headers: {
       Authorization: `Bearer ${secretKey}`,
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: toFormBody(body)
+    body: method === 'GET' ? undefined : toFormBody(body)
   });
   const data = await res.json();
   if (!res.ok) {
@@ -63,8 +63,22 @@ async function createCheckoutSession({ productName, unitAmountKc, productId, suc
     ],
     success_url: successUrl,
     cancel_url: cancelUrl,
+    locale: 'cs',
+    // Nedokončená platba propadne po 30 minutách (minimum, které Stripe dovolí).
+    expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     metadata: { productId, ...metadata }
   }, secretKey);
+}
+
+/**
+ * Načte Checkout Session přímo ze Stripe API. Webhook podle ní ověřuje stav
+ * platby — nevěří jen obsahu doručené události.
+ */
+async function retrieveCheckoutSession(sessionId, secretKey) {
+  if (typeof sessionId !== 'string' || !/^cs_[A-Za-z0-9_]{10,255}$/.test(sessionId)) {
+    throw new Error('Neplatné ID Checkout Session.');
+  }
+  return stripeRequest(`/checkout/sessions/${sessionId}`, null, secretKey, 'GET');
 }
 
 /**
@@ -78,25 +92,30 @@ async function createCheckoutSession({ productName, unitAmountKc, productId, suc
 function verifyStripeWebhookSignature(rawBody, sigHeader, secret, toleranceSeconds = 300) {
   if (!sigHeader) return false;
 
-  const parts = Object.fromEntries(
-    sigHeader.split(',').map((kv) => {
-      const [k, v] = kv.split('=');
-      return [k, v];
-    })
-  );
-  const timestamp = parts.t;
-  const signature = parts.v1;
-  if (!timestamp || !signature) return false;
+  // Hlavička může obsahovat víc podpisů v1 (např. během rotace tajemství) —
+  // stačí, když sedí kterýkoli z nich.
+  let timestamp = null;
+  const signatures = [];
+  for (const kv of String(sigHeader).split(',')) {
+    const i = kv.indexOf('=');
+    if (i < 0) continue;
+    const k = kv.slice(0, i).trim();
+    const v = kv.slice(i + 1).trim();
+    if (k === 't') timestamp = v;
+    if (k === 'v1') signatures.push(v);
+  }
+  if (!timestamp || !/^\d+$/.test(timestamp) || signatures.length === 0) return false;
 
   const age = Math.abs(Date.now() / 1000 - Number(timestamp));
   if (age > toleranceSeconds) return false;
 
   const signedPayload = `${timestamp}.${rawBody}`;
-  const expected = crypto.createHmac('sha256', secret).update(signedPayload).digest('hex');
+  const expectedBuf = Buffer.from(crypto.createHmac('sha256', secret).update(signedPayload).digest('hex'));
 
-  const sigBuf = Buffer.from(signature);
-  const expectedBuf = Buffer.from(expected);
-  return sigBuf.length === expectedBuf.length && crypto.timingSafeEqual(sigBuf, expectedBuf);
+  return signatures.some((signature) => {
+    const sigBuf = Buffer.from(signature);
+    return sigBuf.length === expectedBuf.length && crypto.timingSafeEqual(sigBuf, expectedBuf);
+  });
 }
 
-module.exports = { createCheckoutSession, verifyStripeWebhookSignature, stripeRequest };
+module.exports = { createCheckoutSession, retrieveCheckoutSession, verifyStripeWebhookSignature, stripeRequest };

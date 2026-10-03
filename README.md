@@ -73,12 +73,28 @@ api/checkout.js          vytvoří Stripe Checkout Session
 api/stripe-webhook.js    zpracuje úspěšnou platbu, vygeneruje kód voucheru / odkaz ke stažení, pošle e-mail
 api/download.js          ověří podepsaný odkaz a pošle soubor ke stažení (platnost + limit počtu stažení)
 api/free-download.js     vyřídí zdarma e-book (e-mail + volitelný souhlas s newsletterem)
-api/_lib/                sdílená logika (tokeny, Stripe, e-maily, úložiště souborů, čtení shop.json)
+api/_lib/                sdílená logika (tokeny, Stripe, e-maily, privátní úložiště, ochrana API, čtení shop.json)
 obchod/                  stránky obchodu (kategorie, detaily produktů, děkujeme/zrušeno, podmínky)
-produkty/doplnky/        zdrojové soubory jednotlivých doplňků + jejich živé náhledy (iframe)
-produkty/_zip-dist/      hotové .zip balíčky doplňků, připravené k nahrání do Vercel Blob
+assets/obchod/           statické náhledy doplňků (obrázky — NE zdrojový kód)
 scripts/nahraj-produkty.js   pomocný skript pro nahrání .zip balíčků (a e-booku) do Vercel Blob
+vercel.json              bezpečnostní hlavičky (CSP, HSTS, ochrana proti vložení do iframe…)
+.vercelignore            co se nikdy nenahraje na Vercel (hlavně produkty/)
 ```
+
+### Zabezpečení obchodu
+
+- **Placené soubory nikdy nejsou v repozitáři ani na webu.** Složka `produkty/` (zdrojáky a ZIPy
+  doplňků, e-booky) existuje jen lokálně — je v `.gitignore` i `.vercelignore`. Na web se dávají
+  jen obrázkové náhledy v `assets/obchod/`. Repozitář je veřejný, takže cokoli se commitne, je vidět.
+- **Privátní úložiště:** produkty, objednávky, e-maily odběratelů i počítadla jsou ve Vercel Blob
+  s přístupem `private` — nemají žádnou veřejnou URL.
+- **Cena se bere jen ze serveru** (`data/shop.json`) a webhook si stav platby znovu ověří přímo ve
+  Stripe API (zaplaceno, CZK, přesná částka). Podvržená nebo nezaplacená objednávka nic nespustí.
+- **Webhook je idempotentní:** opakované doručení stejné platby nevygeneruje druhý voucher.
+- **Odkazy ke stažení** jsou podepsané (HMAC), časově omezené a s atomicky hlídaným limitem stažení.
+- **Ochrana proti zneužití:** kontrola Origin, rate limit na všech endpointech, honeypot u formuláře
+  zdarma, limit pokusů o přihlášení do administrace.
+- Skrytý produkt (`"skryto": true` v `shop.json`) se na webu nezobrazí a nejde koupit ani stáhnout.
 
 ### Co je potřeba nastavit, než obchod půjde reálně použít
 
@@ -87,18 +103,18 @@ scripts/nahraj-produkty.js   pomocný skript pro nahrání .zip balíčků (a e-
    vlevo dole v Stripe Dashboardu). V **Developers → API keys** zkopírovat `sk_test_...` klíč do
    proměnné `STRIPE_SECRET_KEY` ve Vercelu.
 3. V Stripe **Developers → Webhooks → Add endpoint** nastavit adresu
-   `https://VASE-DOMENA/api/stripe-webhook`, naslouchat na událost `checkout.session.completed`
+   `https://VASE-DOMENA/api/stripe-webhook`, naslouchat na události `checkout.session.completed` a `checkout.session.async_payment_succeeded`
    a zkopírovaný „Signing secret“ (`whsec_...`) vložit do `STRIPE_WEBHOOK_SECRET`.
-4. Ve Vercelu **Storage → Create Database → Blob** připojit k projektu (token
+4. Ve Vercelu **Storage → Create Database → Blob** s přístupem **Private** připojit k projektu (token
    `BLOB_READ_WRITE_TOKEN` se nastaví automaticky).
 5. Doplnit zbylé proměnné podle `.env.example`: `PUBLIC_BASE_URL` (adresa webu),
-   `DOWNLOAD_SIGNING_SECRET` (libovolný náhodný dlouhý text), `RESEND_API_KEY` +
+   `DOWNLOAD_SIGNING_SECRET` (náhodný text, min. 32 znaků — příkaz na vygenerování je v `.env.example`), `RESEND_API_KEY` +
    `CONTACT_FROM_EMAIL` (odesílání e-mailů s kódy/odkazy ke stažení).
 6. Nahrát skutečné soubory ke stažení do Blob úložiště. Pro pět hotových doplňků jsou .zip
    balíčky už připravené v `produkty/_zip-dist/` — stačí lokálně nastavit `BLOB_READ_WRITE_TOKEN`
    (zkopírovat z Vercelu) a spustit `node scripts/nahraj-produkty.js`. Až bude hotový reálný obsah
-   volného e-booku „Neplaťte zbytečně“, dejte PDF do `produkty/ebooky/neplatte-zbytecne.pdf` a
-   skript spusťte znovu.
+   volného e-booku „Neplaťte zbytečně“, dejte PDF do `produkty/ebooky/neplatte-zbytecne.pdf`,
+   skript spusťte znovu a v `data/shop.json` u e-booku doplňte popis a smažte `"skryto": true`.
 7. Nechat zkontrolovat návrh obchodních podmínek (`obchod/podminky/`) právníkem — je označený
    `TODO` komentářem v kódu a není to finální právní text.
 

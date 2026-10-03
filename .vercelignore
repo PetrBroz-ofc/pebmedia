@@ -1,0 +1,9 @@
+# Co se NIKDY nenahraje na Vercel — ani při ručním `vercel deploy` z tohoto
+# počítače, kde složka produkty/ lokálně existuje.
+produkty/
+scripts/
+.env
+.env.*
+!.env.example
+*.bundle
+README.md

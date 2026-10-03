@@ -1,51 +1,109 @@
 // api/_lib/storage.js
-// Ukládání a čtení souborů v privátním úložišti Vercel Blob.
+// Ukládání a čtení souborů v PRIVÁTNÍM úložišti Vercel Blob.
 //
-// POZNÁMKA K BEZPEČNOSTI: Vercel Blob nemá v základu "opravdu privátní" soubory
-// s autentizací — nahrané soubory dostanou veřejnou, ale neuhodnutelnou URL
-// (obsahuje náhodný řetězec). Skutečné hlídání přístupu probíhá v api/download.js,
-// který klientovi NIKDY nedá přímou Blob URL, jen po ověření podepsaného tokenu
-// soubor sám stáhne a přepošle (proxy). To je nejjednodušší bezpečné řešení bez
-// potřeby dalšího účtu (Supabase apod.) — pokud by bylo potřeba silnější zabezpečení,
-// lze později přejít na Supabase Storage se signed URL.
+// BEZPEČNOST: všechno (produkty, objednávky, odběratelé, počítadla) se ukládá
+// s access: 'private' — soubory nemají žádnou veřejnou URL a číst je jde jen
+// se serverovým tokenem BLOB_READ_WRITE_TOKEN. Zákazník se k souboru dostane
+// výhradně přes api/download.js po ověření podepsaného tokenu.
 //
 // Potřebuje proměnnou prostředí BLOB_READ_WRITE_TOKEN — tu Vercel vyplní
-// automaticky, jakmile v projektu připojíte Blob Store (Storage → Create → Blob).
+// automaticky, jakmile v projektu připojíte Blob Store (Storage → Create → Blob,
+// při zakládání zvolte PRIVATE přístup).
 
-const { put, head } = require('@vercel/blob');
+const { put, get, head, BlobPreconditionFailedError } = require('@vercel/blob');
 
+const ACCESS = 'private';
 const PREFIX = 'produkty/';
+const BEZPECNY_NAZEV = /^[a-z0-9][a-z0-9._-]{0,99}$/i;
 
-/**
- * Nahraje soubor (Buffer) do úložiště pod daným názvem. Používá se mimo tento
- * web (ručně přes malý nahrávací skript nebo Vercel dashboard) — zde je jen
- * pro úplnost a případné budoucí použití.
- */
-async function uploadFile(filename, buffer, contentType) {
-  // addRandomSuffix: false => stabilní, předvídatelná cesta (produkty/<filename>),
-  // aby ji šlo zpětně najít podle názvu souboru z data/shop.json. Skutečná ochrana
-  // před stažením bez zaplacení je v api/download.js (ověření podepsaného tokenu),
-  // ne v "tajnosti" této cesty — proto doporučujeme volit názvy souborů, které
-  // nejsou nikde jinde veřejně publikované.
-  const result = await put(PREFIX + filename, buffer, {
-    access: 'public',
-    contentType,
-    addRandomSuffix: false
-  });
-  return result; // { url, pathname, ... }
+function isSafeFilename(filename) {
+  return typeof filename === 'string' && BEZPECNY_NAZEV.test(filename) && !filename.includes('..');
 }
 
 /**
- * Najde uložený soubor podle názvu (prohledá existující blob podle pathname
- * prefixu — v praxi: název souboru si Petr po nahrání uloží/najde ve Vercel
- * Blob dashboardu a případně upraví v data/shop.json na přesný pathname).
+ * Nahraje produkt (Buffer) do privátního úložiště jako produkty/<filename>.
+ * Používá ho scripts/nahraj-produkty.js.
  */
-async function getFileInfo(filename) {
+async function uploadFile(filename, buffer, contentType) {
+  if (!isSafeFilename(filename)) throw new Error(`Neplatný název souboru: ${filename}`);
+  return put(PREFIX + filename, buffer, {
+    access: ACCESS,
+    contentType,
+    addRandomSuffix: false,
+    allowOverwrite: true
+  });
+}
+
+/**
+ * Otevře produkt pro streamování zákazníkovi.
+ * @returns {Promise<{stream: ReadableStream, blob: object}|null>}
+ */
+async function openFile(filename) {
+  if (!isSafeFilename(filename)) return null;
+  const result = await get(PREFIX + filename, { access: ACCESS, useCache: false });
+  if (!result || result.statusCode !== 200) return null;
+  return result;
+}
+
+/**
+ * Přečte JSON záznam. Vrací { data, etag } nebo null, když neexistuje.
+ */
+async function readJson(pathname) {
+  const result = await get(pathname, { access: ACCESS, useCache: false });
+  if (!result || result.statusCode !== 200) return null;
+  const text = await new Response(result.stream).text();
+  return { data: JSON.parse(text), etag: result.blob.etag };
+}
+
+/**
+ * Zapíše JSON záznam.
+ *  - onlyIfNew: true  → zapíše jen pokud záznam ještě neexistuje (vrací false, když existuje)
+ *  - ifMatch: etag    → zapíše jen pokud se záznam mezitím nezměnil (vrací false při kolizi)
+ * @returns {Promise<boolean>} true = zapsáno
+ */
+async function writeJson(pathname, data, { onlyIfNew = false, ifMatch } = {}) {
   try {
-    return await head(PREFIX + filename);
-  } catch (e) {
-    return null;
+    await put(pathname, JSON.stringify(data, null, 2), {
+      access: ACCESS,
+      contentType: 'application/json',
+      addRandomSuffix: false,
+      allowOverwrite: !onlyIfNew,
+      ifMatch
+    });
+    return true;
+  } catch (err) {
+    if (err instanceof BlobPreconditionFailedError) return false;
+    if (onlyIfNew && (await exists(pathname))) return false;
+    throw err;
   }
 }
 
-module.exports = { uploadFile, getFileInfo, PREFIX };
+async function exists(pathname) {
+  try {
+    await head(pathname);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Atomicky upraví JSON záznam (read → změna → zápis s kontrolou etagu, při
+ * souběhu se zopakuje). `update` dostane aktuální data (nebo null) a vrátí
+ * nová data, nebo undefined pro "nic neměnit".
+ * @returns {Promise<object|null>} výsledná data
+ */
+async function updateJson(pathname, update, pokusy = 5) {
+  for (let i = 0; i < pokusy; i++) {
+    const current = await readJson(pathname);
+    const next = update(current ? current.data : null);
+    if (next === undefined) return current ? current.data : null;
+    const ok = current
+      ? await writeJson(pathname, next, { ifMatch: current.etag })
+      : await writeJson(pathname, next, { onlyIfNew: true });
+    if (ok) return next;
+  }
+  throw new Error(`Záznam ${pathname} se nepodařilo atomicky upravit (souběh).`);
+}
+
+module.exports = { uploadFile, openFile, readJson, writeJson, updateJson, isSafeFilename, PREFIX };

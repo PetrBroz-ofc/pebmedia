@@ -3,3 +3,7 @@
 node_modules/
 .vercel
 .DS_Store
+
+# Placené produkty (zdrojáky a ZIPy doplňků, e-booky) NIKDY nepatří do
+# veřejného repozitáře. Žijí jen lokálně a v privátním Vercel Blob úložišti.
+produkty/

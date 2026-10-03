@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
-<link rel="stylesheet" href="../../css/style.css?v=23">
-<link rel="stylesheet" href="../../css/shop.css?v=1">
+<link rel="stylesheet" href="../../css/style.css?v=24">
+<link rel="stylesheet" href="../../css/shop.css?v=2">
 <style>
   .ebook-card {
     display: grid;
@@ -36,7 +36,7 @@
   @media (max-width: 760px) { .ebook-card { grid-template-columns: 1fr; } }
 </style>
 </head>
-<body data-root="../../">
+<body data-root="../../" data-shop-page="ebooky">
 
 <header class="site-header shop-header">
   <div class="container header-inner">
@@ -74,70 +74,6 @@
   </div>
 </footer>
 
-<script src="../../js/shop.js?v=1"></script>
-<script>
-  document.getElementById('shopYear').textContent = new Date().getFullYear();
-
-  async function render() {
-    const el = document.getElementById('ebookList');
-    try {
-      const shop = await PEBShop.loadShop();
-      const ebooky = shop.products.filter((p) => p.kategorie === 'ebooky');
-      el.innerHTML = ebooky.map((p, i) => {
-        if (p.zdarma) {
-          return `
-            <div class="ebook-card" id="${p.id}">
-              <div>
-                <h2>${p.nazev}</h2>
-                <p>${p.popis}</p>
-                <div class="price free">Zdarma</div>
-              </div>
-              <div>
-                <form class="free-form" id="freeForm-${i}">
-                  <input type="email" placeholder="Váš e-mail" required>
-                  <label class="newsletter-row">
-                    <input type="checkbox" name="souhlasNovinky">
-                    <span>Chci dostávat novinky a tipy od PEBMedia e-mailem (nepovinné).</span>
-                  </label>
-                  <button type="submit" class="btn btn-accent">Stáhnout zdarma</button>
-                  <div id="freeMsg-${i}"></div>
-                </form>
-              </div>
-            </div>
-          `;
-        }
-        return `
-          <div class="ebook-card" id="${p.id}">
-            <div>
-              <h2>${p.nazev}</h2>
-              <p>${p.popis}</p>
-            </div>
-            <div>
-              <div class="price">${PEBShop.formatCena(p)}</div>
-              <div class="consent-row">
-                <input type="checkbox" id="consent-${i}">
-                <label for="consent-${i}">Souhlasím se zahájením plnění (okamžité zpřístupnění ke stažení) před uplynutím lhůty pro odstoupení od smlouvy a beru na vědomí, že tím ztrácím právo na odstoupení od smlouvy. Viz <a href="../podminky/">obchodní podmínky</a>.</label>
-              </div>
-              <button class="btn btn-accent" id="buy-${i}">Koupit</button>
-              <div class="form-error" id="buyErr-${i}"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      ebooky.forEach((p, i) => {
-        if (p.zdarma) {
-          PEBShop.initFreeForm({ formId: `freeForm-${i}`, productId: p.id, messageId: `freeMsg-${i}` });
-        } else {
-          PEBShop.initBuyBox({ buttonId: `buy-${i}`, errorId: `buyErr-${i}`, checkboxId: `consent-${i}`, productId: p.id });
-        }
-      });
-    } catch (err) {
-      el.innerHTML = '<p>Katalog se nepodařilo načíst.</p>';
-      console.error(err);
-    }
-  }
-  render();
-</script>
+<script src="../../js/shop.js?v=2"></script>
 </body>
 </html>
