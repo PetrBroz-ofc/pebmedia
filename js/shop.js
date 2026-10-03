@@ -48,7 +48,7 @@
   function productCardHtml(product, root) {
     const priceClass = product.zdarma ? 'price free' : 'price';
     const href = product.kategorie === 'doplnky'
-      ? `${root}obchod/doplnky/${product.id.replace(/^doplnek-/, '')}/`
+      ? `${root}obchod/doplnky/${product.slug || product.id.replace(/^doplnek-/, '')}/`
       : `${root}obchod/${product.kategorie}/#${product.id}`;
     return `
       <article class="product-card" id="${esc(product.id)}">

@@ -97,6 +97,8 @@
       messages.scrollTop = messages.scrollHeight;
     }
 
+    // Stránka může přijít už předgenerovaná (scripts/predgeneruj.js) — začít načisto.
+    messages.innerHTML = '';
     addMessage('Ahoj, jsem tu na časté dotazy k našim službám. Vyberte si otázku níže, nebo nám rovnou napište.', 'bot');
 
     questionsWrap.innerHTML = '';
@@ -213,8 +215,10 @@
         catsWrap.appendChild(card);
       });
     const svcPriceNote = data.services.priceNote;
+    const oldSvcNote = document.getElementById('servicesPriceNote');
+    if (oldSvcNote) oldSvcNote.remove();
     if (svcPriceNote) {
-      catsWrap.insertAdjacentHTML('afterend', `<p class="price-note reveal">${svcPriceNote}</p>`);
+      catsWrap.insertAdjacentHTML('afterend', `<p class="price-note reveal" id="servicesPriceNote">${svcPriceNote}</p>`);
     }
 
     // --- Packages (balíčky) ---

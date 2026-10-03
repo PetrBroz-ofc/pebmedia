@@ -18,8 +18,8 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
     }
   },
   "seo": {
-    "title": "PEBMedia — Digitální řešení pro moderní firmy",
-    "description": "PEBMedia je digitální studio zaměřené na tvorbu webů, kyberbezpečnost, automatizaci a AI řešení pro firmy, které to myslí vážně.",
+    "title": "Tvorba webů a e-shopů, branding a AI řešení | PEBMedia",
+    "description": "Tvoříme firemní weby od 12 800 Kč, e-shopy, loga a vizuální identity, bezpečnostní audity webů a AI automatizace. Liberecký kraj i celá ČR, nezávazná konzultace.",
     "ogImage": "assets/og-image.jpg"
   },
   "hero": {

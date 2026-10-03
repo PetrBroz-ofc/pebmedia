@@ -55,6 +55,26 @@ V `assets/` jsou zatím jednoduché placeholder SVG. V administraci → **Portfo
 změnit pole „URL obrázku“ na cestu k reálnému screenshotu (nahrajte obrázky do `assets/` v repozitáři,
 nebo použijte externí URL, např. z Vercel Blob Storage či jiného úložiště).
 
+## SEO a AI vyhledávače (GEO)
+
+Obsah hlavní stránky i výpisy obchodu se vykreslují JavaScriptem z `data/content.json` a
+`data/shop.json`. Aby je viděli i roboti, kteří JavaScript nespouštějí (ChatGPT, Claude,
+Perplexity…), skript `scripts/predgeneruj.js` je **předgeneruje přímo do HTML**:
+
+```
+npm run predgeneruj
+```
+
+Skript z dat vygeneruje a udržuje v souladu:
+- obsah sekcí v `index.html` a výpisy v `obchod/`,
+- strukturovaná data JSON-LD (firma, služby a balíčky s cenami, FAQ, produkty, drobečková navigace),
+- titulek a popis pro sdílení (Open Graph / Twitter) podle `seo` v `content.json`,
+- `llms.txt` (souhrn webu pro AI asistenty), `sitemap.xml` a `js/content-fallback.js`.
+
+Po pushi změny obsahu na `main` ho spustí i GitHub Action `.github/workflows/predgeneruj.yml`
+a výsledek sama commitne. Prázdná kategorie obchodu (např. e-booky) dostane automaticky `noindex`.
+`robots.txt` výslovně povoluje AI crawlery.
+
 ## Bezpečnostní poznámka
 
 Administrace (`admin.html`) byla ze stránek dočasně odebrána a tento repozitář s ní v tuto chvíli

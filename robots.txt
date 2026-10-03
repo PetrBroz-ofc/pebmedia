@@ -1,4 +1,32 @@
+# PEBMedia — https://pebmedia.cz
+# Vyhledávače i AI asistenti jsou vítáni: obsah webu smí indexovat i citovat.
+# Souhrn webu pro AI asistenty: https://pebmedia.cz/llms.txt
+
 User-agent: *
 Allow: /
+Disallow: /api/
+
+# --- AI vyhledávače a asistenti (výslovně povoleno) ---
+# OpenAI (ChatGPT, vyhledávání v ChatGPT)
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+# Anthropic (Claude)
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+# Perplexity
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+# Google Gemini / AI Overviews, Apple Intelligence, Microsoft Copilot (Bing)
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+# Ostatní AI asistenti
+User-agent: MistralAI-User
+User-agent: DuckAssistBot
+User-agent: CCBot
+Allow: /
+Disallow: /api/
 
 Sitemap: https://pebmedia.cz/sitemap.xml

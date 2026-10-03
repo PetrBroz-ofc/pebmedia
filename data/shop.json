@@ -87,6 +87,7 @@
     },
     {
       "id": "doplnek-tlacitka-odznaky",
+      "slug": "tlacitka-a-odznaky",
       "kategorie": "doplnky",
       "typ": "soubor",
       "nazev": "Tlačítka a odznaky",

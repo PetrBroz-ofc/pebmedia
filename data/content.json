@@ -13,8 +13,8 @@
     }
   },
   "seo": {
-    "title": "PEBMedia — Digitální řešení pro moderní firmy",
-    "description": "PEBMedia je digitální studio zaměřené na tvorbu webů, kyberbezpečnost, automatizaci a AI řešení pro firmy, které to myslí vážně.",
+    "title": "Tvorba webů a e-shopů, branding a AI řešení | PEBMedia",
+    "description": "Tvoříme firemní weby od 12 800 Kč, e-shopy, loga a vizuální identity, bezpečnostní audity webů a AI automatizace. Liberecký kraj i celá ČR, nezávazná konzultace.",
     "ogImage": "assets/og-image.jpg"
   },
   "hero": {
@@ -429,13 +429,34 @@
     "voucherLinkText": "Podmínky využití voucheru",
     "voucherLinkUrl": "voucher.html",
     "logos": [
-      { "name": "SŠ pedagogická, hotelnictví a služeb Litoměřice", "logo": "assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png" },
-      { "name": "Obchodní akademie Česká Lípa", "logo": "assets/schools/obchodni-akademie-ceska-lipa.png" },
-      { "name": "Střední zemědělská škola", "logo": "assets/schools/stredni-zemedelska-skola.png" },
-      { "name": "Masarykovo gymnázium Plzeň", "logo": "assets/schools/masarykovo-gymnazium-plzen.png" },
-      { "name": "Střední průmyslová škola strojírenská a Jazyková škola, Kolín", "logo": "assets/schools/stredni-prumyslova-skola-strojirenska-kolin.png" },
-      { "name": "VOŠZ a SŠZ Ústí nad Labem", "logo": "assets/schools/vosz-ssz-usti-nad-labem.png" },
-      { "name": "SOŠ mediální grafiky a polygrafie Rumburk", "logo": "assets/schools/sos-medialni-grafiky-rumburk.png" }
+      {
+        "name": "SŠ pedagogická, hotelnictví a služeb Litoměřice",
+        "logo": "assets/schools/ss-pedagogicka-hotelnictvi-sluzeb-litomerice.png"
+      },
+      {
+        "name": "Obchodní akademie Česká Lípa",
+        "logo": "assets/schools/obchodni-akademie-ceska-lipa.png"
+      },
+      {
+        "name": "Střední zemědělská škola",
+        "logo": "assets/schools/stredni-zemedelska-skola.png"
+      },
+      {
+        "name": "Masarykovo gymnázium Plzeň",
+        "logo": "assets/schools/masarykovo-gymnazium-plzen.png"
+      },
+      {
+        "name": "Střední průmyslová škola strojírenská a Jazyková škola, Kolín",
+        "logo": "assets/schools/stredni-prumyslova-skola-strojirenska-kolin.png"
+      },
+      {
+        "name": "VOŠZ a SŠZ Ústí nad Labem",
+        "logo": "assets/schools/vosz-ssz-usti-nad-labem.png"
+      },
+      {
+        "name": "SOŠ mediální grafiky a polygrafie Rumburk",
+        "logo": "assets/schools/sos-medialni-grafiky-rumburk.png"
+      }
     ]
   },
   "process": {

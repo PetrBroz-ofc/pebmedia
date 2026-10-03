@@ -1,0 +1,52 @@
+# Po každé změně obsahu (např. uložení v administraci) předgeneruje HTML,
+# strukturovaná data, llms.txt a sitemapu, aby je viděli i vyhledávače a AI
+# roboti, kteří nespouštějí JavaScript. Viz scripts/predgeneruj.js.
+name: Předgenerování obsahu pro SEO
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/content.json'
+      - 'data/shop.json'
+      - 'js/main.js'
+      - 'js/shop.js'
+      - 'index.html'
+      - 'obchod/**'
+      - 'scripts/predgeneruj.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: predgeneruj
+  cancel-in-progress: false
+
+jobs:
+  predgeneruj:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - run: node scripts/predgeneruj.js
+
+      - name: Commit změn (jen pokud nějaké jsou)
+        run: |
+          if git diff --quiet; then
+            echo "Vše je aktuální."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Předgenerování obsahu pro SEO (automaticky)"
+          git push
