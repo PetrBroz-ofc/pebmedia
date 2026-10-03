@@ -3,11 +3,11 @@
   "categories": {
     "vouchery": {
       "nazev": "Vouchery",
-      "popis": "Dárkové poukazy na služby PEBMedia — tvorbu webů, branding i digitální řešení."
+      "popis": "Dárkové poukazy na tvorbu webů, branding i další služby PEBMedia."
     },
     "doplnky": {
       "nazev": "Doplňky pro váš web",
-      "popis": "Hotové komponenty do vlastního webu — HTML, CSS a JS ke stažení, s návodem na vložení. Pro webaře a ty, kdo si web upravují sami."
+      "popis": "Hotové komponenty do vlastního webu. HTML, CSS a JS ke stažení s návodem na vložení, pro webaře a ty, kdo si web upravují sami."
     },
     "ebooky": {
       "nazev": "E-booky",
@@ -237,7 +237,7 @@
       "kategorie": "doplnky",
       "typ": "soubor",
       "nazev": "Cookies lišta",
-      "popis": "Lišta se souhlasem s cookies s rovnocenným tlačítkem „Odmítnout“ — nenačítá nepotřebné cookies před souhlasem.",
+      "popis": "Lišta se souhlasem s cookies a rovnocenným tlačítkem „Odmítnout“. Před souhlasem nenačítá nepotřebné cookies.",
       "cena_kc": 290,
       "zdarma": false,
       "soubor": "cookies-lista.zip",

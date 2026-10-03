@@ -336,6 +336,29 @@ function applyLayout(d, file) {
     if (UDAJE[k] !== undefined) n.textContent = UDAJE[k];
   });
 
+  // Přepínač zvuků rozhraní (js/zvuky.js) — na stránkách s hlavičkou, ve výchozím stavu vypnuto.
+  const header = d.querySelector('header.site-header');
+  if (header && !d.getElementById('soundToggle')) {
+    const btn = d.createElement('button');
+    btn.type = 'button';
+    btn.className = 'sound-toggle';
+    btn.id = 'soundToggle';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.setAttribute('aria-label', 'Zapnout zvuky');
+    btn.title = 'Zvuky jsou vypnuté';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"/><path class="vlny" d="M15.5 9.2a4 4 0 0 1 0 5.6M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/><path class="preskrt" d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg>';
+    const actions = header.querySelector('.header-actions');
+    if (actions) actions.prepend(btn, d.createTextNode('\n      '));
+    else header.querySelector('.header-inner').append(d.createTextNode('\n    '), btn, d.createTextNode('\n  '));
+  }
+  if (header && !d.querySelector('script[src*="js/zvuky.js"]')) {
+    const s = d.createElement('script');
+    s.src = `${root}js/zvuky.js?v=1`;
+    const prvni = [...d.body.querySelectorAll(':scope > script[src]')].find((x) => /js\/(main|shop|content-fallback)\.js/.test(x.getAttribute('src')));
+    d.body.insertBefore(s, prvni || null);
+    d.body.insertBefore(d.createTextNode('\n'), prvni || null);
+  }
+
   // Patička s identifikací provozovatele a právními odkazy — na každé stránce.
   let block = d.getElementById('footerLegal');
   if (!block) {

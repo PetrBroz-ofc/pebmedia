@@ -1354,3 +1354,33 @@ main { counter-reset: sekce; }
   .gallery-open img, .gallery-open video { transition: none; }
   .gallery-open:hover img, .gallery-open:hover video { transform: none; }
 }
+
+/* ---------------------------------- Přepínač zvuků (js/zvuky.js) ------------ */
+.sound-toggle {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink-soft);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.sound-toggle:hover { color: var(--ink); border-color: var(--ink-soft); }
+.sound-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.sound-toggle .spk { fill: currentColor; stroke: none; }
+.sound-toggle .vlny { display: none; }
+.sound-toggle[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-tint); }
+.sound-toggle[aria-pressed="true"] .vlny { display: block; }
+.sound-toggle[aria-pressed="true"] .preskrt { display: none; }
+.header-inner > .sound-toggle { justify-self: end; }
+@media (max-width: 980px) {
+  .shop-header .header-inner { position: relative; }
+  .shop-header .header-inner > .sound-toggle { position: absolute; top: 14px; right: 32px; }
+}
+@media (max-width: 640px) {
+  .shop-header .header-inner > .sound-toggle { right: 20px; }
+}

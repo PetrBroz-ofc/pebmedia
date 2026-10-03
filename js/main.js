@@ -205,7 +205,7 @@
     grid.appendChild(el('a', 'gallery-invite reveal', `
       <span class="gallery-invite-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
       <span class="gallery-invite-title">Máte fotky nebo video z plesu?</span>
-      <span class="gallery-invite-text">Pošlete nám je — rádi je sem přidáme.</span>
+      <span class="gallery-invite-text">Pošlete nám je a rádi je sem přidáme.</span>
     `));
     const invite = grid.lastElementChild;
     invite.href = `mailto:${email}?subject=${encodeURIComponent('Fotky a videa z maturitního plesu')}`;

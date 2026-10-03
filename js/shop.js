@@ -192,7 +192,7 @@
                   </div>
                   <label class="newsletter-row">
                     <input type="checkbox" name="souhlasNovinky">
-                    <span>Chci dostávat novinky a tipy od PEBMedia e-mailem (nepovinné, souhlas můžete kdykoli odvolat — viz <a href="${pathToRoot()}privacy.html">ochrana osobních údajů</a>).</span>
+                    <span>Chci dostávat novinky a tipy od PEBMedia e-mailem (nepovinné; souhlas můžete kdykoli odvolat, viz <a href="${pathToRoot()}privacy.html">ochrana osobních údajů</a>).</span>
                   </label>
                   <button type="submit" class="btn btn-accent">Stáhnout zdarma</button>
                   <div id="freeMsg-${i}" role="status"></div>
@@ -252,7 +252,7 @@
   }
 
   function offlineError() {
-    const err = new Error(`Online platby právě spouštíme. Zatím objednávejte e-mailem na ${KONTAKT_EMAIL} — ozveme se obratem.`);
+    const err = new Error(`Online platby právě spouštíme. Zatím objednávejte e-mailem na ${KONTAKT_EMAIL}, ozveme se obratem.`);
     err.offline = true;
     return err;
   }
@@ -268,6 +268,7 @@
       el.appendChild(a);
     }
     el.classList.add('visible');
+    if (window.PEBZvuk) window.PEBZvuk.play('error');
   }
 
   /**
@@ -334,6 +335,7 @@
         });
         if (messageEl) {
           messageEl.textContent = 'Hotovo! Odkaz ke stažení jsme poslali na váš e-mail.';
+          if (window.PEBZvuk) window.PEBZvuk.play('success');
           messageEl.className = 'form-success';
         }
         form.reset();

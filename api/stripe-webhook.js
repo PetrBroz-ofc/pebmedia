@@ -106,7 +106,7 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
     await sendEmail({
       to: email,
       subject: `Váš voucher PEBMedia — ${order.kodVoucheru}`,
-      text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${order.hodnotaKc} Kč:\n\nKód: ${order.kodVoucheru}\nPlatnost do: ${formatDatum(order.platnostDo)}\n\nKód uplatníte při objednávce služby — stačí ho zmínit v poptávce na info.pebmedia@gmail.com. Hodnota voucheru se odečte od ceny služby; voucher lze uplatnit jednou, nevyčerpaný rozdíl se nevrací a voucher nelze směnit za peníze.\n\nOd koupě voucheru můžete odstoupit do 14 dnů od zaplacení, pokud ho do té doby neuplatníte — stačí napsat na info.pebmedia@gmail.com. Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
+      text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${order.hodnotaKc} Kč:\n\nKód: ${order.kodVoucheru}\nPlatnost do: ${formatDatum(order.platnostDo)}\n\nKód uplatníte při objednávce služby, stačí ho zmínit v poptávce na info.pebmedia@gmail.com. Hodnota voucheru se odečte od ceny služby; voucher lze uplatnit jednou, nevyčerpaný rozdíl se nevrací a voucher nelze směnit za peníze.\n\nOd koupě voucheru můžete odstoupit do 14 dnů od zaplacení, pokud ho do té doby neuplatníte. Stačí napsat na info.pebmedia@gmail.com. Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
     });
     console.log(`[Voucher] Kód odeslán zákazníkovi (objednávka ${orderId}).`);
   } else {
@@ -122,7 +122,7 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
     await sendEmail({
       to: email,
       subject: `Ke stažení: ${product.nazev} — PEBMedia`,
-      text: `Děkujeme za nákup!\n\nOdkaz ke stažení „${product.nazev}“ (platný 24 hodin, max. 5 stažení):\n${downloadUrl}\n\nOdkaz je osobní — prosím nepřeposílejte ho.\n\nPotvrzujeme, že jste před nákupem výslovně souhlasili se zpřístupněním digitálního obsahu před uplynutím lhůty pro odstoupení od smlouvy a vzali jste na vědomí, že tím právo na odstoupení zaniká (§ 1837 písm. l) občanského zákoníku). Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
+      text: `Děkujeme za nákup!\n\nOdkaz ke stažení „${product.nazev}“ (platný 24 hodin, max. 5 stažení):\n${downloadUrl}\n\nOdkaz je osobní, prosím nepřeposílejte ho.\n\nPotvrzujeme, že jste před nákupem výslovně souhlasili se zpřístupněním digitálního obsahu před uplynutím lhůty pro odstoupení od smlouvy a vzali jste na vědomí, že tím právo na odstoupení zaniká (§ 1837 písm. l) občanského zákoníku). Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
     });
     console.log(`[Stažení] Odkaz odeslán zákazníkovi (objednávka ${orderId}).`);
   }

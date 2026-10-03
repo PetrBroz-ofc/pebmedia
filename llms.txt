@@ -2,7 +2,7 @@
 
 > Tvoříme firemní weby od 12 800 Kč, e-shopy, loga a vizuální identity, bezpečnostní audity webů a AI automatizace. Liberecký kraj i celá ČR, nezávazná konzultace.
 
-Za PEBMedia stojí Petr Brož spolu s týmem odborníků, kterým na výsledku záleží. Jsme moderní digitální studio zaměřené na tvorbu webů, digitálních řešení a bezpečnost. Za každou oblastí — web, branding, bezpečnost i technologie — stojí u nás specialisté, kteří se jí věnují naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.
+Za PEBMedia stojí Petr Brož a tým odborníků, kterým na výsledku záleží. Jsme digitální studio zaměřené na tvorbu webů, digitální řešení a bezpečnost. Web, branding, bezpečnost i technologie mají u nás na starosti specialisté, kteří se své oblasti věnují naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Chceme být partner, na kterého se dá spolehnout.
 
 ## Základní údaje
 
@@ -104,7 +104,7 @@ Ano, specializujeme se právě na řešení šitá na míru konkrétnímu podnik
 
 ### Jak probíhá první konzultace?
 
-Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor.
+Stačí vyplnit formulář nebo napsat e-mail. Ozveme se a domluvíme si nezávazný hovor.
 
 ## Obchod
 
@@ -121,7 +121,7 @@ Dárkové vouchery na služby a hotové doplňky pro weby: https://pebmedia.cz/o
 - [Hero sekce se skleněnou kartou](https://pebmedia.cz/obchod/doplnky/hero-sklenena-karta/): 490 Kč — Úvodní sekce webu s nadpisem, textem a tlačítky na skleněné (glass) kartě nad dekorativním pozadím.
 - [Tlačítka a odznaky](https://pebmedia.cz/obchod/doplnky/tlacitka-a-odznaky/): 290 Kč — Sada tlačítek (primární, sekundární, obrysové, ghost) a odznaků/badge ve více barevných variantách.
 - [Kontaktní formulář](https://pebmedia.cz/obchod/doplnky/kontaktni-formular/): 390 Kč — Responzivní kontaktní formulář s validací na straně klienta a návodem na napojení na Formspree nebo vlastní endpoint.
-- [Cookies lišta](https://pebmedia.cz/obchod/doplnky/cookies-lista/): 290 Kč — Lišta se souhlasem s cookies s rovnocenným tlačítkem „Odmítnout“ — nenačítá nepotřebné cookies před souhlasem.
+- [Cookies lišta](https://pebmedia.cz/obchod/doplnky/cookies-lista/): 290 Kč — Lišta se souhlasem s cookies a rovnocenným tlačítkem „Odmítnout“. Před souhlasem nenačítá nepotřebné cookies.
 
 ## Důležité stránky
 

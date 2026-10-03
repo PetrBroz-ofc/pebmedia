@@ -35,7 +35,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
     "ogImage": "assets/og-image.jpg"
   },
   "hero": {
-    "eyebrow": "PEBMedia — digitální studio",
+    "eyebrow": "Digitální studio PEBMedia",
     "headline": "Digitální řešení\npro moderní firmy.",
     "text": "Tvoříme weby, digitální systémy a řešení, která firmám pomáhají růst.",
     "ctaPrimary": "Nezávazně poptat projekt",
@@ -52,7 +52,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   },
   "services": {
     "heading": "Co pro vás můžeme udělat",
-    "subheading": "Čtyři oblasti, ve kterých firmám pomáháme posunout se dál — za každou z nich stojí tým odborníků, kteří se jí věnují naplno. Konečná cena vždy závisí na rozsahu projektu.",
+    "subheading": "Firmám pomáháme ve čtyřech oblastech. Každou z nich mají na starosti odborníci, kteří se jí věnují naplno.",
     "priceNote": "Konečná cena závisí na rozsahu projektu.",
     "categories": [
       {
@@ -432,7 +432,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   },
   "about": {
     "heading": "Kdo stojí za PEBMedia",
-    "text": "Za PEBMedia stojí Petr Brož spolu s týmem odborníků, kterým na výsledku záleží. Jsme moderní digitální studio zaměřené na tvorbu webů, digitálních řešení a bezpečnost. Za každou oblastí — web, branding, bezpečnost i technologie — stojí u nás specialisté, kteří se jí věnují naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.",
+    "text": "Za PEBMedia stojí Petr Brož a tým odborníků, kterým na výsledku záleží. Jsme digitální studio zaměřené na tvorbu webů, digitální řešení a bezpečnost. Web, branding, bezpečnost i technologie mají u nás na starosti specialisté, kteří se své oblasti věnují naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Chceme být partner, na kterého se dá spolehnout.",
     "photo": ""
   },
   "schools": {
@@ -559,7 +559,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       {
         "id": "faq-6",
         "question": "Jak probíhá první konzultace?",
-        "answer": "Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor.",
+        "answer": "Stačí vyplnit formulář nebo napsat e-mail. Ozveme se a domluvíme si nezávazný hovor.",
         "visible": true,
         "order": 6
       }
@@ -572,7 +572,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   },
   "contact": {
     "heading": "Kontakt",
-    "text": "Napište nám o svém projektu — ozveme se co nejdříve.",
+    "text": "Napište nám o svém projektu. Ozveme se co nejdříve.",
     "projectTypes": [
       "Web",
       "Redesign",

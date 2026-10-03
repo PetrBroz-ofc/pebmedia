@@ -30,7 +30,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/fonts.css?v=1">
-<link rel="stylesheet" href="css/style.css?v=27">
+<link rel="stylesheet" href="css/style.css?v=28">
 <link rel="stylesheet" href="css/legal.css?v=1">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
@@ -470,7 +470,7 @@
       "name": "Jak probíhá první konzultace?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor."
+        "text": "Stačí vyplnit formulář nebo napsat e-mail. Ozveme se a domluvíme si nezávazný hovor."
       }
     }
   ]
@@ -505,7 +505,8 @@
       <a href="#o-nas">O nás</a>
       <a href="obchod/" class="nav-shop">Obchod <span class="nav-new">Nové</span></a>
     </nav>
-    <div class="header-actions">
+    <div class="header-actions"><button type="button" class="sound-toggle" id="soundToggle" aria-pressed="false" aria-label="Zapnout zvuky" title="Zvuky jsou vypnuté"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"></path><path class="vlny" d="M15.5 9.2a4 4 0 0 1 0 5.6M18.2 6.6a7.6 7.6 0 0 1 0 10.8"></path><path class="preskrt" d="M15.5 9.5l5 5M20.5 9.5l-5 5"></path></svg></button>
+      
       <a href="#kontakt" class="btn btn-primary" id="headerCta">Nezávazně poptat projekt</a>
       <button class="hamburger" id="hamburger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mobileNav">
         <span></span><span></span><span></span>
@@ -556,7 +557,7 @@ pro moderní firmy.</h1>
     <div class="container">
       <div class="section-head reveal" data-eyebrow="Služby">
         <h2 id="servicesHeading">Co pro vás můžeme udělat</h2>
-        <p id="servicesSubheading">Čtyři oblasti, ve kterých firmám pomáháme posunout se dál — za každou z nich stojí tým odborníků, kteří se jí věnují naplno. Konečná cena vždy závisí na rozsahu projektu.</p>
+        <p id="servicesSubheading">Firmám pomáháme ve čtyřech oblastech. Každou z nich mají na starosti odborníci, kteří se jí věnují naplno.</p>
       </div>
       <div class="service-categories" id="serviceCategories"><div class="service-category reveal">
           <div class="service-category-head">
@@ -737,14 +738,14 @@ pro moderní firmy.</h1>
         <a class="shop-teaser-card reveal" href="obchod/vouchery/">
           <span class="shop-teaser-tag">Vouchery</span>
           <h3>Dárkové poukazy</h3>
-          <p>Dárkové poukazy na služby PEBMedia — tvorbu webů, branding i digitální řešení.</p>
+          <p>Dárkové poukazy na tvorbu webů, branding i další služby PEBMedia.</p>
           <span class="shop-teaser-price">od 500 Kč</span>
         </a>
         <a class="shop-teaser-card reveal" href="obchod/doplnky/">
           <span class="shop-teaser-tag">Doplňky</span>
           <h3>Doplňky pro váš web</h3>
-          <p>Hotové komponenty do vlastního webu — HTML, CSS a JS ke stažení, s návodem na vložení.</p>
-          <p class="shop-teaser-note">Pro webaře a ty, kdo si web upravují sami — vyžaduje základní znalost HTML a CSS.</p>
+          <p>Hotové komponenty do vlastního webu. HTML, CSS a JS ke stažení s návodem na vložení.</p>
+          <p class="shop-teaser-note">Pro webaře a ty, kdo si web upravují sami. Vyžaduje základní znalost HTML a CSS.</p>
           <span class="shop-teaser-price">od 290 Kč</span>
         </a>
       </div>
@@ -884,7 +885,7 @@ pro moderní firmy.</h1>
         <div class="about-photo reveal" id="aboutPhoto"><span class="about-photo-logo"><svg viewBox="0 0 400 400"><use href="#logoMarkP"></use></svg></span></div>
         <div class="about-text reveal">
           <h2 id="aboutHeading">Kdo stojí za PEBMedia</h2>
-          <p id="aboutText">Za PEBMedia stojí Petr Brož spolu s týmem odborníků, kterým na výsledku záleží. Jsme moderní digitální studio zaměřené na tvorbu webů, digitálních řešení a bezpečnost. Za každou oblastí — web, branding, bezpečnost i technologie — stojí u nás specialisté, kteří se jí věnují naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Nechceme být jedním z mnoha dodavatelů — chceme být partner, na kterého se dá spolehnout.</p>
+          <p id="aboutText">Za PEBMedia stojí Petr Brož a tým odborníků, kterým na výsledku záleží. Jsme digitální studio zaměřené na tvorbu webů, digitální řešení a bezpečnost. Web, branding, bezpečnost i technologie mají u nás na starosti specialisté, kteří se své oblasti věnují naplno. Pracujeme na míru, komunikujeme rychle a věcně a projekty vedeme od prvního nápadu až po dlouhodobý provoz. Chceme být partner, na kterého se dá spolehnout.</p>
         </div>
       </div>
     </div>
@@ -913,7 +914,7 @@ pro moderní firmy.</h1>
       </figure><a class="gallery-invite reveal" href="mailto:info.pebmedia@gmail.com?subject=Fotky%20a%20videa%20z%20maturitn%C3%ADho%20plesu">
       <span class="gallery-invite-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span>
       <span class="gallery-invite-title">Máte fotky nebo video z plesu?</span>
-      <span class="gallery-invite-text">Pošlete nám je — rádi je sem přidáme.</span>
+      <span class="gallery-invite-text">Pošlete nám je a rádi je sem přidáme.</span>
     </a></div>
       </div>
     </div>
@@ -986,7 +987,7 @@ pro moderní firmy.</h1>
             <span>Jak probíhá první konzultace?</span>
             <span class="faq-icon"></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Stačí vyplnit formulář nebo napsat e-mail — ozveme se a domluvíme si nezávazný hovor.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Stačí vyplnit formulář nebo napsat e-mail. Ozveme se a domluvíme si nezávazný hovor.</div></div>
         </div></div>
     </div>
   </section>
@@ -1007,7 +1008,7 @@ Pojďme ho vytvořit.</h2>
       <div class="contact-grid">
         <div class="contact-info reveal">
           <h2 id="contactHeading">Kontakt</h2>
-          <p id="contactText">Napište nám o svém projektu — ozveme se co nejdříve.</p>
+          <p id="contactText">Napište nám o svém projektu. Ozveme se co nejdříve.</p>
           <div class="contact-details">
             <div>
               <div class="contact-detail-label">E-mail</div>
@@ -1067,7 +1068,7 @@ Pojďme ho vytvořit.</h2>
             </div>
             <button type="submit" class="btn btn-primary">Odeslat poptávku</button>
             <p class="form-note">Údaje použijeme jen k vyřízení vaší poptávky. Podrobnosti najdete v <a href="privacy.html">zásadách ochrany osobních údajů</a>.</p>
-            <div class="form-success" id="formSuccess" role="status" aria-live="polite">Děkujeme za zprávu — ozveme se vám co nejdříve.</div>
+            <div class="form-success" id="formSuccess" role="status" aria-live="polite">Děkujeme za zprávu, ozveme se vám co nejdříve.</div>
             <div class="form-error" id="formError" role="alert">Odeslání se bohužel nepodařilo. Zkuste to prosím znovu, nebo nám napište na <span id="formErrorEmail">info.pebmedia@gmail.com</span>.</div>
           </form>
         </div>
@@ -1150,6 +1151,7 @@ Pojďme ho vytvořit.</h2>
   <button type="button" class="lightbox-btn lightbox-next" id="lightboxNext" aria-label="Další"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
 </dialog>
 
-<script src="js/content-fallback.js?v=27"></script>
-<script src="js/main.js?v=27"></script>
+<script src="js/zvuky.js?v=1"></script>
+<script src="js/content-fallback.js?v=28"></script>
+<script src="js/main.js?v=28"></script>
 </body></html>
