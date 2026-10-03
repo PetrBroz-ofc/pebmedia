@@ -37,7 +37,8 @@
   }
 
   async function loadShop() {
-    const res = await fetch(pathToRoot() + 'data/shop.json');
+    // no-cache = prohlížeč se vždy zeptá serveru, jestli nemá novější katalog (ceny, nové produkty).
+    const res = await fetch(pathToRoot() + 'data/shop.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('Katalog produktů se nepodařilo načíst.');
     const shop = await res.json();
     // Skryté produkty (např. bez dodaného obsahu) se na webu vůbec nezobrazí.
