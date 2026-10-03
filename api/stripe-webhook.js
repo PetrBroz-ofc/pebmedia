@@ -30,6 +30,23 @@ const { setApiHeaders, getBaseUrl, readRawBody } = require('./_lib/security');
 const ZPRACOVAT = new Set(['checkout.session.completed', 'checkout.session.async_payment_succeeded']);
 
 /**
+ * Konec platnosti voucheru z obchodu: 12 měsíců ode dne zakoupení
+ * (obchodní podmínky čl. 9.2). Vrací datum ve tvaru RRRR-MM-DD podle českého času.
+ */
+function platnostVoucheru(datumNakupu) {
+  const dnes = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Prague' }).format(datumNakupu); // RRRR-MM-DD
+  const [r, m, d] = dnes.split('-').map(Number);
+  const konec = new Date(Date.UTC(r + 1, m - 1, d));
+  if (konec.getUTCMonth() !== m - 1) konec.setUTCDate(0); // 29. 2. → 28. 2.
+  return konec.toISOString().slice(0, 10);
+}
+
+function formatDatum(iso) {
+  const [r, m, d] = String(iso).split('-').map(Number);
+  return `${d}. ${m}. ${r}`;
+}
+
+/**
  * Najde existující objednávku, nebo ji atomicky založí. Při souběhu dvou
  * doručení téže události vyhraje první zápis a druhé si přečte jeho data.
  */
@@ -73,6 +90,7 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
     zaplacenoKc: session.amount_total / 100,
     kodVoucheru: product.typ === 'voucher' ? generateVoucherCode() : undefined,
     hodnotaKc: product.typ === 'voucher' ? product.hodnota_kc : undefined,
+    platnostDo: product.typ === 'voucher' ? platnostVoucheru(new Date()) : undefined,
     soubor: product.typ === 'voucher' ? undefined : product.soubor,
     souhlasOdstoupeniAt: (session.metadata && session.metadata.souhlasOdstoupeniAt) || null,
     vytvorenoAt: new Date().toISOString(),
@@ -88,7 +106,7 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
     await sendEmail({
       to: email,
       subject: `Váš voucher PEBMedia — ${order.kodVoucheru}`,
-      text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${order.hodnotaKc} Kč:\n\nKód: ${order.kodVoucheru}\n\nKód uplatníte při objednávce služby — stačí ho zmínit v poptávce na info.pebmedia@gmail.com.\n\nOd koupě voucheru můžete odstoupit do 14 dnů od zaplacení, pokud ho do té doby neuplatníte — stačí napsat na info.pebmedia@gmail.com. Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
+      text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${order.hodnotaKc} Kč:\n\nKód: ${order.kodVoucheru}\nPlatnost do: ${formatDatum(order.platnostDo)}\n\nKód uplatníte při objednávce služby — stačí ho zmínit v poptávce na info.pebmedia@gmail.com. Hodnota voucheru se odečte od ceny služby; voucher lze uplatnit jednou, nevyčerpaný rozdíl se nevrací a voucher nelze směnit za peníze.\n\nOd koupě voucheru můžete odstoupit do 14 dnů od zaplacení, pokud ho do té doby neuplatníte — stačí napsat na info.pebmedia@gmail.com. Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
     });
     console.log(`[Voucher] Kód odeslán zákazníkovi (objednávka ${orderId}).`);
   } else {
