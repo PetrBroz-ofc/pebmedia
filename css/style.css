@@ -1002,3 +1002,75 @@ p { margin: 0; }
   .help-widget { right: 16px; bottom: 16px; }
   .help-widget-panel { width: calc(100vw - 32px); bottom: 68px; }
 }
+
+/* ---------------------------------- Obchod (upoutávka na hlavní stránce) --- */
+.nav-new {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+.mobile-nav .nav-new { font-size: 11px; vertical-align: 5px; }
+/* Na desktopu štítek "visí" nad odkazem, aby nezabíral šířku navigace. */
+.main-nav .nav-new {
+  position: absolute;
+  top: -12px;
+  right: -22px;
+  margin-left: 0;
+  font-size: 8.5px;
+  padding: 1px 6px;
+  vertical-align: baseline;
+  pointer-events: none;
+}
+.main-nav a.nav-shop { color: var(--ink); white-space: nowrap; }
+
+.shop-teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.shop-teaser-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  padding: 28px;
+  color: inherit;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.shop-teaser-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-m);
+  border-color: var(--accent);
+}
+.shop-teaser-tag {
+  align-self: flex-start;
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+.shop-teaser-card h3 { font-family: var(--font-display); font-size: 22px; }
+.shop-teaser-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.6; flex: 1; }
+.shop-teaser-price { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--accent-ink); }
+.shop-teaser-actions { margin-top: 32px; }
+
+@media (max-width: 760px) {
+  .shop-teaser-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shop-teaser-card, .shop-teaser-card:hover { transition: none; transform: none; }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-booky — Obchod PEBMedia</title>
+<meta name="description" content="Praktické e-booky a návody pro firmy a podnikatele ke stažení.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0B6E63">
+<link rel="canonical" href="https://pebmedia.cz/obchod/ebooky/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%223%22 y=%223%22 width=%2294%22 height=%2294%22 rx=%2222%22 fill=%22%230B6E63%22/><rect x=%2232.5%22 y=%2222%22 width=%2212.25%22 height=%2256%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2222%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2257%22 y=%2222%22 width=%2210.5%22 height=%2231.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2243%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/></svg>">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+<link rel="stylesheet" href="../../css/style.css?v=24">
+<link rel="stylesheet" href="../../css/shop.css?v=2">
+<style>
+  .ebook-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+  .ebook-card h2 { font-size: 22px; margin-bottom: 10px; }
+  .ebook-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.7; }
+  .form-success { color: var(--accent-ink); font-size: 13.5px; margin-top: 10px; }
+  .form-error { color: var(--danger); font-size: 13.5px; margin-top: 10px; }
+  .newsletter-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--ink-faint); }
+  .newsletter-row input { margin-top: 3px; accent-color: var(--accent); }
+  @media (max-width: 760px) { .ebook-card { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-root="../../" data-shop-page="ebooky">
+
+<header class="site-header shop-header">
+  <div class="container header-inner">
+    <a href="../../index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 400 400"><rect x="12" y="12" width="376" height="376" rx="88" fill="#0B6E63"></rect><rect x="130" y="88" width="49" height="224" rx="10" fill="#F6F6F3"></rect><rect x="130" y="88" width="140" height="42" rx="10" fill="#F6F6F3"></rect><rect x="228" y="88" width="42" height="126" rx="10" fill="#F6F6F3"></rect><rect x="130" y="172" width="140" height="42" rx="10" fill="#F6F6F3"></rect></svg></span><span>PEBMedia</span></a>
+    <nav class="main-nav" aria-label="Navigace obchodu">
+      <a href="../../index.html">Domů</a>
+      <a href="../">Obchod</a>
+      <a href="../doplnky/">Doplňky</a>
+      <a href="./" aria-current="page">E-booky</a>
+      <a href="../vouchery/">Vouchery</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="shop-hero container">
+    <div class="shop-breadcrumb"><a href="../">Obchod</a> / E-booky</div>
+    <div class="eyebrow">E-booky</div>
+    <h1>Praktické návody ke stažení</h1>
+    <p>Obsah má informativní charakter a nenahrazuje právní ani finanční poradenství.</p>
+  </section>
+
+  <section class="container" id="ebookList" style="padding-bottom: 96px;"></section>
+</main>
+
+<footer class="site-footer shop-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>&copy; <span id="shopYear"></span> PEBMedia</span>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <a href="../../privacy.html">Zásady ochrany osobních údajů</a>
+        <a href="../podminky/">Obchodní podmínky a licence</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/shop.js?v=2"></script>
+</body>
+</html>

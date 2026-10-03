@@ -1,0 +1,201 @@
+/* ==========================================================================
+   PEBMedia — Obchod (vouchery, doplňky, e-booky)
+   Staví na designových tokenech z css/style.css (:root proměnné, .btn, .container, .section).
+   ========================================================================== */
+
+.shop-hero {
+  padding: 72px 0 48px;
+}
+.shop-hero .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.shop-hero h1 {
+  font-size: clamp(32px, 4.4vw, 48px);
+  margin-top: 14px;
+  line-height: 1.08;
+}
+.shop-hero p {
+  color: var(--ink-soft);
+  font-size: 17px;
+  max-width: 620px;
+  margin-top: 16px;
+}
+
+.shop-breadcrumb {
+  font-size: 13.5px;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+.shop-breadcrumb a { color: var(--accent-ink); font-weight: 600; }
+.shop-breadcrumb a:hover { text-decoration: underline; }
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 0 0 96px;
+}
+.category-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.category-card h2 { font-size: 22px; }
+.category-card p { color: var(--ink-soft); font-size: 14.5px; flex: 1; }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding-bottom: 96px;
+}
+.product-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-s);
+}
+.product-card h3 { font-size: 18px; }
+.product-card p { color: var(--ink-soft); font-size: 14px; flex: 1; line-height: 1.6; }
+.product-card .price {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent-ink);
+}
+.product-card .price.free { color: var(--accent); }
+.product-card .btn { margin-top: 4px; width: 100%; }
+
+.product-detail {
+  padding: 0 0 96px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 48px;
+  align-items: start;
+}
+.product-preview {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow-s);
+}
+.product-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #fff;
+}
+.product-info h1 { font-size: clamp(26px, 3vw, 34px); margin-bottom: 12px; }
+.product-info .price { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--accent-ink); margin: 16px 0; }
+.product-info p { color: var(--ink-soft); font-size: 15.5px; line-height: 1.7; }
+.product-info ul { margin: 16px 0; padding-left: 20px; list-style: disc; color: var(--ink-soft); font-size: 14.5px; line-height: 1.8; }
+
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 20px 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.consent-row input[type="checkbox"] {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+.consent-row a { color: var(--accent-ink); font-weight: 600; }
+
+.buy-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  padding: 24px;
+  box-shadow: var(--shadow-s);
+}
+.buy-box .btn { width: 100%; }
+.buy-box .form-error {
+  color: var(--danger);
+  font-size: 13.5px;
+  margin-top: 10px;
+  display: none;
+}
+.buy-box .form-error.visible { display: block; }
+
+.free-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.free-form input[type="email"] {
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  font-size: 15px;
+  font-family: var(--font-body);
+}
+.free-form input[type="email"]:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.status-page {
+  padding: 120px 0 140px;
+  text-align: center;
+}
+.status-page .icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+.status-page.success .icon { background: var(--accent-tint); color: var(--accent); }
+.status-page.cancel .icon { background: #F4E7E7; color: var(--danger); }
+.status-page h1 { font-size: 28px; margin-bottom: 12px; }
+.status-page p { color: var(--ink-soft); font-size: 16px; max-width: 480px; margin: 0 auto; }
+.status-page .btn { margin-top: 32px; }
+
+.shop-header { border-bottom: 1px solid var(--border); }
+.shop-header .header-inner { padding: 20px 0; }
+.shop-footer .footer-bottom { border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .category-grid { grid-template-columns: 1fr; }
+  .product-detail { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 980px) {
+  /* Stránky obchodu nemají hamburger menu — navigace proto na mobilu
+     zůstává viditelná (přetéká do dalšího řádku), na rozdíl od hlavní stránky. */
+  .shop-header .main-nav {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+  }
+}
+
+/* Skryté pole proti spamovacím robotům (honeypot) — lidé ho neuvidí. */
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.btn[aria-disabled="true"] { opacity: .55; cursor: default; pointer-events: none; }
+.form-error a { font-weight: 600; text-decoration: underline; }
