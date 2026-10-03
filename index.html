@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
-<link rel="stylesheet" href="css/style.css?v=24">
+<link rel="stylesheet" href="css/style.css?v=25">
 
 <!-- Strukturovaná data (Schema.org) -->
 <script type="application/ld+json">
@@ -196,23 +196,22 @@
   <div class="container header-inner">
     <a href="#top" class="logo"><span class="logo-mark"><svg viewBox="0 0 400 400"><use href="#logoMarkP"></use></svg></span><span id="logoText">PEBMedia</span></a>
     <nav class="main-nav" aria-label="Hlavní navigace">
-      <a href="#top">Domů</a>
+      <span class="nav-indicator" aria-hidden="true"></span>
       <a href="#sluzby">Služby</a>
       <a href="#balicky">Balíčky</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#reference">Reference</a>
       <a href="#o-nas">O nás</a>
       <a href="obchod/" class="nav-shop">Obchod <span class="nav-new">Nové</span></a>
-      <a href="#kontakt">Kontakt</a>
     </nav>
     <div class="header-actions">
-      <a href="#kontakt" class="btn btn-secondary">Kontakt</a>
       <a href="#kontakt" class="btn btn-primary" id="headerCta">Nezávazně poptat projekt</a>
       <button class="hamburger" id="hamburger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mobileNav">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
+  <span class="scroll-progress" id="scrollProgress" aria-hidden="true"></span>
 </header>
 <nav class="mobile-nav" id="mobileNav" aria-label="Mobilní navigace">
   <a href="#top">Domů</a>
@@ -253,7 +252,7 @@
   <!-- SLUŽBY -->
   <section class="section" id="sluzby">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Služby">
         <h2 id="servicesHeading"></h2>
         <p id="servicesSubheading"></p>
       </div>
@@ -264,7 +263,7 @@
   <!-- BALÍČKY -->
   <section class="section" id="balicky">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Balíčky">
         <h2 id="packagesHeading"></h2>
         <p id="packagesSubheading"></p>
       </div>
@@ -276,7 +275,7 @@
   <!-- OBCHOD -->
   <section class="section" id="obchod">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Obchod">
         <h2>Obchod PEBMedia</h2>
         <p>Dárkové vouchery na naše služby a hotové doplňky pro váš web.</p>
       </div>
@@ -291,6 +290,7 @@
           <span class="shop-teaser-tag">Doplňky</span>
           <h3>Doplňky pro váš web</h3>
           <p>Hotové komponenty do vlastního webu — HTML, CSS a JS ke stažení, s návodem na vložení.</p>
+          <p class="shop-teaser-note">Pro webaře a ty, kdo si web upravují sami — vyžaduje základní znalost HTML a CSS.</p>
           <span class="shop-teaser-price">od 290 Kč</span>
         </a>
       </div>
@@ -303,7 +303,7 @@
   <!-- PORTFOLIO -->
   <section class="section" id="portfolio">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Portfolio">
         <h2 id="portfolioHeading"></h2>
         <p id="portfolioSubheading"></p>
       </div>
@@ -314,7 +314,7 @@
   <!-- REFERENCE -->
   <section class="section" id="reference">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Reference">
         <h2 id="referencesHeading"></h2>
       </div>
       <div class="testimonials-marquee" id="referencesGrid"></div>
@@ -337,7 +337,7 @@
   <!-- ŠKOLY -->
   <section class="section" id="skoly">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Školy">
         <h2 id="schoolsHeading"></h2>
         <p id="schoolsText"></p>
       </div>
@@ -352,7 +352,7 @@
   <!-- PROCES -->
   <section class="section">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Spolupráce">
         <h2 id="processHeading"></h2>
       </div>
       <div class="process-grid" id="processGrid"></div>
@@ -362,7 +362,7 @@
   <!-- FAQ -->
   <section class="section">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal" data-eyebrow="Otázky">
         <h2 id="faqHeading"></h2>
       </div>
       <div class="faq-list" id="faqList"></div>
@@ -514,7 +514,7 @@
   </button>
 </div>
 
-<script src="js/content-fallback.js?v=24"></script>
-<script src="js/main.js?v=24"></script>
+<script src="js/content-fallback.js?v=25"></script>
+<script src="js/main.js?v=25"></script>
 </body>
 </html>

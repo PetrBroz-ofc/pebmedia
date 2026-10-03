@@ -385,14 +385,82 @@
     initInteractions(data);
   }
 
+  /**
+   * Navigace: posuvná "pilulka" pod odkazem, na kterém je myš, a zvýraznění
+   * sekce, kterou má návštěvník právě na obrazovce (aria-current pro čtečky).
+   */
+  function initNavIndicator() {
+    const nav = document.querySelector('.main-nav');
+    const indicator = nav && nav.querySelector('.nav-indicator');
+    if (!nav || !indicator) return;
+    const links = Array.from(nav.querySelectorAll('a'));
+    let activeLink = null;
+
+    const moveTo = (link) => {
+      if (!link) { indicator.classList.remove('is-visible'); return; }
+      indicator.style.width = `${link.offsetWidth}px`;
+      indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+      indicator.classList.add('is-visible');
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('mouseenter', () => moveTo(link));
+      link.addEventListener('focus', () => moveTo(link));
+    });
+    nav.addEventListener('mouseleave', () => moveTo(activeLink));
+    nav.addEventListener('focusout', (e) => { if (!nav.contains(e.relatedTarget)) moveTo(activeLink); });
+    window.addEventListener('resize', () => moveTo(activeLink), { passive: true });
+
+    if (!('IntersectionObserver' in window)) return;
+    const sections = links
+      .map((link) => {
+        const id = (link.getAttribute('href') || '').startsWith('#') ? link.getAttribute('href').slice(1) : null;
+        const section = id && document.getElementById(id);
+        return section ? { link, section } : null;
+      })
+      .filter(Boolean);
+
+    const visible = new Set();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      });
+      const current = sections.find((s) => visible.has(s.section));
+      const next = current ? current.link : null;
+      if (next === activeLink) return;
+      if (activeLink) { activeLink.classList.remove('is-active'); activeLink.removeAttribute('aria-current'); }
+      activeLink = next;
+      if (activeLink) { activeLink.classList.add('is-active'); activeLink.setAttribute('aria-current', 'location'); }
+      if (!nav.matches(':hover')) moveTo(activeLink);
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach((s) => io.observe(s.section));
+  }
+
   function initInteractions(data) {
     const g = data.general;
 
     // Sticky header shadow
     const header = document.getElementById('siteHeader');
-    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    const progressBar = document.getElementById('scrollProgress');
+    let scrollTicking = false;
+    const onScroll = () => {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        header.classList.toggle('is-scrolled', window.scrollY > 8);
+        if (progressBar) {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          progressBar.style.setProperty('--progress', max > 0 ? Math.min(window.scrollY / max, 1).toFixed(4) : 0);
+        }
+        scrollTicking = false;
+      });
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    initNavIndicator();
 
     // Mobile menu
     const hamburger = document.getElementById('hamburger');
