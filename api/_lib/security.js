@@ -39,7 +39,9 @@ function isAllowedOrigin(req) {
   const origin = req.headers.origin;
   if (!origin) return true; // ne-prohlížečové klienty Origin neposílají; chrání je rate limit
   const allowed = new Set([getBaseUrl()].filter(Boolean));
+  // Adresy, které Vercel sám přiděluje: konkrétní nasazení a produkční *.vercel.app.
   if (process.env.VERCEL_URL) allowed.add(`https://${process.env.VERCEL_URL}`);
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) allowed.add(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
   return allowed.has(origin);
 }
 

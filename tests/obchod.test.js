@@ -116,6 +116,12 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual(r.statusCode, 200); assert.ok(r.body.url.startsWith('https://checkout.stripe.com/'));
     assert.strictEqual(lastCheckoutBody.get('line_items[0][price_data][unit_amount]'), '49000');
   });
+  await t('produkční adresa Vercelu (pebmedia.vercel.app) je povolený původ', async () => {
+    process.env.VERCEL_PROJECT_PRODUCTION_URL = 'pebmedia.vercel.app';
+    const r = await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://pebmedia.vercel.app', 'x-forwarded-for': '8.8.4.4' } });
+    delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
+    assert.strictEqual(r.statusCode, 200);
+  });
   await t('cizí web (Origin) → 403', async () => {
     const r = await call(checkout, { body: { productId: 'doplnek-glass-menu', souhlasOdstoupeni: true }, headers: { origin: 'https://zly-web.cz' } });
     assert.strictEqual(r.statusCode, 403);
