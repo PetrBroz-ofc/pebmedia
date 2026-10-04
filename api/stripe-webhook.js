@@ -128,6 +128,26 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
   }
 
   await writeJson(orderPath, { ...order, stav: 'odeslano', odeslanoAt: new Date().toISOString() });
+
+  // Kopie objednávky provozovateli. Až po označení „odesláno“: kdyby tenhle e-mail
+  // selhal, Stripe nesmí událost opakovat (zákazník by dostal e-mail dvakrát).
+  try {
+    const radky = [
+      `Produkt: ${product.nazev}`,
+      `Zaplaceno: ${order.zaplacenoKc} Kč`,
+      ...(order.kodVoucheru ? [`Kód voucheru: ${order.kodVoucheru}`, `Platnost do: ${formatDatum(order.platnostDo)}`] : []),
+      `Zákazník: ${email}`,
+      `Datum: ${new Date().toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' })}`,
+      `Platba ve Stripe: ${orderId}`
+    ];
+    await sendEmail({
+      to: process.env.ORDER_NOTIFY_EMAIL || 'info.pebmedia@gmail.com',
+      subject: `Nová objednávka: ${product.nazev}${order.kodVoucheru ? ` (${order.kodVoucheru})` : ''}`,
+      text: `Na webu proběhl nákup.\n\n${radky.join('\n')}\n`
+    });
+  } catch (err) {
+    console.error('Kopii objednávky provozovateli se nepodařilo odeslat (zákazník svůj e-mail dostal)', err.message);
+  }
 }
 
 async function handler(req, res) {

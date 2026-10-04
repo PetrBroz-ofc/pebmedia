@@ -44,6 +44,7 @@ Object.assign(process.env, {
 
 // ---- falešný fetch (Stripe + Resend) ----
 const emails = [];
+const zak = () => emails.filter((e) => e.to === 'zakaznik@example.com'); // jen e-maily zákazníkovi
 const stripeSessions = {};
 let lastCheckoutBody = null;
 let failNextEmail = false;
@@ -153,7 +154,7 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
   await t('podvržený podpis → 400, žádný e-mail', async () => {
     const raw = event('cs_test_aaaaaaaaaa1');
     const r = await call(webhook, { raw, headers: { 'stripe-signature': sign(raw, 'whsec_SPATNY') } });
-    assert.strictEqual(r.statusCode, 400); assert.strictEqual(emails.length, 0);
+    assert.strictEqual(r.statusCode, 400); assert.strictEqual(zak().length, 0);
   });
   await t('starý podpis (replay po 10 min) → 400', async () => {
     const raw = event('cs_test_aaaaaaaaaa1');
@@ -165,19 +166,23 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     const raw = event('cs_test_doplnek0001');
     assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
     assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
-    assert.strictEqual(emails.length, 1); assert.ok(emails[0].text.includes('https://pebmedia.cz/api/download?token='));
+    const zakaznik = emails.filter((e) => e.to === 'zakaznik@example.com');
+    assert.strictEqual(zakaznik.length, 1); assert.ok(zakaznik[0].text.includes('https://pebmedia.cz/api/download?token='));
+    const kopie = emails.filter((e) => e.to === 'info.pebmedia@gmail.com');
+    assert.strictEqual(kopie.length, 1, 'provozovatel dostane jednu kopii objednávky');
+    assert.ok(kopie[0].subject.startsWith('Nová objednávka: Glass menu'));
   });
   await t('podvržená událost s jinou částkou: platí to, co řekne Stripe API (nesouhlasí → nic)', async () => {
     stripeSessions.cs_test_levne000001 = paid('cs_test_levne000001', 'doplnek-glass-menu', 100);
     const raw = event('cs_test_levne000001');
     await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } });
-    assert.strictEqual(emails.length, 1);
+    assert.strictEqual(zak().length, 1);
   });
   await t('nezaplacená session (payment_status unpaid) → nic', async () => {
     stripeSessions.cs_test_unpaid00001 = { ...paid('cs_test_unpaid00001', 'voucher-500', 50000), payment_status: 'unpaid' };
     const raw = event('cs_test_unpaid00001');
     await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } });
-    assert.strictEqual(emails.length, 1);
+    assert.strictEqual(zak().length, 1);
   });
   await t('voucher: výpadek e-mailu → 500, opakování pošle STEJNÝ kód', async () => {
     stripeSessions.cs_test_voucher0001 = paid('cs_test_voucher0001', 'voucher-1000', 100000);
@@ -186,15 +191,15 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 500);
     const kod1 = JSON.parse(store.get('objednavky/cs_test_voucher0001.json').buf).kodVoucheru;
     assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
-    assert.strictEqual(emails.length, 2); assert.ok(emails[1].text.includes(kod1));
+    assert.strictEqual(zak().length, 2); assert.ok(zak()[1].text.includes(kod1));
     assert.ok(/^PEB-[A-Z2-9]{4}-[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(kod1));
     assert.strictEqual(JSON.parse(store.get('objednavky/cs_test_voucher0001.json').buf).stav, 'odeslano');
     const o = JSON.parse(store.get('objednavky/cs_test_voucher0001.json').buf);
     const dnes = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Prague' }).format(new Date());
     const [r, m, d] = dnes.split('-').map(Number);
     assert.strictEqual(o.platnostDo, `${r + 1}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`);
-    assert.ok(emails[1].text.includes(`Platnost do: ${d}. ${m}. ${r + 1}`), 'e-mail musí obsahovat datum platnosti');
-    assert.ok(emails[1].text.includes('nevyčerpaný rozdíl se nevrací'));
+    assert.ok(zak()[1].text.includes(`Platnost do: ${d}. ${m}. ${r + 1}`), 'e-mail musí obsahovat datum platnosti');
+    assert.ok(zak()[1].text.includes('nevyčerpaný rozdíl se nevrací'));
   });
 
   await t('platnost voucheru: 29. 2. 2028 → 28. 2. 2029, 3. 10. 2026 → 3. 10. 2027', async () => {
