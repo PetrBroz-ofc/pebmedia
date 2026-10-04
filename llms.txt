@@ -117,11 +117,6 @@ Dárkové vouchery na služby a hotové doplňky pro weby: https://pebmedia.cz/o
 - [Voucher 2 500 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-2500): 2500 Kč — Dárkový poukaz v hodnotě 2 500 Kč na libovolnou službu PEBMedia. Platnost 12 měsíců od zakoupení.
 - [Voucher 3 000 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-3000): 3000 Kč — Dárkový poukaz v hodnotě 3 000 Kč na libovolnou službu PEBMedia. Platnost 12 měsíců od zakoupení.
 - [Voucher 5 000 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-5000): 5000 Kč — Dárkový poukaz v hodnotě 5 000 Kč na libovolnou službu PEBMedia. Platnost 12 měsíců od zakoupení.
-- [Glass menu](https://pebmedia.cz/obchod/doplnky/glass-menu/): 490 Kč — Sticky navigace se skleněným (glassmorphism) efektem, mobilním hamburger menu a plnou přístupností klávesnice.
-- [Hero sekce se skleněnou kartou](https://pebmedia.cz/obchod/doplnky/hero-sklenena-karta/): 490 Kč — Úvodní sekce webu s nadpisem, textem a tlačítky na skleněné (glass) kartě nad dekorativním pozadím.
-- [Tlačítka a odznaky](https://pebmedia.cz/obchod/doplnky/tlacitka-a-odznaky/): 290 Kč — Sada tlačítek (primární, sekundární, obrysové, ghost) a odznaků/badge ve více barevných variantách.
-- [Kontaktní formulář](https://pebmedia.cz/obchod/doplnky/kontaktni-formular/): 390 Kč — Responzivní kontaktní formulář s validací na straně klienta a návodem na napojení na Formspree nebo vlastní endpoint.
-- [Cookies lišta](https://pebmedia.cz/obchod/doplnky/cookies-lista/): 290 Kč — Lišta se souhlasem s cookies a rovnocenným tlačítkem „Odmítnout“. Před souhlasem nenačítá nepotřebné cookies.
 
 ## Důležité stránky
 

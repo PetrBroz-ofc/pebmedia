@@ -543,6 +543,11 @@ async function main() {
       meta('meta[property="og:description"]', content.seo.description);
       meta('meta[name="twitter:title"]', content.seo.title);
       meta('meta[name="twitter:description"]', content.seo.description);
+      // Karty obchodu na hlavní stránce: nejnižší cena z katalogu, nebo „Připravujeme“.
+      d.querySelectorAll('[data-od-ceny]').forEach((n) => {
+        const ceny = visibleProducts.filter((p) => p.kategorie === n.getAttribute('data-od-ceny') && !p.zdarma).map((p) => p.cena_kc);
+        n.textContent = ceny.length ? `od ${Math.min(...ceny).toLocaleString('cs-CZ').replace(/ /g, ' ')} Kč` : 'Připravujeme';
+      });
       setJsonLd(d, [organizationLd(), websiteLd(), faqLd()]);
     }
   }));
@@ -554,7 +559,28 @@ async function main() {
   for (const [kat, nazev] of [['doplnky', 'Doplňky pro váš web'], ['vouchery', 'Vouchery']]) {
     const produkty = visibleProducts.filter((p) => p.kategorie === kat);
     zaznam(`obchod/${kat}/index.html`, await renderPage(`obchod/${kat}/index.html`, 'js/shop.js', {
-      onDocument: (d) => setJsonLd(d, [breadcrumbLd([['PEBMedia', '/'], ...obchod, [nazev, `/obchod/${kat}/`]]), itemListLd(nazev, produkty)])
+      onDocument: (d) => {
+        // Prázdná kategorie (vše skryté) se neindexuje; jakmile v ní něco bude, zapne se sama.
+        setRobots(d, produkty.length > 0);
+        setJsonLd(d, [breadcrumbLd([['PEBMedia', '/'], ...obchod, [nazev, `/obchod/${kat}/`]]), ...(produkty.length ? [itemListLd(nazev, produkty)] : [])]);
+      }
+    }));
+  }
+
+  // Skryté doplňky: stránka zůstává (odkazy z venku nevedou na 404), ale bez nákupu a bez indexace.
+  const skryteDoplnky = shop.products.filter((p) => p.kategorie === 'doplnky' && p.skryto);
+  for (const p of skryteDoplnky) {
+    const f = `${productUrl(p).slice(1)}index.html`;
+    if (!fs.existsSync(path.join(ROOT, f))) continue;
+    zaznam(f, await renderPage(f, null, {
+      onDocument: (d) => {
+        setRobots(d, false);
+        d.body.removeAttribute('data-shop-page');
+        d.body.removeAttribute('data-product-id');
+        const box = d.querySelector('.buy-box');
+        if (box) box.innerHTML = '\n        <p class="shop-coming-soon">Tento doplněk teprve připravujeme a zatím ho nelze koupit. Mezitím se můžete podívat na <a href="../../vouchery/">dárkové vouchery</a>.</p>\n      ';
+        setJsonLd(d, [breadcrumbLd([['PEBMedia', '/'], ...obchod, ['Doplňky', '/obchod/doplnky/'], [p.nazev, productUrl(p)]])]);
+      }
     }));
   }
   const ebooky = visibleProducts.filter((p) => p.kategorie === 'ebooky');
@@ -587,7 +613,7 @@ async function main() {
   // Ostatní stránky (právní texty, děkujeme/zrušeno…) — jen společné rozložení.
   const hotovo = new Set(['index.html', 'obchod/index.html', 'obchod/doplnky/index.html', 'obchod/vouchery/index.html',
     'obchod/ebooky/index.html', 'obchod/podminky/index.html',
-    ...visibleProducts.filter((x) => x.kategorie === 'doplnky').map((p) => `${productUrl(p).slice(1)}index.html`)]);
+    ...shop.products.filter((x) => x.kategorie === 'doplnky').map((p) => `${productUrl(p).slice(1)}index.html`)]);
   for (const f of htmlFiles().filter((x) => !hotovo.has(x))) {
     zaznam(f, await renderPage(f, null));
   }

@@ -106,6 +106,11 @@
     try {
       const shop = await loadShop();
       const products = shop.products.filter((p) => p.kategorie === kategorie);
+      if (!products.length) {
+        const nazev = (shop.categories[kategorie] || {}).nazev || 'Tuto kategorii';
+        el.innerHTML = `<p class="shop-coming-soon">${esc(nazev)} právě připravujeme. Zatím se můžete podívat na <a href="${pathToRoot()}obchod/vouchery/">dárkové vouchery</a>.</p>`;
+        return;
+      }
       el.innerHTML = products.map((p) => productCardHtml(p, pathToRoot())).join('');
     } catch (err) {
       showLoadError(el, err);

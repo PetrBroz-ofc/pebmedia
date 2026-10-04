@@ -15,6 +15,7 @@
   },
   "scripts": {
     "predgeneruj": "node scripts/predgeneruj.js",
-    "galerie": "node scripts/pridej-do-galerie.js"
+    "galerie": "node scripts/pridej-do-galerie.js",
+    "test": "node tests/obchod.test.js"
   }
 }

@@ -2,42 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pebmedia.cz/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://pebmedia.cz/obchod/doplnky/cookies-lista/</loc>
-    <lastmod>2026-10-03</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://pebmedia.cz/obchod/doplnky/glass-menu/</loc>
-    <lastmod>2026-10-03</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://pebmedia.cz/obchod/doplnky/hero-sklenena-karta/</loc>
-    <lastmod>2026-10-03</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://pebmedia.cz/obchod/doplnky/</loc>
-    <lastmod>2026-10-03</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://pebmedia.cz/obchod/doplnky/kontaktni-formular/</loc>
-    <lastmod>2026-10-03</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://pebmedia.cz/obchod/doplnky/tlacitka-a-odznaky/</loc>
-    <lastmod>2026-10-03</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://pebmedia.cz/obchod/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -57,7 +27,7 @@
   </url>
   <url>
     <loc>https://pebmedia.cz/obchod/vouchery/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <priority>0.8</priority>
   </url>
   <url>

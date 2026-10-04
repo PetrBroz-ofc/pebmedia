@@ -172,7 +172,9 @@
           "width": 1200,
           "height": 420
         }
-      ]
+      ],
+      "skryto": true,
+      "_pozn_skryto": "Skryto, doplňky teprve připravujeme. Pro spuštění smažte \"skryto\" a spusťte npm run predgeneruj."
     },
     {
       "id": "doplnek-hero-sklenena-karta",
@@ -191,7 +193,9 @@
           "width": 1200,
           "height": 680
         }
-      ]
+      ],
+      "skryto": true,
+      "_pozn_skryto": "Skryto, doplňky teprve připravujeme. Pro spuštění smažte \"skryto\" a spusťte npm run predgeneruj."
     },
     {
       "id": "doplnek-tlacitka-odznaky",
@@ -211,7 +215,9 @@
           "width": 1200,
           "height": 560
         }
-      ]
+      ],
+      "skryto": true,
+      "_pozn_skryto": "Skryto, doplňky teprve připravujeme. Pro spuštění smažte \"skryto\" a spusťte npm run predgeneruj."
     },
     {
       "id": "doplnek-kontaktni-formular",
@@ -230,7 +236,9 @@
           "width": 1200,
           "height": 640
         }
-      ]
+      ],
+      "skryto": true,
+      "_pozn_skryto": "Skryto, doplňky teprve připravujeme. Pro spuštění smažte \"skryto\" a spusťte npm run predgeneruj."
     },
     {
       "id": "doplnek-cookies-lista",
@@ -249,7 +257,9 @@
           "width": 1200,
           "height": 750
         }
-      ]
+      ],
+      "skryto": true,
+      "_pozn_skryto": "Skryto, doplňky teprve připravujeme. Pro spuštění smažte \"skryto\" a spusťte npm run predgeneruj."
     },
     {
       "id": "ebook-neplatte-zbytecne",
