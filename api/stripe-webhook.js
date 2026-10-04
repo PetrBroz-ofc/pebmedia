@@ -25,6 +25,7 @@ const { verifyStripeWebhookSignature, retrieveCheckoutSession } = require('./_li
 const { getSecret, createDownloadToken, generateVoucherCode } = require('./_lib/tokens');
 const { sendEmail } = require('./_lib/email');
 const { readJson, writeJson } = require('./_lib/storage');
+const { zapsatVoucher } = require('./_lib/vouchery');
 const { setApiHeaders, getBaseUrl, readRawBody } = require('./_lib/security');
 
 const ZPRACOVAT = new Set(['checkout.session.completed', 'checkout.session.async_payment_succeeded']);
@@ -129,6 +130,19 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
 
   await writeJson(orderPath, { ...order, stav: 'odeslano', odeslanoAt: new Date().toISOString() });
 
+  // Zápis voucheru do interní správy voucherů (Supabase). Výsledek jde do kopie
+  // objednávky; selhání nesmí zablokovat zákazníka ani vyvolat opakování webhooku.
+  let sprava = null;
+  if (order.kodVoucheru) {
+    try {
+      const r = await zapsatVoucher({ kod: order.kodVoucheru, hodnotaKc: order.hodnotaKc, platnostDo: order.platnostDo });
+      sprava = r === 'zapsano' ? 'ano' : 'přeskočeno (není nastaven klíč Supabase)';
+    } catch (err) {
+      console.error('Zápis voucheru do správy voucherů selhal', err.message);
+      sprava = 'NE, chyba při zápisu — doplň voucher do správy ručně';
+    }
+  }
+
   // Kopie objednávky provozovateli. Až po označení „odesláno“: kdyby tenhle e-mail
   // selhal, Stripe nesmí událost opakovat (zákazník by dostal e-mail dvakrát).
   try {
@@ -138,7 +152,8 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
       ...(order.kodVoucheru ? [`Kód voucheru: ${order.kodVoucheru}`, `Platnost do: ${formatDatum(order.platnostDo)}`] : []),
       `Zákazník: ${email}`,
       `Datum: ${new Date().toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' })}`,
-      `Platba ve Stripe: ${orderId}`
+      `Platba ve Stripe: ${orderId}`,
+      ...(sprava ? [`Zapsáno do správy voucherů: ${sprava}`] : [])
     ];
     await sendEmail({
       to: process.env.ORDER_NOTIFY_EMAIL || 'info.pebmedia@gmail.com',

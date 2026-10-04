@@ -44,6 +44,7 @@ Object.assign(process.env, {
 
 // ---- falešný fetch (Stripe + Resend) ----
 const emails = [];
+const supabaseRows = new Map();
 const zak = () => emails.filter((e) => e.to === 'zakaznik@example.com'); // jen e-maily zákazníkovi
 const stripeSessions = {};
 let lastCheckoutBody = null;
@@ -57,6 +58,13 @@ global.fetch = async (url, init = {}) => {
   if (url === 'https://api.stripe.com/v1/checkout/sessions' && init.method === 'POST') {
     lastCheckoutBody = new URLSearchParams(init.body.toString());
     return json({ id: 'cs_test_new', url: 'https://checkout.stripe.com/c/pay/cs_test_new' });
+  }
+  if (url.startsWith('https://supabase.test/rest/v1/vouchers')) {
+    const row = JSON.parse(init.body);
+    assert.strictEqual(init.headers.Authorization, 'Bearer service-test-key');
+    assert.ok(/ignore-duplicates/.test(init.headers.Prefer));
+    supabaseRows.set(row.voucher_id, row); // unikátní voucher_id = duplicita se nepřidá
+    return new Response(null, { status: 201 });
   }
   const m = url.match(/checkout\/sessions\/(cs_\w+)$/);
   if (m) return stripeSessions[m[1]] ? json(stripeSessions[m[1]]) : json({ error: { message: 'no' } }, 404);
@@ -208,6 +216,23 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual(fn(new Date('2028-02-29T12:00:00Z')), '2029-02-28');
     assert.strictEqual(fn(new Date('2026-10-03T08:00:00Z')), '2027-10-03');
     assert.strictEqual(fn(new Date('2026-12-31T23:30:00Z')), '2028-01-01'); // po půlnoci českého času už je 1. 1. 2027
+  });
+
+  await t('voucher se zapíše do správy voucherů (Supabase) a kopie to uvede', async () => {
+    process.env.SUPABASE_URL = 'https://supabase.test'; process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-test-key';
+    stripeSessions.cs_test_supabase001 = paid('cs_test_supabase001', 'voucher-2000', 200000);
+    const raw = event('cs_test_supabase001');
+    assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
+    assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
+    delete process.env.SUPABASE_URL; delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const kod = JSON.parse(store.get('objednavky/cs_test_supabase001.json').buf).kodVoucheru;
+    const row = supabaseRows.get(kod);
+    assert.ok(row, 'voucher je ve správě');
+    assert.deepStrictEqual([row.amount, row.status, row.school], [2000, 'active', 'Online obchod']);
+    assert.strictEqual(supabaseRows.size, 1);
+    const kopie = emails.filter((e) => e.to === 'info.pebmedia@gmail.com' && e.text.includes(kod));
+    assert.strictEqual(kopie.length, 1);
+    assert.ok(kopie[0].text.includes('Zapsáno do správy voucherů: ano'));
   });
 
   console.log('DOWNLOAD');
