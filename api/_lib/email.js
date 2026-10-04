@@ -21,6 +21,9 @@ async function sendEmail({ to, subject, text, html }) {
     body: JSON.stringify({
       from: CONTACT_FROM_EMAIL,
       to,
+      // Odesílací adresa (např. obchod@pebmedia.cz) nemá schránku — odpovědi zákazníků
+      // proto směřujeme na skutečný e-mail PEBMedia.
+      reply_to: process.env.REPLY_TO_EMAIL || 'info.pebmedia@gmail.com',
       subject,
       text,
       html: html || undefined
