@@ -3,14 +3,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E-booky — Obchod PEBMedia</title>
 <meta name="description" content="Praktické e-booky a návody pro firmy a podnikatele ke stažení.">
-<meta name="robots" content="noindex, follow">
+<meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0B6E63">
 <link rel="canonical" href="https://pebmedia.cz/obchod/ebooky/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%223%22 y=%223%22 width=%2294%22 height=%2294%22 rx=%2222%22 fill=%22%230B6E63%22/><rect x=%2232.5%22 y=%2222%22 width=%2212.25%22 height=%2256%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2222%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2257%22 y=%2222%22 width=%2210.5%22 height=%2231.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2243%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/></svg>">
 <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../../css/fonts.css?v=1">
 <link rel="stylesheet" href="../../css/style.css?v=28">
-<link rel="stylesheet" href="../../css/shop.css?v=7">
+<link rel="stylesheet" href="../../css/shop.css?v=8">
 <link rel="stylesheet" href="../../css/legal.css?v=1">
 <style>
   .ebook-card {
@@ -58,6 +58,42 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "E-booky",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Product",
+        "name": "Nenech se nachytat",
+        "description": "Praktický průvodce digitální bezpečností pro každého: jak ochránit své peníze, účty a identitu ve světě, kde se dá napodobit hlas, tvář i vaše banka. Jak podvody fungují, kde na vás čekají, jak se bránit a co dělat, když už jste naletěli. 135 stran, PDF.",
+        "url": "https://pebmedia.cz/obchod/ebooky/#ebook-nenech-se-nachytat",
+        "image": [
+          "https://pebmedia.cz/assets/obchod/ebook-nenech-se-nachytat-7661086b.webp"
+        ],
+        "brand": {
+          "@type": "Brand",
+          "name": "PEBMedia"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://pebmedia.cz/obchod/ebooky/#ebook-nenech-se-nachytat",
+          "priceCurrency": "CZK",
+          "price": 329,
+          "availability": "https://schema.org/InStock",
+          "seller": {
+            "@id": "https://pebmedia.cz/#organization"
+          }
+        }
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-root="../../" data-shop-page="ebooky">
 
@@ -84,7 +120,26 @@
     <p>Obsah má informativní charakter a nenahrazuje právní ani finanční poradenství.</p>
   </section>
 
-  <section class="container" id="ebookList" style="padding-bottom: 96px;"><p>E-booky připravujeme. Zatím se můžete podívat na <a href="../doplnky/">doplňky pro web</a> nebo <a href="../vouchery/">dárkové vouchery</a>.</p></section>
+  <section class="container" id="ebookList" style="padding-bottom: 96px;">
+          <div class="ebook-card" id="ebook-nenech-se-nachytat">
+            <div>
+              <div class="product-media"><img src="../../assets/obchod/ebook-nenech-se-nachytat-7661086b.webp" alt="Obálka e-booku Nenech se nachytat od PEBMedia" width="900" height="1277" loading="lazy" decoding="async"></div>
+              <h2>Nenech se nachytat</h2>
+              <p>Praktický průvodce digitální bezpečností pro každého: jak ochránit své peníze, účty a identitu ve světě, kde se dá napodobit hlas, tvář i vaše banka. Jak podvody fungují, kde na vás čekají, jak se bránit a co dělat, když už jste naletěli. 135 stran, PDF.</p>
+            </div>
+            <div>
+              <div class="price">329 Kč</div>
+              
+      <div class="consent-row">
+        <input type="checkbox" id="consent-0">
+        <label for="consent-0">Souhlasím se zahájením plnění (okamžité zpřístupnění ke stažení) před uplynutím lhůty pro odstoupení od smlouvy a beru na vědomí, že tím ztrácím právo na odstoupení od smlouvy. Viz <a href="../../obchod/podminky/">obchodní podmínky</a>.</label>
+      </div>
+      <button class="btn btn-accent" id="buy-0">Koupit</button>
+      <div class="form-error" id="buyErr-0" role="alert"></div>
+    
+            </div>
+          </div>
+        </section>
 </main>
 
 <footer class="site-footer shop-footer">

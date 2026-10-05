@@ -40,9 +40,20 @@ async function uploadFile(filename, buffer, contentType) {
  */
 async function openFile(filename) {
   if (!isSafeFilename(filename)) return null;
-  const result = await get(PREFIX + filename, { access: ACCESS, useCache: false });
-  if (!result || result.statusCode !== 200) return null;
-  return result;
+  // Primárně produkty/<soubor> (nahrávací skript), jinak <soubor> v kořeni úložiště
+  // (tak ho uloží ruční nahrání přes Vercel → Storage → Blob → Upload).
+  for (const pathname of [PREFIX + filename, filename]) {
+    const result = await get(pathname, { access: ACCESS, useCache: false });
+    if (result && result.statusCode === 200) return result;
+  }
+  return null;
+}
+
+/** Celý soubor jako Buffer (pro přílohu e-mailu). Vrací null, když neexistuje. */
+async function readFileBuffer(filename) {
+  const file = await openFile(filename);
+  if (!file) return null;
+  return Buffer.from(await new Response(file.stream).arrayBuffer());
 }
 
 /**
@@ -106,4 +117,4 @@ async function updateJson(pathname, update, pokusy = 5) {
   throw new Error(`Záznam ${pathname} se nepodařilo atomicky upravit (souběh).`);
 }
 
-module.exports = { uploadFile, openFile, readJson, writeJson, updateJson, isSafeFilename, PREFIX };
+module.exports = { uploadFile, openFile, readFileBuffer, readJson, writeJson, updateJson, isSafeFilename, PREFIX };

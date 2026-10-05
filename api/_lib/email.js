@@ -4,7 +4,7 @@
 // jen zaloguje do Vercel logu, aby nic nespadlo i bez nastaveného klíče
 // (užitečné při testování Stripe webhooku bez plně nastaveného e-mailu).
 
-async function sendEmail({ to, subject, text, html }) {
+async function sendEmail({ to, subject, text, html, attachments }) {
   const { RESEND_API_KEY, CONTACT_FROM_EMAIL } = process.env;
 
   if (!RESEND_API_KEY || !CONTACT_FROM_EMAIL) {
@@ -26,7 +26,9 @@ async function sendEmail({ to, subject, text, html }) {
       reply_to: process.env.REPLY_TO_EMAIL || 'info.pebmedia@gmail.com',
       subject,
       text,
-      html: html || undefined
+      html: html || undefined,
+      // [{ filename, content (base64) }] — např. PDF e-booku
+      attachments: attachments && attachments.length ? attachments : undefined
     })
   });
 

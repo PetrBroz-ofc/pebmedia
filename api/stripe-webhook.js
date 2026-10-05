@@ -24,7 +24,7 @@ const { findProduct } = require('./_lib/shop');
 const { verifyStripeWebhookSignature, retrieveCheckoutSession } = require('./_lib/stripe');
 const { getSecret, createDownloadToken, generateVoucherCode } = require('./_lib/tokens');
 const { sendEmail } = require('./_lib/email');
-const { readJson, writeJson } = require('./_lib/storage');
+const { readJson, writeJson, readFileBuffer } = require('./_lib/storage');
 const { zapsatVoucher } = require('./_lib/vouchery');
 const { setApiHeaders, getBaseUrl, readRawBody } = require('./_lib/security');
 
@@ -120,10 +120,24 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
     }, downloadSecret);
     const downloadUrl = `${baseUrl}/api/download?token=${encodeURIComponent(token)}`;
 
+    // E-book přijde rovnou jako PDF v příloze (odkaz ke stažení je záloha).
+    // Když soubor v úložišti chybí, vyhodíme chybu → Stripe událost zopakuje
+    // a zákazník nedostane e-mail bez knihy.
+    let attachments;
+    if (product.typ === 'ebook') {
+      const pdf = await readFileBuffer(product.soubor);
+      if (!pdf) throw new Error(`E-book ${product.soubor} není nahraný v úložišti (Vercel Blob).`);
+      attachments = [{ filename: `${product.nazev}.pdf`, content: pdf.toString('base64') }];
+    }
+    const uvod = attachments
+      ? `E-book „${product.nazev}“ najdete v příloze tohoto e-mailu (PDF).\n\nKdyby se příloha nezobrazila, stáhněte si ho přes tento odkaz (platný 24 hodin, max. 5 stažení):\n${downloadUrl}`
+      : `Odkaz ke stažení „${product.nazev}“ (platný 24 hodin, max. 5 stažení):\n${downloadUrl}`;
+
     await sendEmail({
       to: email,
-      subject: `Ke stažení: ${product.nazev} — PEBMedia`,
-      text: `Děkujeme za nákup!\n\nOdkaz ke stažení „${product.nazev}“ (platný 24 hodin, max. 5 stažení):\n${downloadUrl}\n\nOdkaz je osobní, prosím nepřeposílejte ho.\n\nPotvrzujeme, že jste před nákupem výslovně souhlasili se zpřístupněním digitálního obsahu před uplynutím lhůty pro odstoupení od smlouvy a vzali jste na vědomí, že tím právo na odstoupení zaniká (§ 1837 písm. l) občanského zákoníku). Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
+      subject: attachments ? `Váš e-book: ${product.nazev} — PEBMedia` : `Ke stažení: ${product.nazev} — PEBMedia`,
+      attachments,
+      text: `Děkujeme za nákup!\n\n${uvod}\n\nOdkaz je osobní, prosím nepřeposílejte ho.\n\nPotvrzujeme, že jste před nákupem výslovně souhlasili se zpřístupněním digitálního obsahu před uplynutím lhůty pro odstoupení od smlouvy a vzali jste na vědomí, že tím právo na odstoupení zaniká (§ 1837 písm. l) občanského zákoníku). Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
     });
     console.log(`[Stažení] Odkaz odeslán zákazníkovi (objednávka ${orderId}).`);
   }

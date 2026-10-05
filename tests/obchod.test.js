@@ -235,6 +235,22 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.ok(kopie[0].text.includes('Zapsáno do správy voucherů: ano'));
   });
 
+  await t('e-book: bez PDF v úložišti → 500 a žádný e-mail zákazníkovi; s PDF → příloha', async () => {
+    stripeSessions.cs_test_ebook00001 = { ...paid('cs_test_ebook00001', 'ebook-nenech-se-nachytat', 32900), customer_details: { email: 'ctenar@example.com' } };
+    const raw = event('cs_test_ebook00001');
+    assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 500);
+    assert.strictEqual(emails.filter((e) => e.to === 'ctenar@example.com').length, 0);
+    store.set('nenech-se-nachytat.pdf', { buf: Buffer.from('%PDF-1.7 test'), etag: 'p', contentType: 'application/pdf' }); // nahráno do kořene přes dashboard
+    assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
+    const e = emails.filter((x) => x.to === 'ctenar@example.com');
+    assert.strictEqual(e.length, 1);
+    assert.ok(e[0].subject.startsWith('Váš e-book: Nenech se nachytat'));
+    assert.strictEqual(e[0].attachments.length, 1);
+    assert.strictEqual(Buffer.from(e[0].attachments[0].content, 'base64').toString(), '%PDF-1.7 test');
+    assert.ok(e[0].text.includes('/api/download?token='), 'záložní odkaz');
+    assert.ok(e[0].text.includes('§ 1837'), 'potvrzení souhlasu');
+  });
+
   console.log('DOWNLOAD');
   store.set('produkty/glass-menu.zip', { buf: Buffer.from('ZIPDATA'), etag: 'z', contentType: 'application/zip' });
   const tok = (o = {}) => createDownloadToken({ orderId: 'cs_test_dl', productId: 'doplnek-glass-menu', soubor: 'glass-menu.zip', maxStazeni: 5, ...o }, process.env.DOWNLOAD_SIGNING_SECRET);

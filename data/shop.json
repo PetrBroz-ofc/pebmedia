@@ -262,17 +262,23 @@
       "_pozn_skryto": "Skryto, doplňky teprve připravujeme. Pro spuštění smažte \"skryto\" a spusťte npm run predgeneruj."
     },
     {
-      "id": "ebook-neplatte-zbytecne",
+      "id": "ebook-nenech-se-nachytat",
       "kategorie": "ebooky",
       "typ": "ebook",
-      "nazev": "Neplaťte zbytečně",
-      "popis": "Popis knihy doplní Petr — obsah zatím nebyl dodán.",
-      "skryto": true,
-      "_pozn_skryto": "Skryto, dokud nebude dodán popis a PDF (produkty/ebooky/neplatte-zbytecne.pdf). Pak smazat skryto.",
-      "cena_kc": 0,
-      "zdarma": true,
-      "soubor": "neplatte-zbytecne.pdf",
-      "media": []
+      "nazev": "Nenech se nachytat",
+      "popis": "Praktický průvodce digitální bezpečností pro každého: jak ochránit své peníze, účty a identitu ve světě, kde se dá napodobit hlas, tvář i vaše banka. Jak podvody fungují, kde na vás čekají, jak se bránit a co dělat, když už jste naletěli. 135 stran, PDF.",
+      "cena_kc": 329,
+      "zdarma": false,
+      "soubor": "nenech-se-nachytat.pdf",
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/ebook-nenech-se-nachytat-7661086b.webp",
+          "alt": "Obálka e-booku Nenech se nachytat od PEBMedia",
+          "width": 900,
+          "height": 1277
+        }
+      ]
     }
   ]
 }
