@@ -114,12 +114,11 @@
     return frag;
   }
 
-  function initHelpWidget(faqItems) {
+  function initHelpWidget() {
     const widget = document.getElementById('helpWidget');
     if (!widget) return;
     const toggle = document.getElementById('helpWidgetToggle');
     const messages = document.getElementById('helpWidgetMessages');
-    const questionsWrap = document.getElementById('helpWidgetQuestions');
     const contactLink = document.getElementById('helpWidgetContactLink');
     const form = document.getElementById('helpWidgetForm');
     const input = document.getElementById('helpWidgetInput');
@@ -135,19 +134,7 @@
 
     // Stránka může přijít už předgenerovaná (scripts/predgeneruj.js) — začít načisto.
     messages.innerHTML = '';
-    addMessage('Dobrý den, jsem AI asistent PEBMedia. Poradím s webem, e-shopem, brandingem i s nákupem v obchodě. Napište dotaz, nebo vyberte častou otázku níže.', 'bot');
-
-    questionsWrap.innerHTML = '';
-    faqItems.forEach(f => {
-      const btn = el('button', 'help-widget-question-btn', f.question);
-      btn.type = 'button';
-      btn.addEventListener('click', () => {
-        addMessage(f.question, 'user');
-        historie.push({ role: 'user', content: f.question }, { role: 'assistant', content: f.answer });
-        setTimeout(() => addMessage(f.answer, 'bot'), 250);
-      });
-      questionsWrap.appendChild(btn);
-    });
+    addMessage('Dobrý den, jsem AI asistent PEBMedia. Poradím s webem, e-shopem, brandingem i s nákupem v obchodě. S čím vám můžu pomoct?', 'bot');
 
     if (form && input) {
       let odesila = false;
@@ -545,9 +532,7 @@
         faqList.appendChild(item);
       });
 
-    initHelpWidget(
-      data.faq.items.filter(f => f.visible !== false).sort((a, b) => a.order - b.order)
-    );
+    initHelpWidget();
 
     // --- CTA ---
     document.getElementById('ctaHeading').textContent = data.ctaSection.heading;
