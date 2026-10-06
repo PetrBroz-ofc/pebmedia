@@ -84,6 +84,36 @@
     }
   }
 
+  /**
+   * Text zprávy jako bezpečné DOM uzly: žádné HTML z modelu, jen odstavce
+   * a odkazy na https adresy, e-maily a telefon (ochrana proti XSS).
+   */
+  function textToNodes(text) {
+    const frag = document.createDocumentFragment();
+    const re = /(https?:\/\/[^\s<>"')]+|(?:www\.)?pebmedia\.cz(?:\/[^\s<>"')]*)?|[\w.+-]+@[\w-]+\.[\w.-]+|\+420(?:\s?\d{3}){3})/g;
+    String(text).split(/\n{2,}/).forEach((odstavec, i) => {
+      if (i) frag.appendChild(document.createElement('br'));
+      if (i) frag.appendChild(document.createElement('br'));
+      let last = 0;
+      odstavec.replace(re, (m, _g, idx) => {
+        frag.appendChild(document.createTextNode(odstavec.slice(last, idx)));
+        const cisty = m.replace(/[.,;:!?]+$/, '');
+        const a = document.createElement('a');
+        if (/@/.test(cisty)) a.href = 'mailto:' + cisty;
+        else if (/^\+420/.test(cisty)) a.href = 'tel:' + cisty.replace(/\s/g, '');
+        else a.href = /^https?:/.test(cisty) ? cisty : 'https://' + cisty.replace(/^www\./, '');
+        if (/^https?:/.test(a.href) && !/^https:\/\/(www\.)?pebmedia\.cz/.test(a.href)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+        a.textContent = cisty;
+        frag.appendChild(a);
+        frag.appendChild(document.createTextNode(m.slice(cisty.length)));
+        last = idx + m.length;
+        return m;
+      });
+      frag.appendChild(document.createTextNode(odstavec.slice(last)));
+    });
+    return frag;
+  }
+
   function initHelpWidget(faqItems) {
     const widget = document.getElementById('helpWidget');
     if (!widget) return;
@@ -91,15 +121,21 @@
     const messages = document.getElementById('helpWidgetMessages');
     const questionsWrap = document.getElementById('helpWidgetQuestions');
     const contactLink = document.getElementById('helpWidgetContactLink');
+    const form = document.getElementById('helpWidgetForm');
+    const input = document.getElementById('helpWidgetInput');
+    const historie = []; // konverzace pro AI asistenta (posílá se jen při dotazu)
 
     function addMessage(text, from) {
-      messages.appendChild(el('div', 'help-msg help-msg-' + from, text));
+      const zprava = el('div', 'help-msg help-msg-' + from);
+      zprava.appendChild(textToNodes(text));
+      messages.appendChild(zprava);
       messages.scrollTop = messages.scrollHeight;
+      return zprava;
     }
 
     // Stránka může přijít už předgenerovaná (scripts/predgeneruj.js) — začít načisto.
     messages.innerHTML = '';
-    addMessage('Ahoj, jsem tu na časté dotazy k našim službám. Vyberte si otázku níže, nebo nám rovnou napište.', 'bot');
+    addMessage('Dobrý den, jsem AI asistent PEBMedia. Poradím s webem, e-shopem, brandingem i s nákupem v obchodě. Napište dotaz, nebo vyberte častou otázku níže.', 'bot');
 
     questionsWrap.innerHTML = '';
     faqItems.forEach(f => {
@@ -107,10 +143,51 @@
       btn.type = 'button';
       btn.addEventListener('click', () => {
         addMessage(f.question, 'user');
+        historie.push({ role: 'user', content: f.question }, { role: 'assistant', content: f.answer });
         setTimeout(() => addMessage(f.answer, 'bot'), 250);
       });
       questionsWrap.appendChild(btn);
     });
+
+    if (form && input) {
+      let odesila = false;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const dotaz = input.value.trim();
+        if (!dotaz || odesila) return;
+        odesila = true;
+        input.value = '';
+        addMessage(dotaz, 'user');
+        historie.push({ role: 'user', content: dotaz });
+        const pise = addMessage('Píšu odpověď…', 'bot');
+        pise.classList.add('is-typing');
+        try {
+          const res = await fetch('api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: historie.slice(-16) })
+          });
+          const json = (res.headers.get('content-type') || '').includes('application/json') ? await res.json() : null;
+          pise.remove();
+          if (json && res.ok && json.reply) {
+            historie.push({ role: 'assistant', content: json.reply });
+            addMessage(json.reply, 'bot');
+            if (window.PEBZvuk) window.PEBZvuk.play('success');
+          } else {
+            historie.pop();
+            addMessage((json && json.error) || 'AI asistent tady zatím neběží. Napište nám prosím na info.pebmedia@gmail.com, ozveme se obratem.', 'bot');
+            if (window.PEBZvuk) window.PEBZvuk.play('error');
+          }
+        } catch (err) {
+          pise.remove();
+          historie.pop();
+          addMessage('Spojení se nepodařilo. Zkuste to prosím znovu, nebo napište na info.pebmedia@gmail.com.', 'bot');
+        } finally {
+          odesila = false;
+          input.focus();
+        }
+      });
+    }
 
     if (contactLink) {
       contactLink.addEventListener('click', () => {

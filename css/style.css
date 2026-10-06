@@ -1016,7 +1016,7 @@ p { margin: 0; }
 .help-msg-bot { align-self: flex-start; background: var(--accent-tint); color: var(--accent-ink); border-bottom-left-radius: 4px; }
 .help-msg-user { align-self: flex-end; background: var(--ink); color: var(--surface); border-bottom-right-radius: 4px; }
 
-.help-widget-questions { display: flex; flex-direction: column; gap: 6px; padding: 12px 18px 14px; border-top: 1px solid var(--border); flex-shrink: 0; max-height: 160px; overflow-y: auto; }
+.help-widget-questions { display: flex; flex-direction: column; gap: 6px; padding: 12px 18px 14px; border-top: 1px solid var(--border); flex-shrink: 0; max-height: 120px; overflow-y: auto; }
 .help-widget-question-btn { text-align: left; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-s); padding: 8px 12px; font-size: 13px; color: var(--ink-soft); transition: border-color 0.2s var(--ease), color 0.2s var(--ease); }
 .help-widget-question-btn:hover { border-color: var(--accent); color: var(--ink); }
 
@@ -1367,3 +1367,34 @@ p { margin: 0; }
 @media (max-width: 640px) {
   .shop-header .header-inner > .sound-toggle { right: 20px; }
 }
+
+/* ---------------------------------- AI asistent ve widgetu ------------------ */
+.help-widget-form { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); flex-shrink: 0; }
+.help-widget-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: var(--bg);
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+}
+.help-widget-form input:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+.help-widget-form button {
+  width: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-s);
+  background: var(--accent);
+}
+.help-widget-form button:hover { background: var(--accent-ink); }
+.help-widget-form button svg { width: 18px; height: 18px; fill: #fff; }
+.help-widget-ai-note { margin: 0; padding: 0 16px 8px; font-size: 11px; line-height: 1.4; color: var(--ink-soft); }
+.help-widget-ai-note a { text-decoration: underline; }
+.help-msg a { color: inherit; text-decoration: underline; text-underline-offset: 2px; word-break: break-word; }
+.help-msg.is-typing { opacity: 0.7; font-style: italic; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
