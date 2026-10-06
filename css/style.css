@@ -1079,7 +1079,7 @@ p { margin: 0; }
 
 .shop-teaser-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 20px;
 }
 .shop-teaser-card {
@@ -1122,23 +1122,6 @@ p { margin: 0; }
 }
 
 /* ---------------------------------- Redakční vrstva ------------------------- */
-/* Číslované popisky sekcí ("01 — Služby"): dávají stránce rytmus časopisu
-   místo šablony "nadpis, odstavec, karty". Číslo dopočítá CSS samo. */
-main { counter-reset: sekce; }
-.section-head[data-eyebrow] { counter-increment: sekce; }
-.section-head[data-eyebrow]::before {
-  content: counter(sekce, decimal-leading-zero) "  —  " attr(data-eyebrow);
-  white-space: pre;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
 .section-head h2 { text-wrap: balance; }
 .section-head p, .hero-text { text-wrap: pretty; }
 
