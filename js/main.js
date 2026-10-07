@@ -480,6 +480,77 @@
     prepocitej();
   }
 
+  // Tlačítko „Spočítejte si to“ pod ceníkem: otočí se a ukáže kartu kalkulačky, křížek ji otočí zpátky.
+  function initKalkFlip() {
+    const obal = document.getElementById('kalkFlip');
+    if (!obal) return;
+    const tlacitko = document.getElementById('kalkOtevrit');
+    const karta = document.getElementById('kalkulacka');
+    const zavrit = document.getElementById('kalkZavrit');
+    const POLOVINA = 220; // ms na otočení o 90°
+    let bezi = false;
+    const klid = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Prvek schovaný na hraně (natočený o 90°) zobrazí a nechá ho dotočit do 0°.
+    function dotoc(prvek, trida) {
+      prvek.classList.add(trida);
+      prvek.hidden = false;
+      setTimeout(() => prvek.classList.remove(trida), 20);
+    }
+
+    function otevrit({ posunout = false } = {}) {
+      if (bezi || !karta.hidden) return;
+      bezi = true;
+      tlacitko.setAttribute('aria-expanded', 'true');
+      const hotovo = () => {
+        tlacitko.hidden = true;
+        tlacitko.classList.remove('is-flip-out');
+        if (klid()) karta.hidden = false; else dotoc(karta, 'is-flip-in');
+        obal.classList.add('is-open');
+        setTimeout(() => {
+          bezi = false;
+          if (posunout) karta.scrollIntoView({ block: 'start', behavior: klid() ? 'auto' : 'smooth' });
+          const prvni = karta.querySelector('#kalk input');
+          if (prvni) prvni.focus({ preventScroll: true });
+        }, klid() ? 0 : 460);
+      };
+      if (window.PEBZvuk) window.PEBZvuk.play('open');
+      if (klid()) { hotovo(); return; }
+      tlacitko.classList.add('is-flip-out');
+      setTimeout(hotovo, POLOVINA);
+    }
+
+    function zavritKartu() {
+      if (bezi || karta.hidden) return;
+      bezi = true;
+      const hotovo = () => {
+        karta.hidden = true;
+        karta.classList.remove('is-flip-in');
+        obal.classList.remove('is-open');
+        tlacitko.setAttribute('aria-expanded', 'false');
+        if (klid()) tlacitko.hidden = false; else dotoc(tlacitko, 'is-flip-out');
+        setTimeout(() => { bezi = false; tlacitko.focus({ preventScroll: true }); }, klid() ? 0 : POLOVINA + 40);
+      };
+      if (window.PEBZvuk) window.PEBZvuk.play('close');
+      if (klid()) { hotovo(); return; }
+      karta.classList.add('is-flip-in');
+      setTimeout(hotovo, POLOVINA + 60);
+    }
+
+    tlacitko.addEventListener('click', () => otevrit());
+    zavrit.addEventListener('click', zavritKartu);
+    karta.addEventListener('keydown', (e) => { if (e.key === 'Escape') zavritKartu(); });
+
+    // Odkaz na #kalkulacka (třeba od PEBAi) kartu rovnou otevře.
+    const zOdkazu = () => { if (location.hash === '#kalkulacka') otevrit({ posunout: true }); };
+    window.addEventListener('hashchange', zOdkazu);
+    document.addEventListener('click', (e) => {
+      const odkaz = e.target.closest && e.target.closest('a[href$="#kalkulacka"]');
+      if (odkaz) { e.preventDefault(); otevrit({ posunout: true }); }
+    });
+    zOdkazu();
+  }
+
   function starsSvg(count) {
     let out = '';
     for (let i = 0; i < 5; i++) {
@@ -695,6 +766,7 @@
       });
 
     initKalkulacka(data);
+    initKalkFlip();
 
     // --- Portfolio ---
     document.getElementById('portfolioHeading').textContent = data.portfolio.heading;

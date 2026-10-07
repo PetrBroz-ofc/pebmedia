@@ -1440,20 +1440,40 @@ p { margin: 0; }
 }
 
 /* ---------------------------------- Kalkulačka „Spočítejte si svůj návrh“ --- */
-.kalk-teaser {
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
-  font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--accent);
-  border-bottom: 2px solid var(--accent-tint); padding-bottom: 2px;
-  transition: border-color var(--dur-base) var(--ease), gap var(--dur-base) var(--ease);
+.kalk-flip { display: flex; flex-direction: column; align-items: center; margin-top: 18px; perspective: 1600px; }
+.kalk-flip-btn {
+  display: inline-flex; align-items: center; gap: 10px; padding: 11px 22px;
+  background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); border-radius: 999px;
+  font-family: var(--font-display); font-weight: 600; font-size: 15px; cursor: pointer;
+  transform-origin: center; backface-visibility: hidden;
+  transition: transform 0.22s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.22s ease-in, background var(--dur-base) var(--ease), color var(--dur-base) var(--ease);
 }
-.kalk-teaser:hover { border-color: var(--accent); gap: 12px; }
+.kalk-flip-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.kalk-flip-btn:hover { background: var(--accent); color: #fff; }
+.kalk-flip-btn.is-flip-out { transform: rotateY(90deg); opacity: 0; }
+.kalk-flip-btn[hidden], .kalk-flip-karta[hidden] { display: none; }
 
-.kalk {
-  display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0;
-  max-width: 1040px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
-  box-shadow: var(--shadow-s); overflow: clip;
+.kalk-flip-karta {
+  width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  box-shadow: var(--shadow-m); overflow: clip; scroll-margin-top: 90px;
+  transform-origin: center top; backface-visibility: hidden;
+  transition: transform 0.45s var(--ease), opacity 0.3s var(--ease);
 }
-.kalk-volby { display: flex; flex-direction: column; gap: 20px; padding: 26px 28px; min-width: 0; }
+.kalk-flip-karta.is-flip-in { transform: rotateX(-12deg) rotateY(-90deg); opacity: 0; transition-duration: 0.26s; transition-timing-function: ease-in; }
+
+.kalk-hlava { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 20px 22px 16px 28px; border-bottom: 1px solid var(--border); }
+.kalk-hlava h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; }
+.kalk-hlava p { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--ink-soft); max-width: 60ch; }
+.kalk-zavrit {
+  flex-shrink: 0; width: 38px; height: 38px; display: grid; place-items: center;
+  border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--ink); cursor: pointer;
+  transition: background var(--dur-base) var(--ease), transform 0.3s var(--ease);
+}
+.kalk-zavrit:hover { background: var(--bg); transform: rotate(90deg); }
+.kalk-zavrit svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+.kalk { display: grid; grid-template-columns: minmax(0, 1fr) 300px; text-align: left; }
+.kalk-volby { display: flex; flex-direction: column; gap: 20px; padding: 22px 28px 26px; min-width: 0; }
 
 .kalk-skupina { border: 0; margin: 0; padding: 0; min-width: 0; }
 .kalk-legenda {
@@ -1529,7 +1549,8 @@ p { margin: 0; }
 @media (max-width: 860px) {
   .kalk { grid-template-columns: 1fr; }
   .kalk-volby { padding: 20px 18px; }
-  .kalk-souhrn { scroll-margin-top: 90px; }
+  .kalk-hlava { padding: 16px 16px 14px 18px; }
+  .kalk-hlava h3 { font-size: 18px; }
   .kalk.has-vyber .kalk-lista {
     position: sticky; bottom: 16px; z-index: 5; margin-right: 46px; white-space: nowrap;
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -1543,6 +1564,6 @@ p { margin: 0; }
   .kalk-chip { padding: 7px 12px; font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .kalk-chip, .kalk-teaser { transition: none; }
+  .kalk-chip, .kalk-flip-btn, .kalk-flip-karta, .kalk-zavrit { transition: none; }
   .kalk-celkem-cena.is-bump, .kalk-tip { animation: none; }
 }
