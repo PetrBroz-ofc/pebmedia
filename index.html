@@ -30,7 +30,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/fonts.css?v=1">
-<link rel="stylesheet" href="css/style.css?v=35">
+<link rel="stylesheet" href="css/style.css?v=36">
 <link rel="stylesheet" href="css/legal.css?v=1">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
@@ -672,25 +672,15 @@ pro moderní firmy.</h1>
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"></rect><path d="M8.5 7.5h7M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01"></path></svg>
           Spočítejte si to
         </button>
-        <div class="kalk-flip-karta" id="kalkulacka" role="region" aria-labelledby="kalkHeading" hidden="">
+        <div class="kalk-flip-karta" id="kalkulacka" role="region" aria-label="Kalkulačka ceny" hidden="">
           <div class="kalk-hlava">
-            <div>
-              <h3 id="kalkHeading">Spočítejte si svůj návrh</h3>
-              <p id="kalkSubheading">Vyberte, co potřebujete, a hned uvidíte orientační cenu. Když vám dá víc některý z balíčků, rovnou vám to ukážeme.</p>
+            <div class="kalk-krok-info">
+              <span class="kalk-krok" id="kalkKrok">Krok 1 ze 3</span>
+              <span class="kalk-progres" aria-hidden="true"><i style="width: 25%;"></i></span>
             </div>
             <button type="button" class="kalk-zavrit" id="kalkZavrit" aria-label="Zavřít kalkulačku"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
           </div>
-          <div class="kalk" id="kalk"><div class="kalk-volby"><fieldset class="kalk-skupina" data-typ="single"><legend class="kalk-legenda">Web nebo e-shop<small>jedna možnost</small></legend><div class="kalk-mrizka"><label class="kalk-chip"><input type="checkbox" name="kalk-web" value="svc-web-1"><span class="kalk-chip-nazev">Jednostránkový web</span><span class="kalk-chip-cena">12&nbsp;800 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-web" value="svc-web-2"><span class="kalk-chip-nazev">Firemní web</span><span class="kalk-chip-cena">14&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-web" value="svc-web-3"><span class="kalk-chip-nazev">Rozšířený web</span><span class="kalk-chip-cena">22&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-web" value="svc-web-4"><span class="kalk-chip-nazev">E-shop</span><span class="kalk-chip-cena">29&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-web" value="svc-web-5"><span class="kalk-chip-nazev">E-shop na míru</span><span class="kalk-chip-cena">44&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-web" value="svc-web-6"><span class="kalk-chip-nazev">Webová aplikace</span><span class="kalk-chip-cena">19&nbsp;900 Kč</span></label></div></fieldset><fieldset class="kalk-skupina" data-typ="single"><legend class="kalk-legenda">Logo a značka<small>jedna možnost</small></legend><div class="kalk-mrizka"><label class="kalk-chip"><input type="checkbox" name="kalk-brand" value="svc-brand-1"><span class="kalk-chip-nazev">Logo</span><span class="kalk-chip-cena">2&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-brand" value="svc-brand-2"><span class="kalk-chip-nazev">Logo + vizuální identita</span><span class="kalk-chip-cena">6&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-brand" value="svc-brand-3"><span class="kalk-chip-nazev">Brand Pack</span><span class="kalk-chip-cena">9&nbsp;900 Kč</span></label></div></fieldset><fieldset class="kalk-skupina" data-typ="multi"><legend class="kalk-legenda">Bezpečnost<small>i víc možností</small></legend><div class="kalk-mrizka"><label class="kalk-chip"><input type="checkbox" name="kalk-sec" value="svc-sec-1"><span class="kalk-chip-nazev">Bezpečnostní audit webu</span><span class="kalk-chip-cena">2&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-sec" value="svc-sec-2"><span class="kalk-chip-nazev">Pokročilý bezpečnostní test</span><span class="kalk-chip-cena">6&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-sec" value="svc-sec-3"><span class="kalk-chip-nazev">Security monitoring</span><span class="kalk-chip-cena">490 Kč/měs.</span></label></div></fieldset><fieldset class="kalk-skupina" data-typ="multi"><legend class="kalk-legenda">AI a automatizace<small>i víc možností</small></legend><div class="kalk-mrizka"><label class="kalk-chip"><input type="checkbox" name="kalk-tech" value="svc-tech-1"><span class="kalk-chip-nazev">AI integrace</span><span class="kalk-chip-cena">4&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-tech" value="svc-tech-2"><span class="kalk-chip-nazev">Automatizace</span><span class="kalk-chip-cena">4&nbsp;900 Kč</span></label><label class="kalk-chip"><input type="checkbox" name="kalk-tech" value="svc-tech-3"><span class="kalk-chip-nazev">Řešení na míru</span><span class="kalk-chip-cena">9&nbsp;900 Kč</span></label></div></fieldset><a class="kalk-lista" href="#kalkSouhrn"><span>Váš návrh <strong class="kalk-lista-cena">0 Kč</strong></span><span aria-hidden="true">Souhrn ↓</span></a></div><aside class="kalk-souhrn" id="kalkSouhrn">
-      <p class="kalk-karta-nadpis">Váš návrh</p>
-      <p class="kalk-celkem"><span class="kalk-od">od</span><strong class="kalk-celkem-cena" aria-live="polite">0 Kč</strong></p>
-      <p class="kalk-mesicne" hidden=""></p>
-      <p class="kalk-prazdne">Klikněte na služby vlevo a cena se hned spočítá.</p>
-      <div class="kalk-tip" hidden=""></div>
-      <div class="kalk-akce">
-        <a href="#kontakt" class="btn btn-accent kalk-poptat is-disabled" aria-disabled="true">Poslat poptávku s tímto výběrem</a>
-        <button type="button" class="kalk-ai is-disabled" aria-disabled="true">Probrat výběr s PEBAi</button>
-      </div>
-      <p class="kalk-pozn">Ceny jsou orientační, uvádíme je „od“. Konečnou cenu upřesníme v nabídce po nezávazné konzultaci.</p></aside></div>
+          <div class="kalk" id="kalk" aria-live="polite"><div class="kalk-panel"><h3 class="kalk-otazka" tabindex="-1">Co potřebujete?</h3><div class="kalk-dlazdice"><button class="kalk-dlazdice-btn" type="button"><span class="kalk-ikona" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span><span class="kalk-dlazdice-nazev">Web</span><span class="kalk-dlazdice-popis">Prezentace firmy, služeb nebo akce</span></button><button class="kalk-dlazdice-btn" type="button"><span class="kalk-ikona" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg></span><span class="kalk-dlazdice-nazev">E-shop</span><span class="kalk-dlazdice-popis">Online prodej vašich produktů</span></button><button class="kalk-dlazdice-btn" type="button"><span class="kalk-ikona" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.4-.7z"></path></svg></span><span class="kalk-dlazdice-nazev">Logo a značka</span><span class="kalk-dlazdice-popis">Logo a vizuální identita</span></button><button class="kalk-dlazdice-btn" type="button"><span class="kalk-ikona" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></span><span class="kalk-dlazdice-nazev">Něco jiného</span><span class="kalk-dlazdice-popis">Bezpečnost webu, AI, automatizace</span></button></div></div></div>
         </div>
       </div>
     </div>
@@ -1192,6 +1182,6 @@ Pojďme ho vytvořit.</h2>
 </dialog>
 
 <script src="js/zvuky.js?v=2"></script>
-<script src="js/content-fallback.js?v=35"></script>
-<script src="js/main.js?v=35"></script>
+<script src="js/content-fallback.js?v=36"></script>
+<script src="js/main.js?v=36"></script>
 </body></html>

@@ -290,38 +290,143 @@
   },
   "calculator": {
     "heading": "Spočítejte si svůj návrh",
-    "subheading": "Vyberte, co potřebujete, a hned uvidíte orientační cenu. Když vám dá víc některý z balíčků, rovnou vám to ukážeme.",
     "note": "Ceny jsou orientační, uvádíme je „od“. Konečnou cenu upřesníme v nabídce po nezávazné konzultaci.",
-    "groups": [
-      {
-        "id": "web",
-        "title": "Web nebo e-shop",
-        "hint": "Vyberte jednu možnost",
+    "start": {
+      "question": "Co potřebujete?",
+      "options": [
+        {
+          "path": "web",
+          "icon": "web",
+          "label": "Web",
+          "desc": "Prezentace firmy, služeb nebo akce"
+        },
+        {
+          "path": "eshop",
+          "icon": "eshop",
+          "label": "E-shop",
+          "desc": "Online prodej vašich produktů"
+        },
+        {
+          "path": "brand",
+          "icon": "brand",
+          "label": "Logo a značka",
+          "desc": "Logo a vizuální identita"
+        },
+        {
+          "path": "jine",
+          "icon": "jine",
+          "label": "Něco jiného",
+          "desc": "Bezpečnost webu, AI, automatizace"
+        }
+      ]
+    },
+    "paths": {
+      "web": {
+        "question": "Jaký web potřebujete?",
         "type": "single",
-        "categoryId": "cat-web",
-        "noneLabel": "Web teď nepotřebuji"
+        "items": [
+          "svc-web-1",
+          "svc-web-2",
+          "svc-web-3",
+          "svc-web-6"
+        ],
+        "addons": {
+          "question": "Co k webu ještě chcete?",
+          "items": [
+            "x-seo",
+            "x-analytika",
+            "x-google",
+            "svc-brand-1",
+            "svc-brand-2",
+            "svc-sec-1",
+            "svc-sec-3",
+            "svc-tech-1",
+            "svc-tech-2"
+          ]
+        }
       },
-      {
-        "id": "brand",
-        "title": "Logo a značka",
-        "hint": "Vyberte jednu možnost",
+      "eshop": {
+        "question": "Jaký e-shop potřebujete?",
         "type": "single",
-        "categoryId": "cat-branding",
-        "noneLabel": "Bez loga"
+        "items": [
+          "svc-web-4",
+          "svc-web-5"
+        ],
+        "addons": {
+          "question": "Co k e-shopu ještě chcete?",
+          "items": [
+            "x-seo",
+            "x-analytika",
+            "svc-brand-1",
+            "svc-brand-2",
+            "svc-sec-1",
+            "svc-sec-3",
+            "svc-tech-1",
+            "svc-tech-2"
+          ]
+        }
+      },
+      "brand": {
+        "question": "Co pro svou značku potřebujete?",
+        "type": "single",
+        "items": [
+          "svc-brand-1",
+          "svc-brand-2",
+          "svc-brand-3"
+        ],
+        "addons": {
+          "question": "Chcete k tomu i web?",
+          "items": [
+            "svc-web-1",
+            "svc-web-2",
+            "x-google",
+            "x-socialni"
+          ]
+        }
+      },
+      "jine": {
+        "question": "S čím vám můžeme pomoct?",
+        "type": "multi",
+        "items": [
+          "svc-sec-1",
+          "svc-sec-2",
+          "svc-sec-3",
+          "svc-tech-1",
+          "svc-tech-2",
+          "svc-tech-3"
+        ]
+      }
+    },
+    "extras": [
+      {
+        "id": "x-seo",
+        "name": "SEO",
+        "matches": [
+          "Základní SEO",
+          "SEO setup",
+          "SEO základ"
+        ]
       },
       {
-        "id": "sec",
-        "title": "Bezpečnost",
-        "hint": "Můžete vybrat víc možností",
-        "type": "multi",
-        "categoryId": "cat-security"
+        "id": "x-analytika",
+        "name": "Analytika návštěvnosti",
+        "matches": [
+          "Analytika"
+        ]
       },
       {
-        "id": "tech",
-        "title": "AI a automatizace",
-        "hint": "Můžete vybrat víc možností",
-        "type": "multi",
-        "categoryId": "cat-tech"
+        "id": "x-google",
+        "name": "Profil na Google (Google Business)",
+        "matches": [
+          "Google Business setup"
+        ]
+      },
+      {
+        "id": "x-socialni",
+        "name": "Vizuály na sociální sítě",
+        "matches": [
+          "Sociální vizuály"
+        ]
       }
     ],
     "packageRules": [
@@ -392,7 +497,7 @@
       }
     ],
     "ctaInquiry": "Poslat poptávku s tímto výběrem",
-    "ctaAi": "Probrat výběr s PEBAi"
+    "ctaAi": "Probrat to s PEBAi"
   },
   "portfolio": {
     "heading": "Naše práce",

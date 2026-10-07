@@ -1462,8 +1462,6 @@ p { margin: 0; }
 .kalk-flip-karta.is-flip-in { transform: rotateX(-12deg) rotateY(-90deg); opacity: 0; transition-duration: 0.26s; transition-timing-function: ease-in; }
 
 .kalk-hlava { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 20px 22px 16px 28px; border-bottom: 1px solid var(--border); }
-.kalk-hlava h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; }
-.kalk-hlava p { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--ink-soft); max-width: 60ch; }
 .kalk-zavrit {
   flex-shrink: 0; width: 38px; height: 38px; display: grid; place-items: center;
   border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--ink); cursor: pointer;
@@ -1472,98 +1470,98 @@ p { margin: 0; }
 .kalk-zavrit:hover { background: var(--bg); transform: rotate(90deg); }
 .kalk-zavrit svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 
-.kalk { display: grid; grid-template-columns: minmax(0, 1fr) 300px; text-align: left; }
-.kalk-volby { display: flex; flex-direction: column; gap: 20px; padding: 22px 28px 26px; min-width: 0; }
+.kalk-flip-karta { max-width: 720px; }
+.kalk-hlava { align-items: center; padding: 14px 14px 14px 24px; }
+.kalk-krok-info { flex: 1; display: flex; align-items: center; gap: 14px; min-width: 0; }
+.kalk-krok { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap; }
+.kalk-progres { flex: 1; max-width: 220px; height: 4px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+.kalk-progres i { display: block; width: 25%; height: 100%; border-radius: inherit; background: var(--accent); transition: width 0.4s var(--ease); }
 
-.kalk-skupina { border: 0; margin: 0; padding: 0; min-width: 0; }
-.kalk-legenda {
-  display: flex; align-items: baseline; gap: 8px; padding: 0; margin-bottom: 10px;
-  font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--ink);
+.kalk { padding: 24px 28px 22px; text-align: left; }
+.kalk-panel { animation: kalk-vpred 0.35s var(--ease) both; }
+.kalk-panel.is-zpet { animation-name: kalk-zpet; }
+@keyframes kalk-vpred { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes kalk-zpet { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+
+.kalk-otazka { margin: 0 0 16px; font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -0.015em; outline: none; }
+.kalk-napoveda { margin: -8px 0 14px; font-size: 14px; color: var(--ink-soft); }
+
+/* Krok 1: dlaždice */
+.kalk-dlazdice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.kalk-dlazdice-btn {
+  display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 14px; row-gap: 2px; align-items: center;
+  padding: 16px; text-align: left; cursor: pointer;
+  background: var(--bg); border: 1.5px solid transparent; border-radius: 16px;
+  transition: border-color var(--dur-base) var(--ease), background var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
 }
-.kalk-legenda small { font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--ink-faint); }
-
-.kalk-mrizka { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.kalk-chip {
-  position: relative; display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 14px; cursor: pointer; user-select: none;
-  background: var(--bg); border: 1px solid var(--border); border-radius: 999px;
-  font-size: 14px; line-height: 1.2;
-  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+.kalk-dlazdice-btn:hover { border-color: var(--accent); background: var(--surface); transform: translateY(-2px); }
+.kalk-dlazdice-btn.is-active { border-color: var(--accent); background: var(--accent-tint); }
+.kalk-ikona {
+  grid-row: span 2; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+  background: var(--surface); color: var(--accent); box-shadow: var(--shadow-s);
 }
-.kalk-chip:hover { border-color: var(--border-strong); }
-.kalk-chip:active { transform: scale(0.97); }
-.kalk-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-.kalk-chip-nazev { font-weight: 500; color: var(--ink); }
-.kalk-chip-cena { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); }
-.kalk-chip:has(input:checked) { background: var(--accent); border-color: var(--accent); }
-.kalk-chip:has(input:checked) .kalk-chip-nazev { color: #fff; }
-.kalk-chip:has(input:checked) .kalk-chip-cena { color: rgba(255, 255, 255, 0.75); }
-.kalk-chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kalk-ikona svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.kalk-dlazdice-nazev { font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--ink); }
+.kalk-dlazdice-popis { font-size: 13px; line-height: 1.35; color: var(--ink-soft); }
 
-/* Souhrn */
-.kalk-souhrn {
-  display: flex; flex-direction: column; padding: 24px 22px 20px;
-  background: var(--ink); color: #fff;
+/* Kroky 2 a 3: volby s cenou */
+.kalk-moznosti { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.kalk-moznost {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px; text-align: left; cursor: pointer;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
-.kalk-karta-nadpis { margin: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
-.kalk-celkem { margin: 6px 0 0; display: flex; align-items: baseline; gap: 6px; }
-.kalk-od { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
-.kalk-celkem-cena { font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; display: inline-block; transform-origin: left center; }
-.kalk-celkem-cena.is-bump { animation: kalk-bump 0.4s var(--ease); }
-@keyframes kalk-bump { 0% { transform: scale(1); } 35% { transform: scale(1.04); color: #7EE0C3; } 100% { transform: scale(1); } }
-.kalk-mesicne { margin: 2px 0 0; font-size: 13px; color: #7EE0C3; }
-.kalk-prazdne { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: rgba(255, 255, 255, 0.6); }
+.kalk-moznost:hover { border-color: var(--border-strong); }
+.kalk-moznost-check {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-strong);
+  display: grid; place-items: center; transition: background var(--dur-fast), border-color var(--dur-fast);
+}
+.kalk-moznost-check svg { width: 13px; height: 13px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(0.5); transition: opacity var(--dur-fast), transform 0.25s var(--ease); }
+.kalk-moznost-nazev { flex: 1; min-width: 0; font-weight: 500; font-size: 14px; line-height: 1.3; color: var(--ink); }
+.kalk-moznost-cena { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); white-space: nowrap; }
+.kalk-moznost-cena.is-balicek { font-family: var(--font-body); font-size: 11px; padding: 2px 7px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); }
+.kalk-moznost.is-active { border-color: var(--accent); background: var(--accent-tint); }
+.kalk-moznost.is-active .kalk-moznost-check { background: var(--accent); border-color: var(--accent); }
+.kalk-moznost.is-active .kalk-moznost-check svg { opacity: 1; transform: none; }
 
-.kalk-tip {
-  margin-top: 14px; padding: 10px 12px; border-radius: 12px;
-  background: rgba(126, 224, 195, 0.1); border: 1px solid rgba(126, 224, 195, 0.3);
-  font-size: 13px; line-height: 1.45; animation: pebai-in 0.3s var(--ease) both;
-}
-.kalk-tip summary { cursor: pointer; list-style: none; }
-.kalk-tip summary::-webkit-details-marker { display: none; }
-.kalk-tip summary::after { content: ' ▾'; color: #7EE0C3; }
-.kalk-tip details[open] summary::after { content: ' ▴'; }
-.kalk-tip-stitek {
-  display: inline-block; margin-right: 4px; padding: 1px 7px; border-radius: 999px;
-  background: #7EE0C3; color: var(--ink); font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: 1px;
-}
-.kalk-tip ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; margin: 10px 0 8px; padding: 0; }
-.kalk-tip li { padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 12px; }
-.kalk-tip-rozdil { margin: 0; font-size: 12px; color: rgba(255, 255, 255, 0.65); }
-.kalk-tip-btn { color: #7EE0C3; font-weight: 600; white-space: nowrap; }
-.kalk-tip-btn:hover { text-decoration: underline; text-underline-offset: 3px; }
+.kalk-paticka { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.kalk-zpet { border: 0; background: none; padding: 8px 4px; font: inherit; font-size: 14px; font-weight: 500; color: var(--ink-soft); cursor: pointer; }
+.kalk-zpet:hover { color: var(--ink); }
+.kalk-dal:disabled { opacity: 0.4; cursor: default; }
 
-.kalk-akce { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding-top: 18px; }
-.kalk-akce .btn { width: 100%; justify-content: center; padding-top: 12px; padding-bottom: 12px; font-size: 14px; }
-.kalk-ai {
-  border: 0; background: none; padding: 6px; font: inherit; font-size: 13px; font-weight: 500;
-  color: rgba(255, 255, 255, 0.8); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
-}
-.kalk-ai:hover { color: #fff; }
-.kalk-akce .is-disabled { opacity: 0.35; pointer-events: none; }
-.kalk-pozn { margin: 10px 0 0; font-size: 11px; line-height: 1.45; color: rgba(255, 255, 255, 0.45); }
+/* Výsledek */
+.kalk-vysledek { display: flex; flex-direction: column; gap: 14px; }
+.kalk-cena-box { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 18px 20px; border-radius: 16px; background: var(--ink); color: #fff; }
+.kalk-cena-popis { width: 100%; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.kalk-celkem-cena { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.kalk-mesicne { font-size: 14px; color: #7EE0C3; }
+.kalk-rozpis { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.kalk-rozpis li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.kalk-rozpis li span:last-child { font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
 
-.kalk-lista { display: none; }
+.kalk-balicek { padding: 16px 18px; border-radius: 16px; background: var(--accent-tint); border: 1px solid rgba(11, 110, 99, 0.2); font-size: 14px; line-height: 1.5; color: var(--ink); }
+.kalk-balicek p { margin: 0; }
+.kalk-balicek-stitek { display: inline-block; margin-bottom: 6px !important; padding: 2px 9px; border-radius: 999px; background: var(--accent); color: #fff; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.kalk-balicek ul { list-style: none; display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0; padding: 0; }
+.kalk-balicek li { padding: 3px 9px; border-radius: 999px; background: var(--surface); font-size: 12.5px; color: var(--accent-ink); }
+.kalk-balicek-rozdil { font-size: 13px; color: var(--ink-soft); }
+.kalk-balicek-btn { display: inline-block; margin-top: 8px; font-weight: 600; color: var(--accent); }
+.kalk-balicek-btn:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-@media (max-width: 860px) {
-  .kalk { grid-template-columns: 1fr; }
-  .kalk-volby { padding: 20px 18px; }
-  .kalk-hlava { padding: 16px 16px 14px 18px; }
-  .kalk-hlava h3 { font-size: 18px; }
-  .kalk.has-vyber .kalk-lista {
-    position: sticky; bottom: 16px; z-index: 5; margin-right: 46px; white-space: nowrap;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 12px 14px; border-radius: 12px; background: var(--ink); color: #fff;
-    font-size: 13px; box-shadow: 0 12px 32px rgba(20, 24, 27, 0.3);
-  }
-  .kalk-lista strong { font-family: var(--font-display); font-size: 16px; margin-left: 6px; font-variant-numeric: tabular-nums; }
-  .kalk-lista span:last-child { color: rgba(255, 255, 255, 0.7); font-size: 12px; }
-}
-@media (max-width: 480px) {
-  .kalk-chip { padding: 7px 12px; font-size: 13px; }
+.kalk-akce { display: flex; flex-wrap: wrap; gap: 10px; }
+.kalk-akce .btn { flex: 1 1 220px; justify-content: center; }
+.kalk-pozn { margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-faint); }
+
+@media (max-width: 600px) {
+  .kalk { padding: 18px 16px 16px; }
+  .kalk-hlava { padding: 12px 12px 12px 16px; }
+  .kalk-otazka { font-size: 20px; }
+  .kalk-dlazdice, .kalk-moznosti { grid-template-columns: 1fr; }
+  .kalk-dlazdice-btn { padding: 12px; }
+  .kalk-ikona { width: 38px; height: 38px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .kalk-chip, .kalk-flip-btn, .kalk-flip-karta, .kalk-zavrit { transition: none; }
-  .kalk-celkem-cena.is-bump, .kalk-tip { animation: none; }
+  .kalk-flip-btn, .kalk-flip-karta, .kalk-zavrit, .kalk-dlazdice-btn, .kalk-moznost, .kalk-progres i { transition: none; }
+  .kalk-panel { animation: none; }
+  .kalk-dlazdice-btn:hover { transform: none; }
 }
