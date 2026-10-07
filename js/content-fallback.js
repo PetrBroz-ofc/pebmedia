@@ -574,7 +574,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "text": "Portfoliový web ručně vyráběných historických zbrojí s galerií a katalogem.",
         "year": "2026",
         "image": "assets/portfolio-6.jpg",
-        "link": "",
+        "link": "https://platenarstvi-zatrapa.vercel.app/",
         "featured": false,
         "order": 6
       }

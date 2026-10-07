@@ -87,7 +87,7 @@ Konečná cena závisí na rozsahu projektu.
 - Crystal Valley (Web development): https://www.crystalvalley.cat/
 - Elrevmont (Web development): https://elrevmont.cz/
 - Studio Chilli (Web development): https://studiochilli.cz/
-- Platnéřství Pavel Zátrapa (Web development)
+- Platnéřství Pavel Zátrapa (Web development): https://platenarstvi-zatrapa.vercel.app/
 
 ## Časté otázky
 
