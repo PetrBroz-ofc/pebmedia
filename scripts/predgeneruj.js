@@ -420,6 +420,9 @@ async function renderPage(file, scriptFile, { onDocument } = {}) {
   d.querySelectorAll('.nav-indicator').forEach((n) => { n.removeAttribute('style'); n.classList.remove('is-visible'); });
   const msgs = d.getElementById('helpWidgetMessages');
   if (msgs) msgs.innerHTML = '';
+  const pebaiInput = d.getElementById('helpWidgetInput');
+  if (pebaiInput) pebaiInput.removeAttribute('style');
+  d.querySelectorAll('#helpWidgetForm button[disabled]').forEach((b) => b.removeAttribute('disabled'));
   d.body.removeAttribute('style');
   if (d.body.getAttribute('class') === '') d.body.removeAttribute('class');
 

@@ -270,6 +270,211 @@
     });
   }
 
+  // Kalkulačka „Spočítejte si svůj návrh“. Ceny bere z ceníku (data.services),
+  // balíčky z data.packages a pravidla z data.calculator, takže se nic nepíše dvakrát.
+  function initKalkulacka(data) {
+    const root = document.getElementById('kalk');
+    const cfg = data.calculator;
+    if (!root || !cfg) return;
+    document.getElementById('kalkHeading').textContent = cfg.heading;
+    document.getElementById('kalkSubheading').textContent = cfg.subheading;
+
+    const castka = (text) => { const m = String(text).replace(/\s/g, '').match(/\d+/); return m ? Number(m[0]) : 0; };
+    const kc = (n) => n.toLocaleString('cs-CZ') + ' Kč';
+    const kategorie = Object.fromEntries(data.services.categories.map(c => [c.id, c]));
+    const polozky = {};
+    const skupiny = cfg.groups.map(g => {
+      const kat = kategorie[g.categoryId];
+      const items = (kat ? kat.items : []).slice().sort((a, b) => a.order - b.order).map(i => {
+        const p = { id: i.id, name: i.name, priceText: i.price, price: castka(i.price), mesicne: /měsíc/i.test(i.price), group: g.id };
+        polozky[i.id] = p;
+        return p;
+      });
+      return Object.assign({}, g, { items });
+    });
+    const balicky = Object.fromEntries(data.packages.items.filter(p => p.visible !== false).map(p => [p.id, p]));
+
+    // --- Vykreslení ---
+    root.innerHTML = '';
+    const volby = el('div', 'kalk-volby');
+    skupiny.forEach(g => {
+      const sada = el('fieldset', 'kalk-skupina reveal');
+      sada.appendChild(el('legend', 'kalk-legenda', `<span>${g.title}</span><small>${g.hint || ''}</small>`));
+      const mrizka = el('div', 'kalk-mrizka');
+      const typ = g.type === 'single' ? 'radio' : 'checkbox';
+      const moznosti = g.type === 'single' ? [{ id: '', name: g.noneLabel || 'Nepotřebuji', priceText: '' }].concat(g.items) : g.items;
+      moznosti.forEach(p => {
+        const volba = el('label', 'kalk-volba' + (p.id ? '' : ' is-none'));
+        const input = document.createElement('input');
+        input.type = typ;
+        input.name = 'kalk-' + g.id;
+        input.value = p.id;
+        if (typ === 'radio' && !p.id) input.checked = true;
+        volba.appendChild(input);
+        volba.appendChild(el('span', 'kalk-volba-text', `<span class="kalk-volba-nazev">${p.name}</span>${p.priceText ? `<span class="kalk-volba-cena">${p.priceText}</span>` : ''}`));
+        volba.appendChild(el('span', 'kalk-volba-check', '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'));
+        mrizka.appendChild(volba);
+      });
+      sada.appendChild(mrizka);
+      volby.appendChild(sada);
+    });
+    const lista = el('a', 'kalk-lista', '<span>Váš návrh <strong class="kalk-lista-cena">0 Kč</strong></span><span aria-hidden="true">Souhrn ↓</span>');
+    lista.href = '#kalkSouhrn';
+    volby.appendChild(lista);
+
+    const souhrn = el('aside', 'kalk-souhrn reveal', `
+      <div class="kalk-karta">
+        <p class="kalk-karta-nadpis">Váš návrh</p>
+        <p class="kalk-celkem"><span class="kalk-od">orientačně od</span><strong class="kalk-celkem-cena" aria-live="polite">0 Kč</strong></p>
+        <p class="kalk-mesicne" hidden></p>
+        <ul class="kalk-seznam"></ul>
+        <div class="kalk-tip" hidden></div>
+        <div class="kalk-akce">
+          <a href="#kontakt" class="btn btn-accent kalk-poptat">${cfg.ctaInquiry}</a>
+          <button type="button" class="btn kalk-ai">${cfg.ctaAi}</button>
+        </div>
+        <p class="kalk-pozn">${cfg.note}</p>
+      </div>`);
+    souhrn.id = 'kalkSouhrn';
+    root.appendChild(volby);
+    root.appendChild(souhrn);
+
+    const celkemEl = souhrn.querySelector('.kalk-celkem-cena');
+    const listaCena = lista.querySelector('.kalk-lista-cena');
+    const mesicneEl = souhrn.querySelector('.kalk-mesicne');
+    const seznam = souhrn.querySelector('.kalk-seznam');
+    const tip = souhrn.querySelector('.kalk-tip');
+    const poptat = souhrn.querySelector('.kalk-poptat');
+    const ai = souhrn.querySelector('.kalk-ai');
+
+    // --- Výpočet ---
+    let vyber = [];
+    let jednorazove = 0;
+    let mesicne = 0;
+    let doporuceny = null;
+    let zobrazeno = 0;
+    let animace = 0;
+    let pojistka = 0;
+
+    function ukazCenu(cil) {
+      const klid = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (window.cancelAnimationFrame) cancelAnimationFrame(animace);
+      const nastav = (n) => { celkemEl.textContent = kc(n); listaCena.textContent = kc(n); };
+      if (klid || !window.requestAnimationFrame || zobrazeno === cil) { zobrazeno = cil; nastav(cil); return; }
+      // Pojistka: na pozadí prohlížeč animace pozastaví, cena se ale ukázat musí.
+      clearTimeout(pojistka);
+      pojistka = setTimeout(() => { cancelAnimationFrame(animace); zobrazeno = cil; nastav(cil); }, 520);
+      const start = zobrazeno;
+      const t0 = performance.now();
+      const krok = (t) => {
+        const k = Math.min(1, (t - t0) / 450);
+        zobrazeno = Math.round(start + (cil - start) * (1 - Math.pow(1 - k, 3)));
+        nastav(zobrazeno);
+        if (k < 1) animace = requestAnimationFrame(krok);
+      };
+      animace = requestAnimationFrame(krok);
+    }
+
+    // Nejlevnější balíček, který obsahuje všechno vybrané (měsíční služby se počítají zvlášť).
+    function najdiBalicek() {
+      const jednoraz = vyber.filter(p => !p.mesicne);
+      if (!jednoraz.some(p => p.group === 'web')) return null;
+      let nejlepsi = null;
+      (cfg.packageRules || []).forEach(r => {
+        const b = balicky[r.packageId];
+        if (!b || !jednoraz.every(p => r.covers[p.id])) return;
+        const cena = castka(b.price);
+        if (!nejlepsi || cena < nejlepsi.cena) nejlepsi = { b, r, cena };
+      });
+      return nejlepsi;
+    }
+
+    function prepocitej() {
+      vyber = [...volby.querySelectorAll('input:checked')].map(i => polozky[i.value]).filter(Boolean);
+      jednorazove = vyber.filter(p => !p.mesicne).reduce((s, p) => s + p.price, 0);
+      mesicne = vyber.filter(p => p.mesicne).reduce((s, p) => s + p.price, 0);
+      ukazCenu(jednorazove);
+
+      mesicneEl.hidden = !mesicne;
+      mesicneEl.textContent = mesicne ? `+ od ${kc(mesicne)} měsíčně` : '';
+      seznam.innerHTML = vyber.length
+        ? vyber.map(p => `<li><span>${p.name}</span><span>${p.mesicne ? p.priceText.replace(/^Od /, 'od ') : 'od ' + kc(p.price)}</span></li>`).join('')
+        : '<li class="is-empty">Zatím nic nevybráno. Začněte třeba typem webu.</li>';
+
+      doporuceny = najdiBalicek();
+      tip.hidden = !doporuceny;
+      if (doporuceny) {
+        const { b, r, cena } = doporuceny;
+        const pokryte = new Set(vyber.filter(p => !p.mesicne).flatMap(p => r.covers[p.id]));
+        const navic = b.features.filter(f => !pokryte.has(f));
+        const rozdil = cena - jednorazove;
+        tip.innerHTML = `
+          <p class="kalk-tip-stitek">Tip: balíček vám dá víc</p>
+          <p><strong>${b.name}</strong> za ${b.price} obsahuje váš výběr a k tomu:</p>
+          <ul>${navic.map(f => `<li>${f}</li>`).join('')}</ul>
+          <p class="kalk-tip-rozdil">${rozdil > 0 ? `Oproti samotným položkám je to +${kc(rozdil)}.` : 'Vyjde vás to výhodněji než samotné položky.'}</p>
+          <a href="#kontakt" class="kalk-tip-btn">Chci ${b.name} <span aria-hidden="true">→</span></a>`;
+      }
+
+      const prazdne = !vyber.length;
+      [poptat, ai].forEach(t => { t.classList.toggle('is-disabled', prazdne); t.setAttribute('aria-disabled', String(prazdne)); });
+      root.classList.toggle('has-vyber', !prazdne);
+    }
+
+    volby.addEventListener('change', () => {
+      prepocitej();
+      celkemEl.classList.remove('is-bump');
+      void celkemEl.offsetWidth; // restart animace
+      celkemEl.classList.add('is-bump');
+      if (window.PEBZvuk) window.PEBZvuk.play('tap');
+    });
+
+    // --- Přenos výběru do poptávky a do PEBAi ---
+    function shrnuti() {
+      return vyber.map(p => `- ${p.name} (${p.mesicne ? p.priceText.replace(/^Od /, 'od ') : 'od ' + kc(p.price)})`).join('\n');
+    }
+    function cenaText() {
+      return `od ${kc(jednorazove)}` + (mesicne ? ` + od ${kc(mesicne)} měsíčně` : '');
+    }
+    let posledniText = '';
+    function vyplnPoptavku(text) {
+      const zprava = document.getElementById('f-message');
+      if (zprava && (!zprava.value.trim() || zprava.value === posledniText)) {
+        zprava.value = text;
+        posledniText = text;
+      }
+      const typ = document.getElementById('f-type');
+      if (typ && !typ.value) {
+        const skup = new Set(vyber.map(p => p.group));
+        typ.value = skup.has('web') || skup.has('brand') ? 'Web' : skup.has('sec') ? 'Kyberbezpečnost' : vyber.some(p => p.id === 'svc-tech-2') ? 'Automatizace' : 'AI / jiné';
+      }
+    }
+
+    poptat.addEventListener('click', (e) => {
+      if (!vyber.length) { e.preventDefault(); return; }
+      vyplnPoptavku(`Dobrý den,\nmám zájem o:\n${shrnuti()}\n\nOrientační cena z kalkulačky: ${cenaText()}.\nProsím o nezávaznou nabídku.`);
+    });
+
+    tip.addEventListener('click', (e) => {
+      if (!e.target.closest('.kalk-tip-btn') || !doporuceny) return;
+      vyplnPoptavku(`Dobrý den,\nmám zájem o balíček ${doporuceny.b.name} (${doporuceny.b.price}).\n\nV kalkulačce jsem měl(a) vybráno:\n${shrnuti()}\n\nProsím o nezávaznou nabídku.`);
+    });
+
+    ai.addEventListener('click', (e) => {
+      e.stopPropagation(); // jinak by klik mimo widget asistenta hned zase zavřel
+      if (!vyber.length) return;
+      const widget = document.getElementById('helpWidget');
+      const input = document.getElementById('helpWidgetInput');
+      if (!widget || !input) return;
+      if (!widget.classList.contains('is-open')) document.getElementById('helpWidgetToggle').click();
+      input.value = `V kalkulačce mám vybráno: ${vyber.map(p => p.name).join(', ')} (orientačně ${cenaText()}). Co byste mi doporučili?`;
+      input.dispatchEvent(new Event('input'));
+      setTimeout(() => input.focus(), 150);
+    });
+
+    prepocitej();
+  }
+
   function starsSvg(count) {
     let out = '';
     for (let i = 0; i < 5; i++) {
@@ -483,6 +688,8 @@
         `);
         pkgGrid.appendChild(card);
       });
+
+    initKalkulacka(data);
 
     // --- Portfolio ---
     document.getElementById('portfolioHeading').textContent = data.portfolio.heading;

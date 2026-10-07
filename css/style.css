@@ -1438,3 +1438,116 @@ p { margin: 0; }
 @media (max-width: 640px) {
   .shop-header .header-inner > .sound-toggle { right: 20px; }
 }
+
+/* ---------------------------------- Kalkulačka „Spočítejte si svůj návrh“ --- */
+.kalk-teaser {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
+  font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--accent);
+  border-bottom: 2px solid var(--accent-tint); padding-bottom: 2px;
+  transition: border-color var(--dur-base) var(--ease), gap var(--dur-base) var(--ease);
+}
+.kalk-teaser:hover { border-color: var(--accent); gap: 12px; }
+
+.kalk { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 40px; align-items: start; }
+.kalk-volby { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
+
+.kalk-skupina { border: 0; margin: 0; padding: 0; min-width: 0; }
+.kalk-legenda { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 0; margin-bottom: 14px; }
+.kalk-legenda span { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--ink); }
+.kalk-legenda small { font-size: 13px; color: var(--ink-faint); }
+
+.kalk-mrizka { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+
+.kalk-volba {
+  position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  min-height: 76px; padding: 14px 14px 14px 16px; cursor: pointer;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px;
+  transition: border-color var(--dur-base) var(--ease), background var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+}
+.kalk-volba:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-s); }
+.kalk-volba input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.kalk-volba-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.kalk-volba-nazev { font-weight: 600; font-size: 15px; line-height: 1.3; color: var(--ink); }
+.kalk-volba-cena { font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
+.kalk-volba-check {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--border-strong); display: grid; place-items: center;
+  transition: background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), transform 0.3s var(--ease);
+}
+.kalk-volba-check svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(0.5); transition: opacity var(--dur-fast), transform 0.3s var(--ease); }
+.kalk-volba.is-none { min-height: 0; border-style: dashed; background: transparent; }
+.kalk-volba.is-none .kalk-volba-nazev { font-weight: 500; color: var(--ink-soft); }
+
+.kalk-volba:has(input:checked) { border-color: var(--accent); background: var(--accent-tint); }
+.kalk-volba:has(input:checked) .kalk-volba-cena { color: var(--accent-ink); }
+.kalk-volba:has(input:checked) .kalk-volba-check { background: var(--accent); border-color: var(--accent); transform: scale(1.08); }
+.kalk-volba:has(input:checked) .kalk-volba-check svg { opacity: 1; transform: none; }
+.kalk-volba.is-none:has(input:checked) { background: transparent; border-color: var(--border-strong); }
+.kalk-volba.is-none:has(input:checked) .kalk-volba-check { background: var(--border-strong); border-color: var(--border-strong); }
+.kalk-volba:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Souhrn */
+.kalk-souhrn { position: sticky; top: 96px; }
+.kalk-karta {
+  background: var(--ink); color: #fff; border-radius: 20px; padding: 24px 24px 20px;
+  box-shadow: 0 24px 60px -24px rgba(20, 24, 27, 0.45);
+}
+.kalk-karta-nadpis { margin: 0 0 6px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+.kalk-celkem { margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.kalk-od { font-size: 14px; color: rgba(255, 255, 255, 0.7); }
+.kalk-celkem-cena { font-family: var(--font-display); font-weight: 700; font-size: clamp(36px, 4vw, 46px); line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; display: inline-block; transform-origin: left center; }
+.kalk-celkem-cena.is-bump { animation: kalk-bump 0.45s var(--ease); }
+@keyframes kalk-bump { 0% { transform: scale(1); } 35% { transform: scale(1.05); color: #7EE0C3; } 100% { transform: scale(1); } }
+.kalk-mesicne { margin: 6px 0 0; font-size: 14px; color: #7EE0C3; }
+
+.kalk-seznam { list-style: none; margin: 20px 0 0; padding: 16px 0 0; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-direction: column; gap: 8px; }
+.kalk-seznam li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.4; animation: pebai-in 0.28s var(--ease) both; }
+.kalk-seznam li span:last-child { font-family: var(--font-mono); font-size: 13px; color: rgba(255, 255, 255, 0.7); white-space: nowrap; }
+.kalk-seznam li.is-empty { color: rgba(255, 255, 255, 0.6); }
+
+.kalk-tip {
+  margin-top: 18px; padding: 16px; border-radius: 14px;
+  background: rgba(126, 224, 195, 0.1); border: 1px solid rgba(126, 224, 195, 0.35);
+  font-size: 14px; line-height: 1.5; animation: pebai-in 0.35s var(--ease) both;
+}
+.kalk-tip p { margin: 0; }
+.kalk-tip-stitek { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #7EE0C3; margin-bottom: 6px !important; }
+.kalk-tip ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; padding: 0; }
+.kalk-tip li { padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 12.5px; color: rgba(255, 255, 255, 0.9); }
+.kalk-tip-rozdil { color: rgba(255, 255, 255, 0.7); font-size: 13px; }
+.kalk-tip-btn { display: inline-block; margin-top: 10px; font-weight: 600; color: #7EE0C3; }
+.kalk-tip-btn:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.kalk-akce { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.kalk-akce .btn { width: 100%; justify-content: center; }
+.kalk-akce .kalk-ai { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
+.kalk-akce .kalk-ai:hover { border-color: #fff; }
+.kalk-akce .is-disabled { opacity: 0.4; pointer-events: none; }
+.kalk-pozn { margin: 16px 0 0; font-size: 12px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
+
+.kalk-lista { display: none; }
+
+@media (max-width: 980px) {
+  .kalk { grid-template-columns: 1fr; gap: 28px; }
+  .kalk-souhrn { position: static; scroll-margin-top: 90px; }
+  .kalk.has-vyber .kalk-lista {
+    position: sticky; bottom: 16px; z-index: 5; margin-right: 72px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 18px; border-radius: 14px; background: var(--ink); color: #fff;
+    font-size: 14px; box-shadow: 0 12px 32px rgba(20, 24, 27, 0.3);
+  }
+  .kalk-lista strong { font-family: var(--font-display); font-size: 17px; margin-left: 6px; font-variant-numeric: tabular-nums; }
+  .kalk-lista span:last-child { color: rgba(255, 255, 255, 0.7); font-size: 13px; }
+}
+@media (max-width: 600px) {
+  .kalk-mrizka { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kalk-volba { min-height: 0; padding: 12px; gap: 8px; }
+  .kalk-volba-nazev { font-size: 14px; }
+  .kalk-volba-cena { font-size: 12px; }
+  .kalk-volba-check { width: 20px; height: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kalk-volba, .kalk-volba-check, .kalk-volba-check svg { transition: none; }
+  .kalk-volba:hover { transform: none; }
+  .kalk-celkem-cena.is-bump, .kalk-seznam li, .kalk-tip { animation: none; }
+}

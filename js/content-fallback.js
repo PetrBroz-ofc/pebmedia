@@ -293,6 +293,112 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       }
     ]
   },
+  "calculator": {
+    "heading": "Spočítejte si svůj návrh",
+    "subheading": "Vyberte, co potřebujete, a hned uvidíte orientační cenu. Když vám dá víc některý z balíčků, rovnou vám to ukážeme.",
+    "note": "Ceny jsou orientační, uvádíme je „od“. Konečnou cenu upřesníme v nabídce po nezávazné konzultaci.",
+    "groups": [
+      {
+        "id": "web",
+        "title": "Web nebo e-shop",
+        "hint": "Vyberte jednu možnost",
+        "type": "single",
+        "categoryId": "cat-web",
+        "noneLabel": "Web teď nepotřebuji"
+      },
+      {
+        "id": "brand",
+        "title": "Logo a značka",
+        "hint": "Vyberte jednu možnost",
+        "type": "single",
+        "categoryId": "cat-branding",
+        "noneLabel": "Bez loga"
+      },
+      {
+        "id": "sec",
+        "title": "Bezpečnost",
+        "hint": "Můžete vybrat víc možností",
+        "type": "multi",
+        "categoryId": "cat-security"
+      },
+      {
+        "id": "tech",
+        "title": "AI a automatizace",
+        "hint": "Můžete vybrat víc možností",
+        "type": "multi",
+        "categoryId": "cat-tech"
+      }
+    ],
+    "packageRules": [
+      {
+        "packageId": "pkg-start",
+        "covers": {
+          "svc-web-1": [
+            "Jednostránkový web"
+          ]
+        }
+      },
+      {
+        "packageId": "pkg-business",
+        "covers": {
+          "svc-web-1": [
+            "Firemní web"
+          ],
+          "svc-web-2": [
+            "Firemní web"
+          ]
+        }
+      },
+      {
+        "packageId": "pkg-pro",
+        "covers": {
+          "svc-web-1": [
+            "Rozšířený web"
+          ],
+          "svc-web-2": [
+            "Rozšířený web"
+          ],
+          "svc-web-3": [
+            "Rozšířený web"
+          ],
+          "svc-sec-1": [
+            "Bezpečnostní audit"
+          ]
+        }
+      },
+      {
+        "packageId": "pkg-launch",
+        "covers": {
+          "svc-web-1": [
+            "Profesionální web"
+          ],
+          "svc-web-2": [
+            "Profesionální web"
+          ],
+          "svc-brand-1": [
+            "Logo"
+          ],
+          "svc-brand-2": [
+            "Logo",
+            "Základní vizuální identita"
+          ],
+          "svc-sec-1": [
+            "Bezpečnostní audit"
+          ]
+        }
+      },
+      {
+        "packageId": "pkg-eshop",
+        "covers": {
+          "svc-web-4": [
+            "Moderní e-shop"
+          ]
+        }
+      }
+    ],
+    "ctaInquiry": "Poslat poptávku s tímto výběrem",
+    "ctaAi": "Probrat výběr s PEBAi"
+  },
   "portfolio": {
     "heading": "Naše práce",
     "subheading": "Nejlépe za nás mluví to, co jsme vytvořili.",
