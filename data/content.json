@@ -400,33 +400,37 @@
     "extras": [
       {
         "id": "x-seo",
-        "name": "SEO",
+        "name": "SEO nastavení",
         "matches": [
           "Základní SEO",
           "SEO setup",
           "SEO základ"
-        ]
+        ],
+        "price": "Od 4 900 Kč"
       },
       {
         "id": "x-analytika",
         "name": "Analytika návštěvnosti",
         "matches": [
           "Analytika"
-        ]
+        ],
+        "price": "Od 1 900 Kč"
       },
       {
         "id": "x-google",
         "name": "Profil na Google (Google Business)",
         "matches": [
           "Google Business setup"
-        ]
+        ],
+        "price": "Od 2 900 Kč"
       },
       {
         "id": "x-socialni",
         "name": "Vizuály na sociální sítě",
         "matches": [
           "Sociální vizuály"
-        ]
+        ],
+        "price": "Od 2 900 Kč"
       }
     ],
     "packageRules": [

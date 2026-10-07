@@ -54,6 +54,15 @@ AI integrace, automatizace a řešení na míru, která firmám reálně šetř�
 
 Konečná cena závisí na rozsahu projektu.
 
+### Doplňky k webu
+
+- SEO nastavení: Od 4 900 Kč (samostatně; některé balíčky je už obsahují)
+- Analytika návštěvnosti: Od 1 900 Kč (samostatně; některé balíčky je už obsahují)
+- Profil na Google (Google Business): Od 2 900 Kč (samostatně; některé balíčky je už obsahují)
+- Vizuály na sociální sítě: Od 2 900 Kč (samostatně; některé balíčky je už obsahují)
+
+Cenu si návštěvník může spočítat v kalkulačce pod ceníkem služeb (pebmedia.cz/#kalkulacka).
+
 ## Balíčky
 
 - **PEB START** (17 900 Kč): Pro živnostníky a malé firmy. Obsahuje: Jednostránkový web, Responzivní design, Základní SEO, Kontaktní formulář, Analytika, Základní bezpečnostní kontrola.

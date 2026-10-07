@@ -285,9 +285,9 @@
     data.services.categories.forEach(cat => cat.items.forEach(i => {
       polozky[i.id] = { id: i.id, name: i.name, price: castka(i.price), mesicne: /měsíc/i.test(i.price), kat: cat.id };
     }));
-    (cfg.extras || []).forEach(x => { polozky[x.id] = { id: x.id, name: x.name, extra: true, matches: x.matches, kat: 'extra' }; });
+    (cfg.extras || []).forEach(x => { polozky[x.id] = { id: x.id, name: x.name, price: castka(x.price), extra: true, matches: x.matches, kat: 'extra' }; });
     const balicky = Object.fromEntries(data.packages.items.filter(p => p.visible !== false).map(p => [p.id, p]));
-    const cenaPolozky = (p) => p.extra ? 'v balíčku' : p.mesicne ? `od ${kc(p.price)}/měs.` : `od ${kc(p.price)}`;
+    const cenaPolozky = (p) => p.mesicne ? `od ${kc(p.price)}/měs.` : `od ${kc(p.price)}`;
 
     const IKONY = {
       web: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
@@ -329,7 +329,7 @@
 
     function tlacitkoVolby(p, aktivni, onClick) {
       const b = el('button', 'kalk-moznost' + (aktivni ? ' is-active' : ''),
-        `<span class="kalk-moznost-check" aria-hidden="true">${FAJFKA}</span><span class="kalk-moznost-nazev">${p.name}</span><span class="kalk-moznost-cena${p.extra ? ' is-balicek' : ''}">${cenaPolozky(p)}</span>`);
+        `<span class="kalk-moznost-check" aria-hidden="true">${FAJFKA}</span><span class="kalk-moznost-nazev">${p.name}</span><span class="kalk-moznost-cena">${cenaPolozky(p)}</span>`);
       b.type = 'button';
       b.setAttribute('aria-pressed', String(aktivni));
       b.addEventListener('click', () => onClick(b));
@@ -437,7 +437,7 @@
 
       if (typ === 'vysledek') {
         const v = vyber();
-        const jednorazove = v.filter(p => !p.extra && !p.mesicne).reduce((s, p) => s + p.price, 0);
+        const jednorazove = v.filter(p => !p.mesicne).reduce((s, p) => s + p.price, 0);
         const mesicne = v.filter(p => p.mesicne).reduce((s, p) => s + p.price, 0);
         const extra = v.filter(p => p.extra);
         const bal = najdiBalicek(v);
@@ -445,7 +445,7 @@
 
         const vysledek = el('div', 'kalk-vysledek');
         const cena = el('div', 'kalk-cena-box', `
-          <span class="kalk-cena-popis">${extra.length ? 'Položky z ceníku' : 'Orientační cena'}</span>
+          <span class="kalk-cena-popis">Orientační cena</span>
           <strong class="kalk-celkem-cena">od ${kc(jednorazove)}</strong>
           ${mesicne ? `<span class="kalk-mesicne">+ od ${kc(mesicne)} měsíčně</span>` : ''}`);
         vysledek.appendChild(cena);
@@ -460,13 +460,11 @@
           const nazvy = extra.map((x, i) => i ? malym(x.name.split(' (')[0]) : x.name.split(' (')[0]);
           const vcetne = extra.length ? ` ${nazvy.join(', ').replace(/, ([^,]*)$/, ' a $1')} ${extra.length > 1 ? 'jsou' : 'je'} v něm v ceně.` : '';
           vysledek.appendChild(el('div', 'kalk-balicek', `
-            <p class="kalk-balicek-stitek">${extra.length ? 'Doporučujeme' : 'Tip'}</p>
+            <p class="kalk-balicek-stitek">${rozdil <= 0 ? 'Vyjde levněji' : 'Tip'}</p>
             <p><strong>${bal.b.name}</strong> za ${bal.b.price.replace(/^Od /, 'od ')} obsahuje všechno, co jste vybrali.${vcetne}${navic.length ? ' A k tomu:' : ''}</p>
             ${navic.length ? `<ul>${navic.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
-            <p class="kalk-balicek-rozdil">${rozdil > 0 ? `Oproti samotným položkám z ceníku +${kc(rozdil)}.` : 'Vyjde výhodněji než samotné položky.'}</p>
+            <p class="kalk-balicek-rozdil">${rozdil > 0 ? `Oproti samotným položkám +${kc(rozdil)}.` : rozdil < 0 ? `Oproti samotným položkám ušetříte <strong>${kc(-rozdil)}</strong>.` : 'Stojí stejně jako samotné položky a dostanete víc.'}</p>
             <a href="#kontakt" class="kalk-balicek-btn">Chci ${bal.b.name} <span aria-hidden="true">→</span></a>`));
-        } else if (extra.length) {
-          vysledek.appendChild(el('p', 'kalk-napoveda', `${extra.map(x => x.name).join(', ')} v ceníku samostatně nemáme. Rádi je naceníme v nabídce.`));
         }
 
         const akce = el('div', 'kalk-akce', `
@@ -532,10 +530,10 @@
 
   // Tlačítko „Spočítejte si to“ pod ceníkem: otočí se a ukáže kartu kalkulačky, křížek ji otočí zpátky.
   function initKalkFlip() {
-    const obal = document.getElementById('kalkFlip');
+    const obal = document.getElementById('kalkulacka');
     if (!obal) return;
     const tlacitko = document.getElementById('kalkOtevrit');
-    const karta = document.getElementById('kalkulacka');
+    const karta = document.getElementById('kalkKarta');
     const zavrit = document.getElementById('kalkZavrit');
     const POLOVINA = 220; // ms na otočení o 90°
     let bezi = false;
@@ -591,14 +589,13 @@
     zavrit.addEventListener('click', zavritKartu);
     karta.addEventListener('keydown', (e) => { if (e.key === 'Escape') zavritKartu(); });
 
-    // Odkaz na #kalkulacka (třeba od PEBAi) kartu rovnou otevře.
+    // Odkaz na #kalkulacka (třeba od PEBAi) kartu otevře; při vstupu na web je ale vždy nejdřív jen tlačítko.
     const zOdkazu = () => { if (location.hash === '#kalkulacka') otevrit({ posunout: true }); };
     window.addEventListener('hashchange', zOdkazu);
     document.addEventListener('click', (e) => {
       const odkaz = e.target.closest && e.target.closest('a[href$="#kalkulacka"]');
       if (odkaz) { e.preventDefault(); otevrit({ posunout: true }); }
     });
-    zOdkazu();
   }
 
   function starsSvg(count) {

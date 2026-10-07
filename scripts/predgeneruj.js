@@ -464,6 +464,12 @@ function llmsTxt() {
     L.push('');
   });
   if (content.services.priceNote) L.push(stripTags(content.services.priceNote), '');
+  const doplnky = ((content.calculator && content.calculator.extras) || []).filter((x) => x.price);
+  if (doplnky.length) {
+    L.push('### Doplňky k webu', '');
+    doplnky.forEach((x) => L.push(`- ${stripTags(x.name)}: ${stripTags(x.price)} (samostatně; některé balíčky je už obsahují)`));
+    L.push('', 'Cenu si návštěvník může spočítat v kalkulačce pod ceníkem služeb (pebmedia.cz/#kalkulacka).', '');
+  }
   L.push('## Balíčky', '');
   content.packages.items.filter(visible).sort(byOrder).forEach((p) => {
     L.push(`- **${stripTags(p.name)}** (${stripTags(p.price)}): ${stripTags(p.description)} Obsahuje: ${p.features.map(stripTags).join(', ')}.`);

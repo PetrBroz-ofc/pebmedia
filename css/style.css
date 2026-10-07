@@ -1440,7 +1440,7 @@ p { margin: 0; }
 }
 
 /* ---------------------------------- Kalkulačka „Spočítejte si svůj návrh“ --- */
-.kalk-flip { display: flex; flex-direction: column; align-items: center; margin-top: 18px; perspective: 1600px; }
+.kalk-flip { display: flex; flex-direction: column; align-items: center; margin-top: 18px; perspective: 1600px; scroll-margin-top: 120px; }
 .kalk-flip-btn {
   display: inline-flex; align-items: center; gap: 10px; padding: 11px 22px;
   background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); border-radius: 999px;
