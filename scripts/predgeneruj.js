@@ -353,7 +353,7 @@ function applyLayout(d, file) {
   }
   if (header && !d.querySelector('script[src*="js/zvuky.js"]')) {
     const s = d.createElement('script');
-    s.src = `${root}js/zvuky.js?v=1`;
+    s.src = `${root}js/zvuky.js?v=2`;
     const prvni = [...d.body.querySelectorAll(':scope > script[src]')].find((x) => /js\/(main|shop|content-fallback)\.js/.test(x.getAttribute('src')));
     d.body.insertBefore(s, prvni || null);
     d.body.insertBefore(d.createTextNode('\n'), prvni || null);

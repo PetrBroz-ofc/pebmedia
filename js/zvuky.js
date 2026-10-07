@@ -86,7 +86,7 @@
     if (t.matches('.faq-question, #hamburger, #helpWidgetToggle')) { podleStavu(t); return; }
     if (t.matches('.gallery-open')) { play('open'); return; }
     if (t.matches('.lightbox-close')) return; // zvuk obstará událost "close" dialogu
-    if (t.matches('.btn, .main-nav a, .mobile-nav a, .lightbox-btn, .help-widget-question-btn')) play('tap');
+    if (t.matches('.btn, .main-nav a, .mobile-nav a, .lightbox-btn, .help-widget-icon-btn')) play('tap');
   });
 
   // Zavření galerie (i klávesou Esc nebo kliknutím mimo).

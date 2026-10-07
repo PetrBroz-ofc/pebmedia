@@ -122,32 +122,93 @@
     const contactLink = document.getElementById('helpWidgetContactLink');
     const form = document.getElementById('helpWidgetForm');
     const input = document.getElementById('helpWidgetInput');
-    const historie = []; // konverzace pro AI asistenta (posílá se jen při dotazu)
+    const sendBtn = form ? form.querySelector('button[type="submit"]') : null;
+    const resetBtn = document.getElementById('helpWidgetReset');
+    const closeBtn = document.getElementById('helpWidgetClose');
+    const UVITANI = 'Dobrý den, jsem PEBAi, asistent PEBMedia. Rád vám poradím s webem, e-shopem, logem nebo s výběrem v našem obchodě. Napište mi, co potřebujete, a společně najdeme nejlepší řešení.';
+    const ULOZISTE = 'pebai-konverzace';
+    let historie = []; // konverzace pro PEBAi (posílá se jen při dotazu)
+
+    // Konverzace přežije přechod mezi stránkami (jen v této záložce, nikam se neposílá).
+    function ulozit() {
+      try { sessionStorage.setItem(ULOZISTE, JSON.stringify(historie.slice(-16))); } catch (e) { /* soukromé okno */ }
+    }
+    function nacist() {
+      try {
+        const data = JSON.parse(sessionStorage.getItem(ULOZISTE) || '[]');
+        return Array.isArray(data) ? data.filter((m) => m && typeof m.content === 'string' && (m.role === 'user' || m.role === 'assistant')) : [];
+      } catch (e) { return []; }
+    }
+
+    function avatar() {
+      const a = el('span', 'pebai-avatar');
+      a.setAttribute('aria-hidden', 'true');
+      a.innerHTML = '<svg viewBox="0 0 400 400"><use href="#logoMarkP"></use></svg>';
+      return a;
+    }
 
     function addMessage(text, from) {
+      const radek = el('div', 'help-row help-row-' + from);
       const zprava = el('div', 'help-msg help-msg-' + from);
-      zprava.appendChild(textToNodes(text));
-      messages.appendChild(zprava);
+      if (text !== null) zprava.appendChild(textToNodes(text));
+      if (from === 'bot') radek.appendChild(avatar());
+      radek.appendChild(zprava);
+      messages.appendChild(radek);
       messages.scrollTop = messages.scrollHeight;
-      return zprava;
+      return radek;
+    }
+
+    function zacitZnovu() {
+      messages.innerHTML = '';
+      addMessage(UVITANI, 'bot');
     }
 
     // Stránka může přijít už předgenerovaná (scripts/predgeneruj.js) — začít načisto.
-    messages.innerHTML = '';
-    addMessage('Dobrý den, jsem AI asistent PEBMedia. Poradím s webem, e-shopem, brandingem i s nákupem v obchodě. S čím vám můžu pomoct?', 'bot');
+    zacitZnovu();
+    historie = nacist();
+    historie.forEach((m) => addMessage(m.content, m.role === 'user' ? 'user' : 'bot'));
+
+    function otevrit(stav) {
+      widget.classList.toggle('is-open', stav);
+      toggle.setAttribute('aria-expanded', String(stav));
+      if (stav) {
+        messages.scrollTop = messages.scrollHeight;
+        if (input && window.matchMedia('(pointer: fine)').matches) setTimeout(() => input.focus(), 120);
+      }
+    }
+
+    function prizpusobVysku() {
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+      if (sendBtn) sendBtn.disabled = !input.value.trim();
+    }
 
     if (form && input) {
       let odesila = false;
+      prizpusobVysku();
+      input.addEventListener('input', prizpusobVysku);
+      // Enter odešle, Shift+Enter udělá nový řádek.
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+          e.preventDefault();
+          form.requestSubmit();
+        }
+      });
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const dotaz = input.value.trim();
         if (!dotaz || odesila) return;
         odesila = true;
         input.value = '';
+        prizpusobVysku();
         addMessage(dotaz, 'user');
         historie.push({ role: 'user', content: dotaz });
-        const pise = addMessage('Píšu odpověď…', 'bot');
-        pise.classList.add('is-typing');
+        const pise = addMessage(null, 'bot');
+        const tecky = pise.querySelector('.help-msg');
+        tecky.classList.add('help-typing');
+        tecky.setAttribute('aria-label', 'PEBAi píše odpověď');
+        tecky.innerHTML = '<span></span><span></span><span></span>';
         try {
           const res = await fetch('api/chat', {
             method: 'POST',
@@ -158,11 +219,12 @@
           pise.remove();
           if (json && res.ok && json.reply) {
             historie.push({ role: 'assistant', content: json.reply });
+            ulozit();
             addMessage(json.reply, 'bot');
             if (window.PEBZvuk) window.PEBZvuk.play('success');
           } else {
             historie.pop();
-            addMessage((json && json.error) || 'AI asistent tady zatím neběží. Napište nám prosím na info.pebmedia@gmail.com, ozveme se obratem.', 'bot');
+            addMessage((json && json.error) || 'PEBAi tady zatím neběží. Napište nám prosím na info.pebmedia@gmail.com, ozveme se obratem.', 'bot');
             if (window.PEBZvuk) window.PEBZvuk.play('error');
           }
         } catch (err) {
@@ -176,31 +238,33 @@
       });
     }
 
-    if (contactLink) {
-      contactLink.addEventListener('click', () => {
-        widget.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        historie = [];
+        ulozit();
+        zacitZnovu();
+        if (input) input.focus();
       });
     }
 
-    toggle.addEventListener('click', () => {
-      const isOpen = widget.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', String(isOpen));
-      if (isOpen) messages.scrollTop = messages.scrollHeight;
-    });
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => { otevrit(false); toggle.focus(); });
+    }
+
+    if (contactLink) {
+      contactLink.addEventListener('click', () => otevrit(false));
+    }
+
+    toggle.addEventListener('click', () => otevrit(!widget.classList.contains('is-open')));
 
     document.addEventListener('click', (e) => {
-      if (!widget.contains(e.target) && widget.classList.contains('is-open')) {
-        widget.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-      }
+      if (!widget.contains(e.target) && e.target.isConnected && widget.classList.contains('is-open')) otevrit(false);
     });
 
     // Escape zavře widget a vrátí fokus na přepínač (WCAG 2.1.2)
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && widget.classList.contains('is-open')) {
-        widget.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
+        otevrit(false);
         toggle.focus();
       }
     });
