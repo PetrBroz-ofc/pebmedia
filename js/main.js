@@ -295,54 +295,51 @@
     const balicky = Object.fromEntries(data.packages.items.filter(p => p.visible !== false).map(p => [p.id, p]));
 
     // --- Vykreslení ---
+    const kratce = (p) => p.mesicne ? kc(p.price) + '/měs.' : kc(p.price);
     root.innerHTML = '';
     const volby = el('div', 'kalk-volby');
     skupiny.forEach(g => {
-      const sada = el('fieldset', 'kalk-skupina reveal');
-      sada.appendChild(el('legend', 'kalk-legenda', `<span>${g.title}</span><small>${g.hint || ''}</small>`));
+      const sada = el('fieldset', 'kalk-skupina');
+      sada.dataset.typ = g.type;
+      sada.appendChild(el('legend', 'kalk-legenda', `${g.title}<small>${g.type === 'single' ? 'jedna možnost' : 'i víc možností'}</small>`));
       const mrizka = el('div', 'kalk-mrizka');
-      const typ = g.type === 'single' ? 'radio' : 'checkbox';
-      const moznosti = g.type === 'single' ? [{ id: '', name: g.noneLabel || 'Nepotřebuji', priceText: '' }].concat(g.items) : g.items;
-      moznosti.forEach(p => {
-        const volba = el('label', 'kalk-volba' + (p.id ? '' : ' is-none'));
+      g.items.forEach(p => {
+        const volba = el('label', 'kalk-chip');
         const input = document.createElement('input');
-        input.type = typ;
+        input.type = 'checkbox';
         input.name = 'kalk-' + g.id;
         input.value = p.id;
-        if (typ === 'radio' && !p.id) input.checked = true;
         volba.appendChild(input);
-        volba.appendChild(el('span', 'kalk-volba-text', `<span class="kalk-volba-nazev">${p.name}</span>${p.priceText ? `<span class="kalk-volba-cena">${p.priceText}</span>` : ''}`));
-        volba.appendChild(el('span', 'kalk-volba-check', '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'));
+        volba.appendChild(el('span', 'kalk-chip-nazev', p.name));
+        volba.appendChild(el('span', 'kalk-chip-cena', kratce(p)));
         mrizka.appendChild(volba);
       });
       sada.appendChild(mrizka);
       volby.appendChild(sada);
     });
+
+    const souhrn = el('aside', 'kalk-souhrn', `
+      <p class="kalk-karta-nadpis">Váš návrh</p>
+      <p class="kalk-celkem"><span class="kalk-od">od</span><strong class="kalk-celkem-cena" aria-live="polite">0 Kč</strong></p>
+      <p class="kalk-mesicne" hidden></p>
+      <p class="kalk-prazdne">Klikněte na služby vlevo a cena se hned spočítá.</p>
+      <div class="kalk-tip" hidden></div>
+      <div class="kalk-akce">
+        <a href="#kontakt" class="btn btn-accent kalk-poptat">${cfg.ctaInquiry}</a>
+        <button type="button" class="kalk-ai">${cfg.ctaAi}</button>
+      </div>
+      <p class="kalk-pozn">${cfg.note}</p>`);
+    souhrn.id = 'kalkSouhrn';
     const lista = el('a', 'kalk-lista', '<span>Váš návrh <strong class="kalk-lista-cena">0 Kč</strong></span><span aria-hidden="true">Souhrn ↓</span>');
     lista.href = '#kalkSouhrn';
     volby.appendChild(lista);
-
-    const souhrn = el('aside', 'kalk-souhrn reveal', `
-      <div class="kalk-karta">
-        <p class="kalk-karta-nadpis">Váš návrh</p>
-        <p class="kalk-celkem"><span class="kalk-od">orientačně od</span><strong class="kalk-celkem-cena" aria-live="polite">0 Kč</strong></p>
-        <p class="kalk-mesicne" hidden></p>
-        <ul class="kalk-seznam"></ul>
-        <div class="kalk-tip" hidden></div>
-        <div class="kalk-akce">
-          <a href="#kontakt" class="btn btn-accent kalk-poptat">${cfg.ctaInquiry}</a>
-          <button type="button" class="btn kalk-ai">${cfg.ctaAi}</button>
-        </div>
-        <p class="kalk-pozn">${cfg.note}</p>
-      </div>`);
-    souhrn.id = 'kalkSouhrn';
     root.appendChild(volby);
     root.appendChild(souhrn);
 
     const celkemEl = souhrn.querySelector('.kalk-celkem-cena');
     const listaCena = lista.querySelector('.kalk-lista-cena');
     const mesicneEl = souhrn.querySelector('.kalk-mesicne');
-    const seznam = souhrn.querySelector('.kalk-seznam');
+    const prazdneEl = souhrn.querySelector('.kalk-prazdne');
     const tip = souhrn.querySelector('.kalk-tip');
     const poptat = souhrn.querySelector('.kalk-poptat');
     const ai = souhrn.querySelector('.kalk-ai');
@@ -396,24 +393,27 @@
       ukazCenu(jednorazove);
 
       mesicneEl.hidden = !mesicne;
-      mesicneEl.textContent = mesicne ? `+ od ${kc(mesicne)} měsíčně` : '';
-      seznam.innerHTML = vyber.length
-        ? vyber.map(p => `<li><span>${p.name}</span><span>${p.mesicne ? p.priceText.replace(/^Od /, 'od ') : 'od ' + kc(p.price)}</span></li>`).join('')
-        : '<li class="is-empty">Zatím nic nevybráno. Začněte třeba typem webu.</li>';
+      mesicneEl.textContent = mesicne ? `+ ${kc(mesicne)} měsíčně` : '';
+      prazdneEl.hidden = vyber.length > 0;
 
+      const predtim = doporuceny && doporuceny.b.id;
       doporuceny = najdiBalicek();
       tip.hidden = !doporuceny;
-      if (doporuceny) {
+      if (doporuceny && doporuceny.b.id !== predtim) {
         const { b, r, cena } = doporuceny;
         const pokryte = new Set(vyber.filter(p => !p.mesicne).flatMap(p => r.covers[p.id]));
         const navic = b.features.filter(f => !pokryte.has(f));
         const rozdil = cena - jednorazove;
         tip.innerHTML = `
-          <p class="kalk-tip-stitek">Tip: balíček vám dá víc</p>
-          <p><strong>${b.name}</strong> za ${b.price} obsahuje váš výběr a k tomu:</p>
-          <ul>${navic.map(f => `<li>${f}</li>`).join('')}</ul>
-          <p class="kalk-tip-rozdil">${rozdil > 0 ? `Oproti samotným položkám je to +${kc(rozdil)}.` : 'Vyjde vás to výhodněji než samotné položky.'}</p>
-          <a href="#kontakt" class="kalk-tip-btn">Chci ${b.name} <span aria-hidden="true">→</span></a>`;
+          <details>
+            <summary><span class="kalk-tip-stitek">Tip</span> <strong>${b.name}</strong> za ${b.price} má váš výběr a ${navic.length} ${navic.length === 1 ? 'věc' : navic.length < 5 ? 'věci' : 'věcí'} navíc</summary>
+            <ul>${navic.map(f => `<li>${f}</li>`).join('')}</ul>
+            <p class="kalk-tip-rozdil">${rozdil > 0 ? `Oproti samotným položkám +${kc(rozdil)}.` : 'Vyjde výhodněji než samotné položky.'} <a href="#kontakt" class="kalk-tip-btn">Chci ${b.name} →</a></p>
+          </details>`;
+      } else if (doporuceny) {
+        const rozdilEl = tip.querySelector('.kalk-tip-rozdil');
+        const rozdil = doporuceny.cena - jednorazove;
+        if (rozdilEl && rozdilEl.firstChild) rozdilEl.firstChild.textContent = rozdil > 0 ? `Oproti samotným položkám +${kc(rozdil)}. ` : 'Vyjde výhodněji než samotné položky. ';
       }
 
       const prazdne = !vyber.length;
@@ -421,7 +421,12 @@
       root.classList.toggle('has-vyber', !prazdne);
     }
 
-    volby.addEventListener('change', () => {
+    volby.addEventListener('change', (e) => {
+      // Ve skupině „jedna možnost“ vybraná volba zruší ostatní; opětovný klik ji zase zruší.
+      const sada = e.target.closest('.kalk-skupina');
+      if (e.target.checked && sada && sada.dataset.typ === 'single') {
+        sada.querySelectorAll('input:checked').forEach(i => { if (i !== e.target) i.checked = false; });
+      }
       prepocitej();
       celkemEl.classList.remove('is-bump');
       void celkemEl.offsetWidth; // restart animace

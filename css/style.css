@@ -1442,112 +1442,107 @@ p { margin: 0; }
 /* ---------------------------------- Kalkulačka „Spočítejte si svůj návrh“ --- */
 .kalk-teaser {
   display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
-  font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--accent);
+  font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--accent);
   border-bottom: 2px solid var(--accent-tint); padding-bottom: 2px;
   transition: border-color var(--dur-base) var(--ease), gap var(--dur-base) var(--ease);
 }
 .kalk-teaser:hover { border-color: var(--accent); gap: 12px; }
 
-.kalk { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 40px; align-items: start; }
-.kalk-volby { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
+.kalk {
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0;
+  max-width: 1040px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  box-shadow: var(--shadow-s); overflow: clip;
+}
+.kalk-volby { display: flex; flex-direction: column; gap: 20px; padding: 26px 28px; min-width: 0; }
 
 .kalk-skupina { border: 0; margin: 0; padding: 0; min-width: 0; }
-.kalk-legenda { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 0; margin-bottom: 14px; }
-.kalk-legenda span { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--ink); }
-.kalk-legenda small { font-size: 13px; color: var(--ink-faint); }
-
-.kalk-mrizka { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 10px; }
-
-.kalk-volba {
-  position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-  min-height: 76px; padding: 14px 14px 14px 16px; cursor: pointer;
-  background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px;
-  transition: border-color var(--dur-base) var(--ease), background var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+.kalk-legenda {
+  display: flex; align-items: baseline; gap: 8px; padding: 0; margin-bottom: 10px;
+  font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--ink);
 }
-.kalk-volba:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-s); }
-.kalk-volba input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-.kalk-volba-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.kalk-volba-nazev { font-weight: 600; font-size: 15px; line-height: 1.3; color: var(--ink); }
-.kalk-volba-cena { font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
-.kalk-volba-check {
-  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
-  border: 1.5px solid var(--border-strong); display: grid; place-items: center;
-  transition: background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), transform 0.3s var(--ease);
-}
-.kalk-volba-check svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(0.5); transition: opacity var(--dur-fast), transform 0.3s var(--ease); }
-.kalk-volba.is-none { min-height: 0; border-style: dashed; background: transparent; }
-.kalk-volba.is-none .kalk-volba-nazev { font-weight: 500; color: var(--ink-soft); }
+.kalk-legenda small { font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--ink-faint); }
 
-.kalk-volba:has(input:checked) { border-color: var(--accent); background: var(--accent-tint); }
-.kalk-volba:has(input:checked) .kalk-volba-cena { color: var(--accent-ink); }
-.kalk-volba:has(input:checked) .kalk-volba-check { background: var(--accent); border-color: var(--accent); transform: scale(1.08); }
-.kalk-volba:has(input:checked) .kalk-volba-check svg { opacity: 1; transform: none; }
-.kalk-volba.is-none:has(input:checked) { background: transparent; border-color: var(--border-strong); }
-.kalk-volba.is-none:has(input:checked) .kalk-volba-check { background: var(--border-strong); border-color: var(--border-strong); }
-.kalk-volba:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.kalk-mrizka { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.kalk-chip {
+  position: relative; display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; cursor: pointer; user-select: none;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 999px;
+  font-size: 14px; line-height: 1.2;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.kalk-chip:hover { border-color: var(--border-strong); }
+.kalk-chip:active { transform: scale(0.97); }
+.kalk-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.kalk-chip-nazev { font-weight: 500; color: var(--ink); }
+.kalk-chip-cena { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); }
+.kalk-chip:has(input:checked) { background: var(--accent); border-color: var(--accent); }
+.kalk-chip:has(input:checked) .kalk-chip-nazev { color: #fff; }
+.kalk-chip:has(input:checked) .kalk-chip-cena { color: rgba(255, 255, 255, 0.75); }
+.kalk-chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Souhrn */
-.kalk-souhrn { position: sticky; top: 96px; }
-.kalk-karta {
-  background: var(--ink); color: #fff; border-radius: 20px; padding: 24px 24px 20px;
-  box-shadow: 0 24px 60px -24px rgba(20, 24, 27, 0.45);
+.kalk-souhrn {
+  display: flex; flex-direction: column; padding: 24px 22px 20px;
+  background: var(--ink); color: #fff;
 }
-.kalk-karta-nadpis { margin: 0 0 6px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
-.kalk-celkem { margin: 0; display: flex; flex-direction: column; gap: 2px; }
-.kalk-od { font-size: 14px; color: rgba(255, 255, 255, 0.7); }
-.kalk-celkem-cena { font-family: var(--font-display); font-weight: 700; font-size: clamp(36px, 4vw, 46px); line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; display: inline-block; transform-origin: left center; }
-.kalk-celkem-cena.is-bump { animation: kalk-bump 0.45s var(--ease); }
-@keyframes kalk-bump { 0% { transform: scale(1); } 35% { transform: scale(1.05); color: #7EE0C3; } 100% { transform: scale(1); } }
-.kalk-mesicne { margin: 6px 0 0; font-size: 14px; color: #7EE0C3; }
-
-.kalk-seznam { list-style: none; margin: 20px 0 0; padding: 16px 0 0; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-direction: column; gap: 8px; }
-.kalk-seznam li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.4; animation: pebai-in 0.28s var(--ease) both; }
-.kalk-seznam li span:last-child { font-family: var(--font-mono); font-size: 13px; color: rgba(255, 255, 255, 0.7); white-space: nowrap; }
-.kalk-seznam li.is-empty { color: rgba(255, 255, 255, 0.6); }
+.kalk-karta-nadpis { margin: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.kalk-celkem { margin: 6px 0 0; display: flex; align-items: baseline; gap: 6px; }
+.kalk-od { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
+.kalk-celkem-cena { font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; display: inline-block; transform-origin: left center; }
+.kalk-celkem-cena.is-bump { animation: kalk-bump 0.4s var(--ease); }
+@keyframes kalk-bump { 0% { transform: scale(1); } 35% { transform: scale(1.04); color: #7EE0C3; } 100% { transform: scale(1); } }
+.kalk-mesicne { margin: 2px 0 0; font-size: 13px; color: #7EE0C3; }
+.kalk-prazdne { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: rgba(255, 255, 255, 0.6); }
 
 .kalk-tip {
-  margin-top: 18px; padding: 16px; border-radius: 14px;
-  background: rgba(126, 224, 195, 0.1); border: 1px solid rgba(126, 224, 195, 0.35);
-  font-size: 14px; line-height: 1.5; animation: pebai-in 0.35s var(--ease) both;
+  margin-top: 14px; padding: 10px 12px; border-radius: 12px;
+  background: rgba(126, 224, 195, 0.1); border: 1px solid rgba(126, 224, 195, 0.3);
+  font-size: 13px; line-height: 1.45; animation: pebai-in 0.3s var(--ease) both;
 }
-.kalk-tip p { margin: 0; }
-.kalk-tip-stitek { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #7EE0C3; margin-bottom: 6px !important; }
-.kalk-tip ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; padding: 0; }
-.kalk-tip li { padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 12.5px; color: rgba(255, 255, 255, 0.9); }
-.kalk-tip-rozdil { color: rgba(255, 255, 255, 0.7); font-size: 13px; }
-.kalk-tip-btn { display: inline-block; margin-top: 10px; font-weight: 600; color: #7EE0C3; }
+.kalk-tip summary { cursor: pointer; list-style: none; }
+.kalk-tip summary::-webkit-details-marker { display: none; }
+.kalk-tip summary::after { content: ' ▾'; color: #7EE0C3; }
+.kalk-tip details[open] summary::after { content: ' ▴'; }
+.kalk-tip-stitek {
+  display: inline-block; margin-right: 4px; padding: 1px 7px; border-radius: 999px;
+  background: #7EE0C3; color: var(--ink); font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: 1px;
+}
+.kalk-tip ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; margin: 10px 0 8px; padding: 0; }
+.kalk-tip li { padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 12px; }
+.kalk-tip-rozdil { margin: 0; font-size: 12px; color: rgba(255, 255, 255, 0.65); }
+.kalk-tip-btn { color: #7EE0C3; font-weight: 600; white-space: nowrap; }
 .kalk-tip-btn:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-.kalk-akce { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-.kalk-akce .btn { width: 100%; justify-content: center; }
-.kalk-akce .kalk-ai { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
-.kalk-akce .kalk-ai:hover { border-color: #fff; }
-.kalk-akce .is-disabled { opacity: 0.4; pointer-events: none; }
-.kalk-pozn { margin: 16px 0 0; font-size: 12px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
+.kalk-akce { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding-top: 18px; }
+.kalk-akce .btn { width: 100%; justify-content: center; padding-top: 12px; padding-bottom: 12px; font-size: 14px; }
+.kalk-ai {
+  border: 0; background: none; padding: 6px; font: inherit; font-size: 13px; font-weight: 500;
+  color: rgba(255, 255, 255, 0.8); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.kalk-ai:hover { color: #fff; }
+.kalk-akce .is-disabled { opacity: 0.35; pointer-events: none; }
+.kalk-pozn { margin: 10px 0 0; font-size: 11px; line-height: 1.45; color: rgba(255, 255, 255, 0.45); }
 
 .kalk-lista { display: none; }
 
-@media (max-width: 980px) {
-  .kalk { grid-template-columns: 1fr; gap: 28px; }
-  .kalk-souhrn { position: static; scroll-margin-top: 90px; }
+@media (max-width: 860px) {
+  .kalk { grid-template-columns: 1fr; }
+  .kalk-volby { padding: 20px 18px; }
+  .kalk-souhrn { scroll-margin-top: 90px; }
   .kalk.has-vyber .kalk-lista {
-    position: sticky; bottom: 16px; z-index: 5; margin-right: 72px;
+    position: sticky; bottom: 16px; z-index: 5; margin-right: 46px; white-space: nowrap;
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 14px 18px; border-radius: 14px; background: var(--ink); color: #fff;
-    font-size: 14px; box-shadow: 0 12px 32px rgba(20, 24, 27, 0.3);
+    padding: 12px 14px; border-radius: 12px; background: var(--ink); color: #fff;
+    font-size: 13px; box-shadow: 0 12px 32px rgba(20, 24, 27, 0.3);
   }
-  .kalk-lista strong { font-family: var(--font-display); font-size: 17px; margin-left: 6px; font-variant-numeric: tabular-nums; }
-  .kalk-lista span:last-child { color: rgba(255, 255, 255, 0.7); font-size: 13px; }
+  .kalk-lista strong { font-family: var(--font-display); font-size: 16px; margin-left: 6px; font-variant-numeric: tabular-nums; }
+  .kalk-lista span:last-child { color: rgba(255, 255, 255, 0.7); font-size: 12px; }
 }
-@media (max-width: 600px) {
-  .kalk-mrizka { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .kalk-volba { min-height: 0; padding: 12px; gap: 8px; }
-  .kalk-volba-nazev { font-size: 14px; }
-  .kalk-volba-cena { font-size: 12px; }
-  .kalk-volba-check { width: 20px; height: 20px; }
+@media (max-width: 480px) {
+  .kalk-chip { padding: 7px 12px; font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .kalk-volba, .kalk-volba-check, .kalk-volba-check svg { transition: none; }
-  .kalk-volba:hover { transform: none; }
-  .kalk-celkem-cena.is-bump, .kalk-seznam li, .kalk-tip { animation: none; }
+  .kalk-chip, .kalk-teaser { transition: none; }
+  .kalk-celkem-cena.is-bump, .kalk-tip { animation: none; }
 }
