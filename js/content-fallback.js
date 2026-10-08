@@ -6,6 +6,11 @@
 window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   "general": {
     "brand": "PEBMedia",
+    "alternateNames": [
+      "PEB Media",
+      "Pebmedia",
+      "pebmedia.cz"
+    ],
     "claim": "Digitální řešení, která dávají smysl.",
     "email": "info.pebmedia@gmail.com",
     "phone": "+420 778 478 642",
@@ -37,7 +42,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
   "hero": {
     "eyebrow": "Digitální studio PEBMedia",
     "headline": "Digitální řešení\npro moderní firmy.",
-    "text": "Tvoříme weby, digitální systémy a řešení, která firmám pomáhají růst.",
+    "text": "PEBMedia tvoří weby, e-shopy, loga a digitální řešení, která firmám pomáhají růst.",
     "ctaPrimary": "Nezávazně poptat projekt",
     "ctaSecondary": "Prohlédnout portfolio"
   },

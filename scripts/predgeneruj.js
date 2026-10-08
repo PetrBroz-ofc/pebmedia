@@ -112,6 +112,7 @@ function organizationLd() {
     '@type': 'ProfessionalService',
     '@id': `${BASE}/#organization`,
     name: g.brand,
+    alternateName: g.alternateNames || [],
     slogan: g.claim,
     url: `${BASE}/`,
     logo: `${BASE}/assets/logo-mark-p.png`,
@@ -170,6 +171,7 @@ function websiteLd() {
     '@id': `${BASE}/#website`,
     url: `${BASE}/`,
     name: content.general.brand,
+    alternateName: content.general.alternateNames || [],
     description: content.seo.description,
     publisher: { '@id': `${BASE}/#organization` },
     inLanguage: 'cs-CZ'
