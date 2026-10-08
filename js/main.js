@@ -865,7 +865,8 @@
     }
     const schoolsLogos = document.getElementById('schoolsLogos');
     schoolsLogos.innerHTML = '';
-    (data.schools.logos || []).forEach(s => {
+    const maxLog = data.schools.logosMax || 10;
+    (data.schools.logos || []).slice(0, maxLog).forEach(s => {
       const item = el('div', 'school-logo', `<img src="${s.logo}" alt="${s.name}" loading="lazy">`);
       if (s.link) {
         const a = document.createElement('a');
@@ -879,6 +880,12 @@
         schoolsLogos.appendChild(item);
       }
     });
+    // „a dalších X škol“ – počet zadává PEBMedia v content.json (schools.moreSchools), nepočítá se.
+    const dalsi = Number(data.schools.moreSchools) || 0;
+    if (dalsi > 0) {
+      const slovo = dalsi === 1 ? 'další škola' : dalsi < 5 ? 'další školy' : 'dalších škol';
+      schoolsLogos.appendChild(el('div', 'school-logo schools-more', `<span class="schools-more-pocet">+${dalsi.toLocaleString('cs-CZ')}</span><span class="schools-more-text">${slovo}</span>`));
+    }
 
     renderSchoolsGallery(data);
 

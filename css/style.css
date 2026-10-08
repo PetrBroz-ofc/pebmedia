@@ -747,6 +747,12 @@ p { margin: 0; }
 .schools-logos.is-visible .school-logo:nth-child(6) { transition-delay: 350ms; }
 .schools-logos.is-visible .school-logo:nth-child(n+7) { transition-delay: 420ms; }
 
+.schools-more {
+  flex-direction: column; gap: 2px; height: 84px; min-width: 150px; padding: 0 22px;
+  border: 1.5px dashed var(--border-strong); border-radius: 999px; text-align: center;
+}
+.schools-more-pocet { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1; color: var(--accent); }
+.schools-more-text { font-size: 13px; color: var(--ink-soft); }
 @media (prefers-reduced-motion: reduce) {
   .schools-logos .school-logo { opacity: 1; transform: none; transition-delay: 0ms !important; }
 }

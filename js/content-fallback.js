@@ -690,6 +690,8 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "logo": "assets/schools/sos-medialni-grafiky-rumburk.png"
       }
     ],
+    "logosMax": 10,
+    "moreSchools": 0,
     "gallery": [
       {
         "alt": "Čtyři studentky před vchodem gymnázia drží dárkové vouchery PEBMedia",
