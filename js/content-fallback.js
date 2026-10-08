@@ -691,7 +691,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       }
     ],
     "logosMax": 10,
-    "moreSchools": 0,
+    "moreSchools": 61,
     "gallery": [
       {
         "alt": "Čtyři studentky před vchodem gymnázia drží dárkové vouchery PEBMedia",
