@@ -521,7 +521,7 @@
       const typ = document.getElementById('f-type');
       if (typ && !typ.value) {
         const kat = new Set(v.map(p => p.kat));
-        typ.value = kat.has('cat-web') || kat.has('cat-branding') ? 'Web' : kat.has('cat-security') ? 'Kyberbezpečnost' : v.some(p => p.id === 'svc-tech-2') ? 'Automatizace' : 'AI / jiné';
+        typ.value = v.some(p => p.id === 'svc-web-4' || p.id === 'svc-web-5') ? 'E-shop' : kat.has('cat-web') ? 'Web' : kat.has('cat-branding') ? 'Logo / branding' : kat.has('cat-security') ? 'Kyberbezpečnost' : v.some(p => p.id === 'svc-tech-2') ? 'Automatizace' : 'AI / jiné';
       }
     }
 
@@ -596,6 +596,106 @@
       const odkaz = e.target.closest && e.target.closest('a[href$="#kalkulacka"]');
       if (odkaz) { e.preventDefault(); otevrit({ posunout: true }); }
     });
+  }
+
+  // Poptávka jako krátký kvíz: cíl → rozpočet → termín → kontakt.
+  // Bez JavaScriptu zůstává obyčejný formulář; kvíz jen vyplňuje jeho pole.
+  function initKviz(form) {
+    const quiz = document.getElementById('contactQuiz');
+    if (!quiz) return;
+    const typ = document.getElementById('f-type');
+    const rozpocet = document.getElementById('f-budget');
+    const cil = document.getElementById('f-goal');
+    const termin = document.getElementById('f-timeline');
+    const zprava = document.getElementById('f-message');
+
+    const KROKY = [
+      {
+        otazka: 'Co je vaším hlavním cílem?',
+        moznosti: [
+          { text: 'Víc zákazníků a poptávek', typ: 'Web' },
+          { text: 'Nový nebo modernější web', typ: 'Redesign' },
+          { text: 'Začít prodávat online', typ: 'E-shop' },
+          { text: 'Logo a vizuální identita', typ: 'Logo / branding' },
+          { text: 'Bezpečný a rychlý web', typ: 'Kyberbezpečnost' },
+          { text: 'Ušetřit čas automatizací nebo AI', typ: 'Automatizace' }
+        ],
+        vyber: (m) => { cil.value = m.text; typ.value = m.typ; }
+      },
+      {
+        otazka: 'Jaký máte přibližný rozpočet?',
+        moznosti: [
+          { text: 'Do 20 000 Kč', budget: 'do-50k' },
+          { text: '20 000 – 50 000 Kč', budget: 'do-50k' },
+          { text: '50 000 – 100 000 Kč', budget: '50-100k' },
+          { text: 'Víc než 100 000 Kč', budget: '100-200k' },
+          { text: 'Zatím nevím', budget: '' }
+        ],
+        vyber: (m) => { rozpocet.value = m.budget; document.getElementById('f-budget-detail').value = m.text; }
+      },
+      {
+        otazka: 'Kdy byste chtěli začít?',
+        moznosti: [{ text: 'Co nejdřív' }, { text: 'Do měsíce' }, { text: 'Do tří měsíců' }, { text: 'Zatím jen zjišťuji' }],
+        vyber: (m) => { termin.value = m.text; }
+      }
+    ];
+    const celkem = KROKY.length + 1;
+    let krok = 0;
+    const odpovedi = [];
+
+    function vykresli() {
+      form.classList.toggle('is-quiz-kontakt', krok === KROKY.length);
+      quiz.innerHTML = '';
+      quiz.appendChild(el('div', 'quiz-hlava', `<span class="quiz-krok">Krok ${krok + 1} ${celkem === 3 || celkem === 4 ? 'ze' : 'z'} ${celkem}</span><span class="quiz-progres" aria-hidden="true"><i style="width:${Math.round(((krok + 1) / celkem) * 100)}%"></i></span>`));
+      if (krok < KROKY.length) {
+        const k = KROKY[krok];
+        const h = el('p', 'quiz-otazka', k.otazka);
+        h.tabIndex = -1;
+        quiz.appendChild(h);
+        const mrizka = el('div', 'quiz-moznosti');
+        k.moznosti.forEach((m) => {
+          const b = el('button', 'quiz-moznost' + (odpovedi[krok] === m.text ? ' is-active' : ''), m.text);
+          b.type = 'button';
+          b.addEventListener('click', () => {
+            k.vyber(m);
+            odpovedi[krok] = m.text;
+            if (window.PEBZvuk) window.PEBZvuk.play('tap');
+            b.classList.add('is-active');
+            setTimeout(() => { krok++; vykresli(); focusOtazka(); }, 200);
+          });
+          mrizka.appendChild(b);
+        });
+        quiz.appendChild(mrizka);
+      } else {
+        const shrnuti = odpovedi.filter(Boolean);
+        quiz.appendChild(el('p', 'quiz-otazka', 'Poslední krok: kam vám máme odpovědět?'));
+        if (shrnuti.length) quiz.appendChild(el('p', 'quiz-shrnuti', shrnuti.map((o) => `<span>${o}</span>`).join('')));
+      }
+      if (krok > 0) {
+        const zpet = el('button', 'quiz-zpet', '← Zpět');
+        zpet.type = 'button';
+        zpet.addEventListener('click', () => { krok--; vykresli(); focusOtazka(); });
+        quiz.appendChild(zpet);
+      }
+    }
+    function focusOtazka() {
+      const h = quiz.querySelector('.quiz-otazka');
+      if (h && h.tabIndex === -1) h.focus({ preventScroll: true });
+      else if (krok === KROKY.length) document.getElementById('f-name').focus({ preventScroll: true });
+    }
+
+    // Kdo přišel s předvyplněnou zprávou (kalkulačka, rychlá pomoc, balíček), jde rovnou na kontakt.
+    document.addEventListener('click', (e) => {
+      const odkaz = e.target.closest && e.target.closest('a[href$="#kontakt"]');
+      if (!odkaz) return;
+      setTimeout(() => {
+        if (zprava.value.trim() && krok < KROKY.length) { krok = KROKY.length; vykresli(); }
+      }, 0);
+    });
+
+    quiz.hidden = false;
+    form.classList.add('is-quiz');
+    vykresli();
   }
 
   function starsSvg(count) {
@@ -789,6 +889,30 @@
       catsWrap.insertAdjacentHTML('afterend', `<p class="price-note reveal" id="servicesPriceNote">${svcPriceNote}</p>`);
     }
 
+    // --- Rychlá pomoc (mikroslužby za pevnou cenu) ---
+    const qh = data.quickHelp;
+    const qhGrid = document.getElementById('qhGrid');
+    if (qh && qhGrid) {
+      document.getElementById('qhHeading').textContent = qh.heading;
+      document.getElementById('qhSubheading').textContent = qh.subheading;
+      document.getElementById('qhNote').textContent = qh.note;
+      qhGrid.innerHTML = '';
+      qh.items.forEach(s => {
+        const karta = el('article', 'qh-card reveal', `
+          <div class="qh-card-top"><h3>${s.name}</h3><span class="qh-time">${s.time}</span></div>
+          <p>${s.text}</p>
+          <div class="qh-card-bottom"><strong class="qh-price">${s.price}</strong><a href="#kontakt" class="btn btn-secondary btn-small qh-cta">${qh.cta}</a></div>`);
+        karta.querySelector('.qh-cta').addEventListener('click', () => {
+          const zprava = document.getElementById('f-message');
+          if (zprava && (!zprava.value.trim() || zprava.dataset.zRychlePomoci === zprava.value)) {
+            zprava.value = `Dobrý den,\nmám zájem o rychlou pomoc: ${s.name} (${s.price}).\nAdresa mého webu: `;
+            zprava.dataset.zRychlePomoci = zprava.value;
+          }
+        });
+        qhGrid.appendChild(karta);
+      });
+    }
+
     // --- Packages (balíčky) ---
     document.getElementById('packagesHeading').textContent = data.packages.heading;
     document.getElementById('packagesSubheading').textContent = data.packages.subheading;
@@ -832,6 +956,15 @@
               <div class="portfolio-title">${p.title}</div>
               <div class="portfolio-meta">${p.category}</div>
               <p class="portfolio-text">${p.text}</p>
+              ${p.pripad && p.pripad.problem && p.pripad.reseni && p.pripad.vysledek ? `<details class="portfolio-case">
+                <summary>Jak jsme pomohli</summary>
+                <dl>
+                  <dt>Problém</dt><dd>${p.pripad.problem}</dd>
+                  <dt>Řešení</dt><dd>${p.pripad.reseni}</dd>
+                  <dt>Výsledek</dt><dd>${p.pripad.vysledek}</dd>
+                </dl>
+                ${p.pripad.citace ? `<blockquote>„${p.pripad.citace}“${p.pripad.autor ? `<cite>${p.pripad.autor}</cite>` : ''}</blockquote>` : ''}
+              </details>` : ''}
               ${p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-small portfolio-link">Prohlédnout web</a>` : ''}
             </div>
             ${p.year ? `<div class="portfolio-year">${p.year}</div>` : ''}
@@ -1113,6 +1246,8 @@
         // Formulář se odešle běžným (nativním) POST požadavkem prohlížeče —
         // žádný preventDefault, žádný fetch.
       });
+
+      initKviz(form);
 
       // Po návratu z Web3Forms (?sent=1) zobrazíme poděkování a vyčistíme URL.
       const params = new URLSearchParams(window.location.search);

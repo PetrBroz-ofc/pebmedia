@@ -424,6 +424,12 @@ async function renderPage(file, scriptFile, { onDocument } = {}) {
   if (msgs) msgs.innerHTML = '';
   const pebaiInput = d.getElementById('helpWidgetInput');
   if (pebaiInput) pebaiInput.removeAttribute('style');
+  // Kvíz v poptávce zapíná až prohlížeč; bez JavaScriptu musí zůstat obyčejný formulář.
+  const kviz = d.getElementById('contactQuiz');
+  if (kviz) { kviz.innerHTML = ''; kviz.hidden = true; }
+  const poptavka = d.getElementById('contactForm');
+  if (poptavka) poptavka.classList.remove('is-quiz', 'is-quiz-kontakt');
+  ['f-goal', 'f-timeline', 'f-budget-detail'].forEach((id) => { const p = d.getElementById(id); if (p) p.removeAttribute('value'); });
   d.querySelectorAll('#helpWidgetForm button[disabled]').forEach((b) => b.removeAttribute('disabled'));
   d.body.removeAttribute('style');
   if (d.body.getAttribute('class') === '') d.body.removeAttribute('class');
@@ -472,6 +478,12 @@ function llmsTxt() {
     doplnky.forEach((x) => L.push(`- ${stripTags(x.name)}: ${stripTags(x.price)} (samostatně; některé balíčky je už obsahují)`));
     L.push('', 'Cenu si návštěvník může spočítat v kalkulačce pod ceníkem služeb (pebmedia.cz/#kalkulacka).', '');
   }
+  if (content.quickHelp) {
+    L.push(`## ${stripTags(content.quickHelp.heading)}`, '', stripTags(content.quickHelp.subheading), '');
+    content.quickHelp.items.forEach((s) => L.push(`- **${stripTags(s.name)}** (${stripTags(s.price)}, ${stripTags(s.time)}): ${stripTags(s.text)}`));
+    L.push('', stripTags(content.quickHelp.note), '');
+  }
+  L.push('## Tomboly a plesy', '', 'Organizátoři plesů, tombol a akcí spolků mohou požádat o dárkový voucher PEBMedia do tomboly na https://pebmedia.cz/tombola/ (žádost PEBMedia schvaluje, voucher přijde jako PDF).', '');
   L.push('## Balíčky', '');
   content.packages.items.filter(visible).sort(byOrder).forEach((p) => {
     L.push(`- **${stripTags(p.name)}** (${stripTags(p.price)}): ${stripTags(p.description)} Obsahuje: ${p.features.map(stripTags).join(', ')}.`);

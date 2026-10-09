@@ -63,6 +63,21 @@ Konečná cena závisí na rozsahu projektu.
 
 Cenu si návštěvník může spočítat v kalkulačce pod ceníkem služeb (pebmedia.cz/#kalkulacka).
 
+## Rychlá pomoc pro weby v nouzi
+
+Nepotřebujete hned nový web? Vyřešíme jeden konkrétní problém za pevnou cenu, bez dlouhého domlouvání.
+
+- **Video audit webu a SEO** (1 490 Kč, do 3 pracovních dnů): Projdeme váš web a natočíme video, ve kterém ukážeme, co mu chybí a co opravit jako první. Opravy pak zvládnete sami, nebo s námi.
+- **Zrychlení webu** (2 990 Kč, do 48 hodin): Změříme, co web brzdí, zmenšíme obrázky, nastavíme cache a uklidíme zbytečné pluginy. Pošleme měření před a po.
+- **Drobná úprava webu** (790 Kč, do 48 hodin): Nový text, obrázek, otevírací doba nebo kontakty, případně oprava drobné chyby. Práce do jedné hodiny.
+- **Měření návštěvnosti** (1 900 Kč, do 48 hodin): Nastavíme Google Analytics a Search Console, abyste věděli, kolik lidí na web chodí, odkud a co hledají.
+
+Ceny jsou konečné (nejsme plátci DPH). Termín počítáme od chvíle, kdy nám pošlete přístupy k webu.
+
+## Tomboly a plesy
+
+Organizátoři plesů, tombol a akcí spolků mohou požádat o dárkový voucher PEBMedia do tomboly na https://pebmedia.cz/tombola/ (žádost PEBMedia schvaluje, voucher přijde jako PDF).
+
 ## Balíčky
 
 - **PEB START** (17 900 Kč): Pro živnostníky a malé firmy. Obsahuje: Jednostránkový web, Responzivní design, Základní SEO, Kontaktní formulář, Analytika, Základní bezpečnostní kontrola.

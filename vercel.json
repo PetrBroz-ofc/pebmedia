@@ -1,5 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/tombola-schvalit.js": { "includeFiles": "api/_assets/**" }
+  },
   "headers": [
     {
       "source": "/(.*)",

@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="cs"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voucher do tomboly na ples — PEBMedia</title>
+<meta name="description" content="Pořádáte maturitní ples, hasičský ples nebo tombolu spolku? Požádejte o dárkový voucher PEBMedia do tomboly. Žádost zabere dvě minuty, voucher pošleme jako PDF k tisku.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0B6E63">
+<link rel="canonical" href="https://pebmedia.cz/tombola/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Voucher PEBMedia do vaší tomboly">
+<meta property="og:description" content="Pořádáte ples nebo tombolu? Rádi přispějeme dárkovým voucherem na naše služby.">
+<meta property="og:url" content="https://pebmedia.cz/tombola/">
+<meta property="og:image" content="https://pebmedia.cz/assets/og-image.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%223%22 y=%223%22 width=%2294%22 height=%2294%22 rx=%2222%22 fill=%22%230B6E63%22/><rect x=%2232.5%22 y=%2222%22 width=%2212.25%22 height=%2256%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2222%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2257%22 y=%2222%22 width=%2210.5%22 height=%2231.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/><rect x=%2232.5%22 y=%2243%22 width=%2235%22 height=%2210.5%22 rx=%222.5%22 fill=%22%23F6F6F3%22/></svg>">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../css/fonts.css?v=1">
+<link rel="stylesheet" href="../css/style.css?v=41">
+<link rel="stylesheet" href="../css/shop.css?v=8">
+<link rel="stylesheet" href="../css/legal.css?v=1">
+</head>
+<body data-root="../">
+
+<header class="site-header shop-header">
+  <div class="container header-inner">
+    <a href="../index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 400 400"><rect x="12" y="12" width="376" height="376" rx="88" fill="#0B6E63"></rect><rect x="130" y="88" width="49" height="224" rx="10" fill="#F6F6F3"></rect><rect x="130" y="88" width="140" height="42" rx="10" fill="#F6F6F3"></rect><rect x="228" y="88" width="42" height="126" rx="10" fill="#F6F6F3"></rect><rect x="130" y="172" width="140" height="42" rx="10" fill="#F6F6F3"></rect></svg></span><span>PEBMedia</span></a>
+    <nav class="main-nav" aria-label="Hlavní navigace">
+      <a href="../index.html">Domů</a>
+      <a href="../index.html#sluzby">Služby</a>
+      <a href="../index.html#skoly">Školy</a>
+      <a href="./" aria-current="page">Tomboly</a>
+      <a href="../obchod/">Obchod</a>
+    </nav>
+  
+    <button type="button" class="sound-toggle" id="soundToggle" aria-pressed="false" aria-label="Zapnout zvuky" title="Zvuky jsou vypnuté"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"></path><path class="vlny" d="M15.5 9.2a4 4 0 0 1 0 5.6M18.2 6.6a7.6 7.6 0 0 1 0 10.8"></path><path class="preskrt" d="M15.5 9.5l5 5M20.5 9.5l-5 5"></path></svg></button>
+  </div>
+</header>
+
+<main class="tombola">
+  <section class="tombola-hero">
+    <div class="container">
+      <p class="tombola-eyebrow">Pro plesy, tomboly a spolky</p>
+      <h1>Voucher PEBMedia do vaší tomboly</h1>
+      <p class="tombola-lead">Pořádáte maturitní ples, hasičský ples nebo tombolu spolku? Rádi přispějeme dárkovým voucherem na naše služby. Vyplňte krátký formulář, žádost projdeme a voucher vám pošleme jako PDF připravené k tisku.</p>
+      <ol class="tombola-kroky">
+        <li><span>1</span><strong>Vyplníte žádost</strong>Zabere to asi dvě minuty.</li>
+        <li><span>2</span><strong>Žádost projdeme</strong>Ozveme se na váš e-mail.</li>
+        <li><span>3</span><strong>Pošleme voucher</strong>Jako PDF s unikátním kódem, připravené k tisku.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="tombola-formular-sekce">
+    <div class="container">
+      <form class="tombola-formular" id="tombolaForm" novalidate="">
+        <h2>Žádost o voucher do tomboly</h2>
+        <fieldset>
+          <legend>Akce</legend>
+          <div class="tombola-pole tombola-pole-cela">
+            <label for="t-akce">Název akce *</label>
+            <input id="t-akce" name="akce" required="" maxlength="160" placeholder="Maturitní ples 4.A Gymnázium Liberec">
+          </div>
+          <div class="tombola-pole">
+            <label for="t-typ">Typ akce</label>
+            <select id="t-typ" name="typAkce">
+              <option>Maturitní ples</option><option>Ples</option><option>Hasičský ples</option><option>Tombola spolku</option><option>Firemní akce</option><option>Jiná akce</option>
+            </select>
+          </div>
+          <div class="tombola-pole">
+            <label for="t-datum">Datum akce *</label>
+            <input id="t-datum" name="datum" type="date" required="">
+          </div>
+          <div class="tombola-pole">
+            <label for="t-misto">Místo konání *</label>
+            <input id="t-misto" name="misto" required="" maxlength="160" placeholder="Dům kultury Liberec">
+          </div>
+          <div class="tombola-pole">
+            <label for="t-hoste">Přibližný počet hostů</label>
+            <input id="t-hoste" name="hoste" type="number" min="0" max="100000" inputmode="numeric" placeholder="300">
+          </div>
+          <div class="tombola-pole tombola-pole-cela">
+            <label for="t-odkaz">Odkaz na akci (Facebook, Instagram, web)</label>
+            <input id="t-odkaz" name="odkaz" type="url" maxlength="300" placeholder="https://instagram.com/…">
+          </div>
+          <div class="tombola-pole tombola-pole-cela">
+            <label for="t-logo">Logo akce nebo školy (nepovinné, PNG/JPG/WebP do 2 MB)</label>
+            <input id="t-logo" name="logo" type="file" accept="image/png,image/jpeg,image/webp">
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Kontakt na organizátora</legend>
+          <div class="tombola-pole">
+            <label for="t-jmeno">Jméno a příjmení *</label>
+            <input id="t-jmeno" name="jmeno" required="" maxlength="120" autocomplete="name">
+          </div>
+          <div class="tombola-pole">
+            <label for="t-org">Škola, spolek nebo organizace</label>
+            <input id="t-org" name="organizace" maxlength="160" autocomplete="organization">
+          </div>
+          <div class="tombola-pole">
+            <label for="t-email">E-mail *</label>
+            <input id="t-email" name="email" type="email" required="" maxlength="254" autocomplete="email">
+          </div>
+          <div class="tombola-pole">
+            <label for="t-tel">Telefon</label>
+            <input id="t-tel" name="telefon" type="tel" maxlength="40" autocomplete="tel">
+          </div>
+          <div class="tombola-pole tombola-pole-cela">
+            <label for="t-pozn">Poznámka</label>
+            <textarea id="t-pozn" name="poznamka" rows="3" maxlength="1000" placeholder="Cokoli, co bychom měli vědět."></textarea>
+          </div>
+        </fieldset>
+        <div class="tombola-skryte" aria-hidden="true">
+          <label for="t-web">Nevyplňujte</label>
+          <input id="t-web" name="web" tabindex="-1" autocomplete="off">
+        </div>
+        <label class="tombola-souhlas"><input type="checkbox" name="souhlas" required=""> <span>Souhlasím se zpracováním uvedených údajů za účelem vyřízení žádosti. <a href="../privacy.html#tombola">Jak s údaji zacházíme</a> *</span></label>
+        <label class="tombola-souhlas"><input type="checkbox" name="souhlasNabidky"> <span>Občas mi můžete poslat nabídku služeb PEBMedia. Souhlas mohu kdykoli odvolat (nepovinné).</span></label>
+        <p class="tombola-chyba" id="tombolaChyba" role="alert" hidden=""></p>
+        <button type="submit" class="btn btn-accent" id="tombolaOdeslat">Odeslat žádost</button>
+        <p class="tombola-pozn">Vouchery do tombol vydáváme podle možností, na voucher není nárok. Podmínky uplatnění: <a href="../voucher.html">Podmínky voucheru</a>.</p>
+      </form>
+      <div class="tombola-hotovo" id="tombolaHotovo" hidden="" tabindex="-1">
+        <h2>Děkujeme, žádost máme</h2>
+        <p>Na váš e-mail jsme poslali potvrzení. Žádost projdeme, a když ji schválíme, pošleme vám voucher jako PDF.</p>
+        <a href="../index.html" class="btn btn-secondary">Zpět na web PEBMedia</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer shop-footer"><div class="container"><div id="footerLegal" class="footer-bottom footer-legal">
+      <p class="footer-operator">Provozovatel: <strong>Petr Brož</strong> · IČO 29592844 · sídlo Aloisina výšina 644/132, Liberec XV-Starý Harcov, 460 15 Liberec · fyzická osoba zapsaná v živnostenském rejstříku · neplátce DPH</p>
+      <nav class="footer-legal-links" aria-label="Právní informace">
+        <a href="../obchod/podminky/">Obchodní podmínky</a>
+        <a href="../obchod/reklamacni-rad/">Reklamační řád</a>
+        <a href="../obchod/odstoupeni/">Odstoupení od smlouvy</a>
+        <a id="footerPrivacy" href="../privacy.html">Ochrana osobních údajů</a>
+        <a href="../privacy.html#cookies">Cookies</a>
+        <a href="../voucher.html">Podmínky voucheru</a>
+      </nav>
+      <span class="footer-copy" id="footerCopyright">© 2026 PEBMedia. Všechna práva vyhrazena.</span>
+    </div></div></footer>
+
+<script src="../js/tombola.js?v=1"></script>
+
+<script src="../js/zvuky.js?v=2"></script>
+</body></html>

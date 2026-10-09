@@ -117,4 +117,16 @@ async function updateJson(pathname, update, pokusy = 5) {
   throw new Error(`Záznam ${pathname} se nepodařilo atomicky upravit (souběh).`);
 }
 
-module.exports = { uploadFile, openFile, readFileBuffer, readJson, writeJson, updateJson, isSafeFilename, PREFIX };
+/** Uloží libovolný soubor (Buffer) do privátního úložiště pod danou cestou. */
+async function ulozitSoubor(pathname, buffer, contentType) {
+  return put(pathname, buffer, { access: ACCESS, contentType, addRandomSuffix: false, allowOverwrite: false });
+}
+
+/** Přečte libovolný soubor z privátního úložiště jako Buffer (null, když neexistuje). */
+async function nacistSoubor(pathname) {
+  const result = await get(pathname, { access: ACCESS, useCache: false });
+  if (!result || result.statusCode !== 200) return null;
+  return Buffer.from(await new Response(result.stream).arrayBuffer());
+}
+
+module.exports = { uploadFile, openFile, readFileBuffer, readJson, writeJson, updateJson, ulozitSoubor, nacistSoubor, isSafeFilename, PREFIX };

@@ -1571,3 +1571,86 @@ p { margin: 0; }
   .kalk-panel { animation: none; }
   .kalk-dlazdice-btn:hover { transform: none; }
 }
+
+/* ---------------------------------- Tomboly (/tombola/) --------------------- */
+.tombola-hero { padding: 72px 0 32px; }
+.tombola-eyebrow { margin: 0 0 12px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.tombola-hero h1 { margin: 0; max-width: 18ch; font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.025em; }
+.tombola-lead { max-width: 62ch; margin: 18px 0 0; font-size: 18px; line-height: 1.6; color: var(--ink-soft); }
+.tombola-kroky { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 36px 0 0; padding: 0; }
+.tombola-kroky li { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); font-size: 14px; color: var(--ink-soft); }
+.tombola-kroky span { display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 6px; border-radius: 50%; background: var(--accent-tint); color: var(--accent); font-weight: 700; }
+.tombola-kroky strong { font-size: 16px; color: var(--ink); }
+.tombola-formular-sekce { padding: 16px 0 96px; }
+.tombola-formular, .tombola-hotovo { max-width: 760px; padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-s); }
+.tombola-formular h2, .tombola-hotovo h2 { margin: 0 0 8px; font-family: var(--font-display); font-size: 26px; letter-spacing: -0.015em; }
+.tombola-formular fieldset { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; margin: 20px 0 0; padding: 0; border: 0; }
+.tombola-formular legend { grid-column: 1 / -1; margin-bottom: 10px; padding: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.tombola-pole { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tombola-pole-cela { grid-column: 1 / -1; }
+.tombola-pole label { font-size: 14px; font-weight: 600; }
+.tombola-pole input, .tombola-pole select, .tombola-pole textarea { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font: inherit; font-size: 15px; color: var(--ink); }
+.tombola-pole input:focus, .tombola-pole select:focus, .tombola-pole textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; background: var(--surface); }
+.tombola-pole input[type="file"] { padding: 9px; }
+.tombola-skryte { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.tombola-souhlas { display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
+.tombola-souhlas input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--accent); flex-shrink: 0; }
+.tombola-souhlas a, .tombola-pozn a { color: var(--accent); text-decoration: underline; }
+.tombola-chyba { margin: 16px 0 0; padding: 12px 14px; border-radius: 10px; background: #FBEAEA; color: #7A2323; font-size: 14px; }
+.tombola-formular .btn { margin-top: 20px; }
+.tombola-pozn { margin: 14px 0 0; font-size: 13px; color: var(--ink-faint); }
+.tombola-hotovo p { color: var(--ink-soft); }
+.tombola-hotovo .btn { margin-top: 12px; }
+.schools-tombola { display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; font-family: var(--font-display); font-weight: 600; color: var(--accent); border-bottom: 2px solid var(--accent-tint); }
+.schools-tombola:hover { border-color: var(--accent); }
+@media (max-width: 700px) {
+  .tombola-hero { padding-top: 48px; }
+  .tombola-kroky { grid-template-columns: 1fr; }
+  .tombola-formular, .tombola-hotovo { padding: 22px 18px; }
+  .tombola-formular fieldset { grid-template-columns: 1fr; }
+}
+.schools-tombola-wrap { margin: 0; text-align: center; }
+
+/* ---------------------------------- Rychlá pomoc (mikroslužby) -------------- */
+.qh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; }
+.qh-card { display: flex; flex-direction: column; gap: 10px; padding: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease); }
+.qh-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.qh-card-top { display: flex; flex-direction: column; gap: 6px; }
+.qh-card h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 19px; }
+.qh-time { align-self: flex-start; padding: 2px 9px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); font-size: 12px; font-weight: 600; }
+.qh-card p { flex: 1; margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+.qh-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--border); }
+.qh-price { font-family: var(--font-display); font-size: 22px; letter-spacing: -0.01em; }
+@media (prefers-reduced-motion: reduce) { .qh-card { transition: none; } .qh-card:hover { transform: none; } }
+
+/* ---------------------------------- Poptávka jako kvíz ---------------------- */
+.contact-form.is-quiz .form-grid, .contact-form.is-quiz > .btn, .contact-form.is-quiz > .form-note { display: none; }
+.contact-form.is-quiz.is-quiz-kontakt .form-grid { display: grid; }
+.contact-form.is-quiz.is-quiz-kontakt > .btn { display: inline-flex; }
+.contact-form.is-quiz.is-quiz-kontakt > .form-note { display: block; }
+.contact-form.is-quiz .form-field:has(#f-type), .contact-form.is-quiz .form-field:has(#f-budget) { display: none; }
+.quiz { margin-bottom: 20px; }
+.quiz-hlava { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.quiz-krok { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap; }
+.quiz-progres { flex: 1; max-width: 200px; height: 4px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.quiz-progres i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width 0.4s var(--ease); }
+.quiz-otazka { margin: 0 0 14px; font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.01em; outline: none; animation: kalk-vpred 0.3s var(--ease) both; }
+.quiz-moznosti { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; animation: kalk-vpred 0.3s var(--ease) both; }
+.quiz-moznost { padding: 14px 16px; text-align: left; font: inherit; font-size: 15px; font-weight: 500; color: var(--ink); cursor: pointer; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease); }
+.quiz-moznost:hover { border-color: var(--accent); }
+.quiz-moznost.is-active { border-color: var(--accent); background: var(--accent-tint); }
+.quiz-shrnuti { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
+.quiz-shrnuti span { padding: 3px 10px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); font-size: 13px; }
+.quiz-zpet { margin-top: 12px; padding: 6px 2px; border: 0; background: none; font: inherit; font-size: 14px; color: var(--ink-soft); cursor: pointer; }
+.quiz-zpet:hover { color: var(--ink); }
+@media (max-width: 600px) { .quiz-moznosti { grid-template-columns: 1fr; } .quiz-otazka { font-size: 19px; } }
+@media (prefers-reduced-motion: reduce) { .quiz-otazka, .quiz-moznosti { animation: none; } .quiz-progres i { transition: none; } }
+
+/* ---------------------------------- Případové studie v portfoliu ------------ */
+.portfolio-case { margin: 12px 0 4px; border-top: 1px solid var(--border); padding-top: 10px; }
+.portfolio-case summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--accent); }
+.portfolio-case dl { display: grid; gap: 4px; margin: 10px 0 0; font-size: 14px; line-height: 1.5; }
+.portfolio-case dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-top: 6px; }
+.portfolio-case dd { margin: 0; color: var(--ink-soft); }
+.portfolio-case blockquote { margin: 12px 0 0; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--accent-tint); border-radius: 0 10px 10px 0; font-size: 14px; }
+.portfolio-case cite { display: block; margin-top: 4px; font-style: normal; font-size: 12px; color: var(--ink-faint); }

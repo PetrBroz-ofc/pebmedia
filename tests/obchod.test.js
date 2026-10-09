@@ -117,6 +117,8 @@ const freeDl = require(path.join(REPO, 'api/free-download.js'));
 const webhook = require(path.join(REPO, 'api/stripe-webhook.js'));
 const auth = require(path.join(REPO, 'api/auth.js'));
 const chat = require(path.join(REPO, 'api/chat.js'));
+const tombola = require(path.join(REPO, 'api/tombola.js'));
+const tombolaSchvalit = require(path.join(REPO, 'api/tombola-schvalit.js'));
 const { createDownloadToken } = require(path.join(REPO, 'api/_lib/tokens.js'));
 
 let ok = 0;
@@ -346,6 +348,59 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual(last.statusCode, 429);
   });
   delete process.env.ANTHROPIC_API_KEY;
+
+  console.log('TOMBOLY');
+  const zitra = new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10);
+  const zadost = (extra = {}) => ({ akce: 'Maturitní ples 4.A', typAkce: 'Maturitní ples', datum: zitra, misto: 'Liberec', hoste: '300', jmeno: 'Jana Nováková', email: 'organizator@example.com', souhlas: true, ...extra });
+  const PNG = 'data:image/png;base64,' + Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), Buffer.alloc(40)]).toString('base64');
+  let odkazSchvaleni = null;
+  await t('bez souhlasu nebo s minulým datem → 400, nic se neuloží', async () => {
+    const pred = store.size;
+    assert.strictEqual((await call(tombola, { body: zadost({ souhlas: false }), headers: { 'x-forwarded-for': '7.7.7.1' } })).statusCode, 400);
+    assert.strictEqual((await call(tombola, { body: zadost({ datum: '2020-01-01' }), headers: { 'x-forwarded-for': '7.7.7.1' } })).statusCode, 400);
+    assert.ok(![...store.keys()].slice(pred).some((k) => k.startsWith('tombola/')));
+  });
+  await t('logo, které není obrázek → 400', async () => {
+    const r = await call(tombola, { body: zadost({ logo: 'data:image/png;base64,' + Buffer.from('<script>').toString('base64') }), headers: { 'x-forwarded-for': '7.7.7.2' } });
+    assert.strictEqual(r.statusCode, 400);
+  });
+  await t('platná žádost → uloží se, PEBMedia dostane odkaz na schválení, organizátor potvrzení', async () => {
+    const pred = emails.length;
+    const r = await call(tombola, { body: zadost({ logo: PNG }), headers: { 'x-forwarded-for': '7.7.7.3' } });
+    assert.strictEqual(r.statusCode, 200);
+    const nove = emails.slice(pred);
+    const proMe = nove.find((e) => e.to === 'info.pebmedia@gmail.com');
+    assert.ok(proMe && /Schválit/.test(proMe.text) && proMe.attachments.length === 1, 'e-mail ke schválení s logem');
+    assert.ok(nove.some((e) => e.to === 'organizator@example.com' && /Přijali jsme/.test(e.subject)));
+    odkazSchvaleni = proMe.text.match(/https:\/\/pebmedia\.cz\/api\/tombola-schvalit\?t=(\S+)/)[1];
+    assert.ok([...store.keys()].some((k) => /^tombola\/zadosti\/.+\.json$/.test(k)) && [...store.keys()].some((k) => /^tombola\/loga\/.+\.png$/.test(k)));
+  });
+  await t('otevření odkazu jen ukáže formulář a nic nevydá; cizí token → 403', async () => {
+    const pred = emails.length;
+    const r = await call(tombolaSchvalit, { method: 'GET', query: { t: decodeURIComponent(odkazSchvaleni) } });
+    assert.strictEqual(r.statusCode, 200);
+    assert.ok(/Schválit a poslat voucher/.test(r.body) && /Maturitní ples 4\.A/.test(r.body));
+    assert.strictEqual(emails.length, pred);
+    assert.strictEqual((await call(tombolaSchvalit, { method: 'GET', query: { t: 'podvrh.abc' } })).statusCode, 403);
+  });
+  await t('schválení → PDF voucher organizátorovi + zápis do správy; druhé schválení nic nevydá', async () => {
+    process.env.SUPABASE_URL = 'https://supabase.test'; process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-test-key';
+    const token = decodeURIComponent(odkazSchvaleni);
+    const pred = emails.length;
+    const r = await call(tombolaSchvalit, { body: { t: token, akce: 'schvalit', hodnota: '1000', platnost: '2027-12-31' } });
+    assert.strictEqual(r.statusCode, 200);
+    const voucherMail = emails.slice(pred).find((e) => e.to === 'organizator@example.com');
+    assert.ok(voucherMail && voucherMail.attachments[0].filename.endsWith('.pdf'));
+    assert.strictEqual(Buffer.from(voucherMail.attachments[0].content, 'base64').subarray(0, 5).toString(), '%PDF-');
+    const kod = voucherMail.text.match(/Kód: (PEB-[A-Z0-9-]+)/)[1];
+    const row = supabaseRows.get(kod);
+    assert.ok(row && row.amount === 1000 && row.school === 'Tombola: Maturitní ples 4.A' && row.valid_until === '2027-12-31');
+    const pred2 = emails.length;
+    const znovu = await call(tombolaSchvalit, { body: { t: token, akce: 'schvalit', hodnota: '5000', platnost: '2027-12-31' } });
+    assert.ok(/už byla vyřízená/.test(znovu.body));
+    assert.strictEqual(emails.length, pred2);
+    delete process.env.SUPABASE_URL; delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  });
 
   console.log(`\n${ok} testů prošlo` + (process.exitCode ? ' — NĚKTERÉ SELHALY' : ''));
   const verejne = [...store.keys()].filter((k) => k.startsWith('limity/')).length;

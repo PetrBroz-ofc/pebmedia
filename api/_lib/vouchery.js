@@ -17,7 +17,7 @@ function nastaveno() {
  * unikátní, opakovaný zápis téhož kódu se ignoruje (Stripe může událost poslat víckrát).
  * @returns {Promise<'zapsano'|'preskoceno'>}
  */
-async function zapsatVoucher({ kod, hodnotaKc, platnostDo }) {
+async function zapsatVoucher({ kod, hodnotaKc, platnostDo, zdroj = ZDROJ }) {
   if (!nastaveno()) return 'preskoceno';
   const url = `${process.env.SUPABASE_URL.replace(/\/$/, '')}/rest/v1/vouchers?on_conflict=voucher_id`;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -34,7 +34,7 @@ async function zapsatVoucher({ kod, hodnotaKc, platnostDo }) {
       amount: hodnotaKc,
       status: 'active',
       valid_until: platnostDo,
-      school: ZDROJ
+      school: String(zdroj).slice(0, 200)
     })
   });
   if (!res.ok) throw new Error(`Supabase ${res.status}: ${(await res.text()).slice(0, 200)}`);

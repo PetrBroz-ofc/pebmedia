@@ -192,6 +192,42 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       }
     ]
   },
+  "quickHelp": {
+    "heading": "Rychlá pomoc pro weby v nouzi",
+    "subheading": "Nepotřebujete hned nový web? Vyřešíme jeden konkrétní problém za pevnou cenu, bez dlouhého domlouvání.",
+    "note": "Ceny jsou konečné (nejsme plátci DPH). Termín počítáme od chvíle, kdy nám pošlete přístupy k webu.",
+    "cta": "Chci to",
+    "items": [
+      {
+        "id": "qh-audit",
+        "name": "Video audit webu a SEO",
+        "price": "1 490 Kč",
+        "time": "do 3 pracovních dnů",
+        "text": "Projdeme váš web a natočíme video, ve kterém ukážeme, co mu chybí a co opravit jako první. Opravy pak zvládnete sami, nebo s námi."
+      },
+      {
+        "id": "qh-zrychleni",
+        "name": "Zrychlení webu",
+        "price": "2 990 Kč",
+        "time": "do 48 hodin",
+        "text": "Změříme, co web brzdí, zmenšíme obrázky, nastavíme cache a uklidíme zbytečné pluginy. Pošleme měření před a po."
+      },
+      {
+        "id": "qh-uprava",
+        "name": "Drobná úprava webu",
+        "price": "790 Kč",
+        "time": "do 48 hodin",
+        "text": "Nový text, obrázek, otevírací doba nebo kontakty, případně oprava drobné chyby. Práce do jedné hodiny."
+      },
+      {
+        "id": "qh-mereni",
+        "name": "Měření návštěvnosti",
+        "price": "1 900 Kč",
+        "time": "do 48 hodin",
+        "text": "Nastavíme Google Analytics a Search Console, abyste věděli, kolik lidí na web chodí, odkud a co hledají."
+      }
+    ]
+  },
   "packages": {
     "heading": "Balíčky",
     "subheading": "Pět připravených balíčků pro nejčastější zadání. Přesný rozsah vždy doladíme podle vašeho projektu.",
@@ -797,6 +833,8 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
     "text": "Napište nám o svém projektu. Ozveme se co nejdříve.",
     "projectTypes": [
       "Web",
+      "E-shop",
+      "Logo / branding",
       "Redesign",
       "Kyberbezpečnost",
       "Automatizace",
