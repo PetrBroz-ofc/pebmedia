@@ -119,13 +119,6 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
       text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${order.hodnotaKc} Kč:\n\nKód: ${order.kodVoucheru}\nPlatnost do: ${formatDatum(order.platnostDo)}\n\nKód uplatníte při objednávce služby, stačí ho zmínit v poptávce na info.pebmedia@gmail.com. Hodnota voucheru se odečte od ceny služby; voucher lze uplatnit jednou, nevyčerpaný rozdíl se nevrací a voucher nelze směnit za peníze.\n\nOd koupě voucheru můžete odstoupit do 14 dnů od zaplacení, pokud ho do té doby neuplatníte. Stačí napsat na info.pebmedia@gmail.com. Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
     });
     console.log(`[Voucher] Kód odeslán zákazníkovi (objednávka ${orderId}).`);
-  } else if (product.typ === 'test') {
-    await sendEmail({
-      to: email,
-      subject: `Testovací platba ${order.zaplacenoKc} Kč proběhla — PEBMedia`,
-      text: `Testovací platba ${order.zaplacenoKc} Kč (${product.nazev}) proběhla v pořádku a web ji zpracoval.\n\nPlatbu můžete vrátit ve Stripe: Payments → platba → Refund.\n\nPEBMedia`
-    });
-    console.log(`[Test] Potvrzení testovací platby odesláno (objednávka ${orderId}).`);
   } else if (product.typ === 'sluzba') {
     await sendEmail({
       to: email,

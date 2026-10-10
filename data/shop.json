@@ -34,6 +34,26 @@
   },
   "products": [
     {
+      "id": "voucher-15-test",
+      "kategorie": "vouchery",
+      "typ": "voucher",
+      "nazev": "Voucher 15 Kč (test)",
+      "popis": "Testovací voucher v hodnotě 15 Kč pro ověření plateb. Platnost 12 měsíců od zakoupení.",
+      "cena_kc": 15,
+      "hodnota_kc": 15,
+      "zdarma": false,
+      "soubor": null,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/voucher-15-e1cac753.webp",
+          "alt": "Testovací dárkový voucher PEBMedia v hodnotě 15 Kč",
+          "width": 1652,
+          "height": 784
+        }
+      ]
+    },
+    {
       "id": "voucher-500",
       "kategorie": "vouchery",
       "typ": "voucher",
@@ -373,15 +393,6 @@
           "height": 800
         }
       ]
-    },
-    {
-      "id": "test-ostra-platba",
-      "typ": "test",
-      "kategorie": "test",
-      "neverejny": true,
-      "nazev": "Test ostrý",
-      "popis": "Testovací platba pro ověření ostrého režimu plateb. Nic se nedoručuje.",
-      "cena_kc": 15
     }
   ]
 }

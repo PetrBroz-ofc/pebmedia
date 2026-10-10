@@ -60,7 +60,7 @@ module.exports = async function handler(req, res) {
   // uplynutím lhůty pro odstoupení povinný (§ 1837 písm. l) OZ) — bez něj nákup
   // nejde dokončit. Voucher digitálním obsahem není: spotřebitel má 14 dní na
   // odstoupení (obchodní podmínky čl. 7.2), souhlas se proto nevyžaduje.
-  const jeDigitalniObsah = product.typ !== 'voucher' && product.typ !== 'test';
+  const jeDigitalniObsah = product.typ !== 'voucher';
   if (jeDigitalniObsah && !souhlasOdstoupeni) {
     res.status(400).json({ error: product.typ === 'sluzba' ? 'Pro objednání služby je potřeba zaškrtnout žádost o zahájení služby.' : 'Pro dokončení nákupu digitálního obsahu je potřeba zaškrtnout souhlas se zahájením plnění.' });
     return;

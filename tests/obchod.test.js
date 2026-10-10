@@ -225,17 +225,17 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual(kopie.length, 1, 'provozovatel dostane jednu kopii objednávky');
     assert.ok(kopie[0].subject.startsWith('Nová objednávka: Glass menu'));
   });
-  await t('testovací platba 15 Kč: checkout bez souhlasu, po zaplacení potvrzení a kopie', async () => {
-    const c = await call(checkout, { body: { productId: 'test-ostra-platba' }, headers: { 'x-forwarded-for': '4.4.4.8' } });
+  await t('testovací voucher 15 Kč: checkout bez souhlasu, po zaplacení kód voucheru a kopie', async () => {
+    const c = await call(checkout, { body: { productId: 'voucher-15-test' }, headers: { 'x-forwarded-for': '4.4.4.8' } });
     assert.strictEqual(c.statusCode, 200);
     assert.strictEqual(lastCheckoutBody.get('line_items[0][price_data][unit_amount]'), '1500');
     const pred = emails.length;
-    stripeSessions.cs_test_testplatba1 = { ...paid('cs_test_testplatba1', 'test-ostra-platba', 1500), customer_details: { email: 'tester@example.com' } };
+    stripeSessions.cs_test_testplatba1 = { ...paid('cs_test_testplatba1', 'voucher-15-test', 1500), customer_details: { email: 'tester@example.com' } };
     const raw = event('cs_test_testplatba1');
     assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
     const nove = emails.slice(pred);
-    assert.ok(nove.some((e) => e.to === 'tester@example.com' && /Testovací platba 15 Kč/.test(e.subject)));
-    assert.ok(nove.some((e) => e.to === 'info.pebmedia@gmail.com' && /Nová objednávka: Test ostrý/.test(e.subject)));
+    assert.ok(nove.some((e) => e.to === 'tester@example.com' && /Váš voucher PEBMedia — PEB-/.test(e.subject) && /15 Kč/.test(e.text)));
+    assert.ok(nove.some((e) => e.to === 'info.pebmedia@gmail.com' && e.subject.startsWith('Nová objednávka: Voucher 15 Kč (test)')));
   });
   await t('zaplacená služba → potvrzení zákazníkovi a kopie s webem a telefonem', async () => {
     const pred = emails.length;
