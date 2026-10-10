@@ -329,7 +329,7 @@
   }
 
   // Tlačítko „Spočítejte si to“ pod ceníkem: otočí se a ukáže kartu kalkulačky, křížek ji otočí zpátky.
-  function initKalkFlip() {
+  function initKalkFlip({ otevritZOdkazu = false } = {}) {
     const obal = document.getElementById('kalkulacka');
     if (!obal) return;
     const tlacitko = document.getElementById('kalkOtevrit');
@@ -396,6 +396,8 @@
       const odkaz = e.target.closest && e.target.closest('a[href$="#kalkulacka"]');
       if (odkaz) { e.preventDefault(); otevrit({ posunout: true }); }
     });
+    // V obchodě odkaz z jiné stránky (…/obchod/#kalkulacka) kartu rovnou otevře.
+    if (otevritZOdkazu) zOdkazu();
   }
 
   window.PEBKalkulacka = { init: initKalkulacka, initFlip: initKalkFlip };

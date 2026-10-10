@@ -168,11 +168,11 @@
           const ceny = shop.products.filter((p) => p.kategorie === key && !p.zdarma).map((p) => p.cena_kc);
           cena = pocet && ceny.length ? `od ${Math.min(...ceny).toLocaleString('cs-CZ')} Kč` : '';
           akce = pocet
-            ? `<a class="btn btn-secondary" href="${root}obchod/${esc(key)}/">Zobrazit (${pocet})</a>`
-            : '<span class="btn btn-secondary" aria-disabled="true">Připravujeme</span>';
+            ? `<a class="btn btn-accent" href="${root}obchod/${esc(key)}/">Zobrazit (${pocet})</a>`
+            : '<span class="btn btn-accent" aria-disabled="true">Připravujeme</span>';
         }
         return `
-          <div class="category-card${cat.sluzby ? ' is-sluzba' : ''}">
+          <div class="category-card${''}">
             <span class="category-ikona" aria-hidden="true">${IKONY_KATEGORII[key] || ''}</span>
             <h2>${esc(cat.nazev)}</h2>
             <p>${esc(cat.popis)}</p>
@@ -181,7 +181,7 @@
           </div>
         `;
       }).join('');
-      if (content && window.PEBKalkulacka) window.PEBKalkulacka.init(content);
+      if (content && window.PEBKalkulacka) { window.PEBKalkulacka.init(content); window.PEBKalkulacka.initFlip({ otevritZOdkazu: true }); }
     } catch (err) {
       showLoadError(el, err);
     }
@@ -213,7 +213,7 @@
             </article>`).join('')}
         </div>
         ${sl.note ? `<p class="sluzby-pozn">${esc(sl.note)}</p>` : ''}
-        <p class="sluzby-pozn">Ceny jsou orientační „od“, konečnou cenu upřesníme v nabídce. Celý projekt si můžete <a href="${pathToRoot()}obchod/#kalkulacka-obchod">spočítat v kalkulačce</a>.</p>
+        <p class="sluzby-pozn">Ceny jsou orientační „od“, konečnou cenu upřesníme v nabídce. Celý projekt si můžete <a href="${pathToRoot()}obchod/#kalkulacka">spočítat v kalkulačce</a>.</p>
         ${pevne.length ? `
           <section class="rychla-pomoc" id="rychla-pomoc">
             <h2>Rychlá pomoc s pevnou cenou</h2>
