@@ -373,6 +373,15 @@
           "height": 800
         }
       ]
+    },
+    {
+      "id": "test-ostra-platba",
+      "typ": "test",
+      "kategorie": "test",
+      "neverejny": true,
+      "nazev": "Test ostrý",
+      "popis": "Testovací platba pro ověření ostrého režimu plateb. Nic se nedoručuje.",
+      "cena_kc": 15
     }
   ]
 }

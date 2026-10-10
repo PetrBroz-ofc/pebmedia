@@ -43,7 +43,7 @@
     if (!res.ok) throw new Error('Katalog produktů se nepodařilo načíst.');
     const shop = await res.json();
     // Skryté produkty (např. bez dodaného obsahu) se na webu vůbec nezobrazí.
-    shop.products = (shop.products || []).filter((p) => !p.skryto);
+    shop.products = (shop.products || []).filter((p) => !p.skryto && !p.neverejny);
     return shop;
   }
 

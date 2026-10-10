@@ -44,7 +44,7 @@ function write(f, text) {
 
 const content = readJson('data/content.json');
 const shop = readJson('data/shop.json');
-const visibleProducts = shop.products.filter((p) => !p.skryto);
+const visibleProducts = shop.products.filter((p) => !p.skryto && !p.neverejny); // neveřejné (test) se nikde nevypisují
 
 // Každý zobrazený produkt musí mít aspoň jednu fotku nebo video, které opravdu existuje.
 const bezMedii = visibleProducts.filter((p) => !(p.media || []).some((m) => m && m.src && fs.existsSync(path.join(ROOT, m.src))));
