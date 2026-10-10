@@ -134,7 +134,6 @@ Stačí vyplnit formulář nebo napsat e-mail. Ozveme se a domluvíme si nezáva
 
 Dárkové vouchery na služby a hotové doplňky pro weby: https://pebmedia.cz/obchod/
 
-- [Voucher 15 Kč (test)](https://pebmedia.cz/obchod/vouchery/#voucher-15-test): 15 Kč — Testovací voucher v hodnotě 15 Kč pro ověření plateb. Platnost 12 měsíců od zakoupení.
 - [Voucher 500 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-500): 500 Kč — Dárkový poukaz v hodnotě 500 Kč na libovolnou službu PEBMedia. Platnost 12 měsíců od zakoupení.
 - [Voucher 1 000 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-1000): 1000 Kč — Dárkový poukaz v hodnotě 1 000 Kč na libovolnou službu PEBMedia. Platnost 12 měsíců od zakoupení.
 - [Voucher 1 500 Kč](https://pebmedia.cz/obchod/vouchery/#voucher-1500): 1500 Kč — Dárkový poukaz v hodnotě 1 500 Kč na libovolnou službu PEBMedia. Platnost 12 měsíců od zakoupení.
