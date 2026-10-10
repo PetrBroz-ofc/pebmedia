@@ -39,14 +39,15 @@ function isAllowedOrigin(req) {
   const origin = req.headers.origin;
   if (!origin) return true; // ne-prohlížečové klienty Origin neposílají; chrání je rate limit
   const allowed = new Set([getBaseUrl()].filter(Boolean));
-  // Web musí fungovat s www i bez něj (pebmedia.cz i www.pebmedia.cz).
+  // Adresy, které Vercel sám přiděluje: konkrétní nasazení a hlavní produkční doména.
+  if (process.env.VERCEL_URL) allowed.add(`https://${process.env.VERCEL_URL}`);
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) allowed.add(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
+  // Web musí fungovat s www i bez něj (pebmedia.cz i www.pebmedia.cz), ať je
+  // ve Vercelu hlavní kterákoli z nich.
   for (const base of [...allowed]) {
     const u = new URL(base);
     allowed.add(`${u.protocol}//${u.hostname.startsWith('www.') ? u.hostname.slice(4) : `www.${u.hostname}`}`);
   }
-  // Adresy, které Vercel sám přiděluje: konkrétní nasazení a produkční *.vercel.app.
-  if (process.env.VERCEL_URL) allowed.add(`https://${process.env.VERCEL_URL}`);
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) allowed.add(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
   return allowed.has(origin);
 }
 

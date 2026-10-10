@@ -167,6 +167,12 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual((await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://www.pebmedia.cz', 'x-forwarded-for': '4.4.4.6' } })).statusCode, 200);
     assert.strictEqual((await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://pebmedia.cz', 'x-forwarded-for': '4.4.4.6' } })).statusCode, 200);
     assert.strictEqual((await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://www.pebmedia.cz.zly.cz', 'x-forwarded-for': '4.4.4.6' } })).statusCode, 403);
+    // Hlavní doména ve Vercelu je www a PUBLIC_BASE_URL je jiná: pebmedia.cz musí projít taky.
+    const puvodni = process.env.PUBLIC_BASE_URL;
+    process.env.PUBLIC_BASE_URL = 'https://pebmedia.vercel.app'; process.env.VERCEL_PROJECT_PRODUCTION_URL = 'www.pebmedia.cz';
+    const r = await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://pebmedia.cz', 'x-forwarded-for': '4.4.4.7' } });
+    process.env.PUBLIC_BASE_URL = puvodni; delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
+    assert.strictEqual(r.statusCode, 200);
   });
   await t('služba s pevnou cenou: bez žádosti o zahájení → 400; se žádostí → Stripe se zeptá na web a telefon', async () => {
     assert.strictEqual((await call(checkout, { body: { productId: 'sluzba-zrychleni' }, headers: { 'x-forwarded-for': '4.4.4.5' } })).statusCode, 400);
