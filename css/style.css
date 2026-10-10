@@ -1663,3 +1663,4 @@ p { margin: 0; }
 .kalk-platba .btn { align-self: flex-start; }
 .kalk-platba-chyba { margin: 0; padding: 10px 12px; border-radius: 10px; background: #FBEAEA; color: #7A2323; font-size: 13px; }
 .kalk-dlazdice-btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.pebai-vyvoj { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); color: #fff; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: 3px; }
