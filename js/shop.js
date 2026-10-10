@@ -10,6 +10,7 @@
 //   data-shop-page="kategorie"      výpis kategorie (#productGrid), + data-kategorie
 //   data-shop-page="vouchery"       vouchery s nákupem (#voucherGrid)
 //   data-shop-page="ebooky"         e-booky (#ebookList)
+//   data-shop-page="sluzby"         služby z ceníku (#sluzbyList), + data-kategorie
 //   data-shop-page="detail"         detail produktu, + data-product-id
 
 (function () {
@@ -117,28 +118,130 @@
     }
   }
 
+  async function loadContent() {
+    const res = await fetch(pathToRoot() + 'data/content.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('Obsah webu se nepodařilo načíst.');
+    return res.json();
+  }
+
+  const IKONY_KATEGORII = {
+    weby: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+    loga: '<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.4-.7z"/></svg>',
+    bezpecnost: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+    vouchery: '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M12 7v12M3 11h18M12 7c-1.5-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3.5-2-5 1"/></svg>',
+    doplnky: '<svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>',
+    ebooky: '<svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h6"/></svg>'
+  };
+
+  /** Nejnižší cena „od“ v kategorii ceníku (content.json → services). */
+  function odCena(sluzby) {
+    const ceny = sluzby.items.filter((i) => !/měsíc/i.test(i.price)).map((i) => Number(String(i.price).replace(/\D/g, ''))).filter((n) => n > 0);
+    return ceny.length ? Math.min(...ceny) : 0;
+  }
+
+  /** Uloží text poptávky pro formulář na hlavní stránce a přejde na něj. */
+  function poptat(text, typ) {
+    try { sessionStorage.setItem('pebmedia-poptavka', JSON.stringify({ text, typ })); } catch (e) { /* soukromé okno */ }
+    window.location.href = `${pathToRoot()}index.html#kontakt`;
+  }
+
   async function initOverview(containerId) {
     const el = document.getElementById(containerId);
     if (!el) return;
     try {
-      const shop = await loadShop();
+      const [shop, content] = await Promise.all([loadShop(), loadContent().catch(() => null)]);
       const root = pathToRoot();
       const counts = {};
       shop.products.forEach((p) => { counts[p.kategorie] = (counts[p.kategorie] || 0) + 1; });
+      const kategorieSluzeb = content ? Object.fromEntries(content.services.categories.map((c) => [c.id, c])) : {};
       el.innerHTML = Object.keys(shop.categories).map((key) => {
         const cat = shop.categories[key];
-        const pocet = counts[key] || 0;
-        const akce = pocet
-          ? `<a class="btn btn-secondary" href="${root}obchod/${esc(key)}/">Zobrazit (${pocet})</a>`
-          : '<span class="btn btn-secondary" aria-disabled="true">Připravujeme</span>';
+        let cena = '';
+        let akce;
+        if (cat.sluzby) {
+          const sl = kategorieSluzeb[cat.sluzby];
+          const od = sl ? odCena(sl) : 0;
+          cena = od ? `od ${od.toLocaleString('cs-CZ')} Kč` : '';
+          akce = `<a class="btn btn-accent" href="${root}obchod/${esc(key)}/">Zobrazit služby</a>`;
+        } else {
+          const pocet = counts[key] || 0;
+          const ceny = shop.products.filter((p) => p.kategorie === key && !p.zdarma).map((p) => p.cena_kc);
+          cena = pocet && ceny.length ? `od ${Math.min(...ceny).toLocaleString('cs-CZ')} Kč` : '';
+          akce = pocet
+            ? `<a class="btn btn-secondary" href="${root}obchod/${esc(key)}/">Zobrazit (${pocet})</a>`
+            : '<span class="btn btn-secondary" aria-disabled="true">Připravujeme</span>';
+        }
         return `
-          <div class="category-card">
+          <div class="category-card${cat.sluzby ? ' is-sluzba' : ''}">
+            <span class="category-ikona" aria-hidden="true">${IKONY_KATEGORII[key] || ''}</span>
             <h2>${esc(cat.nazev)}</h2>
             <p>${esc(cat.popis)}</p>
+            ${cena ? `<div class="category-cena">${esc(cena)}</div>` : ''}
             ${akce}
           </div>
         `;
       }).join('');
+      if (content && window.PEBKalkulacka) window.PEBKalkulacka.init(content);
+    } catch (err) {
+      showLoadError(el, err);
+    }
+  }
+
+  /**
+   * Stránka služeb (weby / loga / bezpečnost): ceník z content.json s nezávaznou
+   * poptávkou a u webů i rychlá pomoc s pevnou cenou, kterou jde rovnou zaplatit.
+   */
+  async function initSluzby(kategorie, containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    try {
+      const [shop, content] = await Promise.all([loadShop(), loadContent()]);
+      const cat = shop.categories[kategorie];
+      const sl = cat && content.services.categories.find((c) => c.id === cat.sluzby);
+      if (!sl) { el.innerHTML = '<p>Služby se nepodařilo načíst.</p>'; return; }
+      const typ = { 'cat-web': 'Web', 'cat-branding': 'Logo / branding', 'cat-security': 'Kyberbezpečnost' }[sl.id] || '';
+      const polozky = sl.items.slice().sort((a, b) => a.order - b.order);
+      const pevne = shop.products.filter((p) => p.typ === 'sluzba' && p.kategorie === kategorie);
+
+      el.innerHTML = `
+        <div class="sluzby-grid">
+          ${polozky.map((i, n) => `
+            <article class="sluzba-card">
+              <h3>${esc(i.name)}</h3>
+              <div class="price">${esc(String(i.price).replace(/^Od /, 'od '))}</div>
+              <button type="button" class="btn btn-secondary" data-poptat="${n}">Nezávazně poptat</button>
+            </article>`).join('')}
+        </div>
+        ${sl.note ? `<p class="sluzby-pozn">${esc(sl.note)}</p>` : ''}
+        <p class="sluzby-pozn">Ceny jsou orientační „od“, konečnou cenu upřesníme v nabídce. Celý projekt si můžete <a href="${pathToRoot()}obchod/#kalkulacka-obchod">spočítat v kalkulačce</a>.</p>
+        ${pevne.length ? `
+          <section class="rychla-pomoc" id="rychla-pomoc">
+            <h2>Rychlá pomoc s pevnou cenou</h2>
+            <p>Jeden konkrétní problém, pevná cena a jasný termín. Objednáte a zaplatíte rovnou online.</p>
+            <div class="sluzby-grid">
+              ${pevne.map((p, n) => `
+                <article class="sluzba-card is-pevna" id="${esc(p.id)}">
+                  ${cardMedia(p, pathToRoot())}
+                  <h3>${esc(p.nazev)}</h3>
+                  <span class="sluzba-lhuta">${esc(p.lhuta || '')}</span>
+                  <p>${esc(p.popis)}</p>
+                  <div class="price">${esc(formatCena(p))}</div>
+                  <div class="consent-row">
+                    <input type="checkbox" id="consent-s${n}">
+                    <label for="consent-s${n}">Žádám o zahájení služby před uplynutím lhůty pro odstoupení. Beru na vědomí, že při odstoupení uhradím poměrnou část a po úplném provedení služby právo na odstoupení zaniká. Viz <a href="${pathToRoot()}obchod/podminky/#odstoupeni">obchodní podmínky</a>.</label>
+                  </div>
+                  <button class="btn btn-accent" id="buy-s${n}">Koupit</button>
+                  <div class="form-error" id="buyErr-s${n}" role="alert"></div>
+                </article>`).join('')}
+            </div>
+          </section>` : ''}
+      `;
+      el.querySelectorAll('[data-poptat]').forEach((b) => {
+        const i = polozky[Number(b.getAttribute('data-poptat'))];
+        b.addEventListener('click', () => poptat(`Dobrý den,\nmám zájem o: ${i.name} (${String(i.price).replace(/^Od /, 'od ')}).\nProsím o nezávaznou nabídku.`, typ));
+      });
+      pevne.forEach((p, n) => initBuyBox({ buttonId: `buy-s${n}`, errorId: `buyErr-s${n}`, checkboxId: `consent-s${n}`, productId: p.id }));
+      if (location.hash) setTimeout(() => { const cil = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (cil) cil.scrollIntoView({ block: 'start' }); }, 50);
     } catch (err) {
       showLoadError(el, err);
     }
@@ -364,6 +467,7 @@
     switch (body.getAttribute('data-shop-page')) {
       case 'prehled': initOverview('categoryGrid'); break;
       case 'kategorie': initCategoryListing(body.getAttribute('data-kategorie'), 'productGrid'); break;
+      case 'sluzby': initSluzby(body.getAttribute('data-kategorie'), 'sluzbyList'); break;
       case 'vouchery': initVouchers('voucherGrid'); break;
       case 'ebooky': initEbooks('ebookList'); break;
       case 'detail':
@@ -373,7 +477,7 @@
     }
   }
 
-  window.PEBShop = { mediaHtml, loadShop, initCategoryListing, initOverview, initVouchers, initEbooks, initBuyBox, initFreeForm, formatCena };
+  window.PEBShop = { mediaHtml, loadShop, initCategoryListing, initOverview, initSluzby, initVouchers, initEbooks, initBuyBox, initFreeForm, formatCena };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', autoInit);

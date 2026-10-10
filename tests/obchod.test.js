@@ -163,6 +163,26 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual((await call(checkout, { body: { productId: 'ebook-neplatte-zbytecne', souhlasOdstoupeni: true } })).statusCode, 404);
     assert.strictEqual((await call(checkout, { body: { productId: '__proto__', souhlasOdstoupeni: true } })).statusCode, 404);
   });
+  await t('služba s pevnou cenou: bez žádosti o zahájení → 400; se žádostí → Stripe se zeptá na web a telefon', async () => {
+    assert.strictEqual((await call(checkout, { body: { productId: 'sluzba-zrychleni' }, headers: { 'x-forwarded-for': '4.4.4.5' } })).statusCode, 400);
+    const r = await call(checkout, { body: { productId: 'sluzba-zrychleni', souhlasOdstoupeni: true, cena_kc: 1 }, headers: { 'x-forwarded-for': '4.4.4.5' } });
+    assert.strictEqual(r.statusCode, 200);
+    assert.strictEqual(lastCheckoutBody.get('line_items[0][price_data][unit_amount]'), '299000');
+    assert.strictEqual(lastCheckoutBody.get('custom_fields[0][key]'), 'web');
+    assert.strictEqual(lastCheckoutBody.get('phone_number_collection[enabled]'), 'true');
+    assert.ok(lastCheckoutBody.get('metadata[souhlasOdstoupeniAt]'));
+  });
+  await t('ceny služeb v obchodě = ceny rychlé pomoci na webu (content.json)', async () => {
+    const content = JSON.parse(fs.readFileSync(path.join(REPO, 'data/content.json'), 'utf8'));
+    const shopData = JSON.parse(fs.readFileSync(path.join(REPO, 'data/shop.json'), 'utf8'));
+    const sluzby = shopData.products.filter((p) => p.typ === 'sluzba');
+    assert.strictEqual(sluzby.length, content.quickHelp.items.length);
+    for (const p of sluzby) {
+      const q = content.quickHelp.items.find((x) => x.id === p.quickHelp);
+      assert.ok(q, `chybí ${p.quickHelp}`);
+      assert.strictEqual(p.cena_kc, Number(q.price.replace(/\D/g, '')), `${p.id}: obchod ${p.cena_kc} × web ${q.price}`);
+    }
+  });
   await t('GET → 405', async () => { assert.strictEqual((await call(checkout, { method: 'GET' })).statusCode, 405); });
   await t('rate limit: 21. pokus z jedné IP za 10 min → 429', async () => {
     let last;
@@ -193,6 +213,17 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     const kopie = emails.filter((e) => e.to === 'info.pebmedia@gmail.com');
     assert.strictEqual(kopie.length, 1, 'provozovatel dostane jednu kopii objednávky');
     assert.ok(kopie[0].subject.startsWith('Nová objednávka: Glass menu'));
+  });
+  await t('zaplacená služba → potvrzení zákazníkovi a kopie s webem a telefonem', async () => {
+    const pred = emails.length;
+    stripeSessions.cs_test_sluzba00001 = { ...paid('cs_test_sluzba00001', 'sluzba-uprava', 79000), custom_fields: [{ key: 'web', text: { value: 'https://moje-kavarna.cz' } }], customer_details: { email: 'klient-sluzby@example.com', phone: '+420777000111' } };
+    const raw = event('cs_test_sluzba00001');
+    assert.strictEqual((await call(webhook, { raw, headers: { 'stripe-signature': sign(raw) } })).statusCode, 200);
+    const nove = emails.slice(pred);
+    const potvrzeni = nove.find((e) => e.to === 'klient-sluzby@example.com');
+    assert.ok(potvrzeni && /Drobná úprava webu/.test(potvrzeni.subject) && /moje-kavarna\.cz/.test(potvrzeni.text) && !/api\/download/.test(potvrzeni.text));
+    const kopie = nove.find((e) => e.to === 'info.pebmedia@gmail.com');
+    assert.ok(kopie && /Web zákazníka: https:\/\/moje-kavarna\.cz/.test(kopie.text) && /\+420777000111/.test(kopie.text));
   });
   await t('podvržená událost s jinou částkou: platí to, co řekne Stripe API (nesouhlasí → nic)', async () => {
     stripeSessions.cs_test_levne000001 = paid('cs_test_levne000001', 'doplnek-glass-menu', 100);

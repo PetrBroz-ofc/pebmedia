@@ -408,7 +408,7 @@ async function renderPage(file, scriptFile, { onDocument } = {}) {
   w.scrollTo = () => {};
 
   if (scriptFile) {
-    w.eval(read(scriptFile));
+    for (const s of [].concat(scriptFile)) w.eval(read(s));
     await new Promise((r) => setTimeout(r, 100));
   }
 
@@ -558,7 +558,7 @@ async function main() {
   const zmeny = [];
   const zaznam = (f, changed) => { if (changed) zmeny.push(f); };
 
-  zaznam('index.html', await renderPage('index.html', 'js/main.js', {
+  zaznam('index.html', await renderPage('index.html', ['js/kalkulacka.js', 'js/main.js'], {
     onDocument: (d) => {
       // Náhledy při sdílení (Facebook, LinkedIn, X, WhatsApp…) = stejný titulek a popis jako pro Google.
       const meta = (sel, value) => { const m = d.querySelector(sel); if (m) m.setAttribute('content', value); };
@@ -576,7 +576,7 @@ async function main() {
   }));
 
   const obchod = [['Obchod', '/obchod/']];
-  zaznam('obchod/index.html', await renderPage('obchod/index.html', 'js/shop.js', {
+  zaznam('obchod/index.html', await renderPage('obchod/index.html', ['js/kalkulacka.js', 'js/shop.js'], {
     onDocument: (d) => setJsonLd(d, [breadcrumbLd([['PEBMedia', '/'], ...obchod]), itemListLd('Obchod PEBMedia', visibleProducts)])
   }));
   for (const [kat, nazev] of [['doplnky', 'Doplňky pro váš web'], ['vouchery', 'Vouchery']]) {
@@ -634,7 +634,13 @@ async function main() {
   }));
 
   // Ostatní stránky (právní texty, děkujeme/zrušeno…) — jen společné rozložení.
-  const hotovo = new Set(['index.html', 'obchod/index.html', 'obchod/doplnky/index.html', 'obchod/vouchery/index.html',
+  for (const k of ['weby', 'loga', 'bezpecnost']) {
+    zaznam(`obchod/${k}/index.html`, await renderPage(`obchod/${k}/index.html`, 'js/shop.js', {
+      onDocument: (d) => setJsonLd(d, [breadcrumbLd([['PEBMedia', '/'], ...obchod, [shop.categories[k].nazev, `/obchod/${k}/`]])])
+    }));
+  }
+
+  const hotovo = new Set(['index.html', 'obchod/index.html', 'obchod/weby/index.html', 'obchod/loga/index.html', 'obchod/bezpecnost/index.html', 'obchod/doplnky/index.html', 'obchod/vouchery/index.html',
     'obchod/ebooky/index.html', 'obchod/podminky/index.html',
     ...shop.products.filter((x) => x.kategorie === 'doplnky').map((p) => `${productUrl(p).slice(1)}index.html`)]);
   for (const f of htmlFiles().filter((x) => !hotovo.has(x))) {

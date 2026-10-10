@@ -48,7 +48,7 @@ async function stripeRequest(path, body, secretKey, method = 'POST') {
 /**
  * Vytvoří Stripe Checkout Session pro jednorázovou platbu v CZK.
  */
-async function createCheckoutSession({ productName, unitAmountKc, productId, successUrl, cancelUrl, metadata }, secretKey) {
+async function createCheckoutSession({ productName, unitAmountKc, productId, successUrl, cancelUrl, metadata, sluzba = false }, secretKey) {
   return stripeRequest('/checkout/sessions', {
     mode: 'payment',
     'line_items': [
@@ -66,7 +66,10 @@ async function createCheckoutSession({ productName, unitAmountKc, productId, suc
     locale: 'cs',
     // Nedokončená platba propadne po 30 minutách (minimum, které Stripe dovolí).
     expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
-    metadata: { productId, ...metadata }
+    metadata: { productId, ...metadata },
+    // U služeb (rychlá pomoc) potřebujeme vědět, o jaký web jde, a mít se jak ozvat.
+    custom_fields: sluzba ? [{ key: 'web', label: { type: 'custom', custom: 'Adresa vašeho webu' }, type: 'text' }] : undefined,
+    phone_number_collection: sluzba ? { enabled: true } : undefined
   }, secretKey);
 }
 

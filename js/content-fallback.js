@@ -359,6 +359,12 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
           "desc": "Logo a vizuální identita"
         },
         {
+          "path": "rychla",
+          "icon": "rychla",
+          "label": "Rychlá pomoc",
+          "desc": "Pevná cena, zaplatíte rovnou online"
+        },
+        {
           "path": "jine",
           "icon": "jine",
           "label": "Něco jiného",
@@ -440,6 +446,16 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
           "svc-tech-1",
           "svc-tech-2",
           "svc-tech-3"
+        ]
+      },
+      "rychla": {
+        "question": "S čím vám máme pomoct?",
+        "type": "single",
+        "items": [
+          "qh-audit",
+          "qh-zrychleni",
+          "qh-uprava",
+          "qh-mereni"
         ]
       }
     },

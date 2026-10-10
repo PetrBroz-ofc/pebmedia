@@ -1,6 +1,24 @@
 {
   "_pozn": "Datový model obchodu PEBMedia. Cena (cena_kc) a zdarma se při platbě VŽDY ověřují na serveru podle tohoto souboru, nikdy podle dat z prohlížeče. Pole soubor je název souboru v privátním úložišti Vercel Blob (nahrává se skriptem scripts/nahraj-produkty.js). Samotné produkty nikdy nepatří do repozitáře ani do veřejné složky webu. media = fotky/videa produktu ([{type:\"image\"|\"video\", src, alt, poster?}]); každý zobrazený produkt musí mít aspoň jedno (hlídá scripts/predgeneruj.js).",
   "categories": {
+    "weby": {
+      "nazev": "Weby a e-shopy",
+      "popis": "Jednostránkové i firemní weby, e-shopy a webové aplikace na míru. Ke každému webu SEO, analytika a další doplňky.",
+      "sluzby": "cat-web",
+      "ikona": "web"
+    },
+    "loga": {
+      "nazev": "Logo a vizuální identita",
+      "popis": "Logo, barvy, písma a podklady, díky kterým bude vaše firma vypadat důvěryhodně na webu i na sociálních sítích.",
+      "sluzby": "cat-branding",
+      "ikona": "brand"
+    },
+    "bezpecnost": {
+      "nazev": "Bezpečnost webu",
+      "popis": "Bezpečnostní audit, pokročilý test a průběžný monitoring. Najdeme slabiny dřív, než je najde někdo jiný.",
+      "sluzby": "cat-security",
+      "ikona": "jine"
+    },
     "vouchery": {
       "nazev": "Vouchery",
       "popis": "Dárkové poukazy na tvorbu webů, branding i další služby PEBMedia."
@@ -277,6 +295,82 @@
           "alt": "Obálka e-booku Nenech se nachytat od PEBMedia",
           "width": 900,
           "height": 1277
+        }
+      ]
+    },
+    {
+      "id": "sluzba-audit",
+      "typ": "sluzba",
+      "kategorie": "weby",
+      "quickHelp": "qh-audit",
+      "nazev": "Video audit webu a SEO",
+      "popis": "Projdeme váš web a natočíme video, ve kterém ukážeme, co mu chybí a co opravit jako první. Opravy pak zvládnete sami, nebo s námi.",
+      "lhuta": "do 3 pracovních dnů",
+      "cena_kc": 1490,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/sluzba-audit-066b7b9b.webp",
+          "alt": "Ilustrace služby Video audit webu a SEO od PEBMedia",
+          "width": 1200,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "id": "sluzba-zrychleni",
+      "typ": "sluzba",
+      "kategorie": "weby",
+      "quickHelp": "qh-zrychleni",
+      "nazev": "Zrychlení webu",
+      "popis": "Změříme, co web brzdí, zmenšíme obrázky, nastavíme cache a uklidíme zbytečné pluginy. Pošleme měření před a po.",
+      "lhuta": "do 48 hodin",
+      "cena_kc": 2990,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/sluzba-zrychleni-5dc8320c.webp",
+          "alt": "Ilustrace služby Zrychlení webu od PEBMedia",
+          "width": 1200,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "id": "sluzba-uprava",
+      "typ": "sluzba",
+      "kategorie": "weby",
+      "quickHelp": "qh-uprava",
+      "nazev": "Drobná úprava webu",
+      "popis": "Nový text, obrázek, otevírací doba nebo kontakty, případně oprava drobné chyby. Práce do jedné hodiny.",
+      "lhuta": "do 48 hodin",
+      "cena_kc": 790,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/sluzba-uprava-19e8a706.webp",
+          "alt": "Ilustrace služby Drobná úprava webu od PEBMedia",
+          "width": 1200,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "id": "sluzba-mereni",
+      "typ": "sluzba",
+      "kategorie": "weby",
+      "quickHelp": "qh-mereni",
+      "nazev": "Měření návštěvnosti",
+      "popis": "Nastavíme Google Analytics a Search Console, abyste věděli, kolik lidí na web chodí, odkud a co hledají.",
+      "lhuta": "do 48 hodin",
+      "cena_kc": 1900,
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/obchod/sluzba-mereni-e828db6a.webp",
+          "alt": "Ilustrace služby Měření návštěvnosti od PEBMedia",
+          "width": 1200,
+          "height": 800
         }
       ]
     }

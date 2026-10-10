@@ -42,6 +42,13 @@ function platnostVoucheru(datumNakupu) {
   return konec.toISOString().slice(0, 10);
 }
 
+/** Hodnota vlastního pole z Stripe Checkout (např. adresa webu u služeb). */
+function vlastniPole(session, key) {
+  const pole = (session.custom_fields || []).find((f) => f && f.key === key);
+  const hodnota = pole && pole.text && pole.text.value;
+  return typeof hodnota === 'string' ? hodnota.slice(0, 300) : null;
+}
+
 function formatDatum(iso) {
   const [r, m, d] = String(iso).split('-').map(Number);
   return `${d}. ${m}. ${r}`;
@@ -94,6 +101,8 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
     platnostDo: product.typ === 'voucher' ? platnostVoucheru(new Date()) : undefined,
     soubor: product.typ === 'voucher' ? undefined : product.soubor,
     souhlasOdstoupeniAt: (session.metadata && session.metadata.souhlasOdstoupeniAt) || null,
+    webZakaznika: product.typ === 'sluzba' ? vlastniPole(session, 'web') : undefined,
+    telefon: product.typ === 'sluzba' ? ((session.customer_details && session.customer_details.phone) || null) : undefined,
     vytvorenoAt: new Date().toISOString(),
     stav: 'zaplaceno'
   });
@@ -110,6 +119,13 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
       text: `Děkujeme za nákup!\n\nVáš dárkový poukaz na služby PEBMedia v hodnotě ${order.hodnotaKc} Kč:\n\nKód: ${order.kodVoucheru}\nPlatnost do: ${formatDatum(order.platnostDo)}\n\nKód uplatníte při objednávce služby, stačí ho zmínit v poptávce na info.pebmedia@gmail.com. Hodnota voucheru se odečte od ceny služby; voucher lze uplatnit jednou, nevyčerpaný rozdíl se nevrací a voucher nelze směnit za peníze.\n\nOd koupě voucheru můžete odstoupit do 14 dnů od zaplacení, pokud ho do té doby neuplatníte. Stačí napsat na info.pebmedia@gmail.com. Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia`
     });
     console.log(`[Voucher] Kód odeslán zákazníkovi (objednávka ${orderId}).`);
+  } else if (product.typ === 'sluzba') {
+    await sendEmail({
+      to: email,
+      subject: `Objednávka služby: ${product.nazev} — PEBMedia`,
+      text: `Děkujeme za objednávku!\n\nObjednali jste službu „${product.nazev}“ za ${order.zaplacenoKc} Kč${order.webZakaznika ? ` pro web ${order.webZakaznika}` : ''}.\n\nNejpozději následující pracovní den se vám ozveme a domluvíme přístupy k webu. Lhůta „${product.lhuta || 'uvedená u služby'}“ běží od jejich předání.\n\nPřed zaplacením jste požádali o zahájení služby před uplynutím 14denní lhůty pro odstoupení. Když od smlouvy odstoupíte, uhradíte poměrnou část za to, co už jsme udělali; po úplném provedení služby právo na odstoupení zaniká. Obchodní podmínky: ${baseUrl}/obchod/podminky/\n\nPEBMedia\ninfo.pebmedia@gmail.com`
+    });
+    console.log(`[Služba] Potvrzení odesláno zákazníkovi (objednávka ${orderId}).`);
   } else {
     const token = createDownloadToken({
       orderId,
@@ -165,6 +181,7 @@ async function zpracovatPlatbu(session, { stripeKey, downloadSecret, baseUrl }) 
       `Zaplaceno: ${order.zaplacenoKc} Kč`,
       ...(order.kodVoucheru ? [`Kód voucheru: ${order.kodVoucheru}`, `Platnost do: ${formatDatum(order.platnostDo)}`] : []),
       `Zákazník: ${email}`,
+      ...(product.typ === 'sluzba' ? [`Web zákazníka: ${order.webZakaznika || 'neuveden'}`, `Telefon: ${order.telefon || 'neuveden'}`, 'Ozvi se zákazníkovi nejpozději další pracovní den kvůli přístupům.'] : []),
       `Datum: ${new Date().toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' })}`,
       `Platba ve Stripe: ${orderId}`,
       ...(sprava ? [`Zapsáno do správy voucherů: ${sprava}`] : [])

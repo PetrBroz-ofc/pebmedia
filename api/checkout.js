@@ -62,7 +62,7 @@ module.exports = async function handler(req, res) {
   // odstoupení (obchodní podmínky čl. 7.2), souhlas se proto nevyžaduje.
   const jeDigitalniObsah = product.typ !== 'voucher';
   if (jeDigitalniObsah && !souhlasOdstoupeni) {
-    res.status(400).json({ error: 'Pro dokončení nákupu digitálního obsahu je potřeba zaškrtnout souhlas se zahájením plnění.' });
+    res.status(400).json({ error: product.typ === 'sluzba' ? 'Pro objednání služby je potřeba zaškrtnout žádost o zahájení služby.' : 'Pro dokončení nákupu digitálního obsahu je potřeba zaškrtnout souhlas se zahájením plnění.' });
     return;
   }
 
@@ -73,7 +73,8 @@ module.exports = async function handler(req, res) {
       productId: product.id,
       successUrl: `${baseUrl}/obchod/dekuji/?session_id={CHECKOUT_SESSION_ID}`,
       cancelUrl: `${baseUrl}/obchod/zruseno/`,
-      metadata: jeDigitalniObsah ? { souhlasOdstoupeniAt: String(Date.now()) } : {}
+      metadata: jeDigitalniObsah ? { souhlasOdstoupeniAt: String(Date.now()) } : {},
+      sluzba: product.typ === 'sluzba'
     }, STRIPE_SECRET_KEY);
 
     res.status(200).json({ url: session.url });
