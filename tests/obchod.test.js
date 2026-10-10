@@ -163,6 +163,11 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual((await call(checkout, { body: { productId: 'ebook-neplatte-zbytecne', souhlasOdstoupeni: true } })).statusCode, 404);
     assert.strictEqual((await call(checkout, { body: { productId: '__proto__', souhlasOdstoupeni: true } })).statusCode, 404);
   });
+  await t('web funguje s www i bez něj; cizí web → 403', async () => {
+    assert.strictEqual((await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://www.pebmedia.cz', 'x-forwarded-for': '4.4.4.6' } })).statusCode, 200);
+    assert.strictEqual((await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://pebmedia.cz', 'x-forwarded-for': '4.4.4.6' } })).statusCode, 200);
+    assert.strictEqual((await call(checkout, { body: { productId: 'voucher-500' }, headers: { origin: 'https://www.pebmedia.cz.zly.cz', 'x-forwarded-for': '4.4.4.6' } })).statusCode, 403);
+  });
   await t('služba s pevnou cenou: bez žádosti o zahájení → 400; se žádostí → Stripe se zeptá na web a telefon', async () => {
     assert.strictEqual((await call(checkout, { body: { productId: 'sluzba-zrychleni' }, headers: { 'x-forwarded-for': '4.4.4.5' } })).statusCode, 400);
     const r = await call(checkout, { body: { productId: 'sluzba-zrychleni', souhlasOdstoupeni: true, cena_kc: 1 }, headers: { 'x-forwarded-for': '4.4.4.5' } });
