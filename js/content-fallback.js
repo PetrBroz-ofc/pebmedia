@@ -72,37 +72,43 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
             "id": "svc-web-1",
             "name": "Jednostránkový web",
             "price": "Od 12 800 Kč",
-            "order": 1
+            "order": 1,
+            "popis": "Jedna přehledná stránka se vším podstatným: kdo jste, co nabízíte a jak vás kontaktovat. Hodí se pro živnostníky a začínající firmy."
           },
           {
             "id": "svc-web-2",
             "name": "Firemní web",
             "price": "Od 14 900 Kč",
-            "order": 2
+            "order": 2,
+            "popis": "Web o několika stránkách (služby, reference, o nás, kontakt) s designem na míru vaší firmě."
           },
           {
             "id": "svc-web-3",
             "name": "Rozšířený web",
             "price": "Od 22 900 Kč",
-            "order": 3
+            "order": 3,
+            "popis": "Větší web s více stránkami, správou obsahu a napojením na další služby."
           },
           {
             "id": "svc-web-4",
             "name": "E-shop",
             "price": "Od 29 900 Kč",
-            "order": 4
+            "order": 4,
+            "popis": "Online obchod s katalogem produktů, košíkem, objednávkami a platbou online."
           },
           {
             "id": "svc-web-5",
             "name": "E-shop na míru",
             "price": "Od 44 900 Kč",
-            "order": 5
+            "order": 5,
+            "popis": "E-shop s funkcemi přesně podle vašeho prodeje, třeba s napojením na sklad, dopravce nebo účetnictví."
           },
           {
             "id": "svc-web-6",
             "name": "Webová aplikace",
             "price": "Od 19 900 Kč",
-            "order": 6
+            "order": 6,
+            "popis": "Rezervace, klientská zóna, kalkulačka nebo interní systém. Aplikace, která ušetří práci vám i zákazníkům."
           }
         ]
       },
@@ -118,19 +124,22 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
             "id": "svc-brand-1",
             "name": "Logo",
             "price": "Od 2 900 Kč",
-            "order": 1
+            "order": 1,
+            "popis": "Návrh loga ve více variantách a finální soubory pro web i tisk."
           },
           {
             "id": "svc-brand-2",
             "name": "Logo + vizuální identita",
             "price": "Od 6 900 Kč",
-            "order": 2
+            "order": 2,
+            "popis": "Logo, barvy a písma, které spolu ladí, a pravidla, jak je používat."
           },
           {
             "id": "svc-brand-3",
             "name": "Brand Pack",
             "price": "Od 9 900 Kč",
-            "order": 3
+            "order": 3,
+            "popis": "Logo, vizuální identita a další podklady značky podle toho, co budete potřebovat. Přesný obsah domluvíme."
           }
         ]
       },
@@ -146,19 +155,22 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
             "id": "svc-sec-1",
             "name": "Bezpečnostní audit webu",
             "price": "Od 2 900 Kč",
-            "order": 1
+            "order": 1,
+            "popis": "Prověříme technický stav a zabezpečení webu. Dostanete přehled rizik a doporučení, co opravit."
           },
           {
             "id": "svc-sec-2",
             "name": "Pokročilý bezpečnostní test",
             "price": "Od 6 900 Kč",
-            "order": 2
+            "order": 2,
+            "popis": "Hlubší test zabezpečení webu nebo aplikace. Provádíme ho jen s vaším výslovným souhlasem."
           },
           {
             "id": "svc-sec-3",
             "name": "Security monitoring",
             "price": "Od 490 Kč / měsíc",
-            "order": 3
+            "order": 3,
+            "popis": "Průběžné hlídání webu, abyste se o problému dozvěděli dřív než vaši návštěvníci."
           }
         ]
       },

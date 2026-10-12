@@ -204,16 +204,24 @@
       const pevne = shop.products.filter((p) => p.typ === 'sluzba' && p.kategorie === kategorie);
 
       el.innerHTML = `
-        <div class="sluzby-grid">
+        <div class="sluzby-grid sluzby-cenik">
           ${polozky.map((i, n) => `
-            <article class="sluzba-card">
+            <article class="sluzba-card sluzba-cenik">
+              <span class="category-ikona" aria-hidden="true">${IKONY_KATEGORII[kategorie] || ''}</span>
               <h3>${esc(i.name)}</h3>
-              <div class="price">${esc(String(i.price).replace(/^Od /, 'od '))}</div>
-              <button type="button" class="btn btn-secondary" data-poptat="${n}">Nezávazně poptat</button>
+              ${i.popis ? `<p>${esc(i.popis)}</p>` : ''}
+              <div class="sluzba-cena"><span>${/měsíc/i.test(i.price) ? 'od' : 'cena od'}</span><strong>${esc(String(i.price).replace(/^Od /, ''))}</strong></div>
+              <button type="button" class="btn btn-accent" data-poptat="${n}">Nezávazně poptat</button>
             </article>`).join('')}
         </div>
         ${sl.note ? `<p class="sluzby-pozn">${esc(sl.note)}</p>` : ''}
-        <p class="sluzby-pozn">Ceny jsou orientační „od“, konečnou cenu upřesníme v nabídce. Celý projekt si můžete <a href="${pathToRoot()}obchod/#kalkulacka">spočítat v kalkulačce</a>.</p>
+        <div class="sluzby-cta">
+          <div>
+            <strong>Nevíte, co přesně potřebujete?</strong>
+            <span>Spočítejte si cenu v kalkulačce. Konečnou cenu vždy upřesníme v nezávazné nabídce.</span>
+          </div>
+          <a class="btn btn-secondary" href="${pathToRoot()}obchod/#kalkulacka">Spočítat v kalkulačce</a>
+        </div>
         ${pevne.length ? `
           <section class="rychla-pomoc" id="rychla-pomoc">
             <h2>Rychlá pomoc s pevnou cenou</h2>
@@ -315,9 +323,19 @@
               ${cardMedia(p, pathToRoot())}
               <h2>${esc(p.nazev)}</h2>
               <p>${esc(p.popis)}</p>
+              ${(p.nahledy || []).length ? `
+                <p class="ebook-nahledy-titulek">Nahlédněte do knihy</p>
+                <div class="ebook-nahledy">
+                  ${p.nahledy.map((n) => `
+                    <a class="ebook-nahled" href="${esc(pathToRoot() + n.src)}" target="_blank" rel="noopener">
+                      <img src="${esc(pathToRoot() + n.src)}" alt="${esc(n.alt)}" width="${esc(n.width)}" height="${esc(n.height)}" loading="lazy" decoding="async">
+                      <span>${esc(n.popisek)}</span>
+                    </a>`).join('')}
+                </div>` : ''}
             </div>
             <div>
               <div class="price">${esc(formatCena(p))}</div>
+              ${p.klientiZdarma ? `<p class="ebook-klienti"><strong>Pro klienty PEBMedia zdarma.</strong> Děláme vám web, e-shop nebo logo? <a href="mailto:${KONTAKT_EMAIL}?subject=${encodeURIComponent('E-book ' + p.nazev + ' pro klienty')}">Napište nám</a> a e-book vám pošleme.</p>` : ''}
               ${consentHtml(i, 'okamžité zpřístupnění ke stažení')}
             </div>
           </div>

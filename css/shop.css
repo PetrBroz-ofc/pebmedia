@@ -301,3 +301,30 @@
 @media (max-width: 600px) { .category-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .category-card { transition: none; } .category-card:hover { transform: none; } }
 .category-card .btn[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
+
+/* ---------------------------------- E-book: náhledy stránek, klienti zdarma - */
+.ebook-nahledy-titulek { margin: 18px 0 8px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.ebook-nahledy { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.ebook-nahled { display: flex; flex-direction: column; gap: 6px; color: var(--ink-soft); font-size: 12px; line-height: 1.35; text-decoration: none; }
+.ebook-nahled img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: var(--shadow-s); background: #fff; transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease); }
+.ebook-nahled:hover img { transform: translateY(-3px); box-shadow: var(--shadow-m); }
+.ebook-klienti { margin: 12px 0; padding: 12px 14px; border-radius: 12px; background: var(--accent-tint); color: var(--accent-ink); font-size: 14px; line-height: 1.5; }
+.ebook-klienti a { color: var(--accent); text-decoration: underline; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .ebook-nahled img { transition: none; } .ebook-nahled:hover img { transform: none; } }
+
+/* ---------------------------------- Stránky služeb: karty ceníku ------------ */
+.sluzby-cenik { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 20px; }
+.sluzba-cenik { gap: 12px; padding: 26px; border-radius: 18px; background: linear-gradient(180deg, var(--accent-tint) 0%, var(--surface) 45%); transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease); }
+.sluzba-cenik:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-m); }
+.sluzba-cenik h3 { margin-top: 4px; font-size: 21px; letter-spacing: -0.01em; }
+.sluzba-cenik p { font-size: 14.5px; }
+.sluzba-cena { display: flex; flex-direction: column; gap: 2px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
+.sluzba-cena span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.sluzba-cena strong { font-family: var(--font-display); font-size: 26px; letter-spacing: -0.02em; color: var(--ink); }
+.sluzba-cenik .btn { align-self: stretch; justify-content: center; margin-top: 4px; }
+.sluzby-cta { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 28px; padding: 22px 26px; border-radius: 18px; background: var(--ink); color: #fff; }
+.sluzby-cta div { display: flex; flex-direction: column; gap: 4px; max-width: 60ch; }
+.sluzby-cta strong { font-family: var(--font-display); font-size: 19px; }
+.sluzby-cta span { font-size: 14px; color: rgba(255, 255, 255, 0.7); }
+.sluzby-cta .btn { background: #fff; color: var(--ink); border-color: #fff; }
+@media (prefers-reduced-motion: reduce) { .sluzba-cenik { transition: none; } .sluzba-cenik:hover { transform: none; } }

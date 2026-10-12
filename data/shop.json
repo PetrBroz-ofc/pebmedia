@@ -317,7 +317,31 @@
           "width": 900,
           "height": 1277
         }
-      ]
+      ],
+      "nahledy": [
+        {
+          "src": "assets/obchod/ebook-nahled-str4-94665700.webp",
+          "alt": "Ukázka z e-booku Nenech se nachytat: obsah knihy",
+          "popisek": "Obsah",
+          "width": 600,
+          "height": 852
+        },
+        {
+          "src": "assets/obchod/ebook-nahled-str28-469a46d5.webp",
+          "alt": "Ukázka z e-booku Nenech se nachytat: modelový příklad falešného bankéře",
+          "popisek": "Modelový příklad: falešný bankéř",
+          "width": 600,
+          "height": 852
+        },
+        {
+          "src": "assets/obchod/ebook-nahled-str117-87e5e5d9.webp",
+          "alt": "Ukázka z e-booku Nenech se nachytat: karta s nouzovým postupem",
+          "popisek": "Karta: nouzový postup",
+          "width": 600,
+          "height": 852
+        }
+      ],
+      "klientiZdarma": true
     },
     {
       "id": "sluzba-audit",

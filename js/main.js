@@ -125,7 +125,7 @@
     const sendBtn = form ? form.querySelector('button[type="submit"]') : null;
     const resetBtn = document.getElementById('helpWidgetReset');
     const closeBtn = document.getElementById('helpWidgetClose');
-    const UVITANI = 'Dobrý den, jsem PEBAi, asistent PEBMedia. Rád vám poradím s webem, e-shopem, logem nebo s výběrem v našem obchodě. Napište mi, co potřebujete, a společně najdeme nejlepší řešení.';
+    const UVITANI = 'Dobrý den, jsem PEBAi, asistent PEBMedia. Rád vám poradím s webem, e-shopem, logem nebo s výběrem v našem obchodě. Napište mi, co potřebujete, a společně najdeme nejlepší řešení. Jsem zatím ve vývoji, tak kdybych něco nevěděl, rád vás spojím s kolegy.';
     const ULOZISTE = 'pebai-konverzace';
     let historie = []; // konverzace pro PEBAi (posílá se jen při dotazu)
 
@@ -173,7 +173,8 @@
       toggle.setAttribute('aria-expanded', String(stav));
       if (stav) {
         messages.scrollTop = messages.scrollHeight;
-        if (input && window.matchMedia('(pointer: fine)').matches) setTimeout(() => input.focus(), 120);
+        // Fokus hned v rámci kliknutí: jen tak telefon otevře klávesnici (se zpožděním ji nepovolí).
+        if (input) input.focus({ preventScroll: true });
       }
     }
 
