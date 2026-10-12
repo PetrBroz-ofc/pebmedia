@@ -586,13 +586,15 @@
     const nav = document.querySelector('.main-nav');
     const indicator = nav && nav.querySelector('.nav-indicator');
     if (!nav || !indicator) return;
-    const links = Array.from(nav.querySelectorAll('a'));
+    // Jen odkazy přímo v liště (ne položky rozbalovací nabídky „O nás“).
+    const links = Array.from(nav.querySelectorAll(':scope > a, :scope > .nav-drop > a'));
     let activeLink = null;
 
     const moveTo = (link) => {
       if (!link) { indicator.classList.remove('is-visible'); return; }
+      const obal = link.parentElement === nav ? link : link.parentElement;
       indicator.style.width = `${link.offsetWidth}px`;
-      indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+      indicator.style.transform = `translateX(${obal.offsetLeft + (obal === link ? 0 : link.offsetLeft)}px)`;
       indicator.classList.add('is-visible');
     };
 
@@ -601,17 +603,19 @@
       link.addEventListener('focus', () => moveTo(link));
     });
     nav.addEventListener('mouseleave', () => moveTo(activeLink));
+    // Po výběru v nabídce „O nás“ ji zavřít (jinak by zůstala otevřená, dokud má položka fokus).
+    nav.querySelectorAll('.nav-drop-menu a').forEach((a) => a.addEventListener('click', () => a.blur()));
     nav.addEventListener('focusout', (e) => { if (!nav.contains(e.relatedTarget)) moveTo(activeLink); });
     window.addEventListener('resize', () => moveTo(activeLink), { passive: true });
 
     if (!('IntersectionObserver' in window)) return;
+    // Odkaz může hlídat víc sekcí (data-sekce="o-nas skoly": „O nás“ svítí i u škol).
     const sections = links
-      .map((link) => {
-        const id = (link.getAttribute('href') || '').startsWith('#') ? link.getAttribute('href').slice(1) : null;
-        const section = id && document.getElementById(id);
-        return section ? { link, section } : null;
-      })
-      .filter(Boolean);
+      .flatMap((link) => {
+        const href = link.getAttribute('href') || '';
+        const ids = link.dataset.sekce ? link.dataset.sekce.split(/\s+/) : href.startsWith('#') ? [href.slice(1)] : [];
+        return ids.map((id) => document.getElementById(id)).filter(Boolean).map((section) => ({ link, section }));
+      });
 
     const visible = new Set();
     const io = new IntersectionObserver((entries) => {

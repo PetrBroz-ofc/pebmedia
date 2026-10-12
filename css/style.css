@@ -1754,3 +1754,21 @@ p { margin: 0; }
   .pebai-odstep { animation: none; opacity: 0.85; }
 }
 .help-widget-toggle .pebai-praskliny svg { clip-path: inset(0 round 28px); }
+
+/* ---------------------------------- Menu: rozbalovací „O nás“ -------------- */
+.nav-drop { position: relative; z-index: 1; }
+.nav-drop-sipka { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.25s var(--ease); }
+.nav-drop:hover .nav-drop-sipka, .nav-drop:focus-within .nav-drop-sipka { transform: rotate(180deg); }
+.nav-drop-menu {
+  position: absolute; top: calc(100% + 12px); left: 50%; min-width: 220px;
+  display: flex; flex-direction: column; gap: 2px; padding: 6px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-m);
+  opacity: 0; visibility: hidden; transform: translate(-50%, 6px);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
+}
+.nav-drop-menu::before { content: ''; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
+.nav-drop:hover .nav-drop-menu, .nav-drop:focus-within .nav-drop-menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.main-nav .nav-drop-menu a { justify-content: flex-start; padding: 10px 14px; border-radius: 10px; }
+.main-nav .nav-drop-menu a:hover, .main-nav .nav-drop-menu a:focus-visible { background: var(--accent-tint); color: var(--ink); }
+.mobile-nav .mobile-nav-sub { padding: 10px 0 10px 18px; font-size: 18px; font-weight: 500; color: var(--ink-soft); }
+@media (prefers-reduced-motion: reduce) { .nav-drop-menu, .nav-drop-sipka { transition: none; } }

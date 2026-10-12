@@ -30,7 +30,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/fonts.css?v=1">
-<link rel="stylesheet" href="css/style.css?v=46">
+<link rel="stylesheet" href="css/style.css?v=47">
 <link rel="stylesheet" href="css/legal.css?v=1">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
@@ -512,7 +512,14 @@
       <a href="#balicky">Balíčky</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#reference">Reference</a>
-      <a href="#o-nas">O nás</a>
+      <div class="nav-drop">
+        <a href="#o-nas" class="nav-drop-trigger" data-sekce="o-nas skoly" aria-haspopup="true">O nás <svg class="nav-drop-sipka" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></a>
+        <div class="nav-drop-menu" aria-label="O nás">
+          <a href="#o-nas">Kdo jsme</a>
+          <a href="#skoly">Podporujeme školy</a>
+          <a href="tombola/">Vouchery do tomboly</a>
+        </div>
+      </div>
       <a href="obchod/" class="nav-shop">Obchod <span class="nav-new">Nové</span></a>
     </nav>
     <div class="header-actions"><button type="button" class="sound-toggle" id="soundToggle" aria-pressed="false" aria-label="Zapnout zvuky" title="Zvuky jsou vypnuté"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"></path><path class="vlny" d="M15.5 9.2a4 4 0 0 1 0 5.6M18.2 6.6a7.6 7.6 0 0 1 0 10.8"></path><path class="preskrt" d="M15.5 9.5l5 5M20.5 9.5l-5 5"></path></svg></button>
@@ -532,6 +539,8 @@
   <a href="#portfolio">Portfolio</a>
   <a href="#reference">Reference</a>
   <a href="#o-nas">O nás</a>
+  <a href="#skoly" class="mobile-nav-sub">Podporujeme školy</a>
+  <a href="tombola/" class="mobile-nav-sub">Vouchery do tomboly</a>
   <a href="obchod/" class="nav-shop">Obchod <span class="nav-new">Nové</span></a>
   <a href="#kontakt">Kontakt</a>
   <a href="#kontakt" class="btn btn-primary">Nezávazně poptat projekt</a>
@@ -1240,9 +1249,9 @@ Pojďme ho vytvořit.</h2>
 </dialog>
 
 <script src="js/zvuky.js?v=2"></script>
-<script src="js/content-fallback.js?v=45"></script>
+<script src="js/content-fallback.js?v=46"></script>
 <script src="js/kalkulacka.js?v=2"></script>
-<script src="js/main.js?v=45"></script>
+<script src="js/main.js?v=46"></script>
 
 
 <script src="js/pebai.js?v=2"></script>
