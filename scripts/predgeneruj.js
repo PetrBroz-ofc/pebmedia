@@ -364,7 +364,7 @@ function applyLayout(d, file) {
   // PEBAi (js/pebai.js) v pravém dolním rohu na každé stránce; okno si skript vloží sám, kde chybí.
   if (!d.querySelector('script[src*="js/pebai.js"]')) {
     const s = d.createElement('script');
-    s.src = `${root}js/pebai.js?v=1`;
+    s.src = `${root}js/pebai.js?v=2`;
     d.body.appendChild(d.createTextNode('\n'));
     d.body.appendChild(s);
   }

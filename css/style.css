@@ -1739,3 +1739,18 @@ p { margin: 0; }
   .pebai-stek, .pebai-kapka { animation: none; }
   .pebai-kapka { display: none; }
 }
+
+/* ---------------------------------- PEBAi: víc prasklin -------------------- */
+.pebai-prasklina-2 { animation-delay: 1.4s; }
+.pebai-prasklina-2.pebai-prasklina-vetev { animation-delay: 1.8s; }
+.pebai-prasklina-vlas { stroke-width: 0.9; stroke: rgba(4, 38, 31, 0.6); filter: none; stroke-dasharray: 200; stroke-dashoffset: 200; animation-delay: 2.1s; animation-duration: 1.4s; }
+.pebai-odstep { fill: #04261F; opacity: 0; animation: pebai-odstep 0.3s 1.2s forwards; }
+@keyframes pebai-odstep { to { opacity: 0.85; } }
+.pebai-stek-3 { left: calc(93% - 3px); width: 6px; animation-delay: 3s; animation-duration: 2.9s; }
+.pebai-kapka-5 { left: calc(93% - 4px); animation-delay: 3s; animation-duration: 2.9s; }
+.pebai-kapka-6 { left: calc(93% - 3px); width: 5px; height: 5px; animation-delay: 4.4s; animation-duration: 2.9s; }
+@media (prefers-reduced-motion: reduce) {
+  .pebai-prasklina-vlas { stroke-dashoffset: 0; }
+  .pebai-odstep { animation: none; opacity: 0.85; }
+}
+.help-widget-toggle .pebai-praskliny svg { clip-path: inset(0 round 28px); }
