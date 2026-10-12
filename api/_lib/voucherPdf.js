@@ -29,30 +29,36 @@ function formatDatum(iso) {
 }
 
 /**
- * @param {{ kod: string, hodnotaKc: number, platnostDo: string }} voucher
+ * Jeden nebo víc voucherů v jednom PDF (jeden voucher = jedna stránka).
+ * Šablona i písma se vloží jen jednou, takže PDF zůstává malé i pro desítky kódů.
+ * @param {{ kod: string, hodnotaKc: number, platnostDo: string } | Array<{ kod: string, hodnotaKc: number, platnostDo: string }>} vouchery
  * @returns {Promise<Buffer>} PDF
  */
-async function vytvoritVoucherPdf({ kod, hodnotaKc, platnostDo }) {
+async function vytvoritVoucherPdf(vouchery) {
+  const seznam = Array.isArray(vouchery) ? vouchery : [vouchery];
+  if (!seznam.length) throw new Error('Žádný voucher k vytvoření PDF.');
   const pdf = await PDFDocument.create();
   pdf.registerFontkit(fontkit);
-  pdf.setTitle(`Voucher PEBMedia ${kod}`);
+  pdf.setTitle(seznam.length === 1 ? `Voucher PEBMedia ${seznam[0].kod}` : `Vouchery PEBMedia (${seznam.length})`);
   pdf.setAuthor('PEBMedia');
 
   const sablona = await pdf.embedPng(fs.readFileSync(path.join(ASSETS, 'voucher-template.png')));
   const { width, height } = sablona;
-  const strana = pdf.addPage([width, height]);
-  strana.drawImage(sablona, { x: 0, y: 0, width, height });
-
   const fonty = {};
   for (const vaha of ['Bold', 'SemiBold', 'Medium']) {
     fonty[vaha] = await pdf.embedFont(fs.readFileSync(path.join(ASSETS, `IBMPlexMono-${vaha}.ttf`)), { subset: true });
   }
-  const napis = (text, pole) => strana.drawText(text, {
-    x: pole.x, y: height - pole.y, size: pole.size, font: fonty[pole.font], color: barva(pole.color)
-  });
-  napis(kod, POLE.id);
-  napis(formatCastka(hodnotaKc), POLE.amount);
-  if (platnostDo) napis(formatDatum(platnostDo), POLE.date);
+
+  for (const { kod, hodnotaKc, platnostDo } of seznam) {
+    const strana = pdf.addPage([width, height]);
+    strana.drawImage(sablona, { x: 0, y: 0, width, height });
+    const napis = (text, pole) => strana.drawText(text, {
+      x: pole.x, y: height - pole.y, size: pole.size, font: fonty[pole.font], color: barva(pole.color)
+    });
+    napis(kod, POLE.id);
+    napis(formatCastka(hodnotaKc), POLE.amount);
+    if (platnostDo) napis(formatDatum(platnostDo), POLE.date);
+  }
 
   return Buffer.from(await pdf.save());
 }

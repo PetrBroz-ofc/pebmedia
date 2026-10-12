@@ -456,6 +456,29 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     delete process.env.SUPABASE_URL; delete process.env.SUPABASE_SERVICE_ROLE_KEY;
   });
 
+  await t('škola: schválení 3 voucherů naráz → 3 kódy, PDF o 3 stranách, 3 zápisy do správy', async () => {
+    process.env.SUPABASE_URL = 'https://supabase.test'; process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-test-key';
+    const pred = emails.length;
+    const r = await call(tombola, { body: zadost({ akce: 'Ples Gymnázium Test', email: 'skola@example.com' }), headers: { 'x-forwarded-for': '7.7.7.9' } });
+    assert.strictEqual(r.statusCode, 200);
+    const proMe = emails.slice(pred).find((e) => e.to === 'info.pebmedia@gmail.com');
+    const token = decodeURIComponent(proMe.text.match(/tombola-schvalit\?t=(\S+)/)[1]);
+    const form = await call(tombolaSchvalit, { method: 'GET', query: { t: token } });
+    assert.ok(/name="pocet"/.test(form.body), 'formulář má pole Počet voucherů');
+    assert.strictEqual((await call(tombolaSchvalit, { body: { t: token, akce: 'schvalit', hodnota: '2000', pocet: '51', platnost: '2027-12-31' } })).statusCode, 400);
+    const pred2 = emails.length;
+    const s = await call(tombolaSchvalit, { body: { t: token, akce: 'schvalit', hodnota: '2000', pocet: '3', platnost: '2027-12-31' } });
+    assert.strictEqual(s.statusCode, 200);
+    const mail = emails.slice(pred2).find((e) => e.to === 'skola@example.com');
+    const kody = mail.text.match(/Kódy: (.+)/)[1].split(', ');
+    assert.strictEqual(new Set(kody).size, 3);
+    const { PDFDocument } = require(path.join(REPO, 'node_modules/pdf-lib'));
+    assert.strictEqual((await PDFDocument.load(Buffer.from(mail.attachments[0].content, 'base64'))).getPageCount(), 3);
+    for (const k of kody) assert.ok(supabaseRows.get(k) && supabaseRows.get(k).school === 'Tombola: Ples Gymnázium Test' && supabaseRows.get(k).amount === 2000);
+    assert.ok(/Zapsáno do správy voucherů: ano \(3\)/.test(s.body));
+    delete process.env.SUPABASE_URL; delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  });
+
   console.log(`\n${ok} testů prošlo` + (process.exitCode ? ' — NĚKTERÉ SELHALY' : ''));
   const verejne = [...store.keys()].filter((k) => k.startsWith('limity/')).length;
   console.log(`(v úložišti ${store.size} záznamů, z toho ${verejne} počítadel limitů — vše private)`);

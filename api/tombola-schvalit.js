@@ -2,7 +2,7 @@
 // Schválení nebo zamítnutí žádosti o voucher do tomboly (odkaz z e-mailu pro PEBMedia).
 //   GET  ?t=<token>  → přehled žádosti a formulář (hodnota, platnost); sám nic nemění,
 //                      takže ho nespustí ani automatická kontrola odkazů v e-mailu
-//   POST t, akce=schvalit|zamitnout, hodnota, platnost → vydá voucher (PDF e-mailem
+//   POST t, akce=schvalit|zamitnout, hodnota, pocet, platnost → vydá vouchery (PDF e-mailem
 //                      organizátorovi + zápis do správy voucherů) nebo žádost zamítne
 //
 // Token je podepsaný DOWNLOAD_SIGNING_SECRET a platí 60 dní. Stav žádosti se mění
@@ -16,6 +16,10 @@ const { zapsatVoucher } = require('./_lib/vouchery');
 const { vytvoritVoucherPdf } = require('./_lib/voucherPdf');
 
 const HODNOTY = [500, 1000, 1500, 2000, 2500, 3000, 5000];
+const MAX_POCET = 50; // víc voucherů najednou (např. pro celou školu)
+/** Kódy vydané pro žádost (starší žádosti mají jen jeden `kod`). */
+const kodyZadosti = (d) => (Array.isArray(d.kody) && d.kody.length ? d.kody : d.kod ? [d.kod] : []);
+const voucheru = (n) => (n === 1 ? 'voucher' : n < 5 ? 'vouchery' : 'voucherů');
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 function formatDatum(iso) {
@@ -84,7 +88,8 @@ module.exports = async function handler(req, res) {
 
   if (req.method === 'GET') {
     if (z.stav === 'schvaleno') {
-      stranka(res, 200, 'Už schváleno', `<span class="stav">Schváleno</span><h1>${esc(z.akce)}</h1><p>Voucher <strong>${esc(z.kod)}</strong> na ${esc(z.hodnotaKc)} Kč (platnost do ${esc(formatDatum(z.platnostDo))}) byl odeslán na ${esc(z.email)}.</p>${prehled(z)}`);
+      const kody = kodyZadosti(z);
+      stranka(res, 200, 'Už schváleno', `<span class="stav">Schváleno</span><h1>${esc(z.akce)}</h1><p>${kody.length} ${voucheru(kody.length)} po ${esc(z.hodnotaKc)} Kč (platnost do ${esc(formatDatum(z.platnostDo))}) ${kody.length === 1 ? 'byl odeslán' : 'byly odeslány'} na ${esc(z.email)}: <strong>${kody.map(esc).join(', ')}</strong></p>${prehled(z)}`);
       return;
     }
     if (z.stav === 'zamitnuto') {
@@ -101,9 +106,12 @@ ${prehled(z)}
 <input type="hidden" name="t" value="${esc(token)}">
 <label for="hodnota">Hodnota voucheru</label>
 <select id="hodnota" name="hodnota">${HODNOTY.map((h) => `<option value="${h}"${h === (z.hodnotaKc || 1000) ? ' selected' : ''}>${h.toLocaleString('cs-CZ')} Kč</option>`).join('')}</select>
+<label for="pocet">Počet voucherů</label>
+<input id="pocet" name="pocet" type="number" min="1" max="${MAX_POCET}" step="1" value="${esc(kodyZadosti(z).length || 1)}" required inputmode="numeric">
+<p class="tlumene">Každý voucher dostane vlastní kód. Všechny přijdou v jednom PDF (jeden voucher na stránku) a všechny se zapíší do správy voucherů.</p>
 <label for="platnost">Platnost do</label>
 <input id="platnost" name="platnost" type="date" value="${esc(platnost)}" required>
-<div class="tlacitka"><button class="ano" name="akce" value="schvalit">Schválit a poslat voucher</button></div>
+<div class="tlacitka"><button class="ano" name="akce" value="schvalit">Schválit a poslat vouchery</button></div>
 <details><summary>Zamítnout žádost</summary>
 <label for="duvod">Zpráva organizátorovi (nepovinné, bez ní se nic neposílá)</label>
 <textarea id="duvod" name="duvod" rows="3" maxlength="600"></textarea>
@@ -141,48 +149,62 @@ ${prehled(z)}
 
   // --- Schválení ---
   const hodnota = Number(body.hodnota);
+  const pocet = Number(body.pocet || 1);
   const platnost = String(body.platnost || '');
   const dnes = new Date().toISOString().slice(0, 10);
-  if (body.akce !== 'schvalit' || !HODNOTY.includes(hodnota) || !/^\d{4}-\d{2}-\d{2}$/.test(platnost) || platnost <= dnes) {
-    stranka(res, 400, 'Chyba', '<p class="chyba">Vyberte hodnotu voucheru a platnost v budoucnu.</p><p>Vraťte se v prohlížeči zpět a opravte to.</p>');
+  if (body.akce !== 'schvalit' || !HODNOTY.includes(hodnota) || !Number.isInteger(pocet) || pocet < 1 || pocet > MAX_POCET || !/^\d{4}-\d{2}-\d{2}$/.test(platnost) || platnost <= dnes) {
+    stranka(res, 400, 'Chyba', `<p class="chyba">Vyberte hodnotu voucheru, počet 1 až ${MAX_POCET} a platnost v budoucnu.</p><p>Vraťte se v prohlížeči zpět a opravte to.</p>`);
     return;
   }
 
-  // Atomicky přiděl kód (jen jednou, i při dvojím odeslání formuláře).
+  // Atomicky přiděl kódy (jen jednou, i při dvojím odeslání formuláře). Při opakování
+  // po chybě se už přidělené kódy použijí znovu a jen se doplní nebo zkrátí na nový počet.
   let vydat = null;
   const po = await updateJson(cesta, (d) => {
     if (!d || d.stav === 'schvaleno' || d.stav === 'zamitnuto') return undefined;
-    vydat = { ...d, stav: 'vydava', kod: d.kod || generateVoucherCode(), hodnotaKc: hodnota, platnostDo: platnost };
+    const kody = kodyZadosti(d).slice(0, pocet);
+    while (kody.length < pocet) kody.push(generateVoucherCode());
+    vydat = { ...d, stav: 'vydava', kody, kod: kody[0], hodnotaKc: hodnota, platnostDo: platnost };
     return vydat;
   });
   if (!vydat) {
-    stranka(res, 200, 'Už vyřízeno', `<h1>${esc(z.akce)}</h1><p>Žádost už byla vyřízená (${po && po.stav === 'schvaleno' ? `voucher ${esc(po.kod)}` : 'zamítnuto'}).</p>`);
+    const hotove = po ? kodyZadosti(po) : [];
+    stranka(res, 200, 'Už vyřízeno', `<h1>${esc(z.akce)}</h1><p>Žádost už byla vyřízená (${po && po.stav === 'schvaleno' ? `${hotove.length} ${voucheru(hotove.length)}: ${hotove.map(esc).join(', ')}` : 'zamítnuto'}).</p>`);
     return;
   }
+  const kody = vydat.kody;
 
-  let sprava;
-  try {
-    const r = await zapsatVoucher({ kod: vydat.kod, hodnotaKc: hodnota, platnostDo: platnost, zdroj: `Tombola: ${vydat.akce}` });
-    sprava = r === 'zapsano' ? 'ano' : 'přeskočeno (není nastaven klíč Supabase)';
-  } catch (err) {
-    console.error('Tombola: zápis do správy voucherů selhal', err.message);
-    sprava = 'NE, doplňte voucher do správy ručně';
+  let zapsano = 0;
+  let chyby = 0;
+  let preskoceno = false;
+  for (const kod of kody) {
+    try {
+      const r = await zapsatVoucher({ kod, hodnotaKc: hodnota, platnostDo: platnost, zdroj: `Tombola: ${vydat.akce}` });
+      if (r === 'zapsano') zapsano++; else preskoceno = true;
+    } catch (err) {
+      chyby++;
+      console.error('Tombola: zápis do správy voucherů selhal', kod, err.message);
+    }
   }
+  const sprava = preskoceno ? 'přeskočeno (není nastaven klíč Supabase)'
+    : chyby ? `NE u ${chyby} z ${kody.length}, doplňte je do správy ručně`
+      : `ano (${zapsano})`;
 
+  const jeden = kody.length === 1;
   try {
-    const pdf = await vytvoritVoucherPdf({ kod: vydat.kod, hodnotaKc: hodnota, platnostDo: platnost });
+    const pdf = await vytvoritVoucherPdf(kody.map((kod) => ({ kod, hodnotaKc: hodnota, platnostDo: platnost })));
     await sendEmail({
       to: vydat.email,
-      subject: `Váš voucher PEBMedia do tomboly — ${vydat.akce}`,
-      attachments: [{ filename: `voucher-pebmedia-${vydat.kod}.pdf`, content: pdf.toString('base64') }],
-      text: `Dobrý den,\n\nrádi přispějeme do tomboly na akci „${vydat.akce}“. V příloze posíláme dárkový voucher PEBMedia v hodnotě ${hodnota.toLocaleString('cs-CZ')} Kč jako PDF připravené k tisku.\n\nKód: ${vydat.kod}\nPlatnost do: ${formatDatum(platnost)}\n\nVýherce voucher uplatní při objednávce služby PEBMedia (web, e-shop, logo a další), stačí kód zmínit v poptávce na info.pebmedia@gmail.com. Podmínky voucheru: https://pebmedia.cz/voucher.html\n\nAť se akce vydaří! Budeme rádi, když nás na sociálních sítích akce označí (@pebmedia).\n\nPEBMedia\nhttps://pebmedia.cz`
+      subject: `${jeden ? 'Váš voucher' : `Vaše vouchery (${kody.length})`} PEBMedia do tomboly — ${vydat.akce}`,
+      attachments: [{ filename: jeden ? `voucher-pebmedia-${kody[0]}.pdf` : `vouchery-pebmedia-${kody.length}x${hodnota}.pdf`, content: pdf.toString('base64') }],
+      text: `Dobrý den,\n\nrádi přispějeme do tomboly na akci „${vydat.akce}“. V příloze posíláme ${jeden ? `dárkový voucher PEBMedia v hodnotě ${hodnota.toLocaleString('cs-CZ')} Kč` : `${kody.length} ${voucheru(kody.length)} PEBMedia, každý v hodnotě ${hodnota.toLocaleString('cs-CZ')} Kč (jeden voucher na stránku)`} jako PDF připravené k tisku.\n\n${jeden ? 'Kód' : 'Kódy'}: ${kody.join(', ')}\nPlatnost do: ${formatDatum(platnost)}\n\nVýherce voucher uplatní při objednávce služby PEBMedia (web, e-shop, logo a další), stačí kód zmínit v poptávce na info.pebmedia@gmail.com. Každý kód lze uplatnit jednou. Podmínky voucheru: https://pebmedia.cz/voucher.html\n\nAť se akce vydaří! Budeme rádi, když nás na sociálních sítích akce označí (@pebmedia).\n\nPEBMedia\nhttps://pebmedia.cz`
     });
   } catch (err) {
-    console.error('Tombola: odeslání voucheru selhalo', err.message);
-    stranka(res, 502, 'Nepodařilo se odeslat', `<p class="chyba">Voucher ${esc(vydat.kod)} je připravený, ale e-mail se nepodařilo odeslat. Otevřete prosím odkaz z e-mailu znovu a zkuste to ještě jednou (kód zůstane stejný).</p>`);
+    console.error('Tombola: odeslání voucherů selhalo', err.message);
+    stranka(res, 502, 'Nepodařilo se odeslat', `<p class="chyba">${jeden ? 'Voucher je připravený' : `${kody.length} ${voucheru(kody.length)} je připraveno`} (${kody.map(esc).join(', ')}), ale e-mail se nepodařilo odeslat. Otevřete prosím odkaz z e-mailu znovu a zkuste to ještě jednou (kódy zůstanou stejné).</p>`);
     return;
   }
 
   await updateJson(cesta, (d) => (d ? { ...d, stav: 'schvaleno', schvalenoAt: new Date().toISOString(), sprava } : undefined));
-  stranka(res, 200, 'Schváleno', `<span class="stav">Schváleno</span><h1>${esc(vydat.akce)}</h1><p>Voucher <strong>${esc(vydat.kod)}</strong> na ${hodnota.toLocaleString('cs-CZ')} Kč (platnost do ${esc(formatDatum(platnost))}) odešel jako PDF na ${esc(vydat.email)}.</p><p class="tlumene">Zapsáno do správy voucherů: ${esc(sprava)}</p>`);
+  stranka(res, 200, 'Schváleno', `<span class="stav">Schváleno</span><h1>${esc(vydat.akce)}</h1><p>${kody.length} ${voucheru(kody.length)} po ${hodnota.toLocaleString('cs-CZ')} Kč (platnost do ${esc(formatDatum(platnost))}) ${jeden ? 'odešel' : 'odešly'} jako PDF na ${esc(vydat.email)}.</p><p><strong>${kody.map(esc).join(', ')}</strong></p><p class="tlumene">Zapsáno do správy voucherů: ${esc(sprava)}</p>`);
 };
