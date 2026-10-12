@@ -174,37 +174,48 @@ ${prehled(z)}
   }
   const kody = vydat.kody;
 
-  let zapsano = 0;
-  let chyby = 0;
-  let preskoceno = false;
-  for (const kod of kody) {
-    try {
-      const r = await zapsatVoucher({ kod, hodnotaKc: hodnota, platnostDo: platnost, zdroj: `Tombola: ${vydat.akce}` });
-      if (r === 'zapsano') zapsano++; else preskoceno = true;
-    } catch (err) {
-      chyby++;
-      console.error('Tombola: zápis do správy voucherů selhal', kod, err.message);
-    }
-  }
-  const sprava = preskoceno ? 'přeskočeno (není nastaven klíč Supabase)'
-    : chyby ? `NE u ${chyby} z ${kody.length}, doplňte je do správy ručně`
-      : `ano (${zapsano})`;
-
   const jeden = kody.length === 1;
+  const nazevPdf = jeden ? `voucher-pebmedia-${kody[0]}.pdf` : `vouchery-pebmedia-${kody.length}x${hodnota}.pdf`;
+
+  // 1) Nejdřív PDF a e-mail organizátorovi: to je to hlavní a nesmí to čekat na nic jiného.
+  let pdf;
   try {
-    const pdf = await vytvoritVoucherPdf(kody.map((kod) => ({ kod, hodnotaKc: hodnota, platnostDo: platnost })));
+    pdf = await vytvoritVoucherPdf(kody.map((kod) => ({ kod, hodnotaKc: hodnota, platnostDo: platnost })));
     await sendEmail({
       to: vydat.email,
       subject: `${jeden ? 'Váš voucher' : `Vaše vouchery (${kody.length})`} PEBMedia do tomboly — ${vydat.akce}`,
-      attachments: [{ filename: jeden ? `voucher-pebmedia-${kody[0]}.pdf` : `vouchery-pebmedia-${kody.length}x${hodnota}.pdf`, content: pdf.toString('base64') }],
+      attachments: [{ filename: nazevPdf, content: pdf.toString('base64') }],
       text: `Dobrý den,\n\nrádi přispějeme do tomboly na akci „${vydat.akce}“. V příloze posíláme ${jeden ? `dárkový voucher PEBMedia v hodnotě ${hodnota.toLocaleString('cs-CZ')} Kč` : `${kody.length} ${voucheru(kody.length)} PEBMedia, každý v hodnotě ${hodnota.toLocaleString('cs-CZ')} Kč (jeden voucher na stránku)`} jako PDF připravené k tisku.\n\n${jeden ? 'Kód' : 'Kódy'}: ${kody.join(', ')}\nPlatnost do: ${formatDatum(platnost)}\n\nVýherce voucher uplatní při objednávce služby PEBMedia (web, e-shop, logo a další), stačí kód zmínit v poptávce na info.pebmedia@gmail.com. Každý kód lze uplatnit jednou. Podmínky voucheru: https://pebmedia.cz/voucher.html\n\nAť se akce vydaří! Budeme rádi, když nás na sociálních sítích akce označí (@pebmedia).\n\nPEBMedia\nhttps://pebmedia.cz`
     });
   } catch (err) {
-    console.error('Tombola: odeslání voucherů selhalo', err.message);
-    stranka(res, 502, 'Nepodařilo se odeslat', `<p class="chyba">${jeden ? 'Voucher je připravený' : `${kody.length} ${voucheru(kody.length)} je připraveno`} (${kody.map(esc).join(', ')}), ale e-mail se nepodařilo odeslat. Otevřete prosím odkaz z e-mailu znovu a zkuste to ještě jednou (kódy zůstanou stejné).</p>`);
+    console.error('Tombola: vytvoření nebo odeslání voucherů selhalo', err);
+    stranka(res, 502, 'Nepodařilo se odeslat', `<p class="chyba">${jeden ? 'Voucher je připravený' : `${kody.length} ${voucheru(kody.length)} je připraveno`} (${kody.map(esc).join(', ')}), ale ${pdf ? 'e-mail se nepodařilo odeslat' : 'PDF se nepodařilo vytvořit'}. Otevřete prosím odkaz z e-mailu znovu a zkuste to ještě jednou (kódy zůstanou stejné).</p><p class="tlumene">Důvod: ${esc(String(err && err.message || err).slice(0, 400))}</p>`);
     return;
   }
 
+  // 2) Zápis do správy voucherů (všechny kódy jedním požadavkem).
+  let sprava;
+  try {
+    const r = await zapsatVoucher({ kody, hodnotaKc: hodnota, platnostDo: platnost, zdroj: `Tombola: ${vydat.akce}` });
+    sprava = r === 'zapsano' ? `ano (${kody.length})` : 'přeskočeno (ve Vercelu chybí SUPABASE_URL nebo SUPABASE_SERVICE_ROLE_KEY)';
+  } catch (err) {
+    console.error('Tombola: zápis do správy voucherů selhal', err.message);
+    sprava = `NE (${String(err.message).slice(0, 160)}), doplňte kódy do správy ručně`;
+  }
   await updateJson(cesta, (d) => (d ? { ...d, stav: 'schvaleno', schvalenoAt: new Date().toISOString(), sprava } : undefined));
-  stranka(res, 200, 'Schváleno', `<span class="stav">Schváleno</span><h1>${esc(vydat.akce)}</h1><p>${kody.length} ${voucheru(kody.length)} po ${hodnota.toLocaleString('cs-CZ')} Kč (platnost do ${esc(formatDatum(platnost))}) ${jeden ? 'odešel' : 'odešly'} jako PDF na ${esc(vydat.email)}.</p><p><strong>${kody.map(esc).join(', ')}</strong></p><p class="tlumene">Zapsáno do správy voucherů: ${esc(sprava)}</p>`);
+
+  // 3) Kopie pro PEBMedia i s PDF (kdyby organizátor e-mail nenašel, jde ho přeposlat).
+  try {
+    await sendEmail({
+      to: process.env.ORDER_NOTIFY_EMAIL || 'info.pebmedia@gmail.com',
+      subject: `Odesláno: ${kody.length} ${voucheru(kody.length)} do tomboly — ${vydat.akce}`,
+      attachments: [{ filename: nazevPdf, content: pdf.toString('base64') }],
+      text: `Vouchery do tomboly byly odeslány.\n\nAkce: ${vydat.akce}\nOrganizátor: ${vydat.jmeno}, ${vydat.email}\nPočet: ${kody.length} × ${hodnota.toLocaleString('cs-CZ')} Kč\nPlatnost do: ${formatDatum(platnost)}\nKódy: ${kody.join(', ')}\nZapsáno do správy voucherů: ${sprava}\n\nPDF je v příloze, kdyby bylo potřeba ho organizátorovi přeposlat.\n`
+    });
+  } catch (err) {
+    console.error('Tombola: kopii pro PEBMedia se nepodařilo odeslat', err.message);
+  }
+
+  stranka(res, 200, 'Schváleno', `<span class="stav">Schváleno</span><h1>${esc(vydat.akce)}</h1><p>${kody.length} ${voucheru(kody.length)} po ${hodnota.toLocaleString('cs-CZ')} Kč (platnost do ${esc(formatDatum(platnost))}) ${jeden ? 'odešel' : 'odešly'} jako PDF na ${esc(vydat.email)}. Kopii s PDF jsme poslali i vám.</p><p><strong>${kody.map(esc).join(', ')}</strong></p><p class="tlumene">Zapsáno do správy voucherů: ${esc(sprava)}</p>`);
 };
+

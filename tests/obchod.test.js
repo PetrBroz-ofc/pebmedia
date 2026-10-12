@@ -71,10 +71,11 @@ global.fetch = async (url, init = {}) => {
     return json({ id: 'cs_test_new', url: 'https://checkout.stripe.com/c/pay/cs_test_new' });
   }
   if (url.startsWith('https://supabase.test/rest/v1/vouchers')) {
-    const row = JSON.parse(init.body);
+    const telo = JSON.parse(init.body);
+    const rows = Array.isArray(telo) ? telo : [telo];
     assert.strictEqual(init.headers.Authorization, 'Bearer service-test-key');
     assert.ok(/ignore-duplicates/.test(init.headers.Prefer));
-    supabaseRows.set(row.voucher_id, row); // unikátní voucher_id = duplicita se nepřidá
+    rows.forEach((row) => supabaseRows.set(row.voucher_id, row)); // unikátní voucher_id = duplicita se nepřidá
     return new Response(null, { status: 201 });
   }
   const m = url.match(/checkout\/sessions\/(cs_\w+)$/);
@@ -476,6 +477,8 @@ async function t(name, fn) { try { await fn(); ok++; console.log('  ✔ ' + name
     assert.strictEqual((await PDFDocument.load(Buffer.from(mail.attachments[0].content, 'base64'))).getPageCount(), 3);
     for (const k of kody) assert.ok(supabaseRows.get(k) && supabaseRows.get(k).school === 'Tombola: Ples Gymnázium Test' && supabaseRows.get(k).amount === 2000);
     assert.ok(/Zapsáno do správy voucherů: ano \(3\)/.test(s.body));
+    const kopie = emails.slice(pred2).find((e) => e.to === 'info.pebmedia@gmail.com' && e.subject.startsWith('Odesláno: 3 vouchery'));
+    assert.ok(kopie && kopie.attachments.length === 1 && kody.every((k) => kopie.text.includes(k)), 'kopie s PDF a kódy pro PEBMedia');
     delete process.env.SUPABASE_URL; delete process.env.SUPABASE_SERVICE_ROLE_KEY;
   });
 
