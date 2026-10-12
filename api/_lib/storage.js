@@ -113,6 +113,8 @@ async function updateJson(pathname, update, pokusy = 5) {
       ? await writeJson(pathname, next, { ifMatch: current.etag })
       : await writeJson(pathname, next, { onlyIfNew: true });
     if (ok) return next;
+    // Blob chvíli po zápisu může vracet starou verzi (a etag) — krátce počkat a zkusit znovu.
+    await new Promise((r) => setTimeout(r, 150 * (i + 1) + Math.floor(Math.random() * 100)));
   }
   throw new Error(`Záznam ${pathname} se nepodařilo atomicky upravit (souběh).`);
 }

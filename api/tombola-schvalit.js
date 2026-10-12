@@ -9,7 +9,7 @@
 // atomicky, takže dvojí odeslání formuláře nevydá dva vouchery.
 
 const { setApiHeaders, parseJsonBody } = require('./_lib/security');
-const { readJson, updateJson } = require('./_lib/storage');
+const { readJson, writeJson, updateJson } = require('./_lib/storage');
 const { sendEmail } = require('./_lib/email');
 const { getSecret, verifyToken, generateVoucherCode } = require('./_lib/tokens');
 const { zapsatVoucher } = require('./_lib/vouchery');
@@ -202,7 +202,14 @@ ${prehled(z)}
     console.error('Tombola: zápis do správy voucherů selhal', err.message);
     sprava = `NE (${String(err.message).slice(0, 160)}), doplňte kódy do správy ručně`;
   }
-  await updateJson(cesta, (d) => (d ? { ...d, stav: 'schvaleno', schvalenoAt: new Date().toISOString(), sprava } : undefined));
+  // Konečný stav se zapíše přímo (bez kontroly verze): žádost je od přidělení kódů
+  // zamčená ve stavu „vydava“ a Blob chvíli po zápisu vrací starou verzi, takže
+  // atomická úprava by tu zbytečně selhávala (a e-mail už v tu chvíli odešel).
+  try {
+    await writeJson(cesta, { ...vydat, stav: 'schvaleno', schvalenoAt: new Date().toISOString(), sprava });
+  } catch (err) {
+    console.error('Tombola: uložení stavu „schváleno“ selhalo (vouchery už odešly)', err.message);
+  }
 
   // 3) Kopie pro PEBMedia i s PDF (kdyby organizátor e-mail nenašel, jde ho přeposlat).
   try {
