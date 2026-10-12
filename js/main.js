@@ -173,8 +173,7 @@
       toggle.setAttribute('aria-expanded', String(stav));
       if (stav) {
         messages.scrollTop = messages.scrollHeight;
-        // Fokus hned v rámci kliknutí: jen tak telefon otevře klávesnici (se zpožděním ji nepovolí).
-        if (input) input.focus({ preventScroll: true });
+        // PEBAi je ve vývoji: přes chat je vrstva s kladívkem, pole pro dotaz se neaktivuje.
       }
     }
 
@@ -254,6 +253,10 @@
 
     if (contactLink) {
       contactLink.addEventListener('click', () => otevrit(false));
+    }
+    const stavbaKontakt = document.getElementById('pebaiStavbaKontakt');
+    if (stavbaKontakt) {
+      stavbaKontakt.addEventListener('click', () => otevrit(false));
     }
 
     toggle.addEventListener('click', () => otevrit(!widget.classList.contains('is-open')));

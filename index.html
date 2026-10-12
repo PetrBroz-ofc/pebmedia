@@ -30,7 +30,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/fonts.css?v=1">
-<link rel="stylesheet" href="css/style.css?v=43">
+<link rel="stylesheet" href="css/style.css?v=44">
 <link rel="stylesheet" href="css/legal.css?v=1">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
@@ -1194,13 +1194,21 @@ Pojďme ho vytvořit.</h2>
       <span class="pebai-avatar pebai-avatar-lg" aria-hidden="true"><svg viewBox="0 0 400 400"><use href="#logoMarkP"></use></svg><i class="pebai-online"></i></span>
       <div class="help-widget-header-text">
         <div class="help-widget-header-title" id="helpWidgetTitle">PEBAi <span class="pebai-vyvoj">Ve vývoji</span></div>
-        <div class="help-widget-header-sub">AI asistent PEBMedia · odpovídá hned</div>
+        <div class="help-widget-header-sub">AI asistent PEBMedia · připravujeme</div>
       </div>
       <button type="button" class="help-widget-icon-btn" id="helpWidgetReset" aria-label="Začít novou konverzaci" title="Nová konverzace"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg></button>
       <button type="button" class="help-widget-icon-btn" id="helpWidgetClose" aria-label="Zavřít PEBAi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
     </div>
-    <div class="help-widget-messages" id="helpWidgetMessages" aria-live="polite"></div>
-    <form class="help-widget-form" id="helpWidgetForm" autocomplete="off">
+    <div class="help-widget-body">
+    <div class="pebai-stavba" role="note" aria-labelledby="pebaiStavbaTitulek">
+      <span class="pebai-stavba-ikona"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"></path><path d="m18 15 4-4"></path><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"></path></svg></span>
+      <p class="pebai-stavba-titulek" id="pebaiStavbaTitulek">PEBAi je ve vývoji</p>
+      <p class="pebai-stavba-text">Na asistentovi ještě pracujeme. Než ho spustíme, napište nám prosím rovnou, rádi poradíme.</p>
+      <a class="btn btn-accent pebai-stavba-btn" href="#kontakt" id="pebaiStavbaKontakt">Napsat nám</a>
+      <a class="pebai-stavba-email" href="mailto:info.pebmedia@gmail.com">info.pebmedia@gmail.com</a>
+    </div>
+    <div class="help-widget-messages" id="helpWidgetMessages" aria-live="polite" inert=""></div>
+    <form class="help-widget-form" id="helpWidgetForm" autocomplete="off" inert="">
       <label class="visually-hidden" for="helpWidgetInput">Váš dotaz pro PEBAi</label>
       <textarea id="helpWidgetInput" name="dotaz" rows="1" maxlength="1000" placeholder="Napište, s čím potřebujete pomoct…" enterkeyhint="send"></textarea>
       <button type="submit" aria-label="Odeslat dotaz"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z"></path></svg></button>
@@ -1208,6 +1216,7 @@ Pojďme ho vytvořit.</h2>
     <div class="help-widget-footer">
       <p class="help-widget-ai-note">PEBAi je zatím ve vývoji. Je to umělá inteligence (Claude) a může se splést. Nezadávejte citlivé údaje. <a href="privacy.html#asistent">Více</a></p>
       <a href="#kontakt" id="helpWidgetContactLink">Raději s člověkem? Napište nám →</a>
+    </div>
     </div>
   </div>
   <button class="help-widget-toggle" id="helpWidgetToggle" type="button" aria-label="Otevřít PEBAi, AI asistenta PEBMedia" aria-expanded="false" aria-controls="helpWidgetPanel">
@@ -1227,7 +1236,7 @@ Pojďme ho vytvořit.</h2>
 </dialog>
 
 <script src="js/zvuky.js?v=2"></script>
-<script src="js/content-fallback.js?v=43"></script>
+<script src="js/content-fallback.js?v=44"></script>
 <script src="js/kalkulacka.js?v=2"></script>
-<script src="js/main.js?v=43"></script>
+<script src="js/main.js?v=44"></script>
 </body></html>
