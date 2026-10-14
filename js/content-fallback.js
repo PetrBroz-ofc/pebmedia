@@ -676,7 +676,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "category": "Vlastní aplikace",
         "text": "Bezplatný nástroj na kontrolu podvodných SMS, e-mailů a odkazů. Vše běží v prohlížeči, zprávy nikam neodcházejí.",
         "year": "2026",
-        "image": "assets/portfolio-protect.jpg",
+        "image": "assets/portfolio-protect.jpg?v=2",
         "link": "https://protect.pebmedia.cz",
         "featured": true,
         "order": 3,

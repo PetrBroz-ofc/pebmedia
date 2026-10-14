@@ -1848,3 +1848,11 @@ body.is-leaving-protect { overflow: hidden; }
 .app-features li { font-size: 13.5px; color: var(--ink); background: var(--accent-tint); border-radius: 100px; padding: 6px 12px; }
 .app-cta { align-self: flex-start; margin-top: auto; }
 @media (max-width: 520px) { .app-card { padding: 22px 18px; } .app-name { font-size: 21px; } .app-icon { width: 48px; height: 48px; } .app-cta { align-self: stretch; justify-content: center; } }
+
+/* Hlavní menu s položkou Aplikace: na menších noteboocích trochu užší, aby se vše vešlo */
+@media (min-width: 981px) and (max-width: 1120px) {
+  .header-inner { column-gap: 12px; }
+  .main-nav a { padding: 8px 8px; font-size: 13px; }
+  .header-actions { gap: 10px; }
+  .header-actions .btn { padding: 10px 14px; font-size: 13px; }
+}
