@@ -172,8 +172,7 @@
             : '<span class="btn btn-accent" aria-disabled="true">Připravujeme</span>';
         }
         return `
-          <div class="category-card${cat.sluzby ? ' is-paprsek' : ''}">
-            ${cat.sluzby ? '<span class="paprsek-zare" aria-hidden="true"></span><span class="paprsek-kruh" aria-hidden="true"></span>' : ''}
+          <div class="category-card${''}">
             <span class="category-ikona" aria-hidden="true">${IKONY_KATEGORII[key] || ''}</span>
             <h2>${esc(cat.nazev)}</h2>
             <p>${esc(cat.popis)}</p>
@@ -183,7 +182,6 @@
         `;
       }).join('');
       vlozitVyhody(content);
-      initPaprsky();
       if (content && window.PEBKalkulacka) { window.PEBKalkulacka.init(content); window.PEBKalkulacka.initFlip({ otevritZOdkazu: true }); }
     } catch (err) {
       showLoadError(el, err);
@@ -566,58 +564,6 @@
     };
     pripravit();
     new MutationObserver(pripravit).observe(document.querySelector('main') || document.body, { childList: true, subtree: true });
-  }
-
-  // ------------------------------------------------------------------
-  // Paprsek po obvodu karty (podle Border Beam Panel z 21st.dev / Motiq, MIT).
-  // Kužel barvy se otáčí přes --paprsek-a; rychlost je pružina, takže se při
-  // najetí paprsek rozjede a po odjetí doběhne, místo aby skokově změnil tempo.
-  // Smyčka běží jen pro karty na obrazovce a jen ve viditelné záložce.
-  // ------------------------------------------------------------------
-  function initPaprsky() {
-    if (!jenProhlizec()) return;
-    const karty = [...document.querySelectorAll('.is-paprsek')];
-    if (!karty.length) return;
-    if (klid()) { karty.forEach((k) => k.style.setProperty('--paprsek-a', '40deg')); return; }
-    const KLID = 42, NAJETI = 240, K = 30, D = 11;
-    const stav = karty.map((k, i) => ({ k, uhel: (i * 137.5 + 20) % 360, rychlost: KLID, v: 0, cil: KLID, vidi: true }));
-    stav.forEach((s) => {
-      const zrychlit = () => { s.cil = NAJETI; spustit(); };
-      const zpomalit = () => { s.cil = KLID; };
-      s.k.addEventListener('pointerenter', zrychlit);
-      s.k.addEventListener('pointerleave', zpomalit);
-      s.k.addEventListener('focusin', zrychlit);
-      s.k.addEventListener('focusout', zpomalit);
-      s.k.style.setProperty('--paprsek-a', `${s.uhel.toFixed(1)}deg`);
-    });
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((zaznamy) => {
-        zaznamy.forEach((z) => { const s = stav.find((x) => x.k === z.target); if (s) s.vidi = z.isIntersecting; });
-        spustit();
-      }, { threshold: 0.05 });
-      karty.forEach((k) => io.observe(k));
-    }
-    document.addEventListener('visibilitychange', spustit);
-    let raf = 0, posledni = 0;
-    function snimek(ted) {
-      const dt = Math.min(Math.max((ted - (posledni || ted)) / 1000, 0), 0.05);
-      posledni = ted;
-      let nekdo = false;
-      stav.forEach((s) => {
-        if (!s.vidi) return;
-        nekdo = true;
-        s.v += (K * (s.cil - s.rychlost) - D * s.v) * dt;
-        s.rychlost += s.v * dt;
-        s.uhel = (s.uhel + s.rychlost * dt) % 360;
-        s.k.style.setProperty('--paprsek-a', `${s.uhel.toFixed(2)}deg`);
-      });
-      raf = nekdo && document.visibilityState !== 'hidden' ? requestAnimationFrame(snimek) : 0;
-      if (!raf) posledni = 0;
-    }
-    function spustit() {
-      if (!raf && document.visibilityState !== 'hidden' && stav.some((s) => s.vidi)) raf = requestAnimationFrame(snimek);
-    }
-    spustit();
   }
 
   function autoInit() {
