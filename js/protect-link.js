@@ -1,6 +1,6 @@
 /* PEBMedia: přechod na PEBMedia Protect.
    Klik na logo: P se změní na zámek, zámek cvakne, objeví se „Protect“,
-   zespodu vyjede plocha a otevře se protect.pebmedia.cz.
+   zespodu vyjede plocha a otevře se PEBMedia Protect.
    Ctrl/Cmd/prostřední tlačítko otevře odkaz normálně, při omezení animací se jde rovnou. */
 (function () {
   'use strict';
