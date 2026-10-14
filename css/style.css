@@ -1772,3 +1772,57 @@ p { margin: 0; }
 .main-nav .nav-drop-menu a:hover, .main-nav .nav-drop-menu a:focus-visible { background: var(--accent-tint); color: var(--ink); }
 .mobile-nav .mobile-nav-sub { padding: 10px 0 10px 18px; font-size: 18px; font-weight: 500; color: var(--ink-soft); }
 @media (prefers-reduced-motion: reduce) { .nav-drop-menu, .nav-drop-sipka { transition: none; } }
+
+/* ==========================================================================
+   Odkaz na PEBMedia Protect: logo se zamkne, objeví se „Protect“
+   a zespodu vyjede plocha, po které se otevře protect.pebmedia.cz.
+   ========================================================================== */
+.logo-protect { color: inherit; text-decoration: none; cursor: pointer; }
+.logo-protect .logo-mark { position: relative; }
+.logo-protect .logo-mark svg { position: absolute; inset: 0; transition: transform .32s var(--ease), opacity .2s ease; }
+.logo-protect .lm-lock { opacity: 0; transform: scale(.4) rotate(-12deg); }
+.logo-protect .lm-shackle { transform: translateY(-34px); transition: transform .34s cubic-bezier(.34, 1.8, .64, 1); }
+.logo-protect-tag {
+  display: inline-block; max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; margin-left: -8px;
+  font-family: var(--font-mono); font-weight: 500; font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+  background: var(--accent); color: #fff; padding: 3px 0; border-radius: 100px;
+  transition: max-width .45s var(--ease), opacity .3s ease, padding .45s var(--ease), margin .45s var(--ease);
+}
+.logo-protect.is-locking .lm-p { opacity: 0; transform: scale(.4) rotate(12deg); }
+.logo-protect.is-locking .lm-lock { opacity: 1; transform: none; }
+.logo-protect.is-locked .lm-shackle { transform: none; }
+.logo-protect.is-locked .logo-mark { animation: lm-click .32s ease; }
+.logo-protect.is-protect .logo-protect-tag { max-width: 90px; opacity: 1; padding: 3px 8px; margin-left: 2px; }
+@keyframes lm-click { 0%, 100% { transform: scale(1); } 45% { transform: scale(.86); } }
+
+/* Na počítači stačí najet: logo napoví, že vede na Protect */
+@media (hover: hover) {
+  .logo-protect:hover .lm-p, .logo-protect:focus-visible .lm-p { opacity: 0; transform: scale(.4) rotate(12deg); }
+  .logo-protect:hover .lm-lock, .logo-protect:focus-visible .lm-lock { opacity: 1; transform: none; }
+}
+
+.protect-curtain {
+  position: fixed; inset: 0; z-index: 10000; background: var(--bg);
+  display: grid; place-items: center; transform: translateY(100%);
+  border-top: 3px solid var(--accent); box-shadow: 0 -24px 60px rgba(20, 24, 27, .14);
+  transition: transform .7s var(--ease);
+}
+.protect-curtain.is-in { transform: none; }
+.protect-curtain-brand {
+  display: flex; align-items: center; gap: 14px; opacity: 0; transform: translateY(14px);
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 7vw, 54px); letter-spacing: -.02em; color: var(--ink);
+  transition: opacity .4s ease .4s, transform .5s var(--ease) .4s;
+}
+.protect-curtain.is-in .protect-curtain-brand { opacity: 1; transform: none; }
+.protect-curtain-brand svg { width: 1em; height: 1em; flex: none; }
+.protect-curtain-brand .logo-protect-tag { max-width: none; opacity: 1; margin-left: 0; padding: .35em .8em; font-size: .3em; align-self: center; }
+body.is-leaving-protect > *:not(.protect-curtain) { transition: transform .6s cubic-bezier(.7, 0, .84, 0), opacity .5s ease-in; transform: translateY(40vh); opacity: 0; }
+body.is-leaving-protect { overflow: hidden; }
+
+.footer-col a .footer-new { display: inline-block; font-size: 10px; padding: 1px 6px; color: var(--accent); }
+.footer-new { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); border: 1px solid var(--accent); border-radius: 100px; padding: 1px 6px; margin-left: 6px; vertical-align: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-protect .logo-mark svg, .logo-protect .lm-shackle, .logo-protect-tag, .protect-curtain, .protect-curtain-brand { transition: none; }
+  .logo-protect.is-locked .logo-mark { animation: none; }
+}
