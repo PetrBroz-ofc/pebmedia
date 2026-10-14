@@ -418,6 +418,36 @@
 
     if (window.PEBKalkulacka) { window.PEBKalkulacka.init(data); window.PEBKalkulacka.initFlip(); }
 
+    // --- Aplikace ---
+    const appsSec = document.getElementById('aplikace');
+    if (appsSec && data.apps) {
+      document.getElementById('appsHeading').textContent = data.apps.heading;
+      document.getElementById('appsSubheading').textContent = data.apps.subheading;
+      const appsGrid = document.getElementById('appsGrid');
+      appsGrid.innerHTML = '';
+      const appIcon = '<svg viewBox="0 0 400 400" aria-hidden="true"><rect x="12" y="12" width="376" height="376" rx="88" fill="#0B6E63"/><path d="M150 196V146a50 50 0 0 1 100 0v50" fill="none" stroke="#F6F6F3" stroke-width="34" stroke-linecap="round"/><rect x="112" y="186" width="176" height="132" rx="22" fill="#F6F6F3"/><circle cx="200" cy="244" r="17" fill="#0B6E63"/><rect x="191" y="248" width="18" height="34" rx="9" fill="#0B6E63"/></svg>';
+      (data.apps.items || [])
+        .filter(a => a.visible !== false)
+        .slice()
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .forEach(a => {
+          const protect = /protect\.pebmedia\.cz/.test(a.url || '');
+          appsGrid.appendChild(el('article', 'app-card reveal', `
+            <div class="app-card-head">
+              <span class="app-icon">${appIcon}</span>
+              <div>
+                <h3 class="app-name">${a.name}</h3>
+                ${a.tag ? `<span class="app-tag">${a.tag}</span>` : ''}
+              </div>
+            </div>
+            <p class="app-text">${a.text}</p>
+            ${(a.features || []).length ? `<ul class="app-features">${a.features.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
+            ${a.url ? `<a class="btn btn-primary app-cta" href="${a.url}"${protect ? ' data-protect-link' : ' target="_blank" rel="noopener"'}>${a.cta || 'Otevřít'} <span aria-hidden="true">→</span></a>` : ''}
+          `));
+        });
+      appsSec.hidden = !appsGrid.children.length;
+    }
+
     // --- Portfolio ---
     document.getElementById('portfolioHeading').textContent = data.portfolio.heading;
     document.getElementById('portfolioSubheading').textContent = data.portfolio.subheading;

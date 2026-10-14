@@ -577,6 +577,29 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
     "ctaInquiry": "Poslat poptávku s tímto výběrem",
     "ctaAi": "Probrat to s PEBAi"
   },
+  "apps": {
+    "heading": "Aplikace od PEBMedia",
+    "subheading": "Vlastní nástroje, které pomáhají lidem. Zdarma a bez reklam.",
+    "items": [
+      {
+        "id": "app-protect",
+        "name": "PEBMedia Protect",
+        "tag": "Zdarma",
+        "text": "Přišla vám divná SMS, e-mail nebo odkaz? Protect ukáže, co na zprávě nesedí, a poradí, co dělat, když už se něco stalo. Zprávy se kontrolují přímo v prohlížeči a nikam se neodesílají.",
+        "features": [
+          "Kontrola SMS, e-mailu, odkazu i screenshotu",
+          "Průvodce podezřelým telefonátem",
+          "Nouzový plán po podvodu",
+          "Trénink se stovkou ukázek"
+        ],
+        "url": "https://protect.pebmedia.cz",
+        "cta": "Otevřít Protect",
+        "icon": "lock",
+        "order": 1,
+        "visible": true
+      }
+    ]
+  },
   "portfolio": {
     "heading": "Naše práce",
     "subheading": "Nejlépe za nás mluví to, co jsme vytvořili.",
@@ -612,7 +635,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "image": "assets/portfolio-3.jpg",
         "link": "https://www.crystalvalley.cat/",
         "featured": false,
-        "order": 3
+        "order": 4
       },
       {
         "id": "pf-4",
@@ -623,7 +646,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "image": "assets/portfolio-4.jpg",
         "link": "https://elrevmont.cz/",
         "featured": false,
-        "order": 4
+        "order": 5
       },
       {
         "id": "pf-5",
@@ -634,7 +657,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "image": "assets/portfolio-5.jpg",
         "link": "https://studiochilli.cz/",
         "featured": false,
-        "order": 5
+        "order": 6
       },
       {
         "id": "pf-6",
@@ -645,7 +668,23 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
         "image": "assets/portfolio-6.jpg",
         "link": "https://platenarstvi-zatrapa.vercel.app/",
         "featured": false,
-        "order": 6
+        "order": 7
+      },
+      {
+        "id": "pf-protect",
+        "title": "PEBMedia Protect",
+        "category": "Vlastní aplikace",
+        "text": "Bezplatný nástroj na kontrolu podvodných SMS, e-mailů a odkazů. Vše běží v prohlížeči, zprávy nikam neodcházejí.",
+        "year": "2026",
+        "image": "assets/portfolio-protect.jpg",
+        "link": "https://protect.pebmedia.cz",
+        "featured": true,
+        "order": 3,
+        "pripad": {
+          "problem": "Podvodných SMS a e-mailů přibývá a lidé, hlavně starší, nemají kde si je rychle ověřit. Přitom nechtějí posílat své zprávy nikam dál.",
+          "reseni": "Vlastní webová aplikace, která zprávu rozebere přímo v prohlížeči: pozná napodobené domény, písmena z jiné abecedy i typické triky podvodníků, přečte text ze screenshotu a pomůže připravit oznámení pro policii.",
+          "vysledek": "Nástroj běží zdarma na protect.pebmedia.cz bez reklam a bez registrace. Zprávy neopouštějí zařízení uživatele a správnost hlídá přes 400 automatických testů."
+        }
       }
     ]
   },

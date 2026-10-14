@@ -95,10 +95,17 @@ Konečná cena závisí na rozsahu projektu.
 3. **Vytvoříme ho** — Projekt naprogramujeme a otestujeme.
 4. **Spustíme a předáme** — Web nasadíme a předáme včetně administrace.
 
+## Aplikace od PEBMedia
+
+Vlastní nástroje, které pomáhají lidem. Zdarma a bez reklam.
+
+- [PEBMedia Protect](https://protect.pebmedia.cz) (Zdarma): Přišla vám divná SMS, e-mail nebo odkaz? Protect ukáže, co na zprávě nesedí, a poradí, co dělat, když už se něco stalo. Zprávy se kontrolují přímo v prohlížeči a nikam se neodesílají.
+
 ## Ukázky realizovaných webů
 
 - Tesařství a pokrývačství Šuta (Web development): https://tesarstvisuta.cz/
 - Květinářství Kamila (Web development): https://kvetinarstvikamila.cz/
+- PEBMedia Protect (Vlastní aplikace): https://protect.pebmedia.cz
 - Crystal Valley (Web development): https://www.crystalvalley.cat/
 - Elrevmont (Web development): https://elrevmont.cz/
 - Studio Chilli (Web development): https://studiochilli.cz/

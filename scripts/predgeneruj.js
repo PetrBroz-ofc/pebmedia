@@ -501,6 +501,11 @@ function llmsTxt() {
   L.push('## Jak spolupráce probíhá', '');
   content.process.steps.forEach((s, i) => L.push(`${i + 1}. **${stripTags(s.title)}** — ${stripTags(s.text)}`));
   L.push('');
+  if (content.apps && content.apps.items) {
+    L.push(`## ${stripTags(content.apps.heading)}`, '', stripTags(content.apps.subheading), '');
+    content.apps.items.filter(visible).sort(byOrder).forEach((a) => L.push(`- [${stripTags(a.name)}](${a.url}) (${stripTags(a.tag || '')}): ${stripTags(a.text)}`));
+    L.push('');
+  }
   L.push('## Ukázky realizovaných webů', '');
   content.portfolio.items.slice().sort(byOrder).forEach((p) => {
     L.push(`- ${stripTags(p.title)} (${stripTags(p.category)})${p.link ? `: ${p.link}` : ''}`);
