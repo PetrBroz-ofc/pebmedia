@@ -486,11 +486,13 @@ p { margin: 0; }
 /* ---------------------------------- Packages (Balíčky) --------------------------------- */
 .packages-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 20px;
   align-items: stretch;
 }
 .package-card {
+  min-width: 0;
+  overflow-wrap: break-word;
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -568,12 +570,12 @@ p { margin: 0; }
 }
 .package-cta { width: 100%; text-align: center; margin-top: auto; }
 
-@media (max-width: 1180px) {
-  .packages-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1240px) {
+  .packages-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 980px) {
   .service-categories { grid-template-columns: 1fr; }
-  .packages-grid { grid-template-columns: repeat(2, 1fr); }
+  .packages-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .packages-grid { grid-template-columns: 1fr; }
