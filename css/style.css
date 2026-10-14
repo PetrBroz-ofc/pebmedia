@@ -1858,3 +1858,42 @@ body.is-leaving-protect { overflow: hidden; }
   .header-actions { gap: 10px; }
   .header-actions .btn { padding: 10px 14px; font-size: 13px; }
 }
+
+/* ---------------------------------- PEBAi: ještě víc prasklin a ubývající barva */
+/* Obsah tlačítka nad vrstvou „prázdna“, praskliny úplně nahoře. */
+.help-widget-toggle > svg, .help-widget-toggle-label { position: relative; z-index: 1; }
+.help-widget-toggle .pebai-praskliny { z-index: 2; }
+/* Barva z tlačítka vytéká: shora přibývá tmavé „prázdno“ s vlnící se hladinou. */
+.pebai-prazdno { position: absolute; inset: 0; z-index: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.pebai-vzduch {
+  position: absolute; left: 0; right: 0; top: 0; height: 0;
+  background: linear-gradient(180deg, #1A2422 0%, #24332F 100%);
+  animation: pebai-ubyva 22s 1.4s cubic-bezier(0.35, 0, 0.6, 1) forwards;
+}
+.pebai-vzduch::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -5px; height: 6px;
+  background: radial-gradient(circle at 50% 0, #24332F 4.5px, transparent 5px) 0 0 / 12px 6px repeat-x;
+  animation: pebai-hladina 1.6s linear infinite;
+}
+@keyframes pebai-ubyva {
+  0% { height: 0; }
+  20% { height: 18%; }
+  45% { height: 38%; }
+  70% { height: 55%; }
+  100% { height: 72%; }
+}
+@keyframes pebai-hladina { to { background-position: 12px 0; } }
+.help-widget.is-open .pebai-prazdno { display: none; }
+
+.pebai-prasklina-3 { animation-delay: 1.9s; }
+.pebai-prasklina-3.pebai-prasklina-vetev { animation-delay: 2.3s; }
+.pebai-prasklina-vlas-2 { animation-delay: 2.7s; }
+.pebai-odstep-2 { animation-delay: 2s; }
+.pebai-stek-4 { left: calc(63% - 3px); width: 6px; animation-delay: 3.6s; animation-duration: 2.7s; }
+.pebai-kapka-7 { left: calc(63% - 4px); animation-delay: 3.6s; animation-duration: 2.7s; }
+.pebai-kapka-8 { left: calc(63% - 3px); width: 5px; height: 5px; animation-delay: 5s; animation-duration: 2.7s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pebai-vzduch { animation: none; height: 45%; }
+  .pebai-vzduch::after { animation: none; }
+}
