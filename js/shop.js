@@ -181,7 +181,6 @@
           </div>
         `;
       }).join('');
-      vlozitVyhody(content);
       if (content && window.PEBKalkulacka) { window.PEBKalkulacka.init(content); window.PEBKalkulacka.initFlip({ otevritZOdkazu: true }); }
     } catch (err) {
       showLoadError(el, err);
@@ -479,42 +478,13 @@
   }
 
   // ------------------------------------------------------------------
-  // Živější obchod: světlo pod kurzorem, 3D naklopení, postupné vyjetí,
-  // pruh výhod. Jen v prohlížeči (ne při předgenerování v jsdom) a bez
+  // Živější obchod: světlo pod kurzorem, 3D naklopení a postupné vyjetí.
+  // Jen v prohlížeči (ne při předgenerování v jsdom) a bez
   // pohybu pro ty, kdo mají v systému omezené animace.
   // ------------------------------------------------------------------
   const KARTY = '.category-card, .sluzba-card, .product-card, .ebook-card';
   const jenProhlizec = () => !/jsdom/i.test(navigator.userAgent);
   const klid = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function vlozitVyhody(content) {
-    if (!jenProhlizec() || document.querySelector('.obchod-vyhody')) return;
-    const hero = document.querySelector('.shop-hero');
-    if (!hero) return;
-    const castka = content && content.schools && content.schools.stat && content.schools.stat.value;
-    const IK = {
-      zamek: '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
-      mail: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
-      bublina: '<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',
-      srdce: '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',
-      spendlik: '<svg viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>'
-    };
-    const polozky = [
-      [IK.zamek, 'Bezpečná platba kartou přes Stripe'],
-      [IK.mail, 'Vouchery a e-booky přijdou e-mailem během pár minut'],
-      [IK.bublina, 'Weby, loga a bezpečnost s nezávaznou poptávkou'],
-      ...(castka ? [[IK.srdce, `Školám jsme darovali vouchery za ${castka}`]] : []),
-      [IK.spendlik, 'Česká firma z Liberce']
-    ];
-    const jeden = polozky.map(([i, t]) => `<span>${i}${esc(t)}</span>`).join('');
-    const pruh = document.createElement('div');
-    pruh.className = 'obchod-vyhody';
-    pruh.setAttribute('role', 'note');
-    pruh.setAttribute('aria-label', polozky.map(([, t]) => t).join(' · '));
-    // Obsah dvakrát za sebou, aby pás běžel plynule dokola; druhá kopie je pro čtečky skrytá.
-    pruh.innerHTML = `<div class="obchod-vyhody-pas"><div class="obchod-vyhody-skupina">${jeden}</div><div class="obchod-vyhody-skupina" aria-hidden="true">${jeden}</div></div>`;
-    hero.insertAdjacentElement('afterend', pruh);
-  }
 
   function initZivost() {
     if (!jenProhlizec()) return;

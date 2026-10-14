@@ -330,7 +330,7 @@
 @media (prefers-reduced-motion: reduce) { .sluzba-cenik { transition: none; } .sluzba-cenik:hover { transform: none; } }
 
 /* ===================================================================== */
-/* Živější obchod: světelné skvrny v hlavičce, pruh výhod, světlo pod     */
+/* Živější obchod: světelné skvrny v hlavičce, světlo pod                 */
 /* kurzorem, 3D naklopení karet, postupné vyjetí, lesk tlačítek.          */
 /* ===================================================================== */
 /* Skvrny přesahují obsah; ořez na <main> (šířka celé obrazovky) brání vodorovnému posunu bez viditelné hrany. */
@@ -349,14 +349,6 @@ main:has(> .shop-hero) { overflow-x: clip; }
 .shop-hero h1 { background: linear-gradient(100deg, var(--ink) 0%, var(--ink) 45%, var(--accent) 60%, var(--ink) 75%, var(--ink) 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: obchod-nadpis 9s ease-in-out infinite; }
 @keyframes obchod-nadpis { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
 
-/* Pruh výhod */
-.obchod-vyhody { position: relative; overflow: hidden; margin: 0 0 36px; padding: 12px 0; border-block: 1px solid var(--border); background: var(--surface); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.obchod-vyhody-pas { display: flex; width: max-content; animation: obchod-pas 32s linear infinite; }
-.obchod-vyhody-skupina { display: flex; gap: 48px; padding-right: 48px; }
-.obchod-vyhody:hover .obchod-vyhody-pas { animation-play-state: paused; }
-.obchod-vyhody span { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--ink-soft); white-space: nowrap; }
-.obchod-vyhody svg { width: 18px; height: 18px; fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-@keyframes obchod-pas { to { transform: translateX(-50%); } }
 
 /* Karty: světlo pod kurzorem a 3D naklopení (hodnoty nastavuje js/shop.js) */
 .category-card, .sluzba-card, .product-card, .ebook-card { position: relative; --mx: 50%; --my: 50%; --rx: 0deg; --ry: 0deg; transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.25s var(--ease); }
@@ -380,7 +372,7 @@ main .btn-accent::before, main .btn-primary::before { content: ''; position: abs
 main .btn-accent:hover::before, main .btn-primary:hover::before { left: 130%; }
 
 @media (prefers-reduced-motion: reduce) {
-  .shop-hero::before, .shop-hero::after, .shop-hero .eyebrow::before, .shop-hero h1, .obchod-vyhody-pas { animation: none; }
+  .shop-hero::before, .shop-hero::after, .shop-hero .eyebrow::before, .shop-hero h1 { animation: none; }
   .shop-hero h1 { background: none; color: var(--ink); }
   .category-card, .sluzba-card, .product-card, .ebook-card { transform: none; transition: none; }
   .obchod-vyjezd { opacity: 1; translate: none; transition: none; }
