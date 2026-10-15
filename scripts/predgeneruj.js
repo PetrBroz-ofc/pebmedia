@@ -375,6 +375,14 @@ function applyLayout(d, file) {
     d.body.appendChild(s);
   }
 
+  // Anonymní počítání návštěv (js/stats.js) na každé stránce, bez cookies.
+  if (!d.querySelector('script[src*="js/stats.js"]')) {
+    const s = d.createElement('script');
+    s.src = `${root}js/stats.js?v=1`;
+    d.body.appendChild(d.createTextNode('\n'));
+    d.body.appendChild(s);
+  }
+
   // Patička s identifikací provozovatele a právními odkazy — na každé stránce.
   let block = d.getElementById('footerLegal');
   if (!block) {
