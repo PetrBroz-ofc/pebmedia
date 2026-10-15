@@ -583,10 +583,17 @@
     document.getElementById('ctaButton').textContent = data.ctaSection.cta;
 
     // --- Contact ---
+    // Druhé telefonní číslo je nepovinné; bez něj se řádek skryje.
+    function setPhone2(id, value) {
+      const n = document.getElementById(id);
+      if (!n) return;
+      if (value) { n.textContent = value; n.hidden = false; } else { n.hidden = true; }
+    }
     document.getElementById('contactHeading').textContent = data.contact.heading;
     document.getElementById('contactText').textContent = data.contact.text;
     document.getElementById('contactEmail').textContent = g.email;
     document.getElementById('contactPhone').textContent = g.phone;
+    setPhone2('contactPhone2', g.phone2);
     document.getElementById('contactIco').textContent = g.ico;
     const typeSelect = document.getElementById('f-type');
     typeSelect.innerHTML = '<option value="">Vyberte typ projektu</option>';
@@ -600,6 +607,7 @@
     document.getElementById('footerText').textContent = data.footer.text;
     document.getElementById('footerEmail').textContent = g.email;
     document.getElementById('footerPhone').textContent = g.phone;
+    setPhone2('footerPhone2', g.phone2);
     document.getElementById('footerCopyright').textContent = data.footer.copyright;
     document.getElementById('footerPrivacy').href = data.footer.privacyLink;
     document.getElementById('footerInstagram').href = g.social.instagram || '#';

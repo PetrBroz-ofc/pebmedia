@@ -14,6 +14,7 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
     "claim": "Digitální řešení, která dávají smysl.",
     "email": "info.pebmedia@gmail.com",
     "phone": "+420 778 478 642",
+    "phone2": "+420 774 310 713",
     "ico": "29592844",
     "address": "Liberecký kraj, Česká republika",
     "social": {

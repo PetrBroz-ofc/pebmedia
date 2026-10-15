@@ -32,6 +32,12 @@ const readJson = (f) => JSON.parse(read(f));
  * Zapíše soubor se stejnými konci řádků, jaké má existující soubor (na Windows
  * CRLF kvůli autocrlf, v GitHub Actions LF); vrací true při změně.
  */
+// Telefonní čísla pro strukturovaná data (druhé číslo je nepovinné).
+function telefony(g) {
+  const t = [g.phone, g.phone2].filter(Boolean).map((p) => p.replace(/\s+/g, ''));
+  return t.length > 1 ? t : t[0];
+}
+
 function write(f, text) {
   const full = path.join(ROOT, f);
   const existing = fs.existsSync(full) ? fs.readFileSync(full, 'utf8') : null;
@@ -119,7 +125,7 @@ function organizationLd() {
     image: `${BASE}/${content.seo.ogImage || 'assets/og-image.jpg'}`,
     description: content.seo.description,
     email: g.email,
-    telephone: g.phone.replace(/\s+/g, ''),
+    telephone: telefony(g),
     identifier: { '@type': 'PropertyValue', propertyID: 'IČO', value: g.ico },
     founder: { '@type': 'Person', name: 'Petr Brož' },
     priceRange: 'Kč',
@@ -138,7 +144,7 @@ function organizationLd() {
       '@type': 'ContactPoint',
       contactType: 'customer service',
       email: g.email,
-      telephone: g.phone.replace(/\s+/g, ''),
+      telephone: telefony(g),
       availableLanguage: ['cs']
     },
     knowsAbout: content.services.categories.slice().sort(byOrder).map((c) => NAZVY_KATEGORII[c.id] || stripTags(c.title)),
@@ -271,7 +277,7 @@ const UDAJE = {
   dph: P.dph,
   zivnostenskyUrad: P.zivnostenskyUrad,
   email: content.general.email,
-  telefon: content.general.phone
+  telefon: [content.general.phone, content.general.phone2].filter(Boolean).join(' nebo ')
 };
 
 function legalFooterHtml(root) {
@@ -466,7 +472,7 @@ function llmsTxt() {
   L.push('## Základní údaje', '');
   L.push(`- Web: ${BASE}/`);
   L.push(`- E-mail: ${g.email}`);
-  L.push(`- Telefon: ${g.phone}`);
+  L.push(`- Telefon: ${[g.phone, g.phone2].filter(Boolean).join(', ')}`);
   L.push(`- Provozovatel: ${g.provozovatel.jmeno}, IČO ${g.ico}, sídlo ${g.provozovatel.ulice}, ${g.provozovatel.castObce}, ${g.provozovatel.psc} ${g.provozovatel.obec} (${g.provozovatel.rejstrik}, ${g.provozovatel.dph})`);
   L.push(`- Sídlo / působnost: ${g.address}; zakázky po celé České republice`);
   if (g.social && g.social.instagram) L.push(`- Instagram: ${g.social.instagram}`);
