@@ -11,16 +11,20 @@ const fs = require('fs');
 const path = require('path');
 const { setApiHeaders, isAllowedOrigin, clientIp, rateLimit, parseJsonBody } = require('./_lib/security');
 
-// Hlavní model a záložní model pro případ, že hlavní narazí na limit bezplatné úrovně.
-const MODELY = ['gemini-3.8-flash', 'gemini-3.5-flash-lite'];
+// Pořadí modelů: když je jeden přetížený nebo narazí na limit bezplatné úrovně,
+// zkusí se další. Každý model má na bezplatné úrovni vlastní limity.
+const MODELY = ['gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.1-flash-lite'];
+const KOL = 2;                 // kolikrát projít celý seznam
+const LIMIT_CELKEM = 55 * 1000; // nejdéle čekáme na odpověď
 const GEMINI_URL = (model) => `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 const MAX_ZPRAV = 16;            // délka konverzace, kterou posíláme modelu
 const MAX_ZNAKU_ZPRAVY = 1000;   // jedna zpráva návštěvníka
 const MAX_ZNAKU_CELKEM = 12000;  // celá konverzace
 
-const ZASADY = `Jsi PEBAi, AI asistent na webu PEBMedia (pebmedia.cz), digitálního studia, které tvoří weby, e-shopy, loga a vizuální identity, dělá bezpečnostní audity webů a AI automatizace. Pomáháš návštěvníkům zjistit, co potřebují, a dovedeš je k nezávazné poptávce nebo k nákupu v obchodě.
+const ZASADY = `Jmenuješ se PEBAi a jsi AI asistent na webu PEBMedia (pebmedia.cz), digitálního studia, které tvoří weby, e-shopy, loga a vizuální identity, dělá bezpečnostní audity webů a AI automatizace. Pomáháš návštěvníkům zjistit, co potřebují, a dovedeš je k nezávazné poptávce nebo k nákupu v obchodě.
 
 Jak mluvíš
+- Když se představuješ, říkej „jsem PEBAi, asistent PEBMedia“. Nikdy se nepředstavuj jako PEBMedia samotná.
 - Česky (pokud návštěvník píše jinak, odpověz jeho jazykem), lidsky, vřele a přátelsky, vykáš. Jsi ochotný a trpělivý, nikdy povýšený; i jednoduchou otázku bereš vážně.
 - Krátce: obvykle 2 až 5 vět. Bez nadpisů a tabulek; jednoduchý odrážkový seznam jen když opravdu pomůže.
 - Ptáš se vždy jen na jednu věc najednou.
@@ -100,17 +104,25 @@ module.exports = async function handler(req, res) {
   };
 
   let posledniChyba = null;
-  for (const model of MODELY) {
+  const chyby = [];
+  const zacatek = Date.now();
+  const pokusy = [];
+  for (let k = 0; k < KOL; k++) MODELY.forEach((m) => pokusy.push({ model: m, kolo: k }));
+  for (const { model, kolo } of pokusy) {
+    const zbyva = LIMIT_CELKEM - (Date.now() - zacatek);
+    if (zbyva < 4000) break;
+    if (kolo > 0 && model === MODELY[0]) await new Promise((r) => setTimeout(r, 1200));
     try {
       const odpoved = await fetch(GEMINI_URL(model), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-goog-api-key': process.env.GEMINI_API_KEY },
         body: JSON.stringify(telo),
-        signal: AbortSignal.timeout(40 * 1000)
+        signal: AbortSignal.timeout(Math.min(25 * 1000, zbyva))
       });
       const data = await odpoved.json().catch(() => null);
       if (!odpoved.ok) {
         posledniChyba = `${model} ${odpoved.status} ${data && data.error ? data.error.message : ''}`;
+        chyby.push(`${model} ${odpoved.status}`);
         // Limit nebo přetížení: zkusíme záložní model. Jiné chyby nemá smysl opakovat.
         if (odpoved.status === 429 || odpoved.status >= 500) continue;
         break;
@@ -126,11 +138,12 @@ module.exports = async function handler(req, res) {
       return;
     } catch (err) {
       posledniChyba = `${model} ${err && err.name === 'TimeoutError' ? 'timeout' : err && err.message}`;
+      chyby.push(`${model} ${err && err.name === 'TimeoutError' ? 'timeout' : 'chyba'}`);
     }
   }
 
-  console.error('Chyba AI asistenta', posledniChyba);
-  const pretizeno = /\s(429|5\d\d)\s/.test(` ${posledniChyba} `) || /timeout/.test(posledniChyba || '');
+  console.error('Chyba AI asistenta', chyby.join(', '), '|', posledniChyba);
+  const pretizeno = chyby.some((c) => / (429|5\d\d|timeout)$/.test(c));
   res.status(pretizeno ? 503 : 502).json({
     error: pretizeno
       ? 'Asistent je teď přetížený. Zkuste to prosím za chvíli, nebo nám napište na info.pebmedia@gmail.com.'
