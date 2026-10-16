@@ -456,9 +456,9 @@
       document.getElementById('wipSubheading').textContent = w.subheading || '';
       const stages = w.stages && w.stages.length ? w.stages : ['Návrh', 'Vývoj', 'Testování', 'Spuštění'];
       const icons = {
-        perla: '<svg viewBox="0 0 48 48" aria-hidden="true" fill="currentColor"><path d="M9 12c3 12 9 18 15 18s12-6 15-18" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><circle cx="11" cy="18" r="2.6"/><circle cx="15" cy="24.5" r="3"/><circle cx="37" cy="18" r="2.6"/><circle cx="33" cy="24.5" r="3"/><circle cx="24" cy="33" r="6.5"/><circle cx="21.8" cy="30.8" r="1.8" fill="#2a2220" opacity=".35"/></svg>',
-        cad: '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M24 7l15 8.5v17L24 41 9 32.5v-17z"/><path d="M9 15.5L24 24l15-8.5M24 24v17"/><circle cx="24" cy="24" r="2.4" fill="currentColor" stroke="none"/></svg>',
-        kniha: '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M24 13c-4-3-10-4-15-3v26c5-1 11 0 15 3 4-3 10-4 15-3V10c-5-1-11 0-15 3z"/><path d="M24 13v26"/></svg>'
+        perla: '<svg viewBox="0 0 120 120"><path d="M14 22c10 40 28 58 46 58s36-18 46-58" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".45"/><g fill="currentColor"><circle cx="17" cy="33" r="4.5"/><circle cx="24" cy="48" r="5.2"/><circle cx="34" cy="61" r="5.8"/><circle cx="103" cy="33" r="4.5"/><circle cx="96" cy="48" r="5.2"/><circle cx="86" cy="61" r="5.8"/></g><circle class="wip-pearl" cx="60" cy="86" r="15" fill="url(#wipPearl)"/><ellipse cx="54" cy="80" rx="4.5" ry="3" fill="#fff" opacity=".9" transform="rotate(-30 54 80)"/><defs><radialGradient id="wipPearl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#f3e6dc"/><stop offset="1" stop-color="#c9aaa2"/></radialGradient></defs></svg>',
+        cad: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linejoin="round"><g class="wip-cube"><path d="M60 18l34 19.5v39L60 96 26 76.5v-39z" stroke-width="2.4"/><path d="M26 37.5L60 57l34-19.5M60 57v39" stroke-width="2.4"/><path d="M43 27.7l34 19.6M77 27.7L43 47.3" stroke-width="1" opacity=".35" stroke-dasharray="3 4"/></g><circle cx="60" cy="57" r="3.4" fill="currentColor" stroke="none"/><path d="M98 96h10M103 91v10" stroke-width="1.4" opacity=".6"/><path d="M12 24h10M17 19v10" stroke-width="1.4" opacity=".6"/></svg>',
+        kniha: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M60 32c-10-8-25-10-38-7v62c13-3 28-1 38 7 10-8 25-10 38-7V25c-13-3-28-1-38 7z" stroke-width="2.4"/><path d="M60 32v62" stroke-width="2.4"/><path d="M32 42c6-1 12 0 18 3M32 54c6-1 12 0 18 3M70 45c6-3 12-4 18-3M70 57c6-3 12-4 18-3" stroke-width="1.6" opacity=".5"/><path class="wip-shield" d="M84 70l12 4v8c0 7-5 12-12 15-7-3-12-8-12-15v-8z" fill="#0B6E63" stroke="#F6F6F3" stroke-width="2"/><path d="M79 83l4 4 7-8" stroke="#F6F6F3" stroke-width="2.2"/></svg>'
       };
       const grid = document.getElementById('wipGrid');
       grid.innerHTML = '';
@@ -466,31 +466,34 @@
         .filter(it => it.visible !== false)
         .slice()
         .sort((a, b) => (a.order || 0) - (b.order || 0))
-        .forEach(it => {
+        .forEach((it, idx) => {
           const cur = Math.min(Math.max(parseInt(it.stage, 10) || 1, 1), stages.length);
-          const done = cur === stages.length;
           const steps = stages.map((name, i) => {
             const n = i + 1;
             const cls = n < cur ? 'is-done' : n === cur ? 'is-current' : '';
             return `<li class="${cls}"${n === cur ? ' aria-current="step"' : ''}><span class="wip-step-dot"></span><span class="wip-step-name">${name}</span></li>`;
           }).join('');
-          const card = el('article', 'wip-card reveal', `
-            <div class="wip-card-top">
-              <span class="wip-status${done ? ' is-done' : ''}">${done ? 'Spuštěno' : 'Právě ve vývoji'}</span>
+          const theme = it.icon || 'cad';
+          const card = el('article', `wip-card wip-theme-${theme} reveal`, `
+            <div class="wip-visual" aria-hidden="true">
+              <span class="wip-num">${String(idx + 1).padStart(2, '0')}</span>
               ${it.kind ? `<span class="wip-kind">${it.kind}</span>` : ''}
+              <span class="wip-glow"></span>
+              <span class="wip-art">${icons[theme] || icons.cad}</span>
             </div>
-            <div class="wip-card-head">
-              <span class="wip-icon wip-icon-${it.icon || 'cad'}">${icons[it.icon] || icons.cad}</span>
-              <div>
-                <h3 class="wip-name">${it.name}</h3>
-                ${it.category ? `<p class="wip-category">${it.category}</p>` : ''}
+            <div class="wip-body">
+              ${it.category ? `<p class="wip-category">${it.category}</p>` : ''}
+              <h3 class="wip-name">${it.name}</h3>
+              <p class="wip-text">${it.text || ''}</p>
+              ${(it.tags || []).length ? `<ul class="wip-tags">${it.tags.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
+              <div class="wip-progress">
+                <div class="wip-progress-head"><span>Fáze projektu</span><strong>${stages[cur - 1]}</strong></div>
+                <ol class="wip-steps" style="--wip-progress:${(cur - 1) / (stages.length - 1)}" aria-label="Fáze projektu: ${stages[cur - 1]}">${steps}</ol>
               </div>
+              ${it.link ? `<a class="wip-link" href="${it.link}" target="_blank" rel="noopener">Podívat se <span aria-hidden="true">→</span></a>` : ''}
             </div>
-            <p class="wip-text">${it.text || ''}</p>
-            ${(it.tags || []).length ? `<ul class="wip-tags">${it.tags.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
-            <ol class="wip-steps" style="--wip-progress:${(cur - 1) / (stages.length - 1)}" aria-label="Fáze projektu: ${stages[cur - 1]}">${steps}</ol>
-            ${it.link ? `<a class="wip-link" href="${it.link}" target="_blank" rel="noopener">Podívat se <span aria-hidden="true">→</span></a>` : ''}
           `);
+          card.style.setProperty('--i', idx);
           grid.appendChild(card);
         });
       wipSec.hidden = !grid.children.length;
