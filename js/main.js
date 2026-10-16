@@ -456,8 +456,8 @@
       document.getElementById('wipSubheading').textContent = w.subheading || '';
       const stages = w.stages && w.stages.length ? w.stages : ['Návrh', 'Vývoj', 'Testování', 'Spuštění'];
       const icons = {
-        perla: '<svg viewBox="0 0 120 120"><path d="M14 22c10 40 28 58 46 58s36-18 46-58" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".45"/><g fill="currentColor"><circle cx="17" cy="33" r="4.5"/><circle cx="24" cy="48" r="5.2"/><circle cx="34" cy="61" r="5.8"/><circle cx="103" cy="33" r="4.5"/><circle cx="96" cy="48" r="5.2"/><circle cx="86" cy="61" r="5.8"/></g><circle class="wip-pearl" cx="60" cy="86" r="15" fill="url(#wipPearl)"/><ellipse cx="54" cy="80" rx="4.5" ry="3" fill="#fff" opacity=".9" transform="rotate(-30 54 80)"/><defs><radialGradient id="wipPearl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#f3e6dc"/><stop offset="1" stop-color="#c9aaa2"/></radialGradient></defs></svg>',
-        cad: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linejoin="round"><g class="wip-cube"><path d="M60 18l34 19.5v39L60 96 26 76.5v-39z" stroke-width="2.4"/><path d="M26 37.5L60 57l34-19.5M60 57v39" stroke-width="2.4"/><path d="M43 27.7l34 19.6M77 27.7L43 47.3" stroke-width="1" opacity=".35" stroke-dasharray="3 4"/></g><circle cx="60" cy="57" r="3.4" fill="currentColor" stroke="none"/><path d="M98 96h10M103 91v10" stroke-width="1.4" opacity=".6"/><path d="M12 24h10M17 19v10" stroke-width="1.4" opacity=".6"/></svg>',
+        perla: '<img class="wip-wordmark" src="assets/rozpracovano/saga-art-logo.webp" alt="" width="700" height="183" loading="lazy">',
+        cad: '<svg viewBox="0 0 120 120"><g class="wip-gear"><path d="M53.07 23.66 L54.23 14.36 L65.77 14.36 L66.93 23.66 L75.75 26.52 L82.16 19.69 L91.49 26.47 L86.97 34.67 L92.42 42.18 L101.62 40.41 L105.19 51.38 L96.71 55.36 L96.71 64.64 L105.19 68.62 L101.62 79.59 L92.42 77.82 L86.97 85.33 L91.49 93.53 L82.16 100.31 L75.75 93.48 L66.93 96.34 L65.77 105.64 L54.23 105.64 L53.07 96.34 L44.25 93.48 L37.84 100.31 L28.51 93.53 L33.03 85.33 L27.58 77.82 L18.38 79.59 L14.81 68.62 L23.29 64.64 L23.29 55.36 L14.81 51.38 L18.38 40.41 L27.58 42.18 L33.03 34.67 L28.51 26.47 L37.84 19.69 L44.25 26.52 Z" fill="#0B6E63"/><circle cx="60" cy="60" r="31" fill="#0B6E63" stroke="rgba(255,255,255,.22)" stroke-width="1.4"/></g><g transform="translate(60 60) scale(.2) translate(-200 -200)" fill="#F6F6F3"><rect x="130" y="88" width="49" height="224" rx="10"/><rect x="130" y="88" width="140" height="42" rx="10"/><rect x="228" y="88" width="42" height="126" rx="10"/><rect x="130" y="172" width="140" height="42" rx="10"/></g></svg>',
         kniha: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M60 32c-10-8-25-10-38-7v62c13-3 28-1 38 7 10-8 25-10 38-7V25c-13-3-28-1-38 7z" stroke-width="2.4"/><path d="M60 32v62" stroke-width="2.4"/><path d="M32 42c6-1 12 0 18 3M32 54c6-1 12 0 18 3M70 45c6-3 12-4 18-3M70 57c6-3 12-4 18-3" stroke-width="1.6" opacity=".5"/><path class="wip-shield" d="M84 70l12 4v8c0 7-5 12-12 15-7-3-12-8-12-15v-8z" fill="#0B6E63" stroke="#F6F6F3" stroke-width="2"/><path d="M79 83l4 4 7-8" stroke="#F6F6F3" stroke-width="2.2"/></svg>'
       };
       const grid = document.getElementById('wipGrid');
@@ -479,7 +479,7 @@
               <span class="wip-num">${String(idx + 1).padStart(2, '0')}</span>
               ${it.kind ? `<span class="wip-kind">${it.kind}</span>` : ''}
               <span class="wip-glow"></span>
-              <span class="wip-art">${icons[theme] || icons.cad}</span>
+              <span class="wip-art">${it.image ? `<img class="wip-cover" src="${it.image}" alt="" loading="lazy">` : (icons[theme] || icons.cad)}</span>
             </div>
             <div class="wip-body">
               ${it.category ? `<p class="wip-category">${it.category}</p>` : ''}

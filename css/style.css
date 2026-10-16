@@ -1974,10 +1974,8 @@ body.is-leaving-protect { overflow: hidden; }
 .wip-art svg { width: 44%; height: auto; max-height: 82%; transition: transform .6s var(--ease); filter: drop-shadow(0 10px 18px rgba(0,0,0,.25)); }
 .wip-card:hover .wip-art svg { transform: translateY(-6px) scale(1.04); }
 .wip-card:hover .wip-glow { transform: scale(1.15); }
-.wip-cube { transform-origin: 60px 57px; animation: wip-float 6s ease-in-out infinite; }
-.wip-pearl { animation: wip-shine 4s ease-in-out infinite; }
-@keyframes wip-float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(-2deg); } }
-@keyframes wip-shine { 0%, 100% { opacity: 1; } 50% { opacity: .82; } }
+.wip-gear { transform-origin: 60px 60px; animation: wip-spin 18s linear infinite; }
+@keyframes wip-spin { to { transform: rotate(360deg); } }
 .wip-num { position: absolute; left: 18px; top: 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: rgba(255,255,255,.55); }
 .wip-kind { position: absolute; right: 14px; top: 12px; font-size: 12px; font-weight: 500; color: #fff; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: 100px; padding: 5px 11px; }
 
@@ -2007,4 +2005,15 @@ body.is-leaving-protect { overflow: hidden; }
 .wip-steps li.is-current .wip-step-name { color: var(--ink); font-weight: 600; }
 .wip-link { align-self: flex-start; font-size: 14.5px; font-weight: 500; color: var(--accent); }
 @media (max-width: 520px) { .wip-body { padding: 20px 18px 22px; } .wip-name { font-size: 22px; } }
-@media (prefers-reduced-motion: reduce) { .wip-cube, .wip-pearl { animation: none; } .wip-steps::after { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .wip-gear { animation: none; } .wip-steps::after { transition: none; } }
+/* Sága Art: písmo loga místo ilustrace; CAD AI: světlý podklad pro zelené kolo; obálka knihy */
+.wip-theme-cad { --wip-bg: radial-gradient(110% 90% at 50% 30%, #ffffff 0%, #e6efec 70%, #d9e8e3 100%); }
+.wip-theme-cad .wip-visual { background: linear-gradient(rgba(11,110,99,.08) 1px, transparent 1px) 0 0 / 22px 22px, linear-gradient(90deg, rgba(11,110,99,.08) 1px, transparent 1px) 0 0 / 22px 22px, var(--wip-bg); }
+.wip-theme-cad .wip-num { color: rgba(11,110,99,.6); }
+.wip-theme-cad .wip-kind { color: var(--accent-ink); background: rgba(255,255,255,.7); border-color: rgba(11,110,99,.18); }
+.wip-theme-cad .wip-glow { background: radial-gradient(circle, rgba(11,110,99,.14), transparent 65%); }
+.wip-theme-cad .wip-art svg { width: 40%; filter: drop-shadow(0 12px 20px rgba(11,110,99,.28)); }
+.wip-art .wip-wordmark { width: 62%; height: auto; filter: drop-shadow(0 8px 18px rgba(0,0,0,.35)); transition: transform .6s var(--ease); }
+.wip-card:hover .wip-art .wip-wordmark { transform: translateY(-4px) scale(1.03); }
+.wip-art .wip-cover { height: 84%; width: auto; border-radius: 4px; box-shadow: 0 16px 30px rgba(0,0,0,.4); transform: rotate(-3deg); transition: transform .6s var(--ease); }
+.wip-card:hover .wip-art .wip-cover { transform: rotate(0) translateY(-4px); }
