@@ -448,6 +448,54 @@
       appsSec.hidden = !appsGrid.children.length;
     }
 
+    // --- Na čem právě pracujeme ---
+    const wipSec = document.getElementById('rozpracovano');
+    if (wipSec && data.inProgress) {
+      const w = data.inProgress;
+      document.getElementById('wipHeading').textContent = w.heading || '';
+      document.getElementById('wipSubheading').textContent = w.subheading || '';
+      const stages = w.stages && w.stages.length ? w.stages : ['Návrh', 'Vývoj', 'Testování', 'Spuštění'];
+      const icons = {
+        perla: '<svg viewBox="0 0 48 48" aria-hidden="true" fill="currentColor"><path d="M9 12c3 12 9 18 15 18s12-6 15-18" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><circle cx="11" cy="18" r="2.6"/><circle cx="15" cy="24.5" r="3"/><circle cx="37" cy="18" r="2.6"/><circle cx="33" cy="24.5" r="3"/><circle cx="24" cy="33" r="6.5"/><circle cx="21.8" cy="30.8" r="1.8" fill="#2a2220" opacity=".35"/></svg>',
+        cad: '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M24 7l15 8.5v17L24 41 9 32.5v-17z"/><path d="M9 15.5L24 24l15-8.5M24 24v17"/><circle cx="24" cy="24" r="2.4" fill="currentColor" stroke="none"/></svg>',
+        kniha: '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M24 13c-4-3-10-4-15-3v26c5-1 11 0 15 3 4-3 10-4 15-3V10c-5-1-11 0-15 3z"/><path d="M24 13v26"/></svg>'
+      };
+      const grid = document.getElementById('wipGrid');
+      grid.innerHTML = '';
+      (w.items || [])
+        .filter(it => it.visible !== false)
+        .slice()
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .forEach(it => {
+          const cur = Math.min(Math.max(parseInt(it.stage, 10) || 1, 1), stages.length);
+          const done = cur === stages.length;
+          const steps = stages.map((name, i) => {
+            const n = i + 1;
+            const cls = n < cur ? 'is-done' : n === cur ? 'is-current' : '';
+            return `<li class="${cls}"${n === cur ? ' aria-current="step"' : ''}><span class="wip-step-dot"></span><span class="wip-step-name">${name}</span></li>`;
+          }).join('');
+          const card = el('article', 'wip-card reveal', `
+            <div class="wip-card-top">
+              <span class="wip-status${done ? ' is-done' : ''}"><span class="wip-pulse" aria-hidden="true"></span>${done ? 'Spuštěno' : 'Právě ve vývoji'}</span>
+              ${it.kind ? `<span class="wip-kind">${it.kind}</span>` : ''}
+            </div>
+            <div class="wip-card-head">
+              <span class="wip-icon wip-icon-${it.icon || 'cad'}">${icons[it.icon] || icons.cad}</span>
+              <div>
+                <h3 class="wip-name">${it.name}</h3>
+                ${it.category ? `<p class="wip-category">${it.category}</p>` : ''}
+              </div>
+            </div>
+            <p class="wip-text">${it.text || ''}</p>
+            ${(it.tags || []).length ? `<ul class="wip-tags">${it.tags.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
+            <ol class="wip-steps" style="--wip-progress:${(cur - 1) / (stages.length - 1)}" aria-label="Fáze projektu: ${stages[cur - 1]}">${steps}</ol>
+            ${it.link ? `<a class="wip-link" href="${it.link}" target="_blank" rel="noopener">Podívat se <span aria-hidden="true">→</span></a>` : ''}
+          `);
+          grid.appendChild(card);
+        });
+      wipSec.hidden = !grid.children.length;
+    }
+
     // --- Portfolio ---
     document.getElementById('portfolioHeading').textContent = data.portfolio.heading;
     document.getElementById('portfolioSubheading').textContent = data.portfolio.subheading;

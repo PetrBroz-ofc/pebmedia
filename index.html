@@ -30,7 +30,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/fonts.css?v=1">
-<link rel="stylesheet" href="css/style.css?v=54">
+<link rel="stylesheet" href="css/style.css?v=55">
 <link rel="stylesheet" href="css/legal.css?v=1">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
@@ -517,7 +517,13 @@
       <a href="#sluzby">Služby</a>
       <a href="#balicky">Balíčky</a>
       <a href="#aplikace">Aplikace</a>
-      <a href="#portfolio">Portfolio</a>
+      <div class="nav-drop">
+        <a href="#portfolio" class="nav-drop-trigger" data-sekce="portfolio rozpracovano" aria-haspopup="true">Portfolio <svg class="nav-drop-sipka" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></a>
+        <div class="nav-drop-menu" aria-label="Portfolio">
+          <a href="#portfolio">Hotové projekty</a>
+          <a href="#rozpracovano">Na čem pracujeme <span class="nav-live" aria-hidden="true"></span></a>
+        </div>
+      </div>
       <a href="#reference">Reference</a>
       <div class="nav-drop">
         <a href="#o-nas" class="nav-drop-trigger" data-sekce="o-nas skoly" aria-haspopup="true">O nás <svg class="nav-drop-sipka" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></a>
@@ -545,6 +551,7 @@
   <a href="#balicky">Balíčky</a>
   <a href="#aplikace">Aplikace</a>
   <a href="#portfolio">Portfolio</a>
+  <a href="#rozpracovano" class="mobile-nav-sub">Na čem pracujeme</a>
   <a href="#reference">Reference</a>
   <a href="#o-nas">O nás</a>
   <a href="#skoly" class="mobile-nav-sub">Podporujeme školy</a>
@@ -968,6 +975,16 @@ pro moderní firmy.</h1>
   </section>
 
   <!-- REFERENCE -->
+  <section class="section" id="rozpracovano" hidden>
+    <div class="container">
+      <div class="section-head reveal">
+        <h2 id="wipHeading">Na čem právě pracujeme</h2>
+        <p id="wipSubheading">Projekty, které u nás teď vznikají. Pro klienty i vlastní produkty.</p>
+      </div>
+      <div class="wip-grid" id="wipGrid"></div>
+    </div>
+  </section>
+
   <section class="section" id="reference">
     <div class="container">
       <div class="section-head reveal">
@@ -1219,6 +1236,7 @@ Pojďme ho vytvořit.</h2>
         <a href="#sluzby">Služby</a>
         <a href="#aplikace">Aplikace</a>
         <a href="#portfolio">Portfolio</a>
+        <a href="#rozpracovano">Na čem pracujeme</a>
         <a href="#o-nas">O nás</a>
         <a href="obchod/">Obchod</a>
         <a href="#kontakt">Kontakt</a>
@@ -1317,7 +1335,7 @@ Pojďme ho vytvořit.</h2>
 <script src="js/zvuky.js?v=2"></script>
 <script src="js/content-fallback.js?v=47"></script>
 <script src="js/kalkulacka.js?v=2"></script>
-<script src="js/main.js?v=50"></script>
+<script src="js/main.js?v=51"></script>
 
 
 <script src="js/pebai.js?v=3"></script>
