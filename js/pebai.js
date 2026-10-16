@@ -129,6 +129,30 @@
       return radek;
     }
 
+    // Tlačítko „Poslat nezávaznou poptávku“: shrnutí toho, co návštěvník napsal,
+    // se přenese do kontaktního formuláře (stejně jako u kalkulačky).
+    function shrnuti() {
+      const dotazy = historie.filter((m) => m.role === 'user').map((m) => '• ' + m.content.replace(/\s+/g, ' ').trim());
+      return ('Poptávka z chatu s PEBAi:\n' + dotazy.join('\n')).slice(0, 3000);
+    }
+    function nabidnoutPoptavku() {
+      if (historie.filter((m) => m.role === 'user').length < 2) return;
+      const stare = messages.querySelector('.pebai-cta');
+      if (stare) stare.remove();
+      const naHlavni = !!document.getElementById('contactForm');
+      const a = el('a', 'btn btn-accent pebai-cta', 'Poslat nezávaznou poptávku');
+      a.href = naHlavni ? '#kontakt' : koren() + 'index.html#kontakt';
+      a.addEventListener('click', () => {
+        const text = shrnuti();
+        try { sessionStorage.setItem('pebmedia-poptavka', JSON.stringify({ text })); } catch (e) { /* soukromé okno */ }
+        const zprava = document.getElementById('f-message');
+        if (zprava) { zprava.value = text; try { sessionStorage.removeItem('pebmedia-poptavka'); } catch (e) {} }
+        otevrit(false);
+      });
+      messages.appendChild(a);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
     function zacitZnovu() {
       messages.innerHTML = '';
       addMessage(UVITANI, 'bot');
@@ -138,6 +162,7 @@
     zacitZnovu();
     historie = nacist();
     historie.forEach((m) => addMessage(m.content, m.role === 'user' ? 'user' : 'bot'));
+    nabidnoutPoptavku();
 
     function otevrit(stav) {
       widget.classList.toggle('is-open', stav);
@@ -192,6 +217,7 @@
             historie.push({ role: 'assistant', content: json.reply });
             ulozit();
             addMessage(json.reply, 'bot');
+            nabidnoutPoptavku();
             if (window.PEBZvuk) window.PEBZvuk.play('success');
           } else {
             historie.pop();
