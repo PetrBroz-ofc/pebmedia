@@ -1717,12 +1717,10 @@ p { margin: 0; }
 
 /* ---------------------------------- PEBAi ve vývoji: červené světlo, kladívko */
 .help-widget-body { position: relative; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-.help-widget.is-open .help-widget-panel { border-color: #E5484D; animation: pebai-cervena 2.4s ease-in-out infinite; }
 @keyframes pebai-cervena {
   0%, 100% { box-shadow: 0 0 0 2px rgba(229, 72, 77, 0.9), 0 0 28px 4px rgba(229, 72, 77, 0.35), 0 24px 64px -16px rgba(16, 24, 22, 0.28); }
   50% { box-shadow: 0 0 0 2px rgba(229, 72, 77, 1), 0 0 48px 10px rgba(229, 72, 77, 0.55), 0 24px 64px -16px rgba(16, 24, 22, 0.28); }
 }
-.help-widget.is-open .help-widget-toggle { background: #E5484D; }
 .pebai-vyvoj { background: #E5484D; }
 .pebai-stavba {
   position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
@@ -1736,10 +1734,8 @@ p { margin: 0; }
 .pebai-stavba-btn { margin-top: 6px; }
 .pebai-stavba-email { font-size: 13px; color: var(--accent); text-decoration: underline; }
 @media (prefers-reduced-motion: reduce) {
-  .help-widget.is-open .help-widget-panel { animation: none; box-shadow: 0 0 0 2px #E5484D, 0 0 32px 6px rgba(229, 72, 77, 0.4); }
   .pebai-stavba-ikona svg { animation: none; }
 }
-.pebai-online { background: #E5484D; }
 
 /* ---------------------------------- PEBAi: prasklé tlačítko s kapkami ------- */
 .help-widget-toggle { position: relative; overflow: visible; }

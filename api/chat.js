@@ -1,19 +1,19 @@
 // api/chat.js
-// AI asistent v pravém dolním rohu webu (Claude od Anthropic).
+// AI asistent v pravém dolním rohu webu (Google Gemini, bezplatná úroveň API).
 // Odpovídá jen podle znalostí z llms.txt (souhrn webu, který generuje
 // scripts/predgeneruj.js z content.json a shop.json), takže zná aktuální
 // služby, ceny, balíčky, reference, obchod i FAQ.
 //
-// Potřebné proměnné prostředí: ANTHROPIC_API_KEY (Secret ve Vercelu).
+// Potřebné proměnné prostředí: GEMINI_API_KEY (Secret ve Vercelu, klíč z aistudio.google.com).
 // Konverzace se nikde neukládají.
 
 const fs = require('fs');
 const path = require('path');
-const Anthropic = require('@anthropic-ai/sdk');
 const { setApiHeaders, isAllowedOrigin, clientIp, rateLimit, parseJsonBody } = require('./_lib/security');
 
-const AnthropicClient = Anthropic.default || Anthropic;
-const MODEL = 'claude-opus-5-5';
+// Hlavní model a záložní model pro případ, že hlavní narazí na limit bezplatné úrovně.
+const MODELY = ['gemini-3.8-flash', 'gemini-3.5-flash-lite'];
+const GEMINI_URL = (model) => `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 const MAX_ZPRAV = 16;            // délka konverzace, kterou posíláme modelu
 const MAX_ZNAKU_ZPRAVY = 1000;   // jedna zpráva návštěvníka
 const MAX_ZNAKU_CELKEM = 12000;  // celá konverzace
@@ -75,7 +75,7 @@ module.exports = async function handler(req, res) {
     res.status(403).json({ error: 'Požadavek není povolený.' });
     return;
   }
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     res.status(503).json({ error: 'Asistent je teď nedostupný. Napište nám prosím na info.pebmedia@gmail.com.' });
     return;
   }
@@ -93,33 +93,47 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  try {
-    const client = new AnthropicClient({ apiKey: process.env.ANTHROPIC_API_KEY, timeout: 45 * 1000, maxRetries: 1 });
-    const response = await client.beta.messages.create({
-      model: MODEL,
-      max_tokens: 2048,
-      output_config: { effort: 'low' },
-      // Když by model odpověď odmítl, API ji samo zkusí na záložním modelu.
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      system: [
-        { type: 'text', text: ZASADY },
-        { type: 'text', text: `PODKLADY O PEBMEDIA (jediný zdroj faktů a cen):\n\n${nactiZnalosti()}`, cache_control: { type: 'ephemeral' } }
-      ],
-      messages: zpravy
-    });
+  const telo = {
+    system_instruction: { parts: [{ text: `${ZASADY}\n\nPODKLADY O PEBMEDIA (jediný zdroj faktů a cen):\n\n${nactiZnalosti()}` }] },
+    contents: zpravy.map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
+    generationConfig: { maxOutputTokens: 2048, temperature: 0.6 }
+  };
 
-    let text = response.content.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
-    if (response.stop_reason === 'refusal' || !text) {
-      text = 'S tímhle vám bohužel nepomůžu. Rád ale poradím s webem, e-shopem, brandingem nebo s nákupem v našem obchodě.';
-    }
-    res.status(200).json({ reply: text });
-  } catch (err) {
-    if (err instanceof AnthropicClient.RateLimitError) {
-      res.status(503).json({ error: 'Asistent je teď přetížený. Zkuste to prosím za chvíli, nebo nám napište na info.pebmedia@gmail.com.' });
-    } else {
-      console.error('Chyba AI asistenta', err instanceof AnthropicClient.APIError ? `${err.status} ${err.message}` : err);
-      res.status(502).json({ error: 'Asistent teď neodpovídá. Napište nám prosím na info.pebmedia@gmail.com.' });
+  let posledniChyba = null;
+  for (const model of MODELY) {
+    try {
+      const odpoved = await fetch(GEMINI_URL(model), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': process.env.GEMINI_API_KEY },
+        body: JSON.stringify(telo),
+        signal: AbortSignal.timeout(40 * 1000)
+      });
+      const data = await odpoved.json().catch(() => null);
+      if (!odpoved.ok) {
+        posledniChyba = `${model} ${odpoved.status} ${data && data.error ? data.error.message : ''}`;
+        // Limit nebo přetížení: zkusíme záložní model. Jiné chyby nemá smysl opakovat.
+        if (odpoved.status === 429 || odpoved.status >= 500) continue;
+        break;
+      }
+      const kandidat = data && data.candidates && data.candidates[0];
+      let text = kandidat && kandidat.content && Array.isArray(kandidat.content.parts)
+        ? kandidat.content.parts.filter((c) => typeof c.text === 'string' && !c.thought).map((c) => c.text).join('\n').trim()
+        : '';
+      if (!text) {
+        text = 'S tímhle vám bohužel nepomůžu. Rád ale poradím s webem, e-shopem, brandingem nebo s nákupem v našem obchodě.';
+      }
+      res.status(200).json({ reply: text });
+      return;
+    } catch (err) {
+      posledniChyba = `${model} ${err && err.name === 'TimeoutError' ? 'timeout' : err && err.message}`;
     }
   }
+
+  console.error('Chyba AI asistenta', posledniChyba);
+  const pretizeno = /\s(429|5\d\d)\s/.test(` ${posledniChyba} `) || /timeout/.test(posledniChyba || '');
+  res.status(pretizeno ? 503 : 502).json({
+    error: pretizeno
+      ? 'Asistent je teď přetížený. Zkuste to prosím za chvíli, nebo nám napište na info.pebmedia@gmail.com.'
+      : 'Asistent teď neodpovídá. Napište nám prosím na info.pebmedia@gmail.com.'
+  });
 };
