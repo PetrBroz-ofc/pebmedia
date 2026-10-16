@@ -689,6 +689,68 @@ window.__PEBMEDIA_FALLBACK_CONTENT__ = {
       }
     ]
   },
+  "inProgress": {
+    "heading": "Na čem právě pracujeme",
+    "subheading": "Projekty, které u nás teď vznikají. Pro klienty i vlastní produkty.",
+    "stages": [
+      "Návrh",
+      "Vývoj",
+      "Testování",
+      "Spuštění"
+    ],
+    "items": [
+      {
+        "id": "wip-saga",
+        "name": "Sága Art",
+        "kind": "Klientský projekt",
+        "category": "E-shop na míru",
+        "icon": "perla",
+        "text": "E-shop s ručně vyráběnými šperky z pravých říčních perel. Katalog napojený na obchod na Fleru, detail produktu s galerií fotek, košík a platba kartou nebo převodem.",
+        "tags": [
+          "E-shop",
+          "Online platby",
+          "Správa produktů"
+        ],
+        "stage": 2,
+        "link": "",
+        "order": 1,
+        "visible": true
+      },
+      {
+        "id": "wip-cad",
+        "name": "PEBMedia CAD AI",
+        "kind": "Vlastní produkt",
+        "category": "Software pro strojírenské firmy",
+        "icon": "cad",
+        "text": "Program pro konstruktéry, který podle jednoduchého českého zadání sám vymodeluje díl v Autodesk Inventoru. Napíšete třeba „vymodeluj šroub M30“ a model je hotový. Později přibude i CATIA.",
+        "tags": [
+          "Windows",
+          "Autodesk Inventor",
+          "Zadání česky"
+        ],
+        "stage": 2,
+        "link": "",
+        "order": 2,
+        "visible": true
+      },
+      {
+        "id": "wip-babi",
+        "name": "Babi, neklikej na to",
+        "kind": "Vlastní produkt",
+        "category": "E-book",
+        "icon": "kniha",
+        "text": "Praktický průvodce digitálními podvody pro rodiče a prarodiče. Srozumitelně a bez odborných slov, jako dárek od dětí a vnoučat.",
+        "tags": [
+          "E-book",
+          "Bezpečnost online"
+        ],
+        "stage": 2,
+        "link": "",
+        "order": 3,
+        "visible": true
+      }
+    ]
+  },
   "references": {
     "heading": "Co říkají naši klienti",
     "items": [
