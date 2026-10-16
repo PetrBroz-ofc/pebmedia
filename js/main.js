@@ -476,7 +476,7 @@
           }).join('');
           const card = el('article', 'wip-card reveal', `
             <div class="wip-card-top">
-              <span class="wip-status${done ? ' is-done' : ''}"><span class="wip-pulse" aria-hidden="true"></span>${done ? 'Spuštěno' : 'Právě ve vývoji'}</span>
+              <span class="wip-status${done ? ' is-done' : ''}">${done ? 'Spuštěno' : 'Právě ve vývoji'}</span>
               ${it.kind ? `<span class="wip-kind">${it.kind}</span>` : ''}
             </div>
             <div class="wip-card-head">
