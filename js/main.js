@@ -613,6 +613,24 @@
     document.getElementById('footerInstagram').href = g.social.instagram || '#';
     // LinkedIn a Facebook zatím nejsou založené — odkazy v patičce dočasně skryté (viz index.html).
 
+    // Pás ukázek z portfolia v patičce (prvních 6 prací s obrázkem)
+    const footerWorks = document.getElementById('footerWorks');
+    if (footerWorks) {
+      footerWorks.innerHTML = '';
+      data.portfolio.items
+        .filter(p => p.image)
+        .sort((a, b) => a.order - b.order)
+        .slice(0, 6)
+        .forEach((p, i) => {
+          const a = el('a', 'footer-work', `<img src="${p.image}" alt="${p.title}" width="1400" height="680" loading="lazy"><span>${p.title}</span>`);
+          a.href = p.link || '#portfolio';
+          if (p.link) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+          a.style.setProperty('--i', i);
+          footerWorks.appendChild(a);
+        });
+      footerWorks.closest('.footer-strip').hidden = !footerWorks.children.length;
+    }
+
     initInteractions(data);
   }
 
@@ -674,6 +692,22 @@
 
   function initInteractions(data) {
     const g = data.general;
+
+    // Patička: tlačítko Nahoru a postupné vyjetí velkého nápisu
+    const toTop = document.getElementById('toTop');
+    if (toTop && !toTop._bound) {
+      toTop._bound = true;
+      toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+    const mark = document.querySelector('.footer-wordmark');
+    if (mark && 'IntersectionObserver' in window && !mark._armed) {
+      mark._armed = true;
+      mark.classList.add('is-armed');
+      const obs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { mark.classList.add('in-view'); obs.disconnect(); }
+      }, { threshold: 0.3 });
+      obs.observe(mark);
+    }
 
     // Sticky header shadow
     const header = document.getElementById('siteHeader');

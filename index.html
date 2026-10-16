@@ -30,7 +30,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/fonts.css?v=1">
-<link rel="stylesheet" href="css/style.css?v=52">
+<link rel="stylesheet" href="css/style.css?v=53">
 <link rel="stylesheet" href="css/legal.css?v=1">
 <!-- Strukturovaná data (Schema.org) -->
 <!-- Strukturovaná data (JSON-LD) i obsah sekcí generuje scripts/predgeneruj.js z data/content.json — neupravujte je ručně. -->
@@ -1209,36 +1209,50 @@ Pojďme ho vytvořit.</h2>
 
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-top">
+    <div class="footer-strip">
+      <div class="footer-strip-head">
+        <p class="footer-eyebrow">Z naší práce</p>
+        <p class="footer-strip-text">Weby a aplikace, které jsme postavili. Kliknutím je otevřete.</p>
+      </div>
+      <div class="footer-works" id="footerWorks"></div>
+    </div>
+
+    <div class="footer-main">
       <div class="footer-brand">
         <a href="https://protect.pebmedia.cz" class="logo logo-protect" data-protect-link="" aria-label="PEBMedia Protect, bezplatná kontrola podvodů"><span class="logo-mark"><svg class="lm-p" viewBox="0 0 400 400"><use href="#logoMarkP"></use></svg><svg class="lm-lock" viewBox="0 0 400 400" aria-hidden="true"><rect x="12" y="12" width="376" height="376" rx="88" fill="#0B6E63"></rect><path class="lm-shackle" d="M150 196V146a50 50 0 0 1 100 0v50" fill="none" stroke="#F6F6F3" stroke-width="34" stroke-linecap="round"></path><rect x="112" y="186" width="176" height="132" rx="22" fill="#F6F6F3"></rect><circle cx="200" cy="244" r="17" fill="#0B6E63"></circle><rect x="191" y="248" width="18" height="34" rx="9" fill="#0B6E63"></rect></svg></span><span id="footerLogoText">PEBMedia</span><span class="logo-protect-tag" aria-hidden="true">Protect</span></a>
         <p id="footerText">Digitální řešení pro moderní firmy.</p>
       </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <div class="footer-col-title">Navigace</div>
-          <a href="#sluzby">Služby</a>
-          <a href="#aplikace">Aplikace</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#o-nas">O nás</a>
-          <a href="obchod/">Obchod</a>
-          <a href="#kontakt">Kontakt</a>
-          <a href="https://protect.pebmedia.cz" data-protect-link="">PEBMedia Protect <span class="footer-new">zdarma</span></a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Kontakt</div>
-          <span id="footerEmail">info.pebmedia@gmail.com</span>
-          <span id="footerPhone">+420 778 478 642</span>
-          <span id="footerPhone2">+420 774 310 713</span>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Sociální sítě</div>
-          <a id="footerInstagram" href="https://instagram.com/pebmedia" target="_blank" rel="noopener">Instagram</a>
-          <!-- LinkedIn a Facebook dočasně skryty, dokud nejsou založené — viz js/main.js -->
-        </div>
+      <nav class="footer-col" aria-label="Navigace">
+        <div class="footer-col-title">Navigace</div>
+        <a href="#sluzby">Služby</a>
+        <a href="#aplikace">Aplikace</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#o-nas">O nás</a>
+        <a href="obchod/">Obchod</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="https://protect.pebmedia.cz" data-protect-link="">PEBMedia Protect <span class="footer-new">zdarma</span></a>
+      </nav>
+      <div class="footer-col">
+        <div class="footer-col-title">Kontakt</div>
+        <span id="footerEmail">info.pebmedia@gmail.com</span>
+        <span id="footerPhone">+420 778 478 642</span>
+        <span id="footerPhone2">+420 774 310 713</span>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Sociální sítě</div>
+        <a id="footerInstagram" href="https://instagram.com/pebmedia" target="_blank" rel="noopener">Instagram</a>
+        <!-- LinkedIn a Facebook dočasně skryty, dokud nejsou založené, viz js/main.js -->
       </div>
     </div>
-    <div id="footerLegal" class="footer-bottom footer-legal">
+  </div>
+
+  <div class="footer-wordmark" aria-hidden="true">
+    <span style="--i:0">P</span><span style="--i:1">E</span><span style="--i:2">B</span><em><span style="--i:3">M</span><span style="--i:4">e</span><span style="--i:5">d</span><span style="--i:6">i</span><span style="--i:7">a</span></em>
+  </div>
+
+  <div class="container">
+    <div class="footer-end">
+      <div id="footerLegal" class="footer-bottom footer-legal">
       <p class="footer-operator">Provozovatel: <strong>Petr Brož</strong> · IČO 29592844 · sídlo Aloisina výšina 644/132, Liberec XV-Starý Harcov, 460 15 Liberec · fyzická osoba zapsaná v živnostenském rejstříku · neplátce DPH</p>
       <nav class="footer-legal-links" aria-label="Právní informace">
         <a href="obchod/podminky/">Obchodní podmínky</a>
@@ -1249,6 +1263,10 @@ Pojďme ho vytvořit.</h2>
         <a href="voucher.html">Podmínky voucheru</a>
       </nav>
       <span class="footer-copy" id="footerCopyright">© 2026 PEBMedia. Všechna práva vyhrazena.</span>
+    </div>
+      <button type="button" class="to-top" id="toTop">Nahoru
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>
+      </button>
     </div>
   </div>
 </footer>
@@ -1307,7 +1325,7 @@ Pojďme ho vytvořit.</h2>
 <script src="js/zvuky.js?v=2"></script>
 <script src="js/content-fallback.js?v=47"></script>
 <script src="js/kalkulacka.js?v=2"></script>
-<script src="js/main.js?v=48"></script>
+<script src="js/main.js?v=49"></script>
 
 
 <script src="js/pebai.js?v=3"></script>
